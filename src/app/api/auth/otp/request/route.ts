@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
+import { generateOtp, hashOtp, sendOtpEmail } from "@/lib/otp";
+
+const OTP_EXPIRY_MINUTES = 10;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -11,9 +15,45 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // STUB: in prod, call n8n send_login_otp workflow.
-  // n8n checks email exists in participants, generates OTP, emails it.
-  console.log("[stub] would send OTP to:", email);
+  const { data: participant, error } = await supabase
+    .from("participants")
+    .select("id, name, email, status, revoked")
+    .eq("email", email.toLowerCase().trim())
+    .single();
+
+  // Always return ok:true — prevents email enumeration
+  if (error || !participant) {
+    return NextResponse.json({ ok: true });
+  }
+
+  if (participant.revoked || participant.status === "inactive") {
+    return NextResponse.json({ ok: true });
+  }
+
+  const otp = generateOtp();
+  const hash = hashOtp(otp);
+  const expiresAt = new Date(
+    Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000
+  ).toISOString();
+
+  await supabase
+    .from("participants")
+    .update({
+      login_otp_hash: hash,
+      login_otp_attempts: 0,
+      login_otp_expires_at: expiresAt,
+    })
+    .eq("id", participant.id);
+
+  try {
+    await sendOtpEmail(participant.email, participant.name, otp);
+  } catch (err) {
+    console.error("OTP email failed:", err);
+    return NextResponse.json(
+      { ok: false, error: "Failed to send code. Try again." },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ ok: true });
 }

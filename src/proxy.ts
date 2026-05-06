@@ -9,6 +9,8 @@ const PUBLIC_PATHS = [
   "/api/auth",
   "/api/stub",
   "/api/participant",
+  "/api/webhooks",
+  "/api/enroll",
 ];
 
 export async function proxy(req: NextRequest) {

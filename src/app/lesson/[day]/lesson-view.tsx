@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Separator } from "@/components/ui/separator";
 import type { Lesson, Participant, LearnMoreLink, Exercise } from "@/lib/types";
+
 
 type SectionId = "essential" | "advanced" | "learnmore";
 
@@ -20,6 +21,10 @@ interface Props {
 export function LessonView({ participant, lesson }: Props) {
   const [activeSection, setActiveSection] = useState<SectionId>("essential");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const isDoneInitially = (participant.daysComplete ?? []).includes(lesson.day);
+  const [isDone, setIsDone] = useState(isDoneInitially);
+  const [markingDone, setMarkingDone] = useState(false);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -62,6 +67,31 @@ export function LessonView({ participant, lesson }: Props) {
       year: "numeric",
     });
   }
+  const handleMarkDone = useCallback(async () => {
+    if (isDone) return;
+    setMarkingDone(true);
+    try {
+      const res = await fetch("/api/lesson/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ day: lesson.day }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setIsDone(true);
+        setToastMsg("Day " + String(lesson.day) + " marked as complete!");
+        setTimeout(() => setToastMsg(null), 3000);
+      } else {
+        setToastMsg("Something went wrong. Try again.");
+        setTimeout(() => setToastMsg(null), 3000);
+      }
+    } catch {
+      setToastMsg("Network error. Try again.");
+      setTimeout(() => setToastMsg(null), 3000);
+    } finally {
+      setMarkingDone(false);
+    }
+  }, [isDone, lesson.day]);
 
 async function handleLogout() {
   await fetch("/api/auth/logout", { method: "POST" });
@@ -72,6 +102,12 @@ async function handleLogout() {
 
   return (
     <div className="min-h-screen bg-background">
+
+      {toastMsg && (
+        <div className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 rounded-md bg-foreground px-4 py-2.5 text-sm text-background shadow-lg">
+          {toastMsg}
+        </div>
+      )}
 
       {/* Header */}
       <header className="border-b">
@@ -147,6 +183,19 @@ async function handleLogout() {
           </p>
           <h1 className="mt-2 text-2xl font-medium">{lesson.title}</h1>
           <p className="mt-1 text-sm text-muted-foreground">~10 minutes today</p>
+          {isDone ? (
+            <div className="mb-4 flex items-center gap-2 rounded-md border border-green-200 bg-green-50 px-4 py-2.5">
+              <span className="text-sm text-green-700">
+                ✓ You completed this day
+              </span>
+            </div>
+          ) : (
+            <div className="mb-4 flex items-center gap-2 rounded-md border bg-muted/40 px-4 py-2.5">
+              <span className="text-sm text-muted-foreground">
+                Watch the Essential video, then mark this day as done.
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Essential */}
@@ -154,6 +203,22 @@ async function handleLogout() {
           <h2 className="mb-3 text-base font-medium">Essential</h2>
           <VideoPlayer videoUrl={lesson.essential.videoUrl} />
           <ExerciseBlock exercise={lesson.essential.exercise} />
+          <div className="mt-6">
+            {isDone ? (
+              <div className="flex items-center gap-2 text-sm text-green-700">
+                <span>✓</span>
+                <span>Day complete</span>
+              </div>
+            ) : (
+              <button
+                onClick={handleMarkDone}
+                disabled={markingDone}
+                className="rounded-md bg-[#E24B4A] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#c73f3e] disabled:opacity-50"
+              >
+                {markingDone ? "Saving..." : "Mark as done"}
+              </button>
+            )}
+          </div>
         </section>
 
         <Separator />

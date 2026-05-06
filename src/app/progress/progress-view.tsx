@@ -4,7 +4,6 @@ import { Separator } from "@/components/ui/separator";
 import type { Participant } from "@/lib/types";
 import { useState, useEffect } from "react";
 
-
 interface Props {
   participant: Participant;
 }
@@ -42,15 +41,16 @@ export function ProgressView({ participant }: Props) {
   const totalComplete = daysComplete.length;
 
   useEffect(() => {
-  if (!dropdownOpen) return;
-  const handler = () => setDropdownOpen(false);
-  document.addEventListener("click", handler);
-  return () => document.removeEventListener("click", handler);
+    if (!dropdownOpen) return;
+    const handler = () => setDropdownOpen(false);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
   }, [dropdownOpen]);
 
-  function getDayStatus(day: number): "complete" | "today" | "locked" {
+  function getDayStatus(day: number): "complete" | "today" | "missed" | "locked" {
     if (daysComplete.includes(day)) return "complete";
     if (day === currentDay) return "today";
+    if (day < currentDay) return "missed";
     return "locked";
   }
 
@@ -70,9 +70,14 @@ export function ProgressView({ participant }: Props) {
   }
 
   async function handleLogout() {
-  await fetch("/api/auth/logout", { method: "POST" });
-  window.location.href = "/login";
-}
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  }
+
+  const missedDays = Array.from({ length: 10 }, (_, i) => i + 1)
+    .filter((day) => getDayStatus(day) === "missed");
+
+  const hasMissed = missedDays.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -124,7 +129,9 @@ export function ProgressView({ participant }: Props) {
           <h1 className="text-2xl font-medium">Your 10-day journey</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {totalComplete} of 10 days complete
-            {currentDay <= 10 ? " · Today is Day " + currentDay : " · Course complete"}
+            {currentDay <= 10
+              ? " · Today is Day " + String(currentDay)
+              : " · Course complete"}
           </p>
         </div>
 
@@ -136,30 +143,44 @@ export function ProgressView({ participant }: Props) {
 
         {currentDay <= 10 && (
           <div className="py-4">
-            <TodayCard day={currentDay} />
+            <TodayCard day={currentDay} isDone={daysComplete.includes(currentDay)} />
           </div>
         )}
 
         <Separator />
 
-        <div className="py-4">
+        <div className="py-4 pb-12">
+
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Completed
           </p>
           {daysComplete.length === 0 && (
-            <p className="text-sm text-muted-foreground">Nothing yet — Day 1 starts soon.</p>
+            <p className="text-sm text-muted-foreground">
+              Nothing yet — complete your first lesson to get started.
+            </p>
           )}
           <div className="divide-y">
-            {daysComplete.map((day) => (
-              <DayRow key={day} day={day} status="complete" />
-            ))}
+            {Array.from({ length: 10 }, (_, i) => i + 1)
+              .filter((day) => getDayStatus(day) === "complete")
+              .map((day) => (
+                <DayRow key={day} day={day} status="complete" />
+              ))}
           </div>
-        </div>
 
-        <Separator />
+          {hasMissed && (
+            <>
+              <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Missed — catch up anytime
+              </p>
+              <div className="divide-y">
+                {missedDays.map((day) => (
+                  <DayRow key={day} day={day} status="missed" />
+                ))}
+              </div>
+            </>
+          )}
 
-        <div className="py-4 pb-12">
-          <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Upcoming
           </p>
           <div className="divide-y opacity-50">
@@ -169,6 +190,7 @@ export function ProgressView({ participant }: Props) {
                 <DayRow key={day} day={day} status="locked" />
               ))}
           </div>
+
         </div>
 
       </main>
@@ -187,10 +209,10 @@ function TrackerBar({
   return (
     <div>
       <div className="flex items-end justify-between">
-        {Array.from({ length: 10 }, (_, i) => i + 1).map((day, index) => {
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((day) => {
           const isComplete = daysComplete.includes(day);
           const isToday = day === currentDay;
-          const isLocked = !isComplete && !isToday;
+          const isMissed = !isComplete && !isToday && day < currentDay;
 
           const dotSize = isToday ? "h-9 w-9" : "h-8 w-8";
 
@@ -203,6 +225,9 @@ function TrackerBar({
           } else if (isToday) {
             dotStyle = "border-2 border-[#E24B4A] text-[#E24B4A] bg-white ring-4 ring-[#FCEBEB]";
             textStyle = "text-[#A32D2D] font-medium";
+          } else if (isMissed) {
+            dotStyle = "border-2 border-dashed border-[#E24B4A] text-[#E24B4A] bg-white";
+            textStyle = "text-[#A32D2D]";
           } else {
             dotStyle = "border border-border text-muted-foreground bg-background";
             textStyle = "text-muted-foreground";
@@ -210,12 +235,6 @@ function TrackerBar({
 
           return (
             <div key={day} className="flex flex-col items-center gap-1.5">
-              {index > 0 && (
-                <div
-                  className="absolute"
-                  style={{ display: "none" }}
-                />
-              )}
               <div
                 className={
                   "flex items-center justify-center rounded-full text-xs font-medium " +
@@ -236,7 +255,7 @@ function TrackerBar({
         <div className="h-1 w-full rounded-full bg-muted" />
         <div
           className="absolute top-0 left-0 h-1 rounded-full bg-[#E24B4A] transition-all"
-          style={{ width: (daysComplete.length / 10) * 100 + "%" }}
+          style={{ width: String((daysComplete.length / 10) * 100) + "%" }}
         />
       </div>
 
@@ -248,7 +267,7 @@ function TrackerBar({
   );
 }
 
-function TodayCard({ day }: { day: number }) {
+function TodayCard({ day, isDone }: { day: number; isDone: boolean }) {
   return (
     <a
       href={"/lesson/" + String(day)}
@@ -256,14 +275,18 @@ function TodayCard({ day }: { day: number }) {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-wide text-[#A32D2D]">Today</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-[#A32D2D]">
+            Today
+          </p>
           <p className="mt-0.5 text-base font-medium text-[#501313]">
             {"Day " + String(day) + " · " + (DAY_TITLES[day] ?? "Lesson " + String(day))}
           </p>
-          <p className="mt-0.5 text-xs text-[#791F1F]">~10 min · Essential ready</p>
+          <p className="mt-0.5 text-xs text-[#791F1F]">
+            {isDone ? "Completed today ✓" : "~10 min · Essential ready"}
+          </p>
         </div>
         <div className="rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white">
-          Start
+          {isDone ? "Revisit" : "Start"}
         </div>
       </div>
     </a>
@@ -275,7 +298,7 @@ function DayRow({
   status,
 }: {
   day: number;
-  status: "complete" | "locked";
+  status: "complete" | "missed" | "locked";
 }) {
   const title = DAY_TITLES[day] ?? "Lesson " + String(day);
   const phase = PHASE_LABEL[day];
@@ -293,6 +316,21 @@ function DayRow({
           <p className="text-xs text-muted-foreground">{sublabel}</p>
         </div>
         <span className="text-xs text-muted-foreground">Revisit</span>
+      </a>
+    );
+  }
+
+  if (status === "missed") {
+    return (
+      <a
+        href={"/lesson/" + String(day)}
+        className="flex items-center justify-between py-3 hover:opacity-70"
+      >
+        <div>
+          <p className="text-sm">{label}</p>
+          <p className="text-xs text-muted-foreground">{sublabel}</p>
+        </div>
+        <span className="text-xs text-[#E24B4A]">Catch up</span>
       </a>
     );
   }
