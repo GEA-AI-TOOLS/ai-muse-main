@@ -3,11 +3,25 @@ export type Phase = "foundation" | "sparks";
 export type LessonSection = "essential" | "advanced" | "learnmore";
 export type LearnMoreType = "article" | "tool" | "video" | "other";
 
+export interface SummarySection {
+  coreIdea: string;
+  science: string;
+  numbers: string;
+  framework: string;
+  example: string;
+  keyTakeaway: string;
+}
+
 export interface ExerciseStep {
-  text: string;
+  task: string;
+  title: string;
+  items: string[];
 }
 
 export interface Exercise {
+  objective: string;
+  doneWhen: string;
+  timeMinutes: number;
   steps: ExerciseStep[];
   prompt: string | null;
 }
@@ -15,6 +29,7 @@ export interface Exercise {
 export interface LessonVideo {
   videoUrl: string;
   durationSeconds: number;
+  summary: SummarySection;
   exercise: Exercise;
 }
 

@@ -36,3 +36,5 @@ export default async function LessonPage({ params }: PageProps) {
 
   return <LessonView participant={participant} lesson={lesson} />;
 }
+
+export const dynamic = "force-dynamic";

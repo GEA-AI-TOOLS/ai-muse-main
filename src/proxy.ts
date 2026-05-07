@@ -11,6 +11,7 @@ const PUBLIC_PATHS = [
   "/api/participant",
   "/api/webhooks",
   "/api/enroll",
+  "/waiting",
 ];
 
 export async function proxy(req: NextRequest) {

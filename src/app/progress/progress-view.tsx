@@ -36,9 +36,30 @@ const PHASE_LABEL: Record<number, string> = {
 
 export function ProgressView({ participant }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const { currentDay, daysComplete = [] } = participant;
   const firstName = participant.name.split(" ")[0];
   const totalComplete = daysComplete.length;
+  const allDone = totalComplete === 10;
+
+  useEffect(() => {
+    const stored = localStorage.getItem("darkMode");
+    if (stored === "true") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  function toggleDarkMode() {
+    const next = !darkMode;
+    setDarkMode(next);
+    localStorage.setItem("darkMode", String(next));
+    if (next) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -76,76 +97,112 @@ export function ProgressView({ participant }: Props) {
 
   const missedDays = Array.from({ length: 10 }, (_, i) => i + 1)
     .filter((day) => getDayStatus(day) === "missed");
-
   const hasMissed = missedDays.length > 0;
 
   return (
     <div className="min-h-screen bg-background">
 
       <header className="border-b">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-6 py-3">
-          <div className="flex items-center gap-2">
+        <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
+          <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
             <div className="flex h-6 w-6 items-center justify-center rounded bg-[#E24B4A] text-xs font-medium text-white">
               M
             </div>
             <span className="text-sm font-medium">Make AI Your Muse</span>
-          </div>
-          <div className="relative">
+          </a>
+          <div className="flex items-center gap-3">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setDropdownOpen(!dropdownOpen);
-              }}
-              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              onClick={toggleDarkMode}
+              className="text-muted-foreground hover:text-foreground"
+              aria-label="Toggle dark mode"
             >
-              {"Hi, " + firstName + " ▾"}
+              {darkMode ? (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
             </button>
-            {dropdownOpen && (
-              <div className="absolute right-0 top-7 z-50 w-52 rounded-md border bg-background shadow-md">
-                <div className="px-3 py-2.5">
-                  <p className="text-xs text-muted-foreground">
-                    {formatCohort(participant.cohortId)}
-                  </p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">
-                    {participant.email}
-                  </p>
+            <div className="relative">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDropdownOpen(!dropdownOpen);
+                }}
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+              >
+                {"Hi, " + firstName + " ▾"}
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 top-7 z-50 w-52 rounded-md border bg-background shadow-md">
+                  <div className="px-3 py-2.5">
+                    <p className="text-xs text-muted-foreground">
+                      {formatCohort(participant.cohortId)}
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {participant.email}
+                    </p>
+                  </div>
+                  <div className="border-t" />
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
+                  >
+                    Log out
+                  </button>
                 </div>
-                <div className="border-t" />
-                <button
-                  onClick={handleLogout}
-                  className="w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
-                >
-                  Log out
-                </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-6">
+      <main className="mx-auto max-w-3xl px-8">
 
         <div className="py-8">
           <h1 className="text-2xl font-medium">Your 10-day journey</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {totalComplete} of 10 days complete
-            {currentDay <= 10
+            {allDone
+              ? " · All done"
+              : currentDay <= 10
               ? " · Today is Day " + String(currentDay)
               : " · Course complete"}
           </p>
         </div>
 
         <div className="mb-8">
-          <TrackerBar currentDay={currentDay} daysComplete={daysComplete} />
+          <TrackerBar
+            currentDay={currentDay}
+            daysComplete={daysComplete}
+            allDone={allDone}
+          />
         </div>
 
         <Separator />
 
-        {currentDay <= 10 && (
-          <div className="py-4">
-            <TodayCard day={currentDay} isDone={daysComplete.includes(currentDay)} />
-          </div>
-        )}
+        {/* Today card or capstone card */}
+        <div className="py-4">
+          {allDone ? (
+            <CapstoneCard />
+          ) : currentDay <= 10 ? (
+            <TodayCard
+              day={currentDay}
+              isDone={daysComplete.includes(currentDay)}
+            />
+          ) : null}
+        </div>
 
         <Separator />
 
@@ -180,16 +237,31 @@ export function ProgressView({ participant }: Props) {
             </>
           )}
 
-          <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Upcoming
-          </p>
-          <div className="divide-y opacity-50">
-            {Array.from({ length: 10 }, (_, i) => i + 1)
-              .filter((day) => getDayStatus(day) === "locked")
-              .map((day) => (
-                <DayRow key={day} day={day} status="locked" />
-              ))}
-          </div>
+          {!allDone && (
+            <>
+              <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Upcoming
+              </p>
+              <div className="divide-y opacity-50">
+                {Array.from({ length: 10 }, (_, i) => i + 1)
+                  .filter((day) => getDayStatus(day) === "locked")
+                  .map((day) => (
+                    <DayRow key={day} day={day} status="locked" />
+                  ))}
+              </div>
+            </>
+          )}
+
+          {allDone && (
+            <div className="mt-6 rounded-md border border-dashed p-4 text-center">
+              <p className="text-sm text-muted-foreground">
+                All 10 lessons complete.{" "}
+                <a href="/capstone" className="text-[#E24B4A] underline">
+                  Start your capstone project →
+                </a>
+              </p>
+            </div>
+          )}
 
         </div>
 
@@ -202,16 +274,18 @@ export function ProgressView({ participant }: Props) {
 function TrackerBar({
   currentDay,
   daysComplete,
+  allDone,
 }: {
   currentDay: number;
   daysComplete: number[];
+  allDone: boolean;
 }) {
   return (
     <div>
       <div className="flex items-end justify-between">
         {Array.from({ length: 10 }, (_, i) => i + 1).map((day) => {
           const isComplete = daysComplete.includes(day);
-          const isToday = day === currentDay;
+          const isToday = day === currentDay && !allDone;
           const isMissed = !isComplete && !isToday && day < currentDay;
 
           const dotSize = isToday ? "h-9 w-9" : "h-8 w-8";
@@ -263,6 +337,19 @@ function TrackerBar({
         <span>Phase 1 · Foundation</span>
         <span>Phase 2 · SPARKS</span>
       </div>
+
+      {allDone && (
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-[#E24B4A]" />
+          <a
+            href="/capstone"
+            className="flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-1.5 text-xs font-medium text-white hover:bg-[#c73f3e]"
+          >
+            Capstone unlocked →
+          </a>
+          <div className="h-px flex-1 bg-[#E24B4A]" />
+        </div>
+      )}
     </div>
   );
 }
@@ -287,6 +374,32 @@ function TodayCard({ day, isDone }: { day: number; isDone: boolean }) {
         </div>
         <div className="rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white">
           {isDone ? "Revisit" : "Start"}
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function CapstoneCard() {
+  return (
+    <a
+      href="/capstone"
+      className="block rounded-lg border border-[#F09595] bg-[#FCEBEB] px-4 py-4 hover:opacity-90"
+    >
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs font-medium uppercase tracking-wide text-[#A32D2D]">
+            All 10 days complete
+          </p>
+          <p className="mt-0.5 text-base font-medium text-[#501313]">
+            Capstone · Build your own AI tool
+          </p>
+          <p className="mt-0.5 text-xs text-[#791F1F]">
+            Apply everything. Build something real.
+          </p>
+        </div>
+        <div className="rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white">
+          Start
         </div>
       </div>
     </a>

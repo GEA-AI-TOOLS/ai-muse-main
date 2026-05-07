@@ -21,9 +21,10 @@ export async function POST(req: NextRequest) {
     .eq("email", email.toLowerCase().trim())
     .single();
 
-  // Always return ok:true — prevents email enumeration
+  // Closed course — show a clear error if email not found.
+  // Participants know they're enrolled, so enumeration risk is low.
   if (error || !participant) {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: false, notEnrolled: true });
   }
 
   if (participant.revoked || participant.status === "inactive") {

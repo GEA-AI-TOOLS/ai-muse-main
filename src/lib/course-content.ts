@@ -1,5 +1,26 @@
 import type { Lesson } from "@/lib/types";
 
+const PLACEHOLDER_SUMMARY = {
+  coreIdea: "Core idea placeholder — replace with real content.",
+  science: "Science placeholder — replace with real content.",
+  numbers: "Numbers placeholder — replace with real content.",
+  framework: "Framework placeholder — replace with real content.",
+  example: "Example placeholder — replace with real content.",
+  keyTakeaway: "Key takeaway placeholder — replace with real content.",
+};
+
+const PLACEHOLDER_EXERCISE = {
+  objective: "Placeholder objective",
+  doneWhen: "Placeholder completion criteria",
+  timeMinutes: 10,
+  steps: [
+    { task: "01", title: "Step one", items: ["Do this first thing"] },
+    { task: "02", title: "Step two", items: ["Do this second thing"] },
+    { task: "03", title: "Step three", items: ["Do this third thing"] },
+  ],
+  prompt: null as null,
+};
+
 export const COURSE_CONTENT: Record<number, Lesson> = {
   1: {
     day: 1,
@@ -8,38 +29,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Open your AI tool of choice — ChatGPT, Claude, or Gemini." },
-          { text: "Ask it to explain what it actually is, in plain language." },
-          { text: "Push back on one thing it says. Ask it to go deeper on that point." },
-        ],
-        prompt: "Explain what you are to someone who has never used AI before. Be honest about what you can and cannot do.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Ask your AI tool to describe its own limitations in detail." },
-          { text: "Pick one limitation and explore what that means for how you use it." },
-          { text: "Write one sentence summarising what AI is — in your own words, not its." },
-        ],
-        prompt: "What are your most important limitations? Don't hedge — be specific about what you genuinely cannot do well.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "What is AI — a plain English explainer",
-        url: "https://www.example.com",
-        type: "article",
-      },
-      {
-        title: "SPARKS practice partner GPT",
-        url: "https://www.example.com",
-        type: "tool",
-      },
+      { title: "What is AI — a plain English explainer", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -50,70 +50,121 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Think of a decision you made last week that required judgment." },
-          { text: "Describe that decision to your AI tool. Ask what it would have recommended." },
-          { text: "Note where its answer differs from what you actually did, and why." },
-        ],
-        prompt: "I made a decision recently: [describe it]. What would you have recommended, and what would you have missed without knowing me?",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Identify a recurring decision in your work that you make on instinct." },
-          { text: "Try to articulate the reasoning behind that instinct to your AI tool." },
-          { text: "Ask it to challenge your reasoning. Accept one challenge as valid." },
-        ],
-        prompt: "Here is a judgment call I make regularly: [describe it]. Challenge my reasoning. Find the weakest assumption I am making.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "The human side of AI adoption",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "The human side of AI adoption", url: "https://www.example.com", type: "article" },
     ],
   },
 
   3: {
     day: 3,
-    title: "Unlocking Innovation",
+    title: "Unlocking Innovation with AI",
     phase: "foundation",
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
+      summary: {
+        coreIdea: "Structure changes everything. The AI does not get smarter — you do. The variable was never the technology. It was always the structure you brought to it.",
+        science: "Brain scans show that unstructured prompting exhausts your brain and produces thin output. Structured prompting activates your frontal lobe differently — less effort, better ideas.",
+        numbers: "Humans alone: 1.4 good ideas per 100. AI with no structure: 1.7. AI with context: 2.0. AI with structured techniques: 5.8. AI with a review step: 14.0.",
+        framework: "C.A.R. — Context, Action, Review. C: Who is the buyer, what tension do they carry, what do they resist. A: A specific task, a creative technique, and a constraint that forces originality. R: Rank the output, kill the weak ones, push for the line that lands.",
+        example: "Bohler Knives typed 'give me marketing ideas' and received generic advice any brand could use. With C.A.R.: 'You will throw away 11 phones before this knife needs sharpening.' Sales increased drastically. Same AI. Different structure. Completely different result.",
+        keyTakeaway: "Creativity with AI is not about more ideas faster. It is about better ideas more consistently. The output always tells you everything about the prompt that made it.",
+      },
       exercise: {
+        objective: "Apply the C.A.R. framework to a real problem",
+        doneWhen: "See how the output changed before C.A.R. and after C.A.R.",
+        timeMinutes: 8,
         steps: [
-          { text: "Pick a problem you have been stuck on — work, creative, or personal." },
-          { text: "Ask AI to generate 10 possible approaches, including ones that feel wrong." },
-          { text: "Identify one approach you would never have considered yourself." },
+          {
+            task: "01",
+            title: "Frame your real problem",
+            items: [
+              "Pick a problem from your day-to-day work",
+              "Frame it in your own words — one sentence",
+            ],
+          },
+          {
+            task: "02",
+            title: "Reframe it using C.A.R.",
+            items: [
+              "Identify the best context: who is involved, what is the tension",
+              "Define the action: a specific technique and a constraint",
+              "Plan the review: how will you rank and replace weak output",
+            ],
+          },
+          {
+            task: "03",
+            title: "Run it through AI — then audit",
+            items: [
+              "Paste your C.A.R. prompt into Claude or ChatGPT",
+              "Write what changed versus what you produced without structure",
+            ],
+          },
         ],
-        prompt: "Here is a problem I am stuck on: [describe it]. Give me 10 approaches including unconventional ones you think I would reject.",
+        prompt: "I am working on [describe your problem]. The people involved are [who they are and what they care about]. The tension is [what is actually difficult about this]. Write [number] approaches using [technique — reframing / contrast / provocation]. Never use [what to ban — generic advice / obvious solutions]. Rank the results by [what matters — originality / impact / clarity]. Replace the bottom [number]. Give me the one that makes [describe the person] feel [what emotion or reaction].",
       },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
+      summary: {
+        coreIdea: "The Spotify brief is C.A.R. in live action. Spotify knows every mood, every playlist, every 3am session — but subscribers keep downgrading anyway. The gap is not data. It is structure.",
+        science: "Most brands prompt AI with what they sell. The brands that win prompt AI with what their buyer carries emotionally. The brief you write determines the idea you get.",
+        numbers: "Spotify has 600 million users. 239 million pay for Premium. The rest churn and return. The difference between a subscriber and a free user is not price awareness — it is emotional justification.",
+        framework: "Three prompts in sequence in the same chat. Step 1 builds context — who the subscriber really is and what Spotify knows that nobody else does. Step 2 defines action — the technique, the format, the ban. Step 3 refines — rank, replace, and push to the specific emotional line.",
+        example: "A team running the full C.A.R. sequence on the Spotify brief went from 'highlight your personalisation' to 'We know you cried to this song at 2am. We never told anyone.' The data was always there. The structure surfaced it.",
+        keyTakeaway: "You are not prompting AI. You are directing it. The brief is the strategy. The prompt is the execution. Run the full sequence and you will see exactly where your thinking was shallow.",
+      },
       exercise: {
+        objective: "Build a full C.A.R. prompt sequence for Spotify Premium",
+        doneWhen: "Did Step 1 change the quality of what AI gave you? Did Step 3 actually improve it, or just shuffle it?",
+        timeMinutes: 5,
         steps: [
-          { text: "Take the unconventional approach from the Essential exercise." },
-          { text: "Ask AI to help you pressure-test it — what would need to be true for it to work?" },
-          { text: "Identify one thing you could actually test or try in the next 48 hours." },
+          {
+            task: "01",
+            title: "Context — who is the subscriber really",
+            items: [
+              "You are writing for Spotify Premium. The subscriber is [describe — age, life stage, music habits].",
+              "The real reason they keep leaving is [emotional truth — not the practical reason].",
+              "What Spotify knows about them that nobody else does is [the intimate data].",
+              "Copy the completed prompt into your AI tool.",
+            ],
+          },
+          {
+            task: "02",
+            title: "Action — technique, format, constraint",
+            items: [
+              "Add this in the same chat: Write [number] campaign concepts using [technique — emotional memory / provocation / contrast storytelling].",
+              "Never mention [what to ban — price, features, competitors].",
+              "The format should be [one line / a paragraph / a headline].",
+            ],
+          },
+          {
+            task: "03",
+            title: "Refine — rank, replace, push",
+            items: [
+              "Add this final prompt: Rank these by [emotional impact / originality / memorability].",
+              "Replace the bottom [number].",
+              "Give me the one that makes a [describe the person] feel [what emotion].",
+            ],
+          },
         ],
-        prompt: "The unconventional idea is: [describe it]. What would need to be true for this to work? Help me find the smallest possible test.",
+        prompt: "You are writing for Spotify Premium. The subscriber is [describe — age, life stage, music habits]. The real reason they keep leaving is [emotional truth — not the practical reason]. What Spotify knows about them that nobody else does is [the intimate data]. Write [number] campaign concepts using [technique — emotional memory / provocation / contrast storytelling]. Never mention [what to ban — price, features, competitors]. The format should be [one line / a paragraph / a headline]. Rank these by [emotional impact / originality / memorability]. Replace the bottom [number]. Give me the one that makes a [describe person] feel [emotion].",
       },
     },
     learnMore: [
-      {
-        title: "How AI unlocks creative problem solving",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "The science behind structured prompting", url: "https://www.example.com", type: "article" },
+      { title: "C.A.R. framework — full reference", url: "https://www.example.com", type: "tool" },
+      { title: "Bohler Knives case study", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -124,33 +175,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Find a prompt you used recently that gave a mediocre result." },
-          { text: "Rewrite it using what you learned today — give it context, a role, and a constraint." },
-          { text: "Compare the two outputs side by side." },
-        ],
-        prompt: null,
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Think about the last three times AI gave you a useless answer." },
-          { text: "Identify the pattern — what did each bad prompt have in common?" },
-          { text: "Write your own rule for what makes a good prompt, in one sentence." },
-        ],
-        prompt: "Here are three prompts that gave me bad results: [list them]. What pattern do you see? What rule should I follow?",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Common AI mistakes and how to avoid them",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Common AI mistakes and how to avoid them", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -161,38 +196,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Pick a task you would normally just think through in your head." },
-          { text: "Instead, speak it out to AI — describe what you're trying to do, why it matters, and what's blocking you." },
-          { text: "Let AI reflect it back. Notice what it catches that you glossed over." },
-        ],
-        prompt: "I am trying to [goal]. The reason it matters is [why]. What is blocking me is [blocker]. What am I missing?",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Take something you are about to present or share with others." },
-          { text: "Speak it out to AI before you share it — your intent, your concern, your audience." },
-          { text: "Ask it: what is the gap between what I think I am saying and what my audience will hear?" },
-        ],
-        prompt: "I am about to share [describe it] with [describe audience]. My intent is [intent]. What is the gap between what I think I am saying and what they will hear?",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Why thinking out loud works",
-        url: "https://www.example.com",
-        type: "article",
-      },
-      {
-        title: "SPARKS practice partner GPT",
-        url: "https://www.example.com",
-        type: "tool",
-      },
+      { title: "Why thinking out loud works", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -203,33 +217,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Take a piece of work you are currently doing — a document, plan, or idea." },
-          { text: "Ask AI to review it from three roles: a skeptic, a customer, and a domain expert." },
-          { text: "Use one perspective to make a real change to the work." },
-        ],
-        prompt: "Review what I share from three roles: (1) a skeptic looking for flaws, (2) a customer who has to use this, (3) a domain expert. Here is the work: [paste it]",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Assign AI a role that feels uncomfortable — a critic, a competitor, a regulator." },
-          { text: "Ask it to evaluate your work from that role without softening." },
-          { text: "Sit with the hardest thing it says. Write down whether it is right." },
-        ],
-        prompt: "You are a [uncomfortable role]. Review my work with no softening. Tell me the hardest truth about it. Here is the work: [paste it]",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Role prompting and why it works",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Role prompting and why it works", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -240,33 +238,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Start a conversation with AI about any topic you are working on." },
-          { text: "After its first response, do not accept it. Ask it to go deeper on the most interesting point." },
-          { text: "Do this three times in a row. See how far the thinking goes." },
-        ],
-        prompt: "You just gave me a surface-level answer. Pick the most interesting idea in what you said and go three levels deeper.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Find a topic where you think you already know a lot." },
-          { text: "Ask AI to tell you something about it that would genuinely surprise you." },
-          { text: "Chase the most surprising thing it says until you understand it fully." },
-        ],
-        prompt: "I think I know a lot about [topic]. Tell me something about it that would genuinely surprise someone with my level of knowledge.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Getting more out of every AI conversation",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Getting more out of every AI conversation", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -277,33 +259,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Think of a situation where you feel stuck or frustrated." },
-          { text: "Describe it to AI. Ask it to reframe in three ways — each changing what the real problem is." },
-          { text: "Pick the reframe that feels most uncomfortable. That is usually the useful one." },
-        ],
-        prompt: "Here is my situation: [describe it]. Reframe this three ways. Each should change what I think the actual problem is. Make at least one uncomfortable.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Take the most uncomfortable reframe from the Essential exercise." },
-          { text: "Ask AI: if this reframe is correct, what would I need to do differently?" },
-          { text: "Write down one concrete action that follows from accepting it." },
-        ],
-        prompt: "If the reframe is [describe it], what would I need to do differently? Be specific and practical, not abstract.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Reframing as a thinking tool",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Reframing as a thinking tool", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -314,33 +280,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Find a conversation with AI that stalled or gave diminishing returns." },
-          { text: "Pick up from where it went flat. Tell AI what was missing and ask it to try again." },
-          { text: "Practice the recovery: 'That wasn't right because X. Try again with that in mind.'" },
-        ],
-        prompt: "Our conversation stalled because [reason]. Try again. Focus on [what was missing] and do not repeat [what did not work].",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Start a conversation with a hard, open-ended question." },
-          { text: "Every time AI gives a good answer, ask: and what else?" },
-          { text: "Keep going until it runs dry. Count how many rounds it takes." },
-        ],
-        prompt: "I am going to keep asking 'and what else?' after every answer. Start with [topic]. Do not repeat yourself. Go until you genuinely have nothing left.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Building momentum with AI",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Building momentum with AI", url: "https://www.example.com", type: "article" },
     ],
   },
 
@@ -351,33 +301,17 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
-      exercise: {
-        steps: [
-          { text: "Before you use AI today, write down in one sentence what you want to think through." },
-          { text: "After the conversation, write down what actually changed in your thinking." },
-          { text: "Compare the two. The gap between them is the skill." },
-        ],
-        prompt: null,
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     advanced: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 840,
-      exercise: {
-        steps: [
-          { text: "Review all 10 days. Which SPARKS letter had the biggest impact on how you work?" },
-          { text: "Ask AI to help you design a 5-minute daily practice around that letter." },
-          { text: "Write it down. Commit to it for the next two weeks." },
-        ],
-        prompt: "The SPARKS letter that changed how I work most is [letter] because [reason]. Help me design a 5-minute daily practice around it that I will actually stick to.",
-      },
+      summary: { ...PLACEHOLDER_SUMMARY },
+      exercise: { ...PLACEHOLDER_EXERCISE },
     },
     learnMore: [
-      {
-        title: "Reflection as a practice",
-        url: "https://www.example.com",
-        type: "article",
-      },
+      { title: "Reflection as a practice", url: "https://www.example.com", type: "article" },
     ],
   },
 };

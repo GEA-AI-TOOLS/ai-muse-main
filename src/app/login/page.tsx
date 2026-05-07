@@ -19,27 +19,29 @@ export default function LoginPage() {
   });
 
   async function handleEmailSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const res = await fetch("/api/auth/otp/request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!data.ok) {
-        setError(data.error ?? "Something went wrong. Try again.");
-      } else {
-        setStep("otp");
-      }
-    } catch {
-      setError("Network error. Check your connection.");
-    } finally {
-      setLoading(false);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+  try {
+    const res = await fetch("/api/auth/otp/request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      setError(data.error ?? "Something went wrong. Try again.");
+    } else if (data.notEnrolled) {
+      setError("This email is not enrolled. Check your email or enroll at /enroll.");
+    } else {
+      setStep("otp");
     }
+  } catch {
+    setError("Network error. Try again.");
+  } finally {
+    setLoading(false);
   }
+}
 
   async function handleOtpSubmit(e: React.FormEvent) {
     e.preventDefault();
