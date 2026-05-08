@@ -155,6 +155,13 @@ export function ProgressView({ participant }: Props) {
                     </p>
                   </div>
                   <div className="border-t" />
+                  <a
+                    href="/account/devices"
+                    className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
+                  >
+                    Manage devices
+                  </a>
+                  <div className="border-t" />
                   <button
                     onClick={handleLogout}
                     className="w-full px-3 py-2.5 text-left text-xs hover:bg-accent"

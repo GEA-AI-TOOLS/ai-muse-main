@@ -1,6 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { supabase } from "@/lib/supabase";
 
-export async function POST() {
+export async function POST(req: NextRequest) {
+  const authToken = req.cookies.get("auth")?.value;
+
+  if (authToken) {
+    await supabase
+      .from("sessions")
+      .delete()
+      .eq("session_token", authToken);
+  }
+
   const res = NextResponse.json({ ok: true });
 
   res.cookies.set("auth", "", {

@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import {
-  verifyAuthToken,
+  validateSessionToken,
   getSessionData,
   SESSION_COOKIE_OPTIONS,
 } from "@/lib/cookies";
 
 export async function GET(req: NextRequest) {
-  // Check session_data cookie first — if present, use it directly
   const sessionData = await getSessionData();
 
   if (sessionData) {
-    // Revoked check
     if (sessionData.revoked) {
       const res = NextResponse.json(
         { error: "Access revoked." },
@@ -38,37 +36,44 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  // session_data missing — rebuild from Supabase using auth cookie
   const authToken = req.cookies.get("auth")?.value;
   if (!authToken) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
   }
 
-  const verified = await verifyAuthToken(authToken);
-  if (!verified) {
-    return NextResponse.json({ error: "Invalid session." }, { status: 401 });
+  const participantId = await validateSessionToken(authToken);
+  if (!participantId) {
+    return NextResponse.json(
+      { error: "Invalid or expired session." },
+      { status: 401 }
+    );
   }
 
-  // Fetch participant from Supabase
   const { data: participant, error: pError } = await supabase
     .from("participants")
-    .select("id, name, email, cohort_id, current_day, status, timezone, enrolled_at, revoked")
-    .eq("id", verified.participantId)
+    .select(
+      "id, name, email, cohort_id, current_day, status, timezone, enrolled_at, revoked"
+    )
+    .eq("id", participantId)
     .single();
 
   if (pError || !participant) {
-    return NextResponse.json({ error: "Participant not found." }, { status: 404 });
+    return NextResponse.json(
+      { error: "Participant not found." },
+      { status: 404 }
+    );
   }
 
-  // Revoked check
   if (participant.revoked) {
-    const res = NextResponse.json({ error: "Access revoked." }, { status: 403 });
+    const res = NextResponse.json(
+      { error: "Access revoked." },
+      { status: 403 }
+    );
     res.cookies.set("auth", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
     res.cookies.set("session_data", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
     return res;
   }
 
-  // Fetch day states
   const { data: dayStates } = await supabase
     .from("participant_day_state")
     .select("day, done_at")
@@ -78,7 +83,6 @@ export async function GET(req: NextRequest) {
     .filter((d) => d.done_at !== null)
     .map((d) => d.day as number);
 
-  // Rebuild session_data cookie
   const newSessionData = {
     name: participant.name,
     email: participant.email,

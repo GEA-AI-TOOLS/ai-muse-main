@@ -1,31 +1,27 @@
-import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { supabase } from "@/lib/supabase";
 import type { SessionData } from "@/lib/types";
 
-const secret = new TextEncoder().encode(process.env.COOKIE_SECRET!);
-const ALG = "HS256";
+export const AUTH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  maxAge: 60 * 60 * 24 * 30,
+  path: "/",
+};
 
-// ---------- JWT ----------
+export const SESSION_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax" as const,
+  path: "/",
+};
 
-export async function signAuthToken(participantId: string): Promise<string> {
-  return new SignJWT({ participantId })
-    .setProtectedHeader({ alg: ALG })
-    .setExpirationTime("30d")
-    .sign(secret);
+export function generateSessionToken(): string {
+  const arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, (b) => b.toString(16).padStart(2, "0")).join("");
 }
-
-export async function verifyAuthToken(
-  token: string
-): Promise<{ participantId: string } | null> {
-  try {
-    const { payload } = await jwtVerify(token, secret);
-    return { participantId: payload.participantId as string };
-  } catch {
-    return null;
-  }
-}
-
-// ---------- Cookie read ----------
 
 export async function getAuthToken(): Promise<string | null> {
   const store = await cookies();
@@ -43,20 +39,46 @@ export async function getSessionData(): Promise<SessionData | null> {
   }
 }
 
-// ---------- Cookie write (used in API routes via NextResponse) ----------
+export async function validateSessionToken(
+  token: string
+): Promise<string | null> {
+  const { data, error } = await supabase
+    .from("sessions")
+    .select("id, participant_id, expires_at")
+    .eq("session_token", token)
+    .single();
 
-export const AUTH_COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  maxAge: 60 * 60 * 24 * 30,
-  path: "/",
-};
+  if (error || !data) return null;
 
-export const SESSION_COOKIE_OPTIONS = {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: "lax" as const,
-  path: "/",
-  // No maxAge = session cookie
-};
+  if (new Date(data.expires_at) < new Date()) {
+    await supabase.from("sessions").delete().eq("session_token", token);
+    return null;
+  }
+
+  await supabase
+    .from("sessions")
+    .update({ last_seen_at: new Date().toISOString() })
+    .eq("session_token", token);
+
+  return data.participant_id as string;
+}
+
+export function parseDeviceLabel(userAgent: string): string {
+  const ua = userAgent.toLowerCase();
+
+  let browser = "Browser";
+  if (ua.includes("chrome") && !ua.includes("edg")) browser = "Chrome";
+  else if (ua.includes("safari") && !ua.includes("chrome")) browser = "Safari";
+  else if (ua.includes("firefox")) browser = "Firefox";
+  else if (ua.includes("edg")) browser = "Edge";
+
+  let os = "Unknown";
+  if (ua.includes("iphone")) os = "iPhone";
+  else if (ua.includes("ipad")) os = "iPad";
+  else if (ua.includes("android")) os = "Android";
+  else if (ua.includes("windows")) os = "Windows";
+  else if (ua.includes("mac")) os = "Mac";
+  else if (ua.includes("linux")) os = "Linux";
+
+  return browser + " on " + os;
+}

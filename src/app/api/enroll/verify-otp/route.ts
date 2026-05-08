@@ -20,10 +20,7 @@ export async function POST(req: NextRequest) {
   // Find pending enrollment
   const { data: enrollment, error } = await supabase
     .from("pending_enrollments")
-    .select(
-      "id, phone, otp_hash, otp_attempts, otp_expires_at, " +
-      "whatsapp_otp_hash, whatsapp_otp_attempts, whatsapp_otp_expires_at, status"
-    )
+    .select("id, phone, otp_hash, otp_attempts, otp_expires_at, whatsapp_otp_hash, whatsapp_otp_attempts, whatsapp_otp_expires_at, status")
     .eq("email", cleanEmail)
     .eq("status", "pending")
     .order("created_at", { ascending: false })

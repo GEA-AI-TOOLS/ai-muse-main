@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import {
-  verifyAuthToken,
-  getSessionData,
+  validateSessionToken,
   SESSION_COOKIE_OPTIONS,
 } from "@/lib/cookies";
 
@@ -26,15 +25,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const verified = await verifyAuthToken(authToken);
-  if (!verified) {
+  const participantId = await validateSessionToken(authToken);
+  if (!participantId) {
     return NextResponse.json(
       { ok: false, error: "Invalid session." },
       { status: 401 }
     );
   }
 
-  const participantId = verified.participantId;
 
   // Mark day as done
   const { error: updateError } = await supabase
