@@ -1,5 +1,3 @@
-// All calls to n8n (or the stub during dev) go through this module.
-// To swap stub for real n8n later, just change N8N_BASE.
 import { cookies } from "next/headers";
 import type {
   ParticipantResponse,

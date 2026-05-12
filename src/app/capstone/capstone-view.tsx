@@ -1,0 +1,738 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import type { Participant } from "@/lib/types";
+
+type SectionId = "lesson" | "example" | "submit" | "certificate";
+
+const SECTIONS: { id: SectionId; label: string }[] = [
+  { id: "lesson", label: "Lesson" },
+  { id: "example", label: "Example" },
+  { id: "submit", label: "Submit" },
+  { id: "certificate", label: "Certificate" },
+];
+
+type PlatformId = "gemini" | "chatgpt-project" | "chatgpt-gpt" | "claude";
+
+const PLATFORMS: { id: PlatformId; label: string; url: string; urlLabel: string }[] = [
+  {
+    id: "gemini",
+    label: "Gemini Gems",
+    url: "https://gemini.google.com/gems/view",
+    urlLabel: "gemini.google.com",
+  },
+  {
+    id: "chatgpt-project",
+    label: "ChatGPT Project",
+    url: "https://chatgpt.com/",
+    urlLabel: "chatgpt.com",
+  },
+  {
+    id: "chatgpt-gpt",
+    label: "Custom GPT",
+    url: "https://chatgpt.com/gpts/mine",
+    urlLabel: "chatgpt.com/gpts",
+  },
+  {
+    id: "claude",
+    label: "Claude Project",
+    url: "https://claude.ai/projects",
+    urlLabel: "claude.ai/projects",
+  },
+];
+
+const PLATFORM_STEPS: Record<PlatformId, { task: string; title: string; items: string[] }[]> = {
+  gemini: [
+    { task: "01", title: "Open Gemini Gems", items: ["Go to gemini.google.com and open the side panel.", "Select Explore Gems, then New Gem."] },
+    { task: "02", title: "Name your Gem", items: ["Give it a name and a one-sentence description of what it does."] },
+    { task: "03", title: "Paste your instructions", items: ["Paste your instruction text into the instructions field.", "This defines the role, task, output format, and constraints."] },
+    { task: "04", title: "Test and refine", items: ["Click Save, then test it with a real question.", "Adjust the instructions based on what you get back."] },
+    { task: "05", title: "Copy the share link", items: ["Once happy, copy the share link from the Gem menu.", "This is what you paste into the submission form."] },
+  ],
+  "chatgpt-project": [
+    { task: "01", title: "Open ChatGPT Projects", items: ["Go to chatgpt.com and click Projects in the left sidebar.", "Click New project and give it a name."] },
+    { task: "02", title: "Add custom instructions", items: ["Open the project settings and find the Instructions field.", "Paste your instruction text here — this sets the default behavior for all chats in this project."] },
+    { task: "03", title: "Upload context files (optional)", items: ["Add any reference documents, examples, or templates your tool should know about.", "These stay attached to every conversation in the project."] },
+    { task: "04", title: "Test and refine", items: ["Start a chat inside the project and run a real task through it.", "Tweak the instructions if the output isn't quite right."] },
+    { task: "05", title: "Share the project link", items: ["Copy the project URL from your browser.", "Paste it into the submission form below."] },
+  ],
+  "chatgpt-gpt": [
+    { task: "01", title: "Open the GPT builder", items: ["Go to chatgpt.com/gpts/mine and click Create.", "You need a ChatGPT Plus or Team account to build custom GPTs."] },
+    { task: "02", title: "Configure in the builder", items: ["Switch to the Configure tab — this gives you full control.", "Add a name, description, and paste your instructions into the Instructions field."] },
+    { task: "03", title: "Set conversation starters", items: ["Add 2–3 example prompts that show what the tool does.", "This helps users understand how to use it from the first screen."] },
+    { task: "04", title: "Test in the preview panel", items: ["Use the preview on the right to test your GPT live.", "Adjust instructions until the output matches what you need."] },
+    { task: "05", title: "Publish and copy the link", items: ["Set sharing to Anyone with a link and click Save.", "Copy the share URL — this goes in the submission form."] },
+  ],
+  claude: [
+    { task: "01", title: "Open Claude Projects", items: ["Go to claude.ai/projects and click New project.", "Projects are available on Claude Pro and Team plans."] },
+    { task: "02", title: "Add project instructions", items: ["Click Project instructions and paste your instruction text.", "This runs before every conversation in the project, setting the tool's role and behaviour."] },
+    { task: "03", title: "Upload knowledge files (optional)", items: ["Add any reference documents or examples under Project knowledge.", "Claude will use these as context in every conversation."] },
+    { task: "04", title: "Test with a real task", items: ["Start a conversation inside the project and run your chosen task through it.", "Revise the instructions based on what you observe."] },
+    { task: "05", title: "Share the project link", items: ["Copy the project URL from your browser address bar.", "Paste it into the submission form below."] },
+  ],
+};
+
+interface Props {
+  participant: Participant;
+}
+
+export function CapstoneView({ participant }: Props) {
+  const [activeSection, setActiveSection] = useState<SectionId>("lesson");
+  const [activePlatform, setActivePlatform] = useState<PlatformId>("gemini");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const firstName = participant.name.split(" ")[0];
+
+  useEffect(() => {
+    const stored = localStorage.getItem("darkMode");
+    if (stored === "true") {
+      setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
+
+  function toggleDarkMode() {
+    const next = !darkMode;
+    setDarkMode(next);
+    localStorage.setItem("darkMode", String(next));
+    if (next) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id as SectionId);
+          }
+        }
+      },
+      { rootMargin: "-30% 0px -60% 0px" }
+    );
+    SECTIONS.forEach((section) => {
+      const el = document.getElementById(section.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const handler = () => setDropdownOpen(false);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [dropdownOpen]);
+
+  function formatCohort(cohortId: string): string {
+    const parts = cohortId.replace("cohort_", "").split("_");
+    if (parts.length !== 3) return cohortId;
+    const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    return "Cohort · " + date.toLocaleDateString("en-US", {
+      month: "long", day: "numeric", year: "numeric",
+    });
+  }
+
+  async function handleLogout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+  }
+
+  const supportEmail = "mailto:support.muse@bryancassady.com?subject=Capstone%20help";
+  const currentPlatform = PLATFORMS.find((p) => p.id === activePlatform)!;
+  const currentSteps = PLATFORM_STEPS[activePlatform];
+
+  return (
+    <div className="min-h-screen bg-background">
+
+      {/* Header */}
+      <header className="border-b">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4">
+          <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
+            <div className="flex h-7 w-7 items-center justify-center rounded bg-[#E24B4A] text-sm font-medium text-white">
+              M
+            </div>
+            <span className="text-base font-medium">Make AI Your Muse</span>
+          </a>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={toggleDarkMode}
+              className="text-muted-foreground hover:text-foreground"
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
+            </button>
+            <div className="relative">
+              <button
+                onClick={(e) => { e.stopPropagation(); setDropdownOpen(!dropdownOpen); }}
+                className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+              >
+                {"Hi, " + firstName + " ▾"}
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 top-8 z-50 w-56 rounded-md border bg-background shadow-md">
+                  <div className="px-4 py-3">
+                    <p className="text-xs text-muted-foreground">{formatCohort(participant.cohortId)}</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{participant.email}</p>
+                  </div>
+                  <div className="border-t" />
+                  <a
+                    href="/account/devices"
+                    className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
+                  >
+                    Manage devices
+                  </a>
+                  <div className="border-t" />
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-3 text-left text-sm hover:bg-accent"
+                  >
+                    Log out
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Sticky nav */}
+      <nav className="sticky top-0 z-10 border-b bg-background">
+        <div className="mx-auto flex max-w-4xl gap-1 px-8 py-2">
+          {SECTIONS.map((section) => {
+            const isActive = activeSection === section.id;
+            return (
+              <a
+                key={section.id}
+                href={"#" + section.id}
+                className={
+                  "rounded px-4 py-2 text-sm transition-colors " +
+                  (isActive
+                    ? "bg-[#FCEBEB] font-medium text-[#A32D2D]"
+                    : "text-muted-foreground hover:text-foreground")
+                }
+              >
+                {section.label}
+              </a>
+            );
+          })}
+        </div>
+      </nav>
+
+      <main className="mx-auto max-w-4xl px-8">
+
+        {/* Title block */}
+        <div className="py-8">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Capstone · Final project
+          </p>
+          <h1 className="mt-2 text-3xl font-medium">Build your own AI tool</h1>
+          <p className="mt-1 text-base text-muted-foreground">
+            Apply everything from the 10 days. Build something real that you will actually use.
+          </p>
+        </div>
+
+        {/* ── LESSON ── */}
+        <section id="lesson" className="scroll-mt-20 py-8">
+          <h2 className="mb-3 text-lg font-medium">Lesson</h2>
+          <p className="mb-4 text-sm text-muted-foreground">
+            Watch the capstone brief before you start building.
+          </p>
+
+          <div className="aspect-video overflow-hidden rounded-md bg-black mb-6 flex items-center justify-center">
+            <span className="text-sm text-white/40">Capstone video — coming soon</span>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-2">
+            {[
+              {
+                label: "Core idea",
+                text: "You have spent 10 days learning a method. The capstone is where you apply it to something that matters to you — one specific, recurring task in your work.",
+                highlight: true,
+              },
+              {
+                label: "The goal",
+                text: "Build a custom AI tool using any platform of your choice. It should do one thing well, for one specific purpose, with clear instructions on how to behave.",
+                highlight: false,
+              },
+              {
+                label: "What good looks like",
+                text: "A good tool has a clear role, a defined task, a specific output format, and at least one constraint — something it will never do. Vague instructions produce vague results.",
+                highlight: false,
+              },
+              {
+                label: "The platform",
+                text: "Use whichever AI platform you prefer. The Example section below shows step-by-step walkthroughs for Gemini Gems, ChatGPT Projects, Custom GPTs, and Claude Projects.",
+                highlight: false,
+              },
+              {
+                label: "Key takeaway",
+                text: "The tool you build is the proof that you have learned something. Not a certificate — the thing itself.",
+                highlight: true,
+              },
+            ].map((row) => (
+              <div
+                key={row.label}
+                className={
+                  "rounded-r-md border-l-[3px] px-4 py-3 " +
+                  (row.highlight
+                    ? "border-l-[#E24B4A] bg-[#FCEBEB] dark:bg-[#3a1010]"
+                    : "border-l-border bg-muted/40")
+                }
+              >
+                <p className={
+                  "mb-1 text-[10px] font-medium uppercase tracking-[0.4px] " +
+                  (row.highlight ? "text-[#A32D2D]" : "text-muted-foreground")
+                }>
+                  {row.label}
+                </p>
+                <p className={
+                  "text-sm leading-relaxed " +
+                  (row.highlight ? "text-[#501313] dark:text-[#f5c1c1]" : "text-foreground")
+                }>
+                  {row.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 mb-2 border-t pt-6">
+            <h3 className="text-base font-semibold">What to do</h3>
+          </div>
+          <div className="mb-4 flex flex-col gap-3">
+            {[
+              {
+                task: "01",
+                title: "Pick your use case",
+                items: [
+                  "Choose one specific, recurring task in your work that AI could help with.",
+                  "Be specific — not 'productivity in general' but something concrete: briefing, reviewing, generating, summarising.",
+                ],
+              },
+              {
+                task: "02",
+                title: "Write your instructions",
+                items: [
+                  "Define the role your tool will play.",
+                  "Describe the task it performs and the format of its output.",
+                  "Add at least one constraint — something it will never do.",
+                ],
+              },
+              {
+                task: "03",
+                title: "Build and test",
+                items: [
+                  "Create your tool on any AI platform.",
+                  "Run three real tasks through it and note where it works and where it needs adjustment.",
+                  "Refine based on what you find.",
+                ],
+              },
+              {
+                task: "04",
+                title: "Submit",
+                items: [
+                  "Share the link to your tool and a one-sentence description of what it does.",
+                  "Upload your instruction file if you have one — this earns your Certificate of Mastery.",
+                ],
+              },
+            ].map((step, i) => (
+              <div key={i} className="rounded-md border bg-muted/30 p-4">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="text-lg font-medium text-[#E24B4A] leading-none">{step.task}</span>
+                  <span className="text-sm font-medium">{step.title}</span>
+                </div>
+                <ul className="space-y-1.5">
+                  {step.items.map((item, j) => (
+                    <li key={j} className="flex gap-2 text-sm leading-relaxed">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+          <div className="rounded-md border bg-muted/20 px-3 py-2 text-xs text-muted-foreground">
+            <span className="font-medium">Done when: </span>
+            You have a working tool that performs your chosen task and produces a useful result on a real problem.
+          </div>
+        </section>
+
+        <Separator />
+
+        {/* ── EXAMPLE ── */}
+        <section id="example" className="scroll-mt-20 py-8">
+          <h2 className="mb-1 text-lg font-medium">Example</h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            A worked example — The Briefing Assistant — built across four platforms. Pick the one you use.
+          </p>
+
+          <div className="mb-6 rounded-md border bg-muted/30 p-5">
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">
+                  Example tool
+                </p>
+                <p className="text-base font-medium">The Briefing Assistant</p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Turns a rough idea into a structured brief. Built for consultants and project leads who write briefs regularly.
+                </p>
+              </div>
+              <a
+                href="#"
+                target="_blank"
+                rel="noreferrer"
+                className="shrink-0 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+              >
+                Open example →
+              </a>
+            </div>
+            <div className="border-t pt-3">
+              <p className="text-xs text-muted-foreground">
+                Try asking it to brief a new product launch, a client workshop, or a team meeting. Notice how the output structure stays consistent regardless of the input.
+              </p>
+            </div>
+          </div>
+
+          {/* Platform tabs */}
+          <div className="mt-8 mb-0 border-t pt-6">
+            <h3 className="mb-3 text-base font-semibold">How to build this</h3>
+
+            {/* Tab bar */}
+            <div className="flex gap-1 rounded-md border bg-muted/30 p-1">
+              {PLATFORMS.map((platform) => {
+                const isActive = activePlatform === platform.id;
+                return (
+                  <button
+                    key={platform.id}
+                    onClick={() => setActivePlatform(platform.id)}
+                    className={
+                      "flex-1 rounded px-3 py-2 text-xs font-medium transition-colors " +
+                      (isActive
+                        ? "bg-background shadow-sm text-foreground border"
+                        : "text-muted-foreground hover:text-foreground")
+                    }
+                  >
+                    {platform.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Tab content box */}
+            <div className="mt-0 rounded-b-md rounded-t-none border border-t-0 bg-background p-5">
+
+              {/* Platform link */}
+              <a
+                href={currentPlatform.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mb-4 inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+              >
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                {currentPlatform.urlLabel}
+              </a>
+
+              {/* Steps */}
+              <div className="flex flex-col gap-3">
+                {currentSteps.map((step, i) => (
+                  <div key={i} className="rounded-md border bg-muted/30 p-4">
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="text-lg font-medium text-[#E24B4A] leading-none">{step.task}</span>
+                      <span className="text-sm font-medium">{step.title}</span>
+                    </div>
+                    <ul className="space-y-1.5">
+                      {step.items.map((item, j) => (
+                        <li key={j} className="flex gap-2 text-sm leading-relaxed">
+                          <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Instruction file download */}
+          <div className="mt-6 rounded-md border border-dashed bg-muted/40 p-4">
+            <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground mb-2">
+              Example instruction file
+            </p>
+            <p className="text-sm text-muted-foreground mb-4">
+              The exact instruction file used in the Briefing Assistant above. Download it as a reference for writing your own.
+            </p>
+            <div className="flex items-center justify-between">
+              <button
+                className="flex items-center gap-2 rounded border px-4 py-2 text-sm hover:bg-accent"
+                onClick={() => {}}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download instruction file (.txt)
+              </button>
+              <span className="text-xs text-muted-foreground">example-briefing-assistant.txt</span>
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              We do not use, store, or train on any files you submit. You can request deletion at any time by contacting support.
+            </p>
+          </div>
+        </section>
+
+        <Separator />
+
+        {/* ── SUBMIT ── */}
+        <section id="submit" className="scroll-mt-20 py-8">
+          <h2 className="mb-1 text-lg font-medium">Submit your project</h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Submitting earns you the Certificate of Mastery. The description is required — the link and file are optional.
+          </p>
+
+          {submitted ? (
+            <div className="rounded-md border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
+              <p className="text-base font-medium text-green-800 dark:text-green-300 mb-1">
+                Project submitted
+              </p>
+              <p className="text-sm text-green-700 dark:text-green-400">
+                Your Certificate of Mastery has been issued. Go to the Certificate tab to download it.
+              </p>
+            </div>
+          ) : (
+            <div className="rounded-md border p-6 space-y-5">
+              <div>
+                <label className="mb-1.5 block text-sm font-medium">
+                  What does your tool do?
+                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(required)</span>
+                </label>
+                <Input
+                  type="text"
+                  placeholder="It helps me write structured briefs for client projects."
+                />
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  One sentence. Specific about what it does and who it is for.
+                </p>
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-sm font-medium">
+                  Tool link
+                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(optional)</span>
+                </label>
+                <Input
+                  type="url"
+                  placeholder="https://gemini.google.com/gem/..."
+                />
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  Link to your Gem, custom GPT, Claude project, or any shared AI tool.
+                </p>
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-sm font-medium">
+                  Instruction file
+                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(optional)</span>
+                </label>
+                <div className="flex items-center gap-3 rounded-md border border-dashed px-4 py-3 bg-muted/20 cursor-pointer hover:bg-accent">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span className="text-sm text-muted-foreground">
+                    Upload your instruction file (.txt or .pdf)
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs text-muted-foreground">
+                  Your file is used only to generate an AI review report. We do not store or train on it.
+                </p>
+              </div>
+
+              <Button
+                className="w-full bg-[#E24B4A] hover:bg-[#c73f3e]"
+                onClick={() => setSubmitted(true)}
+              >
+                Submit and earn Certificate of Mastery
+              </Button>
+            </div>
+          )}
+        </section>
+
+        <Separator />
+
+        {/* ── CERTIFICATE ── */}
+        <section id="certificate" className="scroll-mt-20 py-8 pb-16">
+          <h2 className="mb-1 text-lg font-medium">Your certificates</h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Both certificates are downloadable as PDF and permanently verifiable via a public link.
+          </p>
+
+          <div className="flex flex-col gap-4">
+
+            {/* Completion */}
+            <div className="rounded-md border p-5 flex items-center justify-between gap-6">
+              <div className="flex items-start gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-sm font-medium">Certificate of Completion</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Issued 23 May 2026 · All 10 days completed
+                  </p>
+                  <p className="mt-1.5 text-xs text-muted-foreground">
+                    {"Verify: "}
+                    <span className="text-[#E24B4A]">muse.bryancassady.com/verify/MUSE-2026-A3F7</span>
+                  </p>
+                </div>
+              </div>
+              <button
+                className="shrink-0 flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent"
+                onClick={() => {}}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <polyline points="7 10 12 15 17 10"/>
+                  <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download PDF
+              </button>
+            </div>
+
+            {/* Mastery */}
+            {submitted ? (
+              <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#501313]">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-[#791F1F]">Just issued · Capstone submitted</p>
+                    <p className="mt-1.5 text-xs text-[#791F1F]">
+                      {"Verify: "}
+                      <span className="underline">muse.bryancassady.com/verify/MUSE-2026-B8K2</span>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  onClick={() => {}}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      Submit your capstone project to earn this.
+                    </p>
+                  </div>
+                </div>
+                <a href="#submit" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
+                  Submit project →
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* AI review — shows after submission */}
+          {submitted && (
+            <div className="mt-6 rounded-md border bg-muted/20 p-5">
+              <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground mb-3">
+                AI review of your instruction file
+              </p>
+              <div className="flex flex-col gap-2 mb-4">
+                {[
+                  { label: "Specificity", pass: true, note: "Use case is clearly defined for a specific context." },
+                  { label: "Structure", pass: true, note: "Role, task, and output guidance are all present." },
+                  { label: "Constraints", pass: false, note: "No constraints specified — consider adding what the tool should never do." },
+                  { label: "Output format", pass: true, note: "Format is clearly described." },
+                  { label: "Originality", pass: true, note: "Meaningfully personalised to a real use case." },
+                ].map((row) => (
+                  <div key={row.label} className="flex items-start gap-3 text-sm">
+                    <span className={
+                      "mt-0.5 shrink-0 text-xs font-medium " +
+                      (row.pass ? "text-green-600" : "text-[#E24B4A]")
+                    }>
+                      {row.pass ? "✓" : "✗"}
+                    </span>
+                    <div>
+                      <span className="font-medium">{row.label}</span>
+                      <span className="text-muted-foreground"> — {row.note}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-start gap-3 border-t pt-3">
+                <span className="text-xs text-muted-foreground shrink-0">Score</span>
+                <span className="text-sm font-medium shrink-0">4 / 5</span>
+                <span className="text-xs text-muted-foreground italic">
+                  "Strong submission. Adding a constraint section would make it significantly more reliable."
+                </span>
+              </div>
+            </div>
+          )}
+        </section>
+
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t bg-muted/30">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4 text-sm text-muted-foreground">
+          <a href="/progress" className="hover:underline">Back to overview</a>
+          <a href={supportEmail} className="hover:underline">Need help? Contact us</a>
+        </div>
+      </footer>
+
+    </div>
+  );
+}
