@@ -72,6 +72,46 @@ export async function POST(req: NextRequest) {
     .filter((d) => d.done_at !== null)
     .map((d) => d.day as number);
 
+  // After marking day done, check if all 10 complete and issue cert
+  if (day === 10) {
+    const { data: allDayStates } = await supabase
+      .from("participant_day_state")
+      .select("day, done_at")
+      .eq("participant_id", participantId);
+
+    const completedCount = (allDayStates ?? []).filter((d) => d.done_at !== null).length;
+
+    if (completedCount === 10) {
+      const { data: existingCompletionCert } = await supabase
+        .from("certificates")
+        .select("id")
+        .eq("participant_id", participantId)
+        .eq("type", "completion")
+        .single();
+
+      if (!existingCompletionCert) {
+        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+        let certCode = "MUSE-" + String(new Date().getFullYear()) + "-";
+        for (let i = 0; i < 4; i++) {
+          certCode += chars[Math.floor(Math.random() * chars.length)];
+        }
+
+        const { data: partForCert } = await supabase
+          .from("participants")
+          .select("cohort_id")
+          .eq("id", participantId)
+          .single();
+
+        await supabase.from("certificates").insert({
+          participant_id: participantId,
+          type: "completion",
+          verification_code: certCode,
+          cohort_id: partForCert?.cohort_id ?? "unknown",
+        });
+      }
+    }
+  }
+
   // Build fresh session_data
   const newSessionData = {
     name: participant.name,
