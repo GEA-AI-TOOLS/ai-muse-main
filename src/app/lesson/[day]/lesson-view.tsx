@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { SummaryBlock } from "@/components/summary-block";
 import { ExerciseBlock } from "@/components/exercise-block";
 import type { Lesson, Participant } from "@/lib/types";
+import { TrackerBar } from "@/components/tracker-bar";
 
 type SectionId = "essential" | "advanced" | "learnmore";
 
@@ -253,9 +254,18 @@ export function LessonView({ participant, lesson }: Props) {
           </div>
         )}
 
+        {/* Progress tracker */}
+        <div className="mb-6 rounded-md border bg-muted/30 px-5 py-4">
+          <TrackerBar
+            currentDay={participant.currentDay}
+            daysComplete={participant.daysComplete ?? []}
+            allDone={(participant.daysComplete ?? []).length === 10}
+          />
+        </div>
+
         {/* Essential */}
         <section id="essential" className="scroll-mt-20 py-8">
-          <h2 className="mb-4 text-lg font-medium">Essential</h2>
+          <h2 className="mb-4 text-xl font-semibold text-[#E24B4A]">Essential</h2>
           <VideoPlayer videoUrl={lesson.essential.videoUrl} />
           <SummaryBlock summary={lesson.essential.summary} />
           <div className="mt-8 mb-2 border-t pt-6">
@@ -293,7 +303,7 @@ export function LessonView({ participant, lesson }: Props) {
             className="flex w-full items-center justify-between"
           >
             <div className="text-left">
-              <h2 className="text-lg font-medium">Advanced</h2>
+              <h2 className="text-xl font-semibold text-[#E24B4A]">Advanced</h2>
               <p className="mt-0.5 text-sm text-muted-foreground">
                 Optional. Go deeper when you have time.
               </p>
@@ -329,7 +339,7 @@ export function LessonView({ participant, lesson }: Props) {
 
         {/* Learn More */}
         <section id="learnmore" className="scroll-mt-20 py-8 pb-16">
-          <h2 className="mb-1 text-lg font-medium">Learn More</h2>
+          <h2 className="mb-1 text-xl font-semibold text-[#E24B4A]">Learn More</h2>
           <p className="mb-5 text-sm text-muted-foreground">
             Articles, tools, and references from today&apos;s lesson.
           </p>
