@@ -75,6 +75,15 @@ const PLATFORM_STEPS: Record<PlatformId, { task: string; title: string; items: s
   ],
 };
 
+const REVIEW_GPT_URL =
+  "https://chatgpt.com/g/g-6a033acc15448191bf72d50f6069dbe2-ai-tools-reviewer";
+
+interface CertData {
+  id: string;
+  verification_code: string;
+  issued_at: string;
+}
+
 interface Props {
   participant: Participant;
 }
@@ -84,26 +93,19 @@ export function CapstoneView({ participant }: Props) {
   const [activePlatform, setActivePlatform] = useState<PlatformId>("gemini");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+
+  // Submit state
+  const [reviewReport, setReviewReport] = useState("");
   const [description, setDescription] = useState("");
   const [gemUrl, setGemUrl] = useState("");
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const [reviewResult, setReviewResult] = useState<null | {
-    criteria: { name: string; result: string; reason: string }[];
-    score: number;
-    summary: string;
-  }>(null);
-  const [attemptsRemaining, setAttemptsRemaining] = useState(3);
-  const [completionCert, setCompletionCert] = useState<{
-    verification_code: string;
-    issued_at: string;
-  } | null>(null);
-  const [masteryCert, setMasteryCert] = useState<{
-    verification_code: string;
-    issued_at: string;
-  } | null>(null);
+  const [submitResult, setSubmitResult] = useState<"pass" | "fail" | "wrong_source" | null>(null);
+
+  // Cert state
+  const [completionCert, setCompletionCert] = useState<CertData | null>(null);
+  const [masteryCert, setMasteryCert] = useState<CertData | null>(null);
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
   const firstName = participant.name.split(" ")[0];
 
@@ -120,11 +122,7 @@ export function CapstoneView({ participant }: Props) {
       .then((r) => r.json())
       .then((data) => {
         if (data.ok) {
-          if (data.submission) {
-            setSubmitted(true);
-            setReviewResult(data.submission.review_result);
-          }
-          setAttemptsRemaining(data.attemptsRemaining);
+          if (data.submission) setAlreadySubmitted(true);
           setCompletionCert(data.completionCert);
           setMasteryCert(data.masteryCert);
         }
@@ -145,40 +143,41 @@ export function CapstoneView({ participant }: Props) {
 
   async function handleSubmit() {
     setSubmitError("");
-    if (!description.trim()) {
-      setSubmitError("Description is required.");
+    setSubmitResult(null);
+
+    if (!reviewReport.trim()) {
+      setSubmitError("Please paste the report from the Review GPT.");
       return;
     }
-    if (!selectedFile) {
-      setSubmitError("Please upload your instruction file.");
+    if (!description.trim()) {
+      setSubmitError("Description is required.");
       return;
     }
 
     setSubmitting(true);
     try {
-      const form = new FormData();
-      form.append("description", description.trim());
-      form.append("file", selectedFile);
-      if (gemUrl.trim()) form.append("gemUrl", gemUrl.trim());
-
       const res = await fetch("/api/capstone/submit", {
         method: "POST",
-        body: form,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reviewReport: reviewReport.trim(),
+          description: description.trim(),
+          gemUrl: gemUrl.trim() || undefined,
+        }),
       });
       const data = await res.json();
 
-      if (!data.ok) {
-        setSubmitError(data.error ?? "Something went wrong. Try again.");
+      if (data.ok) {
+        setSubmitResult("pass");
+        setAlreadySubmitted(true);
+        setMasteryCert({
+          id: data.certId ?? "",
+          verification_code: data.verificationCode,
+          issued_at: new Date().toISOString(),
+        });
       } else {
-        setSubmitted(true);
-        setReviewResult(data.reviewResult);
-        setAttemptsRemaining(data.attemptsRemaining);
-        if (data.verificationCode) {
-          setMasteryCert({
-            verification_code: data.verificationCode,
-            issued_at: new Date().toISOString(),
-          });
-        }
+        setSubmitResult(data.result ?? null);
+        setSubmitError(data.error ?? "Something went wrong. Try again.");
       }
     } catch {
       setSubmitError("Network error. Try again.");
@@ -433,10 +432,10 @@ export function CapstoneView({ participant }: Props) {
               },
               {
                 task: "04",
-                title: "Submit",
+                title: "Review and submit",
                 items: [
-                  "Share the link to your tool and a one-sentence description of what it does.",
-                  "Upload your instruction file if you have one — this earns your Certificate of Mastery.",
+                  "Run your instruction file through the AI review tool in the Submit section.",
+                  "Paste the report and add a one-sentence description of what you built.",
                 ],
               },
             ].map((step, i) => (
@@ -502,7 +501,6 @@ export function CapstoneView({ participant }: Props) {
           <div className="mt-8 mb-0 border-t pt-6">
             <h3 className="mb-3 text-base font-semibold">How to build this</h3>
 
-            {/* Tab bar */}
             <div className="flex gap-1 rounded-md border bg-muted/30 p-1">
               {PLATFORMS.map((platform) => {
                 const isActive = activePlatform === platform.id;
@@ -523,10 +521,7 @@ export function CapstoneView({ participant }: Props) {
               })}
             </div>
 
-            {/* Tab content box */}
             <div className="mt-0 rounded-b-md rounded-t-none border border-t-0 bg-background p-5">
-
-              {/* Platform link */}
               <a
                 href={currentPlatform.url}
                 target="_blank"
@@ -541,7 +536,6 @@ export function CapstoneView({ participant }: Props) {
                 {currentPlatform.urlLabel}
               </a>
 
-              {/* Steps */}
               <div className="flex flex-col gap-3">
                 {currentSteps.map((step, i) => (
                   <div key={i} className="rounded-md border bg-muted/30 p-4">
@@ -562,33 +556,6 @@ export function CapstoneView({ participant }: Props) {
               </div>
             </div>
           </div>
-
-          {/* Instruction file download */}
-          <div className="mt-6 rounded-md border border-dashed bg-muted/40 p-4">
-            <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground mb-2">
-              Example instruction file
-            </p>
-            <p className="text-sm text-muted-foreground mb-4">
-              The exact instruction file used in the Briefing Assistant above. Download it as a reference for writing your own.
-            </p>
-            <div className="flex items-center justify-between">
-              <button
-                className="flex items-center gap-2 rounded border px-4 py-2 text-sm hover:bg-accent"
-                onClick={() => {}}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Download instruction file (.txt)
-              </button>
-              <span className="text-xs text-muted-foreground">example-briefing-assistant.txt</span>
-            </div>
-            <p className="mt-3 text-xs text-muted-foreground">
-              We do not use, store, or train on any files you submit. You can request deletion at any time by contacting support.
-            </p>
-          </div>
         </section>
 
         <Separator />
@@ -597,85 +564,128 @@ export function CapstoneView({ participant }: Props) {
         <section id="submit" className="scroll-mt-20 py-8">
           <h2 className="mb-1 text-lg font-medium">Submit your project</h2>
           <p className="mb-6 text-sm text-muted-foreground">
-            Submitting earns you the Certificate of Mastery. The description and file are required — the link is optional.
+            Complete the three steps below to earn your Certificate of Mastery.
           </p>
 
-          {submitted ? (
+          {alreadySubmitted ? (
             <div className="rounded-md border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
               <p className="text-base font-medium text-green-800 dark:text-green-300 mb-1">
                 Project submitted
               </p>
               <p className="text-sm text-green-700 dark:text-green-400">
-                Your Certificate of Mastery has been issued. Go to the Certificate tab to download it.
+                Your Certificate of Mastery has been issued. See the Certificate section below.
               </p>
             </div>
           ) : (
-            <div className="rounded-md border p-6 space-y-5">
-              <div>
-                <label className="mb-1.5 block text-sm font-medium">
-                  What does your tool do?
-                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(required)</span>
+            <div className="flex flex-col gap-5">
+
+              {/* Step 1 — Review GPT */}
+              <div className="rounded-md border p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">1</span>
+                  <span className="text-sm font-medium">Review your tool</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Open the Review GPT and submit your instruction file to get a report.
+                </p>
+                <a
+                  href={REVIEW_GPT_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                >
+                  Open Review GPT →
+                </a>
+                <ul className="mt-4 space-y-1.5">
+                  {[
+                    "Open the GPT and describe what you built.",
+                    "Upload your instruction file when prompted.",
+                    "Copy the full report it gives you.",
+                  ].map((item, i) => (
+                    <li key={i} className="flex gap-2 text-sm text-muted-foreground">
+                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-xs text-muted-foreground rounded-md bg-muted/40 px-3 py-2">
+                  We never see your instruction file. The GPT processes it privately and does not store it.
+                </p>
+              </div>
+
+              {/* Step 2 — Paste report */}
+              <div className="rounded-md border p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">2</span>
+                  <span className="text-sm font-medium">Paste the report</span>
+                </div>
+                <label className="mb-1.5 block text-sm text-muted-foreground">
+                  Paste the full report from the Review GPT here.
                 </label>
-                <Input
-                  type="text"
-                  placeholder="It helps me write structured briefs for client projects."
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                <textarea
+                  className="w-full min-h-[140px] rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y"
+                  placeholder="Paste the complete report from the Review GPT..."
+                  value={reviewReport}
+                  onChange={(e) => setReviewReport(e.target.value)}
                 />
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  One sentence. Specific about what it does and who it is for.
-                </p>
+
+                {/* Inline feedback for fail / wrong source — shown here under the paste box */}
+                {submitResult === "fail" && (
+                  <div className="mt-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
+                    {submitError}
+                  </div>
+                )}
+                {submitResult === "wrong_source" && (
+                  <div className="mt-2 rounded-md border px-3 py-2 text-xs text-muted-foreground bg-muted/40">
+                    {submitError}
+                  </div>
+                )}
               </div>
 
-              <div>
-                <label className="mb-1.5 block text-sm font-medium">
-                  Tool link
-                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(optional)</span>
-                </label>
-                <Input
-                  type="url"
-                  placeholder="https://gemini.google.com/gem/..."
-                  value={gemUrl}
-                  onChange={(e) => setGemUrl(e.target.value)}
-                />
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  Link to your Gem, custom GPT, Claude project, or any shared AI tool.
-                </p>
+              {/* Step 3 — Tell us what you built */}
+              <div className="rounded-md border p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">3</span>
+                  <span className="text-sm font-medium">Tell us what you built</span>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium">
+                      What does your tool do?
+                      <span className="ml-1.5 text-xs font-normal text-muted-foreground">(required)</span>
+                    </label>
+                    <Input
+                      type="text"
+                      placeholder="It helps me write structured briefs for client projects."
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      One sentence. Specific about what it does and who it is for.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="mb-1.5 block text-sm font-medium">
+                      Tool link
+                      <span className="ml-1.5 text-xs font-normal text-muted-foreground">(optional)</span>
+                    </label>
+                    <Input
+                      type="url"
+                      placeholder="https://gemini.google.com/gem/..."
+                      value={gemUrl}
+                      onChange={(e) => setGemUrl(e.target.value)}
+                    />
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      Link to your Gem, custom GPT, Claude project, or any shared AI tool.
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label className="mb-1.5 block text-sm font-medium">
-                  Instruction file
-                  <span className="ml-1.5 text-xs font-normal text-muted-foreground">(required)</span>
-                </label>
-                <label className="flex items-center gap-3 rounded-md border border-dashed px-4 py-3 bg-muted/20 cursor-pointer hover:bg-accent">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground shrink-0">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                    <polyline points="17 8 12 3 7 8"/>
-                    <line x1="12" y1="3" x2="12" y2="15"/>
-                  </svg>
-                  <span className="text-sm text-muted-foreground">
-                    {selectedFile ? selectedFile.name : "Upload your instruction file (.txt or .pdf)"}
-                  </span>
-                  <input
-                    type="file"
-                    accept=".txt,.pdf"
-                    className="hidden"
-                    onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
-                  />
-                </label>
-                <p className="mt-1.5 text-xs text-muted-foreground">
-                  We do not use, store, or train on any files you submit.
-                </p>
-              </div>
-
-              {attemptsRemaining < 3 && (
-                <p className="text-xs text-muted-foreground">
-                  {"Submissions remaining: " + String(attemptsRemaining) + " of 3"}
-                </p>
-              )}
-
-              {submitError && (
+              {/* General error (non-result errors) */}
+              {submitError && submitResult === null && (
                 <p className="text-xs text-destructive">{submitError}</p>
               )}
 
@@ -696,7 +706,7 @@ export function CapstoneView({ participant }: Props) {
         <section id="certificate" className="scroll-mt-20 py-8 pb-16">
           <h2 className="mb-1 text-lg font-medium">Your certificates</h2>
           <p className="mb-6 text-sm text-muted-foreground">
-            Both certificates are downloadable as PDF and permanently verifiable via a public link.
+            Both certificates are permanently verifiable via a public link.
           </p>
 
           <div className="flex flex-col gap-4">
@@ -717,13 +727,20 @@ export function CapstoneView({ participant }: Props) {
                     </p>
                     <p className="mt-1.5 text-xs text-muted-foreground">
                       {"Verify: "}
-                      <span className="text-[#E24B4A]">{"muse.bryancassady.com/verify/" + completionCert.verification_code}</span>
+                      <a
+                        href={"/verify/" + completionCert.verification_code}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[#E24B4A] hover:underline"
+                      >
+                        {"muse.bryancassady.com/verify/" + completionCert.verification_code}
+                      </a>
                     </p>
                   </div>
                 </div>
                 <button
                   className="shrink-0 flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent"
-                  onClick={() => alert("PDF download coming soon")}
+                  onClick={() => window.open("/api/certificates/download?id=" + completionCert.id, "_blank")}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -752,88 +769,64 @@ export function CapstoneView({ participant }: Props) {
               </div>
             )}
 
-            {/* Mastery */}
+            {/* Mastery cert */}
             {masteryCert ? (
-            <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
-                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-[#501313]">Certificate of Mastery</p>
-                  <p className="mt-0.5 text-xs text-[#791F1F]">
-                    {"Issued " + new Date(masteryCert.issued_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) + " · Capstone submitted"}
-                  </p>
-                  <p className="mt-1.5 text-xs text-[#791F1F]">
-                    {"Verify: "}
-                    <span className="underline">{"muse.bryancassady.com/verify/" + masteryCert.verification_code}</span>
-                  </p>
-                </div>
-              </div>
-              <button
-                className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
-                onClick={() => alert("PDF download coming soon")}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="7 10 12 15 17 10"/>
-                  <line x1="12" y1="15" x2="12" y2="3"/>
-                </svg>
-                Download PDF
-              </button>
-            </div>
-            ) : (
-            <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
-              <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-sm font-medium">Certificate of Mastery</p>
-                  <p className="mt-0.5 text-xs text-muted-foreground">Submit your capstone project to earn this.</p>
-                </div>
-              </div>
-              <a href="#submit" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
-                Submit project →
-              </a>
-            </div>
-          )}
-
-        </div>
-
-          {/* AI review — shows after submission */}
-          {submitted && reviewResult && (
-          <div className="mt-6 rounded-md border bg-muted/20 p-5">
-            <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground mb-3">
-              AI review of your instruction file
-            </p>
-            <div className="flex flex-col gap-2 mb-4">
-              {reviewResult.criteria.map((row) => (
-                <div key={row.name} className="flex items-start gap-3 text-sm">
-                  <span className={
-                    "mt-0.5 shrink-0 text-xs font-medium " +
-                    (row.result === "pass" ? "text-green-600" : "text-[#E24B4A]")
-                  }>
-                    {row.result === "pass" ? "✓" : "✗"}
-                  </span>
+              <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
                   <div>
-                    <span className="font-medium">{row.name}</span>
-                    <span className="text-muted-foreground">{" — " + row.reason}</span>
+                    <p className="text-sm font-medium text-[#501313]">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-[#791F1F]">
+                      {"Issued " + new Date(masteryCert.issued_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) + " · Capstone submitted"}
+                    </p>
+                    <p className="mt-1.5 text-xs text-[#791F1F]">
+                      {"Verify: "}
+                      <a
+                        href={"/verify/" + masteryCert.verification_code}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:opacity-80"
+                      >
+                        {"muse.bryancassady.com/verify/" + masteryCert.verification_code}
+                      </a>
+                    </p>
                   </div>
                 </div>
-              ))}
-            </div>
-            <div className="flex items-start gap-3 border-t pt-3">
-              <span className="text-xs text-muted-foreground shrink-0">Score</span>
-              <span className="text-sm font-medium shrink-0">{reviewResult.score + " / 5"}</span>
-              <span className="text-xs text-muted-foreground italic">{reviewResult.summary}</span>
-            </div>
+                <button
+                  className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  onClick={() => window.open("/api/certificates/download?id=" + masteryCert.id, "_blank")}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">Submit your capstone project to earn this.</p>
+                  </div>
+                </div>
+                <a href="#submit" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
+                  Submit project →
+                </a>
+              </div>
+            )}
           </div>
-        )}
         </section>
 
       </main>

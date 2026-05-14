@@ -13,20 +13,15 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "Invalid session." }, { status: 401 });
   }
 
-  // Latest submission
+  // Latest submission (one row per participant on pass)
   const { data: submissions } = await supabase
     .from("capstone_submissions")
-    .select("id, attempt_number, description, gem_url, status, review_result, review_score, submitted_at")
+    .select("id, description, gem_url, status, review_report, submitted_at")
     .eq("participant_id", participantId)
-    .order("attempt_number", { ascending: false })
+    .order("submitted_at", { ascending: false })
     .limit(1);
 
-  const latest = submissions?.[0] ?? null;
-  const totalSubmissions = submissions ? await supabase
-    .from("capstone_submissions")
-    .select("id", { count: "exact" })
-    .eq("participant_id", participantId)
-    .then((r) => r.count ?? 0) : 0;
+  const submission = submissions?.[0] ?? null;
 
   // Certs
   const { data: certs } = await supabase
@@ -39,9 +34,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    submission: latest,
-    totalSubmissions,
-    attemptsRemaining: Math.max(0, 3 - Number(totalSubmissions)),
+    submission,
     completionCert,
     masteryCert,
   });

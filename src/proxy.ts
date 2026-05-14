@@ -10,6 +10,7 @@ const PUBLIC_PATHS = [
   "/api/webhooks",
   "/api/enroll",
   "/api/account",
+  "/verify",
   "/waiting",
 ];
 

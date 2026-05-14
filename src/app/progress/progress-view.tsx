@@ -37,11 +37,27 @@ const PHASE_LABEL: Record<number, string> = {
 
 export function ProgressView({ participant }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [completionCert, setCompletionCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
+  const [masteryCert, setMasteryCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
+  const [issuingCert, setIssuingCert] = useState(false);
+  const [certError, setCertError] = useState("");
   const [darkMode, setDarkMode] = useState(false);
   const { currentDay, daysComplete = [] } = participant;
   const firstName = participant.name.split(" ")[0];
   const totalComplete = daysComplete.length;
   const allDone = totalComplete === 10;
+
+  useEffect(() => {
+    fetch("/api/capstone/status")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.ok) {
+          setCompletionCert(data.completionCert);
+          setMasteryCert(data.masteryCert);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     const stored = localStorage.getItem("darkMode");
@@ -89,6 +105,28 @@ export function ProgressView({ participant }: Props) {
       day: "numeric",
       year: "numeric",
     });
+  }
+
+  async function handleIssueCert() {
+    setCertError("");
+    setIssuingCert(true);
+    try {
+      const res = await fetch("/api/certificates/issue-completion", { method: "POST" });
+      const data = await res.json();
+      if (data.ok) {
+        setCompletionCert({
+          id: data.certId ?? "",
+          verification_code: data.verificationCode,
+          issued_at: data.issuedAt,
+        });
+      } else {
+        setCertError(data.error ?? "Something went wrong. Try again.");
+      }
+    } catch {
+      setCertError("Network error. Try again.");
+    } finally {
+      setIssuingCert(false);
+    }
   }
 
   async function handleLogout() {
@@ -272,7 +310,155 @@ export function ProgressView({ participant }: Props) {
           )}
 
         </div>
+        <Separator />
 
+        <div className="py-8 pb-16">
+          <h2 className="mb-1 text-base font-medium">Your certificates</h2>
+          <p className="mb-5 text-sm text-muted-foreground">
+            Certificates are permanently verifiable via a public link.
+          </p>
+
+          <div className="flex flex-col gap-4">
+
+            {completionCert ? (
+              <div className="rounded-md border p-5 flex items-center justify-between gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Certificate of Completion</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      {"Issued " + new Date(completionCert.issued_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) + " · All 10 days completed"}
+                    </p>
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      {"Verify: "}
+                      <a
+                        href={"/verify/" + completionCert.verification_code}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[#E24B4A] hover:underline"
+                      >
+                        {"muse.bryancassady.com/verify/" + completionCert.verification_code}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="shrink-0 flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent"
+                  onClick={() => window.open("/api/certificates/download?id=" + completionCert.id, "_blank")}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+              </div>
+            ) : allDone ? (
+              <div className="rounded-md border p-5">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">Certificate of Completion</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground mb-3">
+                      You have completed all 10 days. Issue your certificate now.
+                    </p>
+                    {certError && (
+                      <p className="mb-2 text-xs text-destructive">{certError}</p>
+                    )}
+                    <button
+                      onClick={handleIssueCert}
+                      disabled={issuingCert}
+                      className="inline-flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e] disabled:opacity-60"
+                    >
+                      {issuingCert ? "Issuing..." : "Issue completion certificate"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Certificate of Completion</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">Complete all 10 days to earn this.</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {masteryCert ? (
+              <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#501313]">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-[#791F1F]">
+                      {"Issued " + new Date(masteryCert.issued_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) + " · Capstone submitted"}
+                    </p>
+                    <p className="mt-1.5 text-xs text-[#791F1F]">
+                      {"Verify: "}
+                      <a
+                        href={"/verify/" + masteryCert.verification_code}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:opacity-80"
+                      >
+                        {"muse.bryancassady.com/verify/" + masteryCert.verification_code}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  onClick={() => window.open("/api/certificates/download?id=" + masteryCert.id, "_blank")}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                  </svg>
+                  Download PDF
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">Submit your capstone project to earn this.</p>
+                  </div>
+                </div>
+                <a href="/capstone" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
+                  Go to capstone →
+                </a>
+              </div>
+            )}
+
+          </div>
+        </div>
       </main>
 
     </div>

@@ -68,6 +68,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 3,
     title: "Unlocking Innovation with AI",
     phase: "foundation",
+    
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -80,37 +81,36 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         keyTakeaway: "Creativity with AI is not about more ideas faster. It is about better ideas more consistently. The output always tells you everything about the prompt that made it.",
       },
       exercise: {
-        objective: "Apply the C.A.R. framework to a real problem",
-        doneWhen: "See how the output changed before C.A.R. and after C.A.R.",
+        objective: "See the difference C.A.R. makes yourself",
+        doneWhen: "If someone sent you Response A, would you trust them with something important? That gap is C.A.R.",
         timeMinutes: 8,
         steps: [
           {
             task: "01",
-            title: "Frame your real problem",
+            title: "Pick a real task",
             items: [
-              "Pick a problem from your day-to-day work",
-              "Frame it in your own words — one sentence",
+              "Think of one real task you need AI help with this week.",
+              "A message, a plan, a document, a pitch. Anything real.",
             ],
           },
           {
             task: "02",
-            title: "Reframe it using C.A.R.",
+            title: "Copy the prompt and fill in the brackets",
             items: [
-              "Identify the best context: who is involved, what is the tension",
-              "Define the action: a specific technique and a constraint",
-              "Plan the review: how will you rank and replace weak output",
+              "Copy the prompt below. Fill in the three brackets.",
+              "Paste it into any AI tool and hit send.",
             ],
           },
           {
             task: "03",
-            title: "Run it through AI — then audit",
+            title: "Read both responses",
             items: [
-              "Paste your C.A.R. prompt into Claude or ChatGPT",
-              "Write what changed versus what you produced without structure",
+              "Read Response A. Then read Response B.",
+              "Ask yourself: if someone sent you Response A, would you trust them with something important?",
             ],
           },
         ],
-        prompt: "I am working on [describe your problem]. The people involved are [who they are and what they care about]. The tension is [what is actually difficult about this]. Write [number] approaches using [technique — reframing / contrast / provocation]. Never use [what to ban — generic advice / obvious solutions]. Rank the results by [what matters — originality / impact / clarity]. Replace the bottom [number]. Give me the one that makes [describe the person] feel [what emotion or reaction].",
+        prompt: "I want you to respond twice to the same request.\n\nResponse A: Answer this request the way most people prompt AI. Vague. No context. Just the task: \"Give me ideas for [your task].\"\n\nResponse B: Answer using C.A.R.\nContext: The person this is for is [who will see or use this]. They care most about [one thing that matters to them].\nAction: Give me three options. Never use obvious or generic language. Push one option to feel almost uncomfortably specific.\nReview: Rank the three options. Tell me which one would actually work in real life and why in one sentence.\n\nLabel them Response A and Response B.\n\nAfter these two responses, create a simple visual comparison. Three boxes side by side. Label them A and B. Inside each box write three words only that capture the striking difference in that response. Nothing else. Make the difference impossible to miss at a glance.",
       },
     },
     advanced: {
@@ -125,41 +125,39 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         keyTakeaway: "C.A.R. and Friction are sequential, not competing. C.A.R. for consistency, every day. Friction when outputs feel almost right but not quite — that almost is the signal to build the wall. The discomfort you feel writing a Friction prompt is not a sign you are doing it wrong. It is the point.",
       },
       exercise: {
-        objective: "Apply the Friction method to an economy class travel campaign",
-        doneWhen: "Find the single line in the output that could only exist because of the constraint — the one you could not have written without the friction.",
-        timeMinutes: 5,
+        objective: "See the full journey — three outputs, one brief",
+        doneWhen: "Could anyone else, on any other day, have arrived at Response C without the constraint?",
+        timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Identify the obvious",
+            title: "Pick a real task",
             items: [
-              "Write down the 3 most predictable directions this campaign could go.",
-              "Think legroom, food, service, value — the generic answers.",
-              "These are what you will ban.",
+              "Think of one real task you need AI help with this week.",
+              "A decision, a document, a system, a message. Anything real.",
             ],
           },
           {
             task: "02",
-            title: "Pick your domain",
+            title: "Copy the prompt and fill in the brackets",
             items: [
-              "Choose one from this list — first instinct, do not overthink it:",
-              "Marathon running · Deep sea biology · Chess · Japanese tea ceremony · Cave painting",
-              "This becomes the logic you inject into the brief.",
+              "Copy the prompt below, fill in the three brackets, and paste it into any AI tool and hit send.",
             ],
           },
           {
             task: "03",
-            title: "Run it through AI — then audit",
+            title: "Read all three responses",
             items: [
-              "Use the prompt below — fill in your chosen domain before running it.",
-              "Read the output. Find the single line that could only exist because of the constraint.",
-              "That is the one that matters.",
+              "Read Response A. This is where most people stop.",
+              "Read Response B. Notice what structure does. Same AI. Same topic. Completely different output.",
+              "Read Response C. Ask yourself: could anyone else, on any other day, have arrived at this without the constraint?",
             ],
           },
         ],
-        prompt: "I am writing a campaign for economy class travel. I cannot mention comfort, legroom, food, service or value. I must use the logic and language of [your chosen domain] to reframe what economy class actually is. Write 3 campaign concepts. Push until the idea could not exist without the domain.",
+        prompt: "I want you to respond three times to the same request. Label them Response A, Response B, and Response C.\n\nResponse A: Answer this the way most people start. Just the task, nothing else: \"Help me with [your task].\"\n\nResponse B: Answer using C.A.R.\nContext: [Who is this for and what do they care about most.]\nAction: Give me three options. Never use obvious or generic language. Push one option to feel almost uncomfortably specific to this exact situation.\nReview: Rank the three options. Tell me which one would actually work in real life and why in one sentence.\n\nResponse C: Answer using Friction. Start with the same brief as Response B. Now add one constraint: ban the three most obvious words someone would use to describe [your task]. Do not use them anywhere. Then pick one unexpected domain, a sport, a natural phenomenon, a courtroom, a recipe, anything unrelated and inject its logic into the solution. Build all three options around that logic only.\n\nLabel all three clearly. Do not blend them.\n\nAfter all three responses, create a simple visual comparison. Three boxes side by side. Label them A, B, and C. Inside each box write three words only that capture the striking difference in that response. Nothing else. Make the difference impossible to miss at a glance.",
       },
     },
+
     learnMore: [
       {
         title: "Notebook LM",
