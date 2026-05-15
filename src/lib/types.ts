@@ -46,6 +46,10 @@ export interface Lesson {
   essential: LessonVideo;
   advanced: LessonVideo;
   learnMore: LearnMoreLink[];
+  sectionTitles: {
+  essential: string;
+  advanced: string;
+};
 }
 
 export interface Participant {

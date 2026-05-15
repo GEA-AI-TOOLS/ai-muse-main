@@ -150,9 +150,7 @@ export function LessonView({ participant, lesson }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <div className="flex h-7 w-7 items-center justify-center rounded bg-[#E24B4A] text-sm font-medium text-white">
-              M
-            </div>
+            <img src="/android-chrome-192x192.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
             <span className="text-base font-medium">Make AI Your Muse</span>
           </a>
           <div className="flex items-center gap-4">
@@ -265,7 +263,14 @@ export function LessonView({ participant, lesson }: Props) {
 
         {/* Essential */}
         <section id="essential" className="scroll-mt-20 py-8">
-          <h2 className="mb-4 text-xl font-semibold text-[#E24B4A]">Essential</h2>
+          <h2 className="text-xl font-semibold text-[#E24B4A]">Essential</h2>
+          {lesson.sectionTitles?.essential ? (
+            <p className="mt-0.5 mb-4 text-base font-medium text-foreground">
+              {lesson.sectionTitles.essential}
+            </p>
+          ) : (
+            <div className="mb-4" />
+          )}
           <VideoPlayer videoUrl={lesson.essential.videoUrl} />
           <SummaryBlock summary={lesson.essential.summary} />
           <div className="mt-8 mb-2 border-t pt-6">
@@ -304,6 +309,11 @@ export function LessonView({ participant, lesson }: Props) {
           >
             <div className="text-left">
               <h2 className="text-xl font-semibold text-[#E24B4A]">Advanced</h2>
+              {lesson.sectionTitles?.advanced ? (
+                <p className="mt-0.5 text-base font-medium text-foreground">
+                  {lesson.sectionTitles.advanced}
+                </p>
+              ) : null}
               <p className="mt-0.5 text-sm text-muted-foreground">
                 Optional. Go deeper when you have time.
               </p>

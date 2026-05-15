@@ -236,9 +236,7 @@ export function CapstoneView({ participant }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <div className="flex h-7 w-7 items-center justify-center rounded bg-[#E24B4A] text-sm font-medium text-white">
-              M
-            </div>
+            <img src="/android-chrome-192x192.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
             <span className="text-base font-medium">Make AI Your Muse</span>
           </a>
           <div className="flex items-center gap-4">

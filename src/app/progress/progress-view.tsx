@@ -144,9 +144,7 @@ export function ProgressView({ participant }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <div className="flex h-6 w-6 items-center justify-center rounded bg-[#E24B4A] text-xs font-medium text-white">
-              M
-            </div>
+            <img src="/android-chrome-192x192.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
             <span className="text-sm font-medium">Make AI Your Muse</span>
           </a>
           <div className="flex items-center gap-3">
@@ -451,9 +449,18 @@ export function ProgressView({ participant }: Props) {
                     <p className="mt-0.5 text-xs text-muted-foreground">Submit your capstone project to earn this.</p>
                   </div>
                 </div>
-                <a href="/capstone" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
-                  Go to capstone →
-                </a>
+                {allDone ? (
+                  <a href="/capstone" className="shrink-0 text-sm text-[#E24B4A] hover:underline">
+                    Go to capstone →
+                  </a>
+                ) : (
+                  <div className="shrink-0 text-right">
+                    <span className="text-sm text-muted-foreground opacity-50 cursor-not-allowed">
+                      Go to capstone →
+                    </span>
+                    <p className="text-xs text-muted-foreground mt-0.5">Complete all 10 days first</p>
+                  </div>
+                )}
               </div>
             )}
 

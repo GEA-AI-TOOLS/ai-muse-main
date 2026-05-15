@@ -15,7 +15,7 @@ export default async function TodayPage() {
 
   const { participant } = participantRes;
 
-  if (participant.status === "completed") {
+  if ((participant.daysComplete ?? []).length === 10) {
     redirect("/capstone");
   }
 

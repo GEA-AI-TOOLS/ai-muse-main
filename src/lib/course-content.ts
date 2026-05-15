@@ -26,6 +26,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 1,
     title: "What is AI",
     phase: "foundation",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -47,6 +51,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 2,
     title: "The Human Element",
     phase: "foundation",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -68,6 +76,11 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 3,
     title: "Unlocking Innovation with AI",
     phase: "foundation",
+
+    sectionTitles: {
+      essential: "Ideas with AI: The C.A.R. Framework",
+      advanced: "The Friction Framework",
+    },
     
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
@@ -181,6 +194,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 4,
     title: "How We Use AI Wrong",
     phase: "foundation",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -202,6 +219,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 5,
     title: "Speak It Out",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -223,6 +244,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 6,
     title: "Pivot Roles",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -244,6 +269,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 7,
     title: "Ask for More",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -265,6 +294,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 8,
     title: "Reframe",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -286,6 +319,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 9,
     title: "Keep Going",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
@@ -307,6 +344,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 10,
     title: "Stop and Think",
     phase: "sparks",
+    sectionTitles: {
+      essential: "",
+      advanced: "",
+    },
     essential: {
       videoUrl: "https://player.vimeo.com/video/76979871",
       durationSeconds: 600,
