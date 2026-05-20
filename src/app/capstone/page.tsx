@@ -8,7 +8,7 @@ export default async function CapstonePage() {
   const { participant } = await getParticipant();
 
   // Lock capstone until all 10 days are marked done
-  if (participant.daysComplete.length < 10) {
+  if ((participant.daysComplete ?? []).length < 10) {
     redirect("/progress");
   }
 

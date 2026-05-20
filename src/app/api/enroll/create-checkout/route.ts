@@ -2,10 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabase } from "@/lib/supabase";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
 export async function POST(req: NextRequest) {
+
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return NextResponse.json({ ok: false, error: "Stripe not configured." }, { status: 500 });
+  }
+  if (!process.env.STRIPE_PRICE_ID) {
+    return NextResponse.json({ ok: false, error: "Price ID not configured." }, { status: 500 });
+  }
+
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  
   const body = await req.json();
   const { email } = body;
 

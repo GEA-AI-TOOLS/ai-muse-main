@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const hasPhone = enrollment.phone && enrollment.phone.trim().length > 0;
+  const hasPhone = !!(enrollment.phone && enrollment.phone.trim().length > 0);
 
   // --- Validate email OTP ---
 
@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
 
   // --- Both valid — mark as verified ---
 
-  await supabase
+  const { error: updateError } = await supabase
     .from("pending_enrollments")
     .update({
       status: "verified",
@@ -141,6 +141,14 @@ export async function POST(req: NextRequest) {
       whatsapp_reminders: hasPhone && !!whatsappOtp,
     })
     .eq("id", enrollment.id);
+
+  if (updateError) {
+    console.error("Failed to update enrollment status:", updateError);
+    return NextResponse.json(
+      { ok: false, error: "Verification failed. Try again." },
+      { status: 500 }
+    );
+  }
 
   return NextResponse.json({ ok: true });
 }

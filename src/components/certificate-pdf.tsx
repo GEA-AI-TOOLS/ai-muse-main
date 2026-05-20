@@ -343,7 +343,7 @@ export function CertificatePDF({
 
           {/* Centre — verification */}
           <View style={s.centerVerify}>
-            <Text style={s.verifyUrl}>muse.bryancassady.com/verify</Text>
+            <Text style={s.verifyUrl}>sparks.bryancassady.com/verify</Text>
             <Text style={s.verifyCode}>{verificationCode}</Text>
           </View>
 
