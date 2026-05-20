@@ -84,7 +84,7 @@ export default async function VerifyPage({ params }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <img src="/android-chrome-192x192.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
+            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
             <span className="text-base font-medium">Make AI Your Muse</span>
           </div>
           <span className="text-xs text-muted-foreground">Certificate verification</span>

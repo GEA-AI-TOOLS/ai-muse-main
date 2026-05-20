@@ -20,9 +20,17 @@ export async function GET(req: NextRequest) {
       return res;
     }
 
+    // Fetch real participant id from DB using auth token
+    const authToken = req.cookies.get("auth")?.value;
+    let realId = "from-session";
+    if (authToken) {
+      const participantId = await validateSessionToken(authToken);
+      if (participantId) realId = participantId;
+    }
+
     return NextResponse.json({
       participant: {
-        id: "from-session",
+        id: realId,
         name: sessionData.name,
         email: sessionData.email,
         cohortId: sessionData.cohortId,

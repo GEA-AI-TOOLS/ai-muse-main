@@ -22,12 +22,46 @@ const TIMEZONES = [
   { value: "Australia/Sydney", label: "Sydney (GMT+10)" },
 ];
 
+const COUNTRY_CODES = [
+  { code: "+1", label: "🇺🇸 +1" },
+  { code: "+44", label: "🇬🇧 +44" },
+  { code: "+32", label: "🇧🇪 +32" },
+  { code: "+33", label: "🇫🇷 +33" },
+  { code: "+49", label: "🇩🇪 +49" },
+  { code: "+31", label: "🇳🇱 +31" },
+  { code: "+34", label: "🇪🇸 +34" },
+  { code: "+39", label: "🇮🇹 +39" },
+  { code: "+41", label: "🇨🇭 +41" },
+  { code: "+971", label: "🇦🇪 +971" },
+  { code: "+91", label: "🇮🇳 +91" },
+  { code: "+65", label: "🇸🇬 +65" },
+  { code: "+81", label: "🇯🇵 +81" },
+  { code: "+61", label: "🇦🇺 +61" },
+  { code: "+27", label: "🇿🇦 +27" },
+  { code: "+55", label: "🇧🇷 +55" },
+  { code: "+52", label: "🇲🇽 +52" },
+];
+
 function detectTimezone(): string {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone;
   } catch {
     return "Europe/London";
   }
+}
+
+// Validate phone number is E.164 compatible (digits only, 7-15 digits)
+function validatePhoneNumber(dialCode: string, number: string): string | null {
+  const digits = number.replace(/\D/g, "");
+  if (digits.length < 7 || digits.length > 15) {
+    return "Enter a valid phone number (7–15 digits).";
+  }
+  return null;
+}
+
+function buildE164(dialCode: string, number: string): string {
+  const digits = number.replace(/\D/g, "");
+  return dialCode + digits;
 }
 
 export function EnrollForm() {
@@ -38,7 +72,9 @@ export function EnrollForm() {
   // Form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [wantsWhatsapp, setWantsWhatsapp] = useState(false);
+  const [dialCode, setDialCode] = useState("+1");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [timezone, setTimezone] = useState(detectTimezone());
 
   // OTP fields
@@ -49,6 +85,17 @@ export function EnrollForm() {
   async function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    let phone = "";
+    if (wantsWhatsapp) {
+      const phoneError = validatePhoneNumber(dialCode, phoneNumber);
+      if (phoneError) {
+        setError(phoneError);
+        return;
+      }
+      phone = buildE164(dialCode, phoneNumber);
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/enroll/submit", {
@@ -88,7 +135,6 @@ export function EnrollForm() {
       if (!data.ok) {
         setError(data.error ?? "Incorrect or expired code.");
       } else {
-        // Both verified — create Stripe checkout session
         const checkoutRes = await fetch("/api/enroll/create-checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -113,9 +159,7 @@ export function EnrollForm() {
       <div className="w-full max-w-sm">
 
         <div className="mb-8 flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded bg-[#E24B4A] text-sm font-medium text-white">
-            M
-          </div>
+          <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
           <span className="text-sm font-medium">Make AI Your Muse</span>
         </div>
 
@@ -123,18 +167,14 @@ export function EnrollForm() {
         <div className="mb-6 flex items-center gap-2">
           <div className={
             "flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-medium " +
-            (step === "form"
-              ? "bg-[#E24B4A] text-white"
-              : "bg-[#E24B4A] text-white")
+            (step === "form" ? "bg-[#E24B4A] text-white" : "bg-[#E24B4A] text-white")
           }>
             {step === "verify" ? "✓" : "1"}
           </div>
           <div className="h-px flex-1 bg-border" />
           <div className={
             "flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-medium " +
-            (step === "verify"
-              ? "bg-[#E24B4A] text-white"
-              : "border border-border text-muted-foreground")
+            (step === "verify" ? "bg-[#E24B4A] text-white" : "border border-border text-muted-foreground")
           }>
             2
           </div>
@@ -176,23 +216,59 @@ export function EnrollForm() {
                   required
                 />
               </div>
-              <div>
-                <label className="mb-1 block text-xs text-muted-foreground">
-                  WhatsApp number
-                  <span className="ml-1 text-muted-foreground/60">(optional)</span>
+
+              {/* WhatsApp checkbox */}
+              <div className="rounded-md border bg-muted/20 px-4 py-3">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={wantsWhatsapp}
+                    onChange={(e) => {
+                      setWantsWhatsapp(e.target.checked);
+                      if (!e.target.checked) setPhoneNumber("");
+                    }}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border accent-[#E24B4A]"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">Get WhatsApp reminders</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      People who get a WhatsApp nudge are significantly more likely to finish. It takes 10 seconds to set up.
+                    </p>
+                  </div>
                 </label>
-                <Input
-                  type="tel"
-                  placeholder="+1 234 567 8900"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-                {phone.trim().length > 0 && (
-                  <p className="mt-1.5 text-xs text-muted-foreground">
-                    You will receive daily lesson reminders on WhatsApp.
-                  </p>
+
+                {wantsWhatsapp && (
+                  <div className="mt-3 border-t pt-3">
+                    <label className="mb-1.5 block text-xs text-muted-foreground">
+                      WhatsApp number
+                    </label>
+                    <div className="flex gap-2">
+                      <select
+                        value={dialCode}
+                        onChange={(e) => setDialCode(e.target.value)}
+                        className="w-28 shrink-0 rounded-md border bg-background px-2 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                      >
+                        {COUNTRY_CODES.map((c) => (
+                          <option key={c.code} value={c.code}>
+                            {c.label}
+                          </option>
+                        ))}
+                      </select>
+                      <Input
+                        type="tel"
+                        placeholder="612 345 678"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value.replace(/[^\d\s\-]/g, ""))}
+                        required={wantsWhatsapp}
+                      />
+                    </div>
+                    <p className="mt-1.5 text-xs text-muted-foreground">
+                      Enter your number without the country code.
+                    </p>
+                  </div>
                 )}
               </div>
+
               <div>
                 <label className="mb-1 block text-xs text-muted-foreground">
                   Your timezone
@@ -213,7 +289,7 @@ export function EnrollForm() {
 
               <div className="rounded-md bg-muted/40 px-4 py-3 text-xs text-muted-foreground">
                 You will receive daily lessons and reminders by email.
-                {phone.trim().length > 0
+                {wantsWhatsapp
                   ? " WhatsApp reminders will also be sent to the number above."
                   : " Add a WhatsApp number above to also get reminders there."}
               </div>
@@ -245,7 +321,6 @@ export function EnrollForm() {
                 : "We sent a code to " + email + "."}
             </p>
             <form onSubmit={handleVerifySubmit} className="space-y-4">
-
               <div>
                 <label className="mb-1 block text-xs text-muted-foreground">
                   Email code

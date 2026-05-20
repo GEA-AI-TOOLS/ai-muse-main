@@ -12,6 +12,7 @@ const PUBLIC_PATHS = [
   "/api/account",
   "/verify",
   "/waiting",
+  "/assets",
 ];
 
 export async function proxy(req: NextRequest) {

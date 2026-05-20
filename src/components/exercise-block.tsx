@@ -136,9 +136,15 @@ function PromptBox({
             target="_blank"
             rel="noreferrer"
             className="rounded border px-3 py-1.5 text-xs hover:bg-accent"
+            title="Prompt copied — just paste when Gemini opens"
           >
             Gemini ↗
           </a>
+        )}
+        {geminiUrl && (
+          <p className="mt-2 text-[10px] text-muted-foreground">
+            Gemini: prompt copied automatically — just paste when it opens.
+          </p>
         )}
       </div>
     </div>

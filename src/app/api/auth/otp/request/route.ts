@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
   }
 
   if (participant.revoked || participant.status === "inactive") {
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: false, revoked: true });
   }
 
   const otp = generateOtp();

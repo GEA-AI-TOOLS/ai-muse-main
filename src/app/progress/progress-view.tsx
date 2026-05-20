@@ -114,11 +114,18 @@ export function ProgressView({ participant }: Props) {
       const res = await fetch("/api/certificates/issue-completion", { method: "POST" });
       const data = await res.json();
       if (data.ok) {
-        setCompletionCert({
-          id: data.certId ?? "",
-          verification_code: data.verificationCode,
-          issued_at: data.issuedAt,
-        });
+        // Re-fetch status to get the full cert object with real id
+        const statusRes = await fetch("/api/capstone/status");
+        const statusData = await statusRes.json();
+        if (statusData.ok && statusData.completionCert) {
+          setCompletionCert(statusData.completionCert);
+        } else {
+          setCompletionCert({
+            id: data.certId ?? "",
+            verification_code: data.verificationCode,
+            issued_at: data.issuedAt,
+          });
+        }
       } else {
         setCertError(data.error ?? "Something went wrong. Try again.");
       }
@@ -144,7 +151,7 @@ export function ProgressView({ participant }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <img src="/android-chrome-192x192.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
+            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
             <span className="text-sm font-medium">Make AI Your Muse</span>
           </a>
           <div className="flex items-center gap-3">
@@ -236,11 +243,29 @@ export function ProgressView({ participant }: Props) {
 
         <Separator />
 
+        {/* Course overview card */}
+        <div className="py-4">
+          <a
+            href="/welcome"
+            className="flex items-center justify-between rounded-md border bg-muted/30 px-4 py-3 hover:bg-muted/50 transition-colors"
+          >
+            <div>
+              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-0.5">
+                Course overview
+              </p>
+              <p className="text-sm font-medium">Before you begin — read this once</p>
+            </div>
+            <span className="text-xs text-muted-foreground shrink-0">Read →</span>
+          </a>
+        </div>
+
+        <Separator />
+
         {/* Today card or capstone card */}
         <div className="py-4">
           {allDone ? (
             <CapstoneCard />
-          ) : currentDay <= 10 ? (
+          ) : currentDay >= 1 && currentDay <= 10 ? (
             <TodayCard
               day={currentDay}
               isDone={daysComplete.includes(currentDay)}

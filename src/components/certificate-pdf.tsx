@@ -169,6 +169,7 @@ const s = StyleSheet.create({
     fontSize: 54,
     color: BRAND.ink,
     fontStyle: "italic",
+    marginTop: 16,
     marginBottom: 8,
     letterSpacing: -0.5,
     fontFamily: "Cormorant Garamond",
