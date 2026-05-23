@@ -22,9 +22,10 @@ function encodePromptUrl(base: string, prompt: string): string {
 interface Props {
   participant: Participant;
   lesson: Lesson;
+  section?: string;
 }
 
-export function LessonView({ participant, lesson }: Props) {
+export function LessonView({ participant, lesson, section }: Props) {
   const [activeSection, setActiveSection] = useState<SectionId>("essential");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -42,6 +43,16 @@ export function LessonView({ participant, lesson }: Props) {
       document.documentElement.classList.add("dark");
     }
   }, []);
+
+  useEffect(() => {
+    if (!section) return;
+    const el = document.getElementById(section);
+    if (!el) return;
+    const timer = setTimeout(() => {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [section]);
 
   function toggleDarkMode() {
     const next = !darkMode;

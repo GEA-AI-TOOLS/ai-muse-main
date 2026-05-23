@@ -5,9 +5,10 @@ import { LessonView } from "./lesson-view";
 
 interface PageProps {
   params: Promise<{ day: string }>;
+  searchParams: Promise<{ s?: string }>;
 }
 
-export default async function LessonPage({ params }: PageProps) {
+export default async function LessonPage({ params, searchParams }: PageProps) {
   const { day: dayParam } = await params;
   const day = Number(dayParam);
 
@@ -34,7 +35,7 @@ export default async function LessonPage({ params }: PageProps) {
     redirect("/progress");
   }
 
-  return <LessonView participant={participant} lesson={lesson} />;
-}
+  const { s } = await searchParams;
+  return <LessonView participant={participant} lesson={lesson} section={s} />;}
 
 export const dynamic = "force-dynamic";

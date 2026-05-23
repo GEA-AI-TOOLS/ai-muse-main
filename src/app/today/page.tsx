@@ -2,7 +2,11 @@ import { redirect } from "next/navigation";
 import { getParticipant, N8nError } from "@/lib/n8n";
 import { supabase } from "@/lib/supabase";
 
-export default async function TodayPage() {
+export default async function TodayPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ s?: string }>;
+}) {
   let participantRes;
 
   try {
@@ -36,5 +40,6 @@ export default async function TodayPage() {
     redirect("/waiting");
   }
 
-  redirect("/lesson/" + String(participant.currentDay));
+  const { s } = await searchParams;
+  redirect("/lesson/" + String(participant.currentDay) + (s ? "?s=" + s : ""));
 }
