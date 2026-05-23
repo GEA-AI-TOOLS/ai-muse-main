@@ -6,7 +6,7 @@ export type LearnMoreType = "article" | "tool" | "video" | "other";
 export interface SummarySection {
   coreIdea: string;
   science: string;
-  numbers: string;
+  fact: string;
   framework: string;
   example: string;
   keyTakeaway: string;

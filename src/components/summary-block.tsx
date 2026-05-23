@@ -7,8 +7,8 @@ const ROWS: {
 }[] = [
   { key: "coreIdea", label: "Core idea", highlight: true },
   { key: "science", label: "The science", highlight: false },
-  { key: "numbers", label: "The numbers", highlight: false },
-  { key: "framework", label: "The framework", highlight: false },
+  { key: "fact", label: "Myth or fact", highlight: false },
+  { key: "framework", label: "The Framework / Mechanism", highlight: false },
   { key: "example", label: "Example", highlight: false },
   { key: "keyTakeaway", label: "Key takeaway", highlight: true },
 ];
