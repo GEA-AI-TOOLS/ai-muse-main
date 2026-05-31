@@ -159,7 +159,7 @@ export function WelcomeView({ participant }: Props) {
         <div className="py-8 border-b">
           <div className="aspect-video overflow-hidden rounded-md bg-black">
             <iframe
-              src="https://player.vimeo.com/video/76979871"
+              src="https://player.vimeo.com/video/502671331"
               className="h-full w-full"
               allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen

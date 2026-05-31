@@ -28,6 +28,7 @@ export interface Exercise {
 
 export interface LessonVideo {
   videoUrl: string;
+  slideUrl?: string;
   durationSeconds: number;
   summary: SummarySection;
   exercise: Exercise;
