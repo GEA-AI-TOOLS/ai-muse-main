@@ -282,7 +282,7 @@ export function LessonView({ participant, lesson, section }: Props) {
           ) : (
             <div className="mb-4" />
           )}
-          <VideoPlayer videoUrl={lesson.essential.videoUrl} />
+          <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
           <SummaryBlock summary={lesson.essential.summary} />
           <div className="mt-8 mb-2 border-t pt-6">
             <h3 className="text-base font-semibold">Exercise</h3>
@@ -396,7 +396,19 @@ export function LessonView({ participant, lesson, section }: Props) {
   );
 }
 
-function VideoPlayer({ videoUrl }: { videoUrl: string }) {
+function VideoPlayer({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: string }) {
+  if (slideUrl) {
+    return (
+      <div className="aspect-video overflow-hidden rounded-md bg-black">
+        <iframe
+          src={slideUrl}
+          className="h-full w-full"
+          allow="fullscreen"
+          allowFullScreen
+        />
+      </div>
+    );
+  }
   return (
     <div className="aspect-video overflow-hidden rounded-md bg-black">
       <iframe

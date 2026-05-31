@@ -159,12 +159,24 @@ export function WelcomeView({ participant }: Props) {
         <div className="py-8 border-b">
           <div className="aspect-video overflow-hidden rounded-md bg-black">
             <iframe
-              src="https://player.vimeo.com/video/76979871"
+              src="https://player.vimeo.com/video/502671331"
               className="h-full w-full"
               allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
             />
           </div>
+        </div>
+
+        {/* AI assessment prompt */}
+        <div className="py-8 border-b">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">
+            Before Day 1
+          </p>
+          <h2 className="text-xl font-medium mb-2">Know where you start</h2>
+          <p className="text-sm text-muted-foreground mb-4">
+            Run this prompt in any AI tool before the course begins. It gives you a baseline of how you currently work with AI. You will run a second assessment after Day 10.
+          </p>
+          <AssessmentPrompt />
         </div>
 
         {/* Content sections */}
@@ -232,4 +244,151 @@ export function WelcomeView({ participant }: Props) {
 
     </div>
   );
+
+  function AssessmentPrompt() {
+    const [expanded, setExpanded] = useState(false);
+    const [copied, setCopied] = useState(false);
+
+    const prompt = `You are an AI Collaboration Assessor built on the SPARKS framework by Bryan Cassady.
+Bryan Cassady helps leaders move from AI hype to impact. General information: www.bryancassady.com SPARKS information: www.bryancassady.com/sparks/ Run your own assessment: www.bryancassady.com/aiinsights/
+Your job is to analyze how I currently work with AI, give me an honest scored profile, and show me exactly how to close the gaps.
+Base everything on visible evidence. Do not invent patterns you cannot see. Do not inflate scores. Do not shame low scores.
+The final output has three parts:
+A detailed AI Collaboration Profile
+A viral one-page share card in SVG
+A detailed one-page diagnostic SVG report
+STEP 1. CHECK CHAT HISTORY BY DEFAULT.
+First, check whether you can see my recent AI conversation history or usage patterns.
+If you can see chat history, use it by default.
+Look across at least the past 2 weeks of visible interaction history where available.
+Look for evidence of:
+How I prompt AI
+Whether I speak with AI or only type short commands
+How often I iterate
+Whether I use AI for output, thinking, strategy, critique, learning, or building
+Whether I ask AI to challenge assumptions
+Whether I define success criteria before asking for output
+Whether I reframe tasks
+Whether I verify or judge quality before finishing
+Then tell me this in one sentence:
+"I can see enough recent AI interaction history to create a grounded assessment."
+Then ask:
+"Roughly how many times per week do you use AI across all tools?
+A. Less than 3 times a week B. 3 to 10 times a week C. 10 to 30 times a week D. More than 30 times a week"
+Wait for my answer before continuing.
+If you cannot see at least 2 weeks of recent chat history, say this:
+"I cannot see enough recent AI interaction history to score you accurately."
+Then ask this exactly and wait for my full response:
+"I need to see how you actually use AI before I can score you accurately. Please give me 3 real examples from your recent work. For each one tell me:
+What you asked AI
+What AI gave you
+What you did next
+Also tell me roughly how many times per week you use AI across all tools:
+A. Less than 3 times a week B. 3 to 10 times a week C. 10 to 30 times a week D. More than 30 times a week"
+Do not score until you have real evidence and a frequency answer.
+If examples are too vague, say so and ask for more detail.
+STEP 2. ASSESS EVIDENCE QUALITY.
+Before scoring, note internally:
+How much evidence do you have?
+Use this standard:
+Solid:
+At least 2 weeks of visible chat history, or
+3 or more specific examples with enough detail
+Provisional:
+Less than 2 weeks of visible history, or
+Fewer than 3 examples, or
+Thin examples without enough detail
+Do not show your internal reasoning. Only show the final Evidence Confidence label.
+STEP 3. USAGE INTENSITY.
+Use the frequency answer to assign one label.
+Low: Less than 3 times a week. AI is occasional. Moderate: 3 to 10 times a week. AI is a regular tool. High: 10 to 30 times a week. AI is part of the daily workflow. Power User: More than 30 times a week. AI is constant. Risk is speed without quality.
+Note: High frequency does not mean high collaboration quality. A Power User with a low score is your most important profile to name directly but without shame.
+STEP 4. SCORE ACROSS TWO DIMENSIONS.
+Total score is out of 100.
+A. AI USE DIVERSITY: 40 points
+Score visible use across 8 modes. Each mode is worth 0 to 5 points.
+0 = no evidence 1 = weak evidence 3 = some evidence 5 = strong evidence
+Output Mode. Drafts, rewrites, summarizes, formats, edits.
+Research Mode. Explores, compares, synthesizes, explains options.
+Coach Mode. Asks AI to ask questions, clarify thinking, guide reflection.
+Critic Mode. Asks AI to challenge assumptions, find risks, stress-test ideas.
+Strategy Mode. Uses AI to compare options, evaluate trade-offs, make decisions.
+Builder Mode. Creates tools, workflows, templates, automations, processes.
+Muse Mode. Uses AI for reframes, metaphors, creative leaps, alternative angles.
+Learning Mode. Uses AI to explain, tutor, simulate practice, build skill.
+B. SPARKS TECHNIQUE SCORE: 60 points
+Score six behaviors. Each behavior is worth 0 to 10 points.
+0 = no evidence 3 = occasional or weak evidence 5 = decent but inconsistent 8 = strong and repeated 10 = excellent and systematic
+Speak With AI. Uses AI as a thinking partner by speaking with AI, not just typing short commands.
+Pivot Roles. Asks AI to act as critic, coach, customer, strategist, skeptic, editor, teacher, interviewer, or other useful role.
+Ask for More. Pushes past the first answer for depth, alternatives, sharper versions, examples, or stronger reasoning.
+Reframe. Changes the problem definition, audience, assumption, constraint, success measure, or angle.
+Keep Going. Iterates until the work genuinely improves, not just until it looks finished.
+Stop and Think. Checks quality, verifies assumptions, decides what good means, or asks for evaluation before finishing.
+STEP 5. GIVE THREE HEADLINE NUMBERS.
+Current Collaboration Score: __ / 100 Near-Term Potential: __ / 100 Breakthrough Gap: __ points
+STEP 6. ASSIGN A PROFILE LABEL.
+0 to 24: Fast Starter. 25 to 44: Fast Producer. 45 to 64: Practical Operator. 65 to 79: AI Steerer. 80 to 89: AI Co-Builder. 90 to 100: AI Muse.
+STEP 7. ASSIGN A SPARKS PROFILE PAIR.
+STEP 8. GENERATE THE DETAILED PROFILE.`;
+
+      const preview = prompt.slice(0, 300);
+
+      function handleCopy() {
+        navigator.clipboard.writeText(prompt).then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        });
+      }
+
+      return (
+        <div className="rounded-md border border-dashed bg-muted/40 p-4">
+          <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground">
+            Assessment prompt
+          </p>
+          <div className="relative">
+            <p className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
+              {expanded ? prompt : preview + "..."}
+            </p>
+            {!expanded && (
+              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-muted/40 to-transparent" />
+            )}
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs hover:bg-accent"
+            >
+              {expanded ? "Show less" : "Show full prompt"}
+            </button>
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs hover:bg-accent"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              {copied ? "Copied!" : "Copy prompt"}
+            </button>
+            <a
+              href="https://chatgpt.com"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded border px-3 py-1.5 text-xs hover:bg-accent"
+            >
+              Open ChatGPT ↗
+            </a>
+            <a
+              href="https://claude.ai/new"
+              target="_blank"
+              rel="noreferrer"
+              className="rounded border px-3 py-1.5 text-xs hover:bg-accent"
+            >
+              Open Claude ↗
+            </a>
+          </div>
+        </div>
+      );
+    }
 }

@@ -68,6 +68,7 @@ export function EnrollForm() {
   const [step, setStep] = useState<Step>("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [lastName, setLastName] = useState("");
 
   // Form fields
   const [name, setName] = useState("");
@@ -101,7 +102,7 @@ export function EnrollForm() {
       const res = await fetch("/api/enroll/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, timezone }),
+        body: JSON.stringify({ name, lastName, email, phone, timezone }),
       });
       const data = await res.json();
       if (!data.ok) {
@@ -191,18 +192,32 @@ export function EnrollForm() {
               10 days. 10 minutes a day. One skill that changes how you work with AI.
             </p>
             <form onSubmit={handleFormSubmit} className="space-y-3">
-              <div>
-                <label className="mb-1 block text-xs text-muted-foreground">
-                  Full name
-                </label>
-                <Input
-                  type="text"
-                  placeholder="Sarah Chen"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  autoFocus
-                />
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <label className="mb-1 block text-xs text-muted-foreground">
+                    First name
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Sarah"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    autoFocus
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="mb-1 block text-xs text-muted-foreground">
+                    Last name
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Chen"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
               </div>
               <div>
                 <label className="mb-1 block text-xs text-muted-foreground">

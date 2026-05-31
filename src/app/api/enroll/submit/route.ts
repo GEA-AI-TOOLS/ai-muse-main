@@ -7,7 +7,7 @@ const OTP_EXPIRY_MINUTES = 10;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, email, phone, timezone } = body;
+  const { name, lastName, email, phone, timezone } = body;
 
   if (!name || !email || !timezone) {
     return NextResponse.json(
@@ -57,6 +57,7 @@ export async function POST(req: NextRequest) {
     .from("pending_enrollments")
     .insert({
       name: name.trim(),
+      last_name: lastName?.trim() ?? null,
       email: cleanEmail,
       phone: cleanPhone,
       timezone,

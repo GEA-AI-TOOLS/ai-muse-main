@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { supabase } from "@/lib/supabase";
 import { sendWelcomeEmail } from "@/lib/email";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+let stripe: Stripe;
 
 function getUpcomingMonday(fromDate: Date): Date {
   const date = new Date(fromDate);
@@ -23,6 +23,7 @@ function formatCohortId(monday: Date): string {
 }
 
 export async function POST(req: NextRequest) {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
 
@@ -104,6 +105,7 @@ const session = event.data.object as Stripe.Checkout.Session;
     .insert({
       cohort_id: cohortId,
       name: enrollment.name,
+      last_name: enrollment.last_name ?? null,
       email: enrollment.email,
       phone: enrollment.phone,
       timezone: enrollment.timezone,
