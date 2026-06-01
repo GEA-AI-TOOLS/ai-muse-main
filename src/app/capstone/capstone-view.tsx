@@ -286,7 +286,7 @@ export function CapstoneView({ participant }: Props) {
     window.location.href = "/login";
   }
 
-  const supportEmail = "mailto:support.muse@bryancassady.com?subject=Capstone%20help";
+  const supportEmail = "mailto:hari@bryancassady.com?subject=Capstone%20help";
   const currentPlatform = PLATFORMS.find((p) => p.id === activePlatform)!;
   const currentSteps = PLATFORM_STEPS[activePlatform];
 

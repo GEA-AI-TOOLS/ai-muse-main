@@ -133,7 +133,7 @@ export function LessonView({ participant, lesson, section }: Props) {
   }
 
   const phaseLabel = lesson.phase === "foundation" ? "Foundation" : "SPARKS";
-  const supportEmail = "mailto:support.muse@bryancassady.com?subject=Help%20with%20Day%20" + String(lesson.day);
+  const supportEmail = "mailto:hari@bryancassady.com?subject=Help%20with%20Day%20" + String(lesson.day);
 
   // Build LLM URLs from prompt if present
   function getLlmUrls(prompt: string | null) {
@@ -403,7 +403,7 @@ function VideoPlayer({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: stri
         <iframe
           src={videoUrl}
           className="h-full w-full"
-          allow="autoplay; fullscreen; picture-in-picture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
         />
       </div>

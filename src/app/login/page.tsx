@@ -260,7 +260,7 @@ export default function LoginPage() {
                 <div className="rounded-md border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
                   {"Your access has been revoked. "}
                   <a
-                    href="mailto:support.muse@bryancassady.com"
+                    href="mailto:hari@bryancassady.com"
                     className="underline hover:opacity-80"
                   >
                     Contact support

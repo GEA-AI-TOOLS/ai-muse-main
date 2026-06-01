@@ -33,7 +33,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/4598hpYrCiw?si=5BrpJrzafRIuI7pI?rel=0",
       slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%201%20_%20Intro%20+%20lesson%201.pdf",
       durationSeconds: 600,
       summary: {
@@ -71,6 +71,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             items: [
               "Copy the prompt below and paste it into any AI tool.",
               "Fill in the brackets first. If you leave any blank, let the AI ask you one question at a time.",
+              "Reject what dosen't fit",
             ],
           },
         ],
@@ -79,7 +80,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/AjcFQvpGRtA?si=9TOX-ADndFfxIcDa?rel=0",
       slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/66_V2_Full_Course_week1.pdf",
       durationSeconds: 840,
       summary: {
@@ -100,13 +101,14 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             title: "Describe the situation",
             items: [
               "Write what is going wrong in one to three sentences.",
-              "Be specific about the business problem, not the AI tool.",
+              "Be specific about the business problem, not the solution",
             ],
           },
           {
             task: "02",
-            title: "Name the obvious solution",
+            title: "Define the objective & name the obvious solution",
             items: [
+              "Define the objective in one sentence.",
               "Write the default fix people are already pushing for.",
               "Do not assume it is the right answer yet.",
             ],
@@ -125,9 +127,13 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     learnMore: [
-      { title: "Notebook LM", url: "http://tiny.cc/notebook_day1", type: "tool" },
-      { title: "NotebookLM podcast", url: "http://tiny.cc/notebookLM_pod_day1", type: "video" },
-      { title: "Video", url: "http://tiny.cc/day1_video", type: "video" },
+      { title: "NotebookLM", url: "http://tiny.cc/notebookLM_2", type: "tool" },
+      { title: "Article", url: "http://tiny.cc/day2_article", type: "article" },
+      { title: "Notebook LM", url: "http://tiny.cc/notebook_1", type: "tool" },
+      { title: "Read more on problem definition — Chapters 11 in CYCLES and 10 in The Generative Organization", url: "https://www.books.genorg.ai", type: "article" },
+      { title: "TED x Salford — What is the one thing to teach if you teach one thing", url: "https://youtu.be/aFnS3SVXFpY", type: "video" },
+      { title: "Notebook LM: Using AI — Objectives or Tools First", url: "https://notebooklm.google.com/notebook/9479de63-ed47-4bd9-8269-685fb6580d5a?authuser=2", type: "tool" },
+      { title: "Bonus: Literature reviews — Effective Usage of AI and Training Methods (HR managers)", url: "https://shares.showellapp.com/3KY2GPTzxunwQdJ740hBysNn", type: "other" },
     ],
   },
 
@@ -138,11 +144,11 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     sectionTitles: {
       essential: "The Human Element",
-      advanced: "",
+      advanced: "How to become an expert in anything fast with AI​",
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/n3weKsZ7z5E?si=Uq_HU_oqqvkcePfd?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHHARdm2cA/prVLoULVFaTxozUgAQ9e4w/view?embed",
       durationSeconds: 600,
       summary: {
@@ -154,40 +160,29 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         keyTakeaway: "Amplifiers magnify what you bring. Brilliance or noise. Brain first, bot second. Experts catch what AI misses. Your knowledge is the multiplier, not the tool.",
       },
       exercise: {
-        objective: "Use AI to extend your thinking, not replace it",
+        objective: "Do the same thing as before (in lesson exercise) but upload a context file of your company/work",
         doneWhen: "You have written your own take, identified your gaps, used AI only on those gaps, and refined the result yourself.",
         timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Think first",
+            title: "Think first + Add reference files",
             items: [
-              "Pick one task you are working on this week.",
-              "Write your own take. No AI. No Google. Three to five sentences.",
+              "Run the same exercise as the inclass exercise but add your problelm's context files.",
             ],
           },
           {
             task: "02",
-            title: "Identify your gaps",
+            title: "Run this promt again",
             items: [
-              "Write down two things you are uncertain about.",
-              "Name what would take long to verify or what you are not confident about.",
+              "Run this prompt again and fill the blanks as necessary.",
             ],
           },
           {
             task: "03",
-            title: "Delegate precisely",
+            title: "Evaluate the difference",
             items: [
-              "Open AI and paste the prompt below.",
-              "Fill in every bracket before you send it.",
-            ],
-          },
-          {
-            task: "04",
-            title: "Judge and refine",
-            items: [
-              "Read every point AI gives you.",
-              "Keep what connects to your context. Cut what does not.",
+              "Compare the results from before and now.",
             ],
           },
         ],
@@ -196,16 +191,63 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
-      durationSeconds: 840,
-      summary: { ...PLACEHOLDER_SUMMARY },
-      exercise: { ...PLACEHOLDER_EXERCISE },
+    videoUrl: "https://player.vimeo.com/video/502671331",
+    // slideUrl: "",
+    durationSeconds: 840,
+    summary: {
+      coreIdea: "You give AI a topic. It gives you a summary. That is not research. That is recycling. The model is not the constraint. The question is the constraint. A sharper question run on a basic tool beats a vague question run on the most powerful model available. Only you can write a sharp question. AI cannot do it for you. When you bring the depth of your expertise to the question and let AI bring its reach to the search, you produce findings that neither of you could reach alone.",
+      fact: "Most people believe better AI gives better research. Wrong. The moment you let AI decide what is worth asking, the whole system collapses. A topic dressed as a question gets you an essay. Interesting, generic, forgettable. A precise question with a population, a variable, and a time frame gives AI something real to find. That second question came from someone who knows the field. AI cannot write that question. You can.",
+      science: "Boston Consulting Group ran a field experiment with 500 consultants. On complex professional tasks, consultants using AI alone were 19 percentage points less likely to produce correct solutions than those working without it. But consultants combining expertise with AI on tasks within AI's capability scored 40% higher on quality than those using no AI at all. The gap is not the tool. The gap is whether the expert is steering it.",
+      framework: "Four steps. Write your current belief about a topic in one sentence. What do you think is true right now? Write what would prove you wrong. That tension between what you believe and what might disprove it is your research question. Sharpen it: add a population, a variable, a time frame. Make it specific enough that you can imagine what a real finding would look like. Hand it to AI and read what comes back. Not to confirm what you already think. To find what you do not yet know.",
+      example: "Two people. Same tool. The novice types the topic, reads the summary, accepts it. Produces something that sounds researched but cannot survive a single hard question. The expert writes a precise question drawn from ten years of domain knowledge, runs the source-grounded search, gets three findings they genuinely did not know, and spots the one AI got wrong because they know the field. Same tool. Different question. Completely different world.",
+      keyTakeaway: "You write the question. AI finds the answer. A topic gets you a summary, rarely usable. A vague question gets you a plausible answer, sometimes usable. A precise question gets you cited findings, always usable. The only variable is the quality of the input. And the only source of a quality input is your expertise.",
     },
+    exercise: {
+    objective: "Use your expertise to write a sharp research question, then let AI do the search",
+    doneWhen: "You have a research question with a population, variable, time frame, and testable tension — and cited findings that address it specifically.",
+    timeMinutes: 10,
+    steps: [
+      {
+        task: "01",
+        title: "State your belief",
+        items: [
+          "Write your current belief about a topic in one sentence.",
+          "What do you think is true right now?",
+        ],
+      },
+      {
+        task: "02",
+        title: "Name the tension",
+        items: [
+          "Write what would prove you wrong.",
+          "That tension between what you believe and what might disprove it is your research question.",
+        ],
+      },
+      {
+        task: "03",
+        title: "Sharpen the question",
+        items: [
+          "Add a population, a variable, a time frame.",
+          "Make it specific enough that you can imagine what a real finding would look like.",
+        ],
+      },
+      {
+        task: "04",
+        title: "Run it and read",
+        items: [
+          "Hand it to AI and read what comes back.",
+          "Not to confirm what you already think. To find what you do not yet know.",
+        ],
+      },
+    ],
+    prompt: null,
+  },
+  },
 
     learnMore: [
-      { title: "Notebook LM", url: "http://tiny.cc/notebookLM_2", type: "tool" },
-      { title: "NotebookLM1", url: "http://tiny.cc/notebook_1", type: "tool" },
-      { title: "Article", url: "http://tiny.cc/day2_article", type: "article" },
+      { title: "When Help Comes Too Early — TEDx Rabat, Bryan Cassady", url: "http://tiny.cc/Help-Early-slides", type: "video" },
+      { title: "AI as Equalizer or Amplifier? Task Complexity as the Moderating Factor for Human Expertise in Hybrid Intelligence Systems", url: "http://tiny.cc/day2_article", type: "article" },
+      { title: "The Importance of Expertise in the Age of AI", url: "http://tiny.cc/notebookLM2", type: "tool" },
     ],
   },
 
@@ -238,26 +280,25 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         steps: [
           {
             task: "01",
-            title: "Choose a real challenge",
+            title: "Context",
             items: [
-              "Pick something you actually need AI help with.",
-              "Use a specific task, not a vague topic.",
+              "Write what you know. 3 to 5 sentences.",
+              "Your task, your instinct, what you have seen.",
             ],
           },
           {
             task: "02",
-            title: "Fill in C.A.R.",
+            title: "Action",
             items: [
-              "Complete the Context, Action, and Review fields.",
-              "Make the banned word or angle specific. This prevents generic output.",
+              "Specify how you ​want AI to work ​and what you want",
             ],
           },
           {
             task: "03",
             title: "Run and review",
             items: [
-              "Paste the prompt into any AI tool.",
-              "Rank, cut, and improve the output before using it.",
+              "Read the output. Does it answer your gaps?",
+              "If it sounds generic, push back.",
             ],
           },
         ],
@@ -283,26 +324,23 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         steps: [
           {
             task: "01",
-            title: "Write the brief",
+            title: "Wall",
             items: [
-              "Describe what you are working on, who it is for, what they want, and what stops them.",
-              "Keep it specific enough for AI to act on.",
+              "Ban the obvious.",
             ],
           },
           {
             task: "02",
-            title: "Build the wall",
+            title: "Bridge",
             items: [
-              "Identify the three most obvious directions AI would normally take.",
-              "Ban all three completely.",
+              "Pick the unrelated domain",
             ],
           },
           {
             task: "03",
-            title: "Build the bridge",
+            title: "Run & Review",
             items: [
-              "Choose one unrelated world.",
-              "Force AI to solve the brief using only that world’s logic, language, and structure.",
+              "Keep what surprises you.",
             ],
           },
         ],
@@ -311,9 +349,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     learnMore: [
-      { title: "NotebookLM podcast", url: "http://tiny.cc/CAR_day3", type: "video" },
-      { title: "Notebook LM", url: "http://tiny.cc/notebookLM_day3", type: "tool" },
-      { title: "Article", url: "http://tiny.cc/article_day3", type: "article" },
+      { title: "The Art and Science of Mechanical Creativity — Demo, Video & Webinar", url: "http://tiny.cc/mechanicalcreativity", type: "video" },
+      { title: "A Systematic Review of Human-AI Co-Creativity", url: "http://tiny.cc/article_day3", type: "article" },
+      { title: "NotebookLM: Using AI to Build Ideas", url: "http://tiny.cc/notebookLM_day3", type: "tool" },
+      { title: "Bonus: Build Ideas Prompts & Top Innovation Methods", url: "https://genorg.ai/prompts", type: "other" },
     ],
   },
 
@@ -427,9 +466,9 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     learnMore: [
-      { title: "NotebookLM1", url: "http://tiny.cc/notebookLM_4a", type: "tool" },
+      { title: "NotebookLM", url: "http://tiny.cc/notebookLM_4a", type: "tool" },
       { title: "Article", url: "http://tiny.cc/day4_video", type: "article" },
-      { title: "Notebook LM2", url: "http://tiny.cc/day4_notebook", type: "tool" },
+      { title: "Notebook LM 2", url: "http://tiny.cc/day4_notebook", type: "tool" },
     ],
   },
 

@@ -56,7 +56,7 @@ export default async function VerifyPage({ params }: Props) {
           </p>
           <p className="mt-3 text-xs text-muted-foreground">
             Check the code and try again, or contact{" "}
-            <a href="mailto:support.muse@bryancassady.com" className="underline">support</a>.
+            <a href="mailto:hari@bryancassady.com" className="underline">support</a>.
           </p>
         </div>
       </div>
@@ -202,7 +202,7 @@ export default async function VerifyPage({ params }: Props) {
         <div className="mx-auto flex max-w-3xl items-center justify-center px-6 py-4">
           <p className="text-xs text-muted-foreground">
             Questions?{" "}
-            <a href="mailto:support.muse@bryancassady.com" className="underline hover:text-foreground">
+            <a href="mailto:hari@bryancassady.com" className="underline hover:text-foreground">
               Contact support
             </a>
           </p>
