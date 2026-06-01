@@ -34,7 +34,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHJ_-OifF8/wDsS3XRx5ckeEWXALDs1ng/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%201%20_%20Intro%20+%20lesson%201.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "AI has no knowledge of your business, your context, or your goals. It only knows what you tell it. The people who get value from AI direct it. The people who don't defer to it. That is the only distinction that matters. The quality of your input determines the quality of your output. Every time.",
@@ -80,6 +80,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://player.vimeo.com/video/502671331",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/66_V2_Full_Course_week1.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "The gap between what AI could do for your organisation and what it is actually delivering is not closing. It is getting wider. The organisations winning with AI are not running more experiments. They are running fewer and finishing them. The AI Divide is not a technology problem. It is a problem-definition problem.",
@@ -142,7 +143,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHHARdm2cA/prVLoULVFaTxozUgAQ9e4w/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHHARdm2cA/prVLoULVFaTxozUgAQ9e4w/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "AI multiplies your expertise. It does not replace it. Shallow thinking in gives you polished but hollow output. Deep expertise in gives you something genuinely useful. You and a colleague can use the exact same tool with the exact same prompt and get completely different quality. The gap is not the prompt. It is what you bring to it.",
@@ -220,7 +221,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Structure changes everything. You can use the same AI, the same screen, and the same person and get completely different results just by changing how you think before you hit send. Typing \"give me ideas\" is the worst thing you can do. It gives AI nothing to work with. Structure is what turns a traffic jam into a highway.",
@@ -328,7 +329,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHFg0hP97Y/Q85N9mpetVpMklPO3djxxw/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHFg0hP97Y/Q85N9mpetVpMklPO3djxxw/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Every time you ask AI a question and move on without checking, your thinking gets skipped. Not slowed. Skipped entirely. Default AI is optimized to stop your thinking. It gives polished answers instantly, agrees with your framing, and never tells you what is missing. The fix is one setting change. Not a new tool. Not a new skill. One paste.",
@@ -444,7 +445,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHKp78HaDc/a0t1HWh379FMeGHab9sQMA/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHKp78HaDc/a0t1HWh379FMeGHab9sQMA/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Before any tool, before any AI, before any brainstorm or brief, you need to say what you are trying to do, why it matters, and what is off the table. Out loud. In plain language. When you skip this step, everyone nods and nothing moves. The most expensive meeting you will ever run is the one where everyone agrees and nobody means the same thing.",
@@ -552,7 +553,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHHdt5XVwM/YChGM4mgTZkyi9-ol5smGw/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHHdt5XVwM/YChGM4mgTZkyi9-ol5smGw/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "The problem with most AI output is not the answer. It is the question you never got asked. Humans are poor at articulating what they need without being questioned first. We do not know what we know until someone asks us. A prompt is a monologue. A good outcome requires a dialogue. The AI that asks you questions produces better output than the AI you simply instruct.",
@@ -657,7 +658,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHE8jxvE_s/BZa4S7V0jefyJ8MXW_g5cA/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHE8jxvE_s/BZa4S7V0jefyJ8MXW_g5cA/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "You ask AI for ideas. It gives you five that sound like they came from a textbook. You rephrase the prompt. Same five ideas, different order. The problem is not the prompt. It is that you accepted the first answer and called it done. The fastest way to improve AI output is not a better prompt. It is a better follow-up.",
@@ -765,7 +766,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHE7xP9bSE/LUBQUla28XUgdS_w-4qy6Q/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHE7xP9bSE/LUBQUla28XUgdS_w-4qy6Q/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Sometimes the thinking is brilliant. The output is strong. But the solution is still completely wrong. Not because you failed. Because you were solving the right problem perfectly, except it was the wrong problem all along. Thinking harder inside the wrong frame does not get you to the right answer. It gets you to the wrong answer faster, with more confidence, and probably more money spent. R finds the real problem hiding behind the one you were given.",
@@ -873,7 +874,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHFCQfjIO0/ACzpFZCecJeWH5twR0nX7g/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHFCQfjIO0/ACzpFZCecJeWH5twR0nX7g/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "You spend 20 minutes crafting the perfect prompt. The output comes back fine. Not sharp. Not yours. You copy-paste it anyway. Three days later you read it and think: this is mediocre. But you already sent it. A good prompt does not get it right the first time. A good prompt gets you raw material. Iteration is where the real work starts. Your best work with AI lives on the other side of one more round.",
@@ -981,7 +982,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      slideUrl: "https://www.canva.com/design/DAHFmUM0bOI/dqkMbgQuFQGulWFQMqCy_w/view?embed",
+      //slideUrl: "https://www.canva.com/design/DAHFmUM0bOI/dqkMbgQuFQGulWFQMqCy_w/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Your prompts are sharper. Your outputs are faster. You have stopped staring at blank pages. But something has quietly changed. The thinking feels thinner. You are producing more and reflecting less. You are spending less time disagreeing with what AI gives you and more time editing the surface of it. You are not thinking with AI anymore. You are nodding at it. Stop and Think is not a technique. It is a deliberate structural pause before you accept any AI output as finished thinking.",
