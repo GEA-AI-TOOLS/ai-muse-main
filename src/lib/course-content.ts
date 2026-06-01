@@ -34,6 +34,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
+      slideUrl: "https://www.canva.com/design/DAHJ_-OifF8/wDsS3XRx5ckeEWXALDs1ng/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "AI has no knowledge of your business, your context, or your goals. It only knows what you tell it. The people who get value from AI direct it. The people who don't defer to it. That is the only distinction that matters. The quality of your input determines the quality of your output. Every time.",
@@ -141,6 +142,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
+      slideUrl: "https://www.canva.com/design/DAHHARdm2cA/prVLoULVFaTxozUgAQ9e4w/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "AI multiplies your expertise. It does not replace it. Shallow thinking in gives you polished but hollow output. Deep expertise in gives you something genuinely useful. You and a colleague can use the exact same tool with the exact same prompt and get completely different quality. The gap is not the prompt. It is what you bring to it.",
@@ -218,6 +220,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
+      slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Structure changes everything. You can use the same AI, the same screen, and the same person and get completely different results just by changing how you think before you hit send. Typing \"give me ideas\" is the worst thing you can do. It gives AI nothing to work with. Structure is what turns a traffic jam into a highway.",
@@ -325,6 +328,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
+      slideUrl: "https://www.canva.com/design/DAHFg0hP97Y/Q85N9mpetVpMklPO3djxxw/view?embed",
       durationSeconds: 600,
       summary: {
         coreIdea: "Every time you ask AI a question and move on without checking, your thinking gets skipped. Not slowed. Skipped entirely. Default AI is optimized to stop your thinking. It gives polished answers instantly, agrees with your framing, and never tells you what is missing. The fix is one setting change. Not a new tool. Not a new skill. One paste.",
