@@ -238,7 +238,7 @@ export function WelcomeView({ participant }: Props) {
       <footer className="border-t bg-muted/30">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-4 text-sm text-muted-foreground">
           <a href="/progress" className="hover:underline">Back to overview</a>
-          <a href="mailto:support.muse@bryancassady.com" className="hover:underline">Need help? Contact us</a>
+          <a href="mailto:hari@bryancassady.com" className="hover:underline">Need help? Contact us</a>
         </div>
       </footer>
 

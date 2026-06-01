@@ -87,7 +87,7 @@ export default async function WaitingPage() {
         <p className="mt-8 text-xs text-muted-foreground text-center">
           {"Questions? "}
           <a
-            href="mailto:support.muse@bryancassady.com?subject=Pre-cohort%20question"
+            href="mailto:hari@bryancassady.com?subject=Pre-cohort%20question"
             className="underline"
           >
             Contact us
