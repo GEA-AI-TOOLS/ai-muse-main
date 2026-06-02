@@ -160,33 +160,36 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         keyTakeaway: "Amplifiers magnify what you bring. Brilliance or noise. Brain first, bot second. Experts catch what AI misses. Your knowledge is the multiplier, not the tool.",
       },
       exercise: {
-        objective: "Do the same thing as before (in lesson exercise) but upload a context file of your company/work",
-        doneWhen: "You have written your own take, identified your gaps, used AI only on those gaps, and refined the result yourself.",
-        timeMinutes: 10,
+        objective: "See how expertise changes the output more than the prompt​",
+        doneWhen: "You have run the prompt and reviewed the results — does this help more than a generic prompt?",
+        timeMinutes: 8,
         steps: [
           {
             task: "01",
-            title: "Think first + Add reference files",
+            title: "Define task and add reference files",
             items: [
-              "Run the same exercise as the inclass exercise but add your problelm's context files.",
+              "Describe your task or challenge in one sentence.",
+              "Attach anything relevant — reports, briefs, past work. More context = better results (usually).",
             ],
           },
           {
             task: "02",
-            title: "Run this promt again",
+            title: "Current thinking and identify gaps",
             items: [
-              "Run this prompt again and fill the blanks as necessary.",
+              "Write your own take in three to five sentences: what you know, what you have seen, what your instinct says.",
+              "Then name your specific gaps — what you do not know, what would take you long to verify.",
             ],
           },
           {
             task: "03",
-            title: "Evaluate the difference",
+            title: "Run the prompt and evaluate results",
             items: [
-              "Compare the results from before and now.",
+              "Copy the prompt below and paste it into any AI tool.",
+              "You can fill in the brackets or run it as is — letting AI ask you one question at a time to fill them.",
             ],
           },
         ],
-        prompt: "I am working on: [describe your task or challenge in one sentence]\nMy current thinking is: [paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says.]\nI am uncertain about: [two specific gaps. What you don't know. What would take you long to verify.]\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n---------\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
+        prompt: "I am working on: [#1 describe your task or challenge in one sentence + attach relevant files.]\nMy current thinking is: [#2 paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says.]\nI am uncertain about: [#3 specific gaps. What you don't know. What would take you long to verify.]\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n---------\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
       },
     },
 
@@ -203,51 +206,56 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       keyTakeaway: "You write the question. AI finds the answer. A topic gets you a summary, rarely usable. A vague question gets you a plausible answer, sometimes usable. A precise question gets you cited findings, always usable. The only variable is the quality of the input. And the only source of a quality input is your expertise.",
     },
     exercise: {
-    objective: "Use your expertise to write a sharp research question, then let AI do the search",
-    doneWhen: "You have a research question with a population, variable, time frame, and testable tension — and cited findings that address it specifically.",
-    timeMinutes: 10,
-    steps: [
-      {
-        task: "01",
-        title: "State your belief",
-        items: [
-          "Write your current belief about a topic in one sentence.",
-          "What do you think is true right now?",
-        ],
-      },
-      {
-        task: "02",
-        title: "Name the tension",
-        items: [
-          "Write what would prove you wrong.",
-          "That tension between what you believe and what might disprove it is your research question.",
-        ],
-      },
-      {
-        task: "03",
-        title: "Sharpen the question",
-        items: [
-          "Add a population, a variable, a time frame.",
-          "Make it specific enough that you can imagine what a real finding would look like.",
-        ],
-      },
-      {
-        task: "04",
-        title: "Run it and read",
-        items: [
-          "Hand it to AI and read what comes back.",
-          "Not to confirm what you already think. To find what you do not yet know.",
-        ],
-      },
-    ],
-    prompt: null,
-  },
+      objective: "Apply the full 4-step method to a real challenge from your work. Artifact: Your Deep Research File.",
+      doneWhen: "You have extended your expertise in one area important to you.",
+      timeMinutes: 10,
+      steps: [
+        {
+          task: "01",
+          title: "Define your research question",
+          items: [
+            "Write what you believe is true in your field right now — one sentence.",
+            `Use the GPT or prompt guide to sharpen it into a deep search question: 
+https://docs.google.com/document/d/1H2_z3V-RHlJWtPFVqhfOriV4tlj9KTzxfrdKvlPeBXs/edit?tab=t.mq13ety9iq09`,
+            `Or use the Literature Review GPT directly:
+https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
+          ],
+        },
+        {
+          task: "02",
+          title: "Run deep research with AI",
+          items: [
+            "Use more than one model.",
+            "Come back in a few minutes for the results.",
+          ],
+        },
+        {
+          task: "03",
+          title: "Review the results as a human",
+          items: [
+            "Judge what comes back. If using NotebookLM, make a video, podcast, or infographic.",
+            "Note new hypotheses and what you did not know.",
+          ],
+        },
+        {
+          task: "04",
+          title: "Create a context file",
+          items: [
+            "Save key data into a resource file or new project — ChatGPT, Gemini, or NotebookLM.",
+          ],
+        },
+      ],
+      prompt: null,
+    },
   },
 
     learnMore: [
       { title: "When Help Comes Too Early — TEDx Rabat, Bryan Cassady", url: "http://tiny.cc/Help-Early-slides", type: "video" },
       { title: "AI as Equalizer or Amplifier? Task Complexity as the Moderating Factor for Human Expertise in Hybrid Intelligence Systems", url: "http://tiny.cc/day2_article", type: "article" },
       { title: "The Importance of Expertise in the Age of AI", url: "http://tiny.cc/notebookLM2", type: "tool" },
+      { title: "Systems-Level Expertise: An AI-Augmented Framework for Accelerated Domain Mastery", url: "https://1drv.ms/b/c/c37128d8066b9290/IQDp-I8HJyDsT5cP_1fHFVa6ASchCUEK4ZvtAjzjGZv1Ptl?e=hN2BYz", type: "article" },
+      { title: "NotebookLM Guide: 7 Steps to Master Research Projects Fast", url: "https://www.wisdomquant.com/notebooklm-guide-research-projects/", type: "video" },
+      { title: "NotebookLM: Building Expertise Fast with AI", url: "https://notebooklm.google.com/notebook/e02b1788-1e33-49c2-9385-ee7b7958cfb4?authuser=2", type: "tool" },
     ],
   },
 
