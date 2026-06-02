@@ -81,7 +81,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/AjcFQvpGRtA?si=9TOX-ADndFfxIcDa?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/66_V2_Full_Course_week1.pdf",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day_1-%20Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "The gap between what AI could do for your organisation and what it is actually delivering is not closing. It is getting wider. The organisations winning with AI are not running more experiments. They are running fewer and finishing them. The AI Divide is not a technology problem. It is a problem-definition problem.",
@@ -149,7 +149,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/n3weKsZ7z5E?si=Uq_HU_oqqvkcePfd?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHHARdm2cA/prVLoULVFaTxozUgAQ9e4w/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%202-%20Essentials%20Expertise.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "AI multiplies your expertise. It does not replace it. Shallow thinking in gives you polished but hollow output. Deep expertise in gives you something genuinely useful. You and a colleague can use the exact same tool with the exact same prompt and get completely different quality. The gap is not the prompt. It is what you bring to it.",
@@ -191,8 +191,8 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-    videoUrl: "https://player.vimeo.com/video/502671331",
-    // slideUrl: "",
+    videoUrl: "https://www.youtube.com/embed/adKQchE9FKE?si=ttJZNYn5OwRRyqmM?rel=0",
+    slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%202-%20Advanced%20Expert%20anything%20fast.pdf",
     durationSeconds: 840,
     summary: {
       coreIdea: "You give AI a topic. It gives you a summary. That is not research. That is recycling. The model is not the constraint. The question is the constraint. A sharper question run on a basic tool beats a vague question run on the most powerful model available. Only you can write a sharp question. AI cannot do it for you. When you bring the depth of your expertise to the question and let AI bring its reach to the search, you produce findings that neither of you could reach alone.",
