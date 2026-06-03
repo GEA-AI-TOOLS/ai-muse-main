@@ -48,7 +48,7 @@ export function ExerciseBlock({
               {step.items.map((item, j) => (
                 <li key={j} className="flex gap-2 text-sm leading-relaxed">
                   <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
-                  <span>{item}</span>
+                  <span dangerouslySetInnerHTML={{ __html: item }} />
                 </li>
               ))}
             </ul>
