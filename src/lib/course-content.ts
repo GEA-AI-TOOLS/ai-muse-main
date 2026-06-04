@@ -388,7 +388,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     essential: {
       videoUrl: "https://player.vimeo.com/video/502671331",
-      //slideUrl: "https://www.canva.com/design/DAHFg0hP97Y/Q85N9mpetVpMklPO3djxxw/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-4-Essentials.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "Every time you ask AI a question and move on without checking, your thinking gets skipped. Not slowed. Skipped entirely. Default AI is optimized to stop your thinking. It gives polished answers instantly, agrees with your framing, and never tells you what is missing. The fix is one setting change. Not a new tool. Not a new skill. One paste.",
@@ -443,6 +443,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/aqR9eSh50Ss?si=UB9GC3Roo3SpE2AI?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-4-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "AI does not look things up. It predicts the most plausible next word. Confidence is a design feature, not a reliability signal. The more convincing an answer sounds, the more dangerous it is to accept without checking. You did not catch the error because you did not know the right answer. That is exactly when it matters most.",
