@@ -271,7 +271,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/coNfyR_6lt0?si=MBPsyPBR4ygkjBzt?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-3-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "Structure changes everything. You can use the same AI, the same screen, and the same person and get completely different results just by changing how you think before you hit send. Typing \"give me ideas\" is the worst thing you can do. It gives AI nothing to work with. Structure is what turns a traffic jam into a highway.",
@@ -326,6 +326,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/pi3rt1umo2o?si=ZpoIi_hcWWkJxeG4?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-3-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "C.A.R. makes you better. It does not make you breakthrough. Even with perfect context, perfect action, and perfect review, AI is still a pattern recognition engine reaching for the most probable answer. To get ideas that could not have existed any other way, you need friction. Deliberate constraint that forces AI out of familiar territory.",
@@ -441,7 +442,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/aqR9eSh50Ss?si=UB9GC3Roo3SpE2AI?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "AI does not look things up. It predicts the most plausible next word. Confidence is a design feature, not a reliability signal. The more convincing an answer sounds, the more dangerous it is to accept without checking. You did not catch the error because you did not know the right answer. That is exactly when it matters most.",
