@@ -325,7 +325,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/pi3rt1umo2o?si=ZpoIi_hcWWkJxeG4?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "C.A.R. makes you better. It does not make you breakthrough. Even with perfect context, perfect action, and perfect review, AI is still a pattern recognition engine reaching for the most probable answer. To get ideas that could not have existed any other way, you need friction. Deliberate constraint that forces AI out of familiar territory.",
@@ -381,8 +381,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     phase: "foundation",
 
     sectionTitles: {
-      essential: "Default AI Makes You Think Less",
-      advanced: "Fluency is Not Truth",
+      essential: "How We Use AI Wrong",
+      advanced: "How Often Al​ Sounds Right While Being Wrong​",
     },
 
     essential: {
@@ -398,36 +398,45 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
         keyTakeaway: "Default AI makes you think less. Change the instructions or your judgment degrades every time you use it. Same tool. Different behavior. The difference is one setting.",
       },
       exercise: {
-        objective: "Change your AI settings so the tool challenges your thinking instead of replacing it",
-        doneWhen: "Your AI asks a clarifying question, labels claims, and pushes back on weak framing.",
-        timeMinutes: 8,
+        objective: "Personalize your AI instructions for your needs",
+        doneWhen: "You have updated your custom instructions and saved them.",
+        timeMinutes: 15,
         steps: [
           {
             task: "01",
-            title: "Open your AI settings",
+            title: "Read",
             items: [
-              "Go to settings in ChatGPT, Gemini, or whichever AI tool you use daily.",
-              "Find the custom instructions field.",
+              "Read your current custom instructions — really read them.",
+              "Understand what they are doing and what they are not doing.",
             ],
           },
           {
             task: "02",
-            title: "Paste the instructions",
+            title: "Review",
             items: [
-              "Copy the instructions template below.",
-              "Paste it into the custom instructions field.",
+              "What do you like? What would you improve?",
+              'Use the interactive prompt below, or open the guided version here: <a href="http://tiny.cc/sparks-instructions" target="_blank" rel="noreferrer" style="color:#E24B4A;">Interactive instructions guide → (Tab: Homework)</a>',
+              "It will ask you questions one at a time to help you improve your instructions.",
             ],
           },
           {
             task: "03",
-            title: "Ask a real question",
+            title: "Run and run better",
             items: [
-              "Use something you actually need an answer on right now.",
-              "Check whether it asks a clarifying question, labels claims, and pushes back.",
+              "Update your custom instructions with what you found.",
+              "Save them and keep them.",
+            ],
+          },
+          {
+            task: "04",
+            title: "Review again after a month",
+            items: [
+              "Make sure your memory is on.",
+              "Come back after a month and review again — your needs will have changed.",
             ],
           },
         ],
-        prompt: "Role: You are a Critical Thought Partner and \"Devil’s Advocate.\" Your goal is to improve decision quality, not just speed. You must actively mitigate my cognitive biases: Overconfidence, Cognitive Offloading, and Confirmation Bias.\nCore Protocols:\n1. Epistemic Humility (Anti-Overconfidence)\nLabel Confidence: Explicitly tag assertions as [Fact], [High Confidence Inference], or [Speculation].\nNo Fake Certainty: Never sound authoritative on ambiguous topics. Admit limits immediately.\nShow Logic: Outline the logic trail for complex answers. Flag guesses clearly.\n2. Active Engagement (Anti-Offloading)\nFriction is Good: Do not solve complex problems immediately.\nThe 1-Question Rule: Before executing a major request, ask one clarifying question that forces me to verify my assumptions or define success.\nDemand Specificity: If a prompt is vague, do not guess. Ask for constraints.\n3. Anti-Sycophancy (Anti-Confirmation Bias)\nNever Default to Agreement: If my premise is flawed or weak, push back.\nRed Team Mode: For every strategic opinion I present, provide at least one strong counter-argument or edge case.\nWiden the Scope: Avoid \"Yes, and...\" Use \"Yes, but...\" or \"Alternatively...\"\nCheck the Echo Chamber: If I ask for validation, ask: \"Would you like me to analyze the opposing view?\"",
+        prompt: "I want to update my custom instructions for Claude (or ChatGPT). Before suggesting anything, read everything below carefully and ask me questions one at a time.\nWhat I want to add or improve:\n\n1. The AI should clearly signal when it is confident and when it is not.\n2. It should regularly pause, ask me questions, and challenge my thinking.\n3. When my question is unclear, it must ask for clarification before answering.\n4. It should act as a critical thought partner and devil's advocate. The goal is better decisions, not faster ones. It must actively push back on overconfidence, confirmation bias, and over-reliance on AI.\n5. All text it helps me write should sound like me, not like a machine.\n\nHere are my current instructions:\n[Paste your current instructions here]",
       },
     },
 
@@ -445,7 +454,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
       exercise: {
         objective: "Learn to fact-check AI output before trusting it",
         doneWhen: "You have compared a normal AI answer with a stress-tested answer and identified at least one unsupported or risky claim.",
-        timeMinutes: 10,
+        timeMinutes: 8,
         steps: [
           {
             task: "01",
@@ -485,9 +494,9 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     learnMore: [
-      { title: "NotebookLM", url: "http://tiny.cc/notebookLM_4a", type: "tool" },
-      { title: "Article", url: "http://tiny.cc/day4_video", type: "article" },
-      { title: "Notebook LM 2", url: "http://tiny.cc/day4_notebook", type: "tool" },
+      { title: "The Impact of Generative AI on Critical Thinking — Microsoft Research / Carnegie Mellon", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2025/01/lee_2025_ai_critical_thinking_survey.pdf", type: "article" },
+      { title: "How to Spot Confidence Traps in AI Responses — Dr. Liz Moyer", url: "https://www.youtube.com/watch?v=DhmBBnVvRXs", type: "video" },
+      { title: "NotebookLM: How to Stop Using AI Wrong", url: "https://notebooklm.google.com/notebook/51505702-5ae2-4bdc-8391-0ba3fa2d2810", type: "tool" },
     ],
   },
 
