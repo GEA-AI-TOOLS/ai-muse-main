@@ -270,7 +270,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/coNfyR_6lt0?si=MBPsyPBR4ygkjBzt?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
       durationSeconds: 600,
       summary: {
