@@ -270,7 +270,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/coNfyR_6lt0?si=MBPsyPBR4ygkjBzt?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHEYOEFV_4/X3vL0GSFy8yyNpqNVRzLYQ/view?embed",
       durationSeconds: 600,
       summary: {
@@ -282,35 +282,45 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
         keyTakeaway: "Creativity with AI is not about more ideas faster. It is about better ideas more consistently. The output always tells you everything about the prompt that made it. Use C.A.R. on something real today.",
       },
       exercise: {
-        objective: "Use the C.A.R. framework on a real task",
-        doneWhen: "You have one ranked, stress-tested, ready-to-use output created from clear context, action, and review criteria.",
-        timeMinutes: 8,
+        objective: "Use a structured innovation method to generate better ideas for a real challenge",
+        doneWhen: "You have run the prompt and evaluated whether the method changed the quality of ideas compared to a generic prompt.",
+        timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Context",
+            title: "Set your context",
             items: [
-              "Write what you know. 3 to 5 sentences.",
-              "Your task, your instinct, what you have seen.",
+              "Fill in your role, your challenge in one sentence, and who it is for.",
+              "Add any constraints — budget, timing, non-negotiables.",
             ],
           },
           {
             task: "02",
-            title: "Action",
+            title: "Pick your action method",
             items: [
-              "Specify how you ​want AI to work ​and what you want",
+              "Open the Innovation Actions sheet (link below) and pick one method. Paste it in place of the Archetypal Analysis block in the prompt.",
+              "No sheet? The Archetypal Analysis example already in the prompt works as a starting point — just run it as is.",
+              '<a href="https://tiny.cc/actions-ideas" target="_blank" rel="noreferrer" style="color:#E24B4A;">Innovation Actions sheet →</a>',
             ],
           },
           {
             task: "03",
-            title: "Run and review",
+            title: "Add your details and set your review",
             items: [
-              "Read the output. Does it answer your gaps?",
-              "If it sounds generic, push back.",
+              "Paste anything relevant into the Details section — background, files, links, context.",
+              "Fill in how you want the output delivered — ranked list, infographic, table, document.",
+            ],
+          },
+          {
+            task: "04",
+            title: "Run it and evaluate",
+            items: [
+              "Send the prompt and read what comes back.",
+              "Does the method change the quality of ideas compared to a generic prompt?",
             ],
           },
         ],
-        prompt: "I need help with the following challenge. Use the C.A.R. framework to produce strong, original, useful results.\n\nCONTEXT — what's the situation?\nWorking on: [a short specific sentence, e.g. \"LinkedIn post for a 10-day AI course\"]\nFor: [who + what they want, e.g. \"busy managers who want practical AI skills\"]\nTheir hesitation: [their skepticism, fear, or what's burned them before]\nBanned: [one word, phrase, or angle that would make this generic]\n\nACTION — how should AI work?\nOutput: [what + how many, e.g. \"5 LinkedIn posts\"]\nUse one of: inversion, analogy, contradiction, provocation. Pick one: [__]\n\nREVIEW — how do we know it's good?\nRank all options. Cut the weakest. Improve the rest.\nStress-test the winner: would it still land if [a skeptical version of the audience] read it cold?\nRecommend the strongest in one sentence. Give the final, ready to use.\n\nAI instructions:\n- If any field above is empty or vague, ask ONE question at a time, in order.\n- With each question, add a short \"why this matters\" so the user learns the move while using it.\n- Don't proceed until every field is concrete enough to act on.\n- \"Banned\" is required. If empty, ask: \"What's the obvious angle everyone else would take? We'll ban that.\"",
+        prompt: "You are a [1. role] helping with [2. challenge in one sentence].\n\nCONTEXT\nWho, what, and any details that matter: [3. person or audience + constraints + anything specific — the more you add, the better the output]\n\nACTION\nApproach this innovation challenge through the lens of Archetypal Analysis. Here's a structured method to guide your exploration:\nIdentify the Primary Archetype: Delve into the challenge to discern the core archetype that resonates most with its essence.\nExplore the Archetypal Narrative: Familiarise yourself with the traditional narratives, motifs, and characteristics associated with the identified archetype.\nDraw Parallels: Establish connections between the challenge and the typical journey or characteristics of the chosen archetype, highlighting similarities and contrasts.\nExtract Insights: Reflect on the juxtaposition of the challenge and the archetype to derive key lessons, insights, or innovative approaches.\nGenerate 20 ideas. Continue automatically until you reach the requested number. Each idea must be unique — no two ideas with a cosine similarity above 0.85. Include the stimulus generated from this method at the end of each idea description.\n\nDETAILS\n[4. Add as much detail as you like here — paste text, upload files, add links, include background information. The more context you give, the more specific and useful the output will be.]\n\nREVIEW\nDeliver as: [5. e.g. ranked list of 5 with rationale, infographic, table, document — recommend the strongest in one sentence]\n\n--------------------\nIf any bracket is empty, ask me one question at a time before continuing. If answers are vague, push back.",
       },
     },
 
@@ -328,7 +338,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
       exercise: {
         objective: "Use friction to force AI beyond the obvious answer",
         doneWhen: "You have banned the obvious directions, injected an unrelated world, and selected the strongest idea from the collision.",
-        timeMinutes: 10,
+        timeMinutes: 8,
         steps: [
           {
             task: "01",
@@ -361,6 +371,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
       { title: "A Systematic Review of Human-AI Co-Creativity", url: "http://tiny.cc/article_day3", type: "article" },
       { title: "NotebookLM: Using AI to Build Ideas", url: "http://tiny.cc/notebookLM_day3", type: "tool" },
       { title: "Bonus: Build Ideas Prompts & Top Innovation Methods", url: "https://genorg.ai/prompts", type: "other" },
+      { title: "Bonus: How to Generate 1213 Ideas in 15 Minutes", url: "http://tiny.cc/actions-ideas", type: "other" },
     ],
   },
 
