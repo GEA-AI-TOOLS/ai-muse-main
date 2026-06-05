@@ -20,17 +20,67 @@ export async function GET(req: NextRequest) {
       return res;
     }
 
-    // Fetch real participant id from DB using auth token
+    // Always fetch current_day and daysComplete fresh from DB
+    // session_data can be stale if n8n incremented current_day
     const authToken = req.cookies.get("auth")?.value;
-    let realId = "from-session";
     if (authToken) {
       const participantId = await validateSessionToken(authToken);
-      if (participantId) realId = participantId;
+      if (participantId) {
+        const { data: fresh } = await supabase
+          .from("participants")
+          .select("id, current_day, revoked, status")
+          .eq("id", participantId)
+          .single();
+
+        if (fresh) {
+          const { data: dayStates } = await supabase
+            .from("participant_day_state")
+            .select("day, done_at")
+            .eq("participant_id", participantId);
+
+          const daysComplete = (dayStates ?? [])
+            .filter((d) => d.done_at !== null)
+            .map((d) => d.day as number);
+
+          const newSessionData = {
+            name: sessionData.name,
+            email: sessionData.email,
+            cohortId: sessionData.cohortId,
+            currentDay: fresh.current_day,
+            daysComplete,
+            revoked: fresh.revoked,
+          };
+
+          const res = NextResponse.json({
+            participant: {
+              id: fresh.id,
+              name: sessionData.name,
+              email: sessionData.email,
+              cohortId: sessionData.cohortId,
+              currentDay: fresh.current_day,
+              status: fresh.status,
+              timezone: "UTC",
+              enrolledAt: "",
+              revoked: fresh.revoked,
+              daysComplete,
+            },
+          });
+
+          res.cookies.set(
+            "session_data",
+            JSON.stringify(newSessionData),
+            SESSION_COOKIE_OPTIONS
+          );
+
+          return res;
+        }
+      }
     }
 
+    // Fallback to session_data if DB fetch fails
     return NextResponse.json({
       participant: {
-        id: realId,
+        id: "from-session",
         name: sessionData.name,
         email: sessionData.email,
         cohortId: sessionData.cohortId,
