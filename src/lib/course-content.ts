@@ -387,7 +387,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/OV8_PlPGXG0?si=L_K0QQFwNu-mdvMl?rel=0",
       slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-4-Essentials.pdf",
       durationSeconds: 600,
       summary: {
