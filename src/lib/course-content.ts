@@ -513,8 +513,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
-      //slideUrl: "https://www.canva.com/design/DAHKp78HaDc/a0t1HWh379FMeGHab9sQMA/view?embed",
+      videoUrl: "https://www.youtube.com/embed/KkTSKO7khUg?si=gAYitGHjThym19HT?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-5-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "Before any tool, before any AI, before any brainstorm or brief, you need to say what you are trying to do, why it matters, and what is off the table. Out loud. In plain language. When you skip this step, everyone nods and nothing moves. The most expensive meeting you will ever run is the one where everyone agrees and nobody means the same thing.",
@@ -561,6 +561,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/V4RyntUGUbk?si=zsOHbiD1IRBBSvXl?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-5-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "A spoken brief gets everyone pointed in the same direction. True North makes that direction precise enough that people can act without asking permission and AI can produce output that is actually useful. Clarity of language is not enough. Structure makes clarity executable. Without structure, clear language still leaves room for interpretation. And interpretation is where alignment breaks down.",
@@ -626,7 +627,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHHdt5XVwM/YChGM4mgTZkyi9-ol5smGw/view?embed",
       durationSeconds: 600,
       summary: {
@@ -672,7 +673,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "Your senior expert is leaving. Thirty years of knowledge. You run knowledge transfer sessions. They produce documents full of process steps. The judgment calls, the workarounds, the unwritten rules that only make sense after a decade in the role. None of it makes it into any document. It leaves with the person. Every time. The problem is not that the expert is unwilling to share. The right questions were never asked.",
@@ -731,7 +732,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHE8jxvE_s/BZa4S7V0jefyJ8MXW_g5cA/view?embed",
       durationSeconds: 600,
       summary: {
@@ -777,7 +778,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "You learned to push back on AI. The answers got sharper. But they got sharper in the same direction. Deeper on one track, not wider. You iterated your way into a tunnel. You are still thinking inside one mind. Creative leverage comes from forcing AI to think like a diverse team, not a single tool. One prompt. Three minds. You just built a boardroom out of a chat window.",
@@ -839,7 +840,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHE7xP9bSE/LUBQUla28XUgdS_w-4qy6Q/view?embed",
       durationSeconds: 600,
       summary: {
@@ -885,7 +886,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "You have the four steps of reframing. Today you go underneath them. Reframing is not a creative technique. It is a cognitive disruptor. When you deliberately reframe a problem you are breaking entrenched neural pathways. The brain has a default route for familiar problems. Reframing forces it off that route. The four steps are not a checklist. They are a mechanism for triggering a fundamentally different cognitive state.",
@@ -947,7 +948,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHFCQfjIO0/ACzpFZCecJeWH5twR0nX7g/view?embed",
       durationSeconds: 600,
       summary: {
@@ -993,7 +994,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "You iterate. The output gets better. But if someone asked what changed between version one and version three, you could not answer. The improvement happened. You just cannot reproduce it. Next project, you start from scratch again. Documented iteration is a skill. Undocumented iteration is luck. If you cannot see what changed between versions, you are not iterating. You are guessing.",
@@ -1055,7 +1056,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHFmUM0bOI/dqkMbgQuFQGulWFQMqCy_w/view?embed",
       durationSeconds: 600,
       summary: {
@@ -1101,7 +1102,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://player.vimeo.com/video/502671331",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "This is not the problem of people who do not pause. That is the beginner problem. This is the problem of people who do pause, who frame first, who interrogate, and who are still getting it wrong. Stopping the line does not automatically change the trajectory. You can pause perfectly and still arrive at the wrong destination. The pause is a vehicle. What matters is where you steer it once you stop. The pause is necessary. It is not sufficient.",
