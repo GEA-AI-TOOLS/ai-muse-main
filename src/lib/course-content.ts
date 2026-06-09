@@ -627,8 +627,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHHdt5XVwM/YChGM4mgTZkyi9-ol5smGw/view?embed",
+      videoUrl: "https://www.youtube.com/embed/sLkwWIvo5Fg?si=o9nb5ZC-vza55GMn?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-6-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "The problem with most AI output is not the answer. It is the question you never got asked. Humans are poor at articulating what they need without being questioned first. We do not know what we know until someone asks us. A prompt is a monologue. A good outcome requires a dialogue. The AI that asks you questions produces better output than the AI you simply instruct.",
@@ -673,7 +673,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
+      videoUrl: "https://www.youtube.com/embed/f0EFqbSFuQw?si=Bjc_iNOZ4P5OX_5B?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-6-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "Your senior expert is leaving. Thirty years of knowledge. You run knowledge transfer sessions. They produce documents full of process steps. The judgment calls, the workarounds, the unwritten rules that only make sense after a decade in the role. None of it makes it into any document. It leaves with the person. Every time. The problem is not that the expert is unwilling to share. The right questions were never asked.",
@@ -717,8 +718,13 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
       },
     },
 
-    // TODO (content): Day 6 Learn More links not yet provided — placeholder kept empty until content arrives.
-    learnMore: [],
+    learnMore: [
+      { title: "Rethinking AI Conversations (6 min)", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/47b59664-8b80-49b2-bcdc-a8d375d91ee4", type: "video" },
+      { title: "Epistemic Reversal — Slides", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/27eeedd5-d1b0-4d71-ab53-f5b4c1093576", type: "other" },
+      { title: "The Pivot — What Happens When AI Asks the Questions", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d?authuser=2", type: "tool" },
+      { title: "Flipped Interaction with AI: A Systematic Literature Review on Clarifying Questions, Output Quality, and Evidence-Based Prompting Protocols", url: "https://1drv.ms/w/c/c37128d8066b9290/IQBm6Dely9z1RadRwuFMTapsAWuC406gsavP9tUHWd66_M?e=nLo9WL", type: "article" },
+      { title: "Why Your AI Should Interview You First — Podcast", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/af7748a6-aaa5-4bbe-be25-c151acb23877", type: "video" },
+    ],
   },
 
   7: {
