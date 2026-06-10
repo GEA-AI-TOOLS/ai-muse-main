@@ -738,8 +738,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHE8jxvE_s/BZa4S7V0jefyJ8MXW_g5cA/view?embed",
+      videoUrl: "https://www.youtube.com/embed/5Jy2H7JX5dM?si=oLARQTYBwGH8yuxX?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-7-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "You ask AI for ideas. It gives you five that sound like they came from a textbook. You rephrase the prompt. Same five ideas, different order. The problem is not the prompt. It is that you accepted the first answer and called it done. The fastest way to improve AI output is not a better prompt. It is a better follow-up.",
@@ -784,7 +784,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
+      videoUrl: "https://www.youtube.com/embed/pAwD5_H7lzk?si=Je8QZpezq1S6v8XE?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-7-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "You learned to push back on AI. The answers got sharper. But they got sharper in the same direction. Deeper on one track, not wider. You iterated your way into a tunnel. You are still thinking inside one mind. Creative leverage comes from forcing AI to think like a diverse team, not a single tool. One prompt. Three minds. You just built a boardroom out of a chat window.",
@@ -829,9 +830,12 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     learnMore: [
-      { title: "Notebook LM podcast", url: "http://tiny.cc/podcast_day7", type: "video" },
-      { title: "Article", url: "http://tiny.cc/article1_day7", type: "article" },
-      { title: "NotebookLM", url: "http://tiny.cc/notebook_day7", type: "tool" },
+      { title: "NotebookLM: Ask More — Improving AI Reasoning Through Collaboration", url: "http://tiny.cc/notebook_day7", type: "tool" },
+      { title: "Encouraging Divergent Thinking in Large Language Models through Multi-Agent Debate", url: "https://arxiv.org/html/2305.19118v4", type: "article" },
+      { title: "NotebookLM Podcast: Chain-of-Thought vs Tree-of-Thoughts", url: "http://tiny.cc/podcast_day7", type: "video" },
+      { title: "Making the Difference: Applying a Logic of Diversity", url: "https://www.researchgate.net/publication/276055305_Making_the_Difference_Applying_a_Logic_of_Diversity", type: "article" },
+      { title: "ChatGPT as a Board of Advisors", url: "https://www.youtube.com/watch?v=Bh-46lrcHpc", type: "video" },
+      { title: "Delivering Through Diversity — McKinsey", url: "https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/delivering-through-diversity", type: "article" },
     ],
   },
 
