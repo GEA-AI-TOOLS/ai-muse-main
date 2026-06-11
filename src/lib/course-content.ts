@@ -850,8 +850,8 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHE7xP9bSE/LUBQUla28XUgdS_w-4qy6Q/view?embed",
+      videoUrl: "https://www.youtube.com/embed/hrzSVpk9x68?si=jlfHVDqpqo2x5hWw?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-8-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "Sometimes the thinking is brilliant. The output is strong. But the solution is still completely wrong. Not because you failed. Because you were solving the right problem perfectly, except it was the wrong problem all along. Thinking harder inside the wrong frame does not get you to the right answer. It gets you to the wrong answer faster, with more confidence, and probably more money spent. R finds the real problem hiding behind the one you were given.",
@@ -897,6 +897,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-8-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "You have the four steps of reframing. Today you go underneath them. Reframing is not a creative technique. It is a cognitive disruptor. When you deliberately reframe a problem you are breaking entrenched neural pathways. The brain has a default route for familiar problems. Reframing forces it off that route. The four steps are not a checklist. They are a mechanism for triggering a fundamentally different cognitive state.",
@@ -941,9 +942,13 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     learnMore: [
-      { title: "Notebook LM", url: "http://tiny.cc/learnnote", type: "tool" },
-      { title: "NotebookLM podcast (18 min)", url: "http://tiny.cc/learnpod", type: "video" },
-      { title: "Video: The Art of Listening — Simon Sinek (5 min)", url: "http://tiny.cc/learnvid", type: "video" },
+      { title: "NotebookLM Podcast: Learn How Human and AI Synergy Drives Innovation", url: "http://tiny.cc/day8_podcast", type: "video" },
+      { title: "Evidence of Problem Exploration in Creative Designs", url: "http://tiny.cc/day8_article", type: "article" },
+      { title: "NotebookLM: Reframe Problems to Unlock True Innovation", url: "https://notebooklm.google.com/notebook/21b92200-127c-4861-bd25-f85a43ac60c4", type: "tool" },
+      { title: "Are You Solving the Right Problems? — Thomas Wedell-Wedellsborg, HBR", url: "https://hbr.org/2017/01/are-you-solving-the-right-problems", type: "article" },
+      { title: "TEDx Salford — Bryan Cassady: The One Thing to Teach If You Teach One Thing", url: "https://youtu.be/aFnS3SVXFpY", type: "video" },
+      { title: "Problem Definition: CYCLES (Ch. 11) and The Generative Organization (Ch. 10)", url: "https://www.books.genorg.ai", type: "article" },
+      { title: "Stalking the Wild Solution", url: "https://www.amazon.co.uk/Stalking-Wild-Solution-Approach-Creative/dp/0943456193", type: "article" },
     ],
   },
 
