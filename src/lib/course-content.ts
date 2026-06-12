@@ -1095,47 +1095,63 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHFmUM0bOI/dqkMbgQuFQGulWFQMqCy_w/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-10-Essential.pdf",
       durationSeconds: 600,
       summary: {
-        coreIdea: "Your prompts are sharper. Your outputs are faster. You have stopped staring at blank pages. But something has quietly changed. The thinking feels thinner. You are producing more and reflecting less. You are spending less time disagreeing with what AI gives you and more time editing the surface of it. You are not thinking with AI anymore. You are nodding at it. Stop and Think is not a technique. It is a deliberate structural pause before you accept any AI output as finished thinking.",
-        fact: "Most people believe that if AI gave an answer this fast, this fluently, this confidently, it must be correct. Wrong. GPT-4 achieved only 52.9% accuracy at catching errors in its own reasoning. More than half the time it could not see its own mistakes. 70% of AI references in academic work have been found to be inaccurate. The most dangerous AI output is not the one that is obviously wrong. It is the one that sounds the most right.",
-        science: "47.1% of simple unambiguous logical errors are missed in speed-first AI workflows. Nearly half. Not complex errors. Simple ones. Missed because the output sounded right and nobody stopped to check. Students who used AI without a reflection step scored 6.71 points lower on average than those who paused. Same material, same students, the pause was the only variable. In clinical settings, participants were 7 times more likely to select an AI-aligned treatment recommendation even when it was wrong. One structured pause, introduced in controlled experiments, significantly reduced overreliance every single time.",
-        framework: "Three things that take less than two minutes combined. The Independent Task Step: write your own answer before reading AI's, even one rough sentence. This prevents AI from anchoring your thinking before you have had a chance to think. The Contrastive Prompt: ask AI to show you why it chose this answer over the main alternative. That forces the model to expose its reasoning. The Audit Question: before you copy, paste, send, or act on any output, ask one question. Is this the first answer or the real answer? If you cannot answer with confidence, you have not stopped and thought.",
-        example: "A hospital radiology team. Their AI diagnostic system was genuinely good. It flagged anomalies faster than any human. Over time the radiologists stopped forming an independent view first. They saw AI's view first and looked for reasons to confirm it. One day the AI was wrong. The error propagated. Not because the radiologist was incompetent. Because the order of operations had silently reversed. AI thought first. Human confirmed. They did not fail to think. They thought too late.",
-        keyTakeaway: "The best use of AI is not the fastest answer. It is the one you stopped to question. You cannot willpower your way to Stop and Think. Willpower is finite. Structure is not. Build the system. That is what makes the other five letters of SPARKS worth anything.",
+        coreIdea: "This is the last lesson, and the last S in SPARKS: Stop and Think. You have spent ten days learning to direct AI instead of just accepting it. The capstone is where all of it lands. You stop, look back across everything you learned, and build one real tool for a task you actually do. Not to impress anyone. To prove the method is now yours. Your expertise is the product. The tool is just how you deliver it.",
+        fact: "Most people finish a course and keep nothing. They remember a few tips for a week, then drift back to old habits. A built tool is different. It holds your thinking in a form you reuse. Over 3,000,000 custom AI tools have already been built, most by people who do not write code. The ones that work are not the clever ones. They are the ones built around a clear objective and the builder's own knowledge.",
+        science: "Structured context is what separates a useful tool from a generic one. In studies of custom AI assistants, tools given clear objectives, real data, and defined output performed measurably better, while the same tools without that structure dropped in quality. The lesson is simple: the tool is only as good as the four things you put into it. Objectives, data, work methods, and target output. Get those clear and the tool almost builds itself.",
+        framework: "Your tool is built from four ingredients. Objectives: what it is for, in plain words, or your TRUE NORTH from Day 5. Data: the files, examples, and context it should know. Work Methods: how it works, the steps it follows every time. Target Output: the exact shape of what it produces. These four never change, only the platform does. Define them, then build on Gemini, ChatGPT, or Claude.",
+        example: "Take a weekly review assistant. Objective: run a clear 15-minute review every week. Data: a note on the format you like. Work methods: ask what you finished, what slipped, what mattered most. Target output: one page, three wins, two lessons, one priority, under 200 words. Four ingredients, one tool, used every week. That is the whole recipe, and it is the same recipe for any tool you will ever build.",
+        keyTakeaway: "Stop and Think one last time, then build. Mark all ten days as done to unlock your Capstone page below the progress bar. The handout has the full steps and the prompts that do the heavy lifting. Ten days in, you do not walk away with a certificate. You walk away with a tool, and a habit.",
       },
       exercise: {
-        objective: "Build the habit of thinking before you read AI's answer by running one real decision through the Stop and Think prompt",
-        doneWhen: "You have filled in all three brackets and read AI's response to your own answer — not the other way around.",
-        timeMinutes: 8,
+        objective: "Build your own AI tool by defining its four ingredients, then head to the Capstone page for the full steps",
+        doneWhen: "You have your four ingredients written and you know how to open your Capstone page.",
+        timeMinutes: 60,
         steps: [
           {
             task: "01",
-            title: "Name your task",
+            title: "Define your objective",
             items: [
-              "Pick a real task or decision you are working on right now.",
-              "Write one sentence describing it before you open the prompt.",
+              "What is this tool for? Write it in your own words.",
+              'Made a TRUE NORTH on Day 5? Use it. If not, a short written objective is enough: <a href="https://chatgpt.com/g/g-6754129342648191a94c50c383fd267b-cycles-2-0-9-true-north" target="_blank" rel="noreferrer" style="color:#E24B4A;">TRUE NORTH GPT →</a>',
             ],
           },
           {
             task: "02",
-            title: "Form your own view first",
+            title: "Gather your data",
             items: [
-              "Write your own answer in one sentence before reading AI's.",
-              "Then add one thing you know that AI cannot — something from inside the problem.",
+              "Collect the files, examples, and context your tool needs.",
+              "Bonus: use the Deep Search prompt in the handout.",
             ],
           },
           {
             task: "03",
-            title: "Run the prompt",
+            title: "Methods and output",
             items: [
-              "Paste the prompt below with all three brackets filled in.",
-              "Read AI's response as a challenge to your view, not a replacement for it.",
+              "Write how it works and what it produces.",
+              "Bonus: use the Make Instructions prompt in the handout.",
+            ],
+          },
+          {
+            task: "04",
+            title: "Build, test, improve",
+            items: [
+              "Build it on your platform. Run it on something real. Improve if needed.",
+              'Full steps, the 4 prompts, and platform guides are in your handout: <a href="https://tiny.cc/sparksend" target="_blank" rel="noreferrer" style="color:#E24B4A;">Open the handout →</a>',
+            ],
+          },
+          {
+            task: "05",
+            title: "Open your Capstone page",
+            items: [
+              "Mark all 10 days as done. Your Capstone then unlocks below the progress bar.",
+              "The Capstone page has detailed steps, screenshots, and where to submit.",
             ],
           },
         ],
-        prompt: "STOP. Before you answer — I am going to think first.\nMy task is [1. describe your task or decision].\nI have paused. Here is my own answer before I read yours: [2. your diagnosis or view in one sentence].\nHere is what I know that you do not: [3. one thing from being inside this problem that AI cannot know].\nNow I am ready. Tell me why my answer is right or wrong. Tell me what assumption you are making. Tell me what the main alternative is and why you ruled it out. Then give me your final answer.\n---------------------------\nIf any bracket above is not filled in, stop. Ask me one question at a time. Start with the task. Then ask for my own answer. Then ask what I know that you do not. Do not give me your answer until I have filled in all three. When I answer, reflect back what I said and ask — did you stop and think first, or did you reach for me before you formed a view?",
+        prompt: null,
       },
     },
 
