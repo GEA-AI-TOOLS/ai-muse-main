@@ -39,6 +39,7 @@ export function ProgressView({ participant }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [completionCert, setCompletionCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
   const [masteryCert, setMasteryCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
+  const [certsEnabled, setCertsEnabled] = useState(true);
   const [issuingCert, setIssuingCert] = useState(false);
   const [certError, setCertError] = useState("");
   const [darkMode, setDarkMode] = useState(false);
@@ -54,6 +55,7 @@ export function ProgressView({ participant }: Props) {
         if (data.ok) {
           setCompletionCert(data.completionCert);
           setMasteryCert(data.masteryCert);
+          setCertsEnabled(data.certsEnabled ?? true);
         }
       })
       .catch(() => {});
@@ -343,7 +345,7 @@ export function ProgressView({ participant }: Props) {
 
           <div className="flex flex-col gap-4">
 
-            {completionCert ? (
+            {completionCert && certsEnabled ? (
               <div className="rounded-md border p-5 flex items-center justify-between gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
@@ -380,6 +382,23 @@ export function ProgressView({ participant }: Props) {
                   </svg>
                   Download PDF
                 </button>
+              </div>
+            ) : completionCert && !certsEnabled ? (
+              <div className="rounded-md border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">Certificate of Completion</p>
+                    <p className="mt-0.5 text-xs text-amber-800 dark:text-amber-400">
+                      Your completion is being confirmed. Your certificate will be available here shortly.
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : allDone ? (
               <div className="rounded-md border p-5">
@@ -423,7 +442,7 @@ export function ProgressView({ participant }: Props) {
               </div>
             )}
 
-            {masteryCert ? (
+            {masteryCert && certsEnabled ? (
               <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
@@ -460,6 +479,23 @@ export function ProgressView({ participant }: Props) {
                   </svg>
                   Download PDF
                 </button>
+              </div>
+            ) : masteryCert && !certsEnabled ? (
+              <div className="rounded-md border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-amber-800 dark:text-amber-400">
+                      Submitted. Your certificate is under review. Check back soon.
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">

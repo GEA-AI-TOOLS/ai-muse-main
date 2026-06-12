@@ -86,10 +86,10 @@ export async function POST(req: NextRequest) {
   }
 
   // PASS — report contains PASS_KEYWORD
-  // Fetch participant for cohort_id
+  // Fetch participant for cohort_id and certs_enabled flag
   const { data: participant } = await supabase
     .from("participants")
-    .select("cohort_id")
+    .select("cohort_id, certs_enabled")
     .eq("id", participantId)
     .single();
 
@@ -112,12 +112,16 @@ export async function POST(req: NextRequest) {
   }
 
   // Issue mastery cert
-  const { error: certError } = await supabase.from("certificates").insert({
-    participant_id: participantId,
-    type: "mastery",
-    verification_code: verificationCode,
-    cohort_id: participant.cohort_id,
-  });
+  const { data: newCert, error: certError } = await supabase
+    .from("certificates")
+    .insert({
+      participant_id: participantId,
+      type: "mastery",
+      verification_code: verificationCode,
+      cohort_id: participant.cohort_id,
+    })
+    .select("id")
+    .single();
 
   if (certError) {
     console.error("Cert issuance failed:", certError);
@@ -147,5 +151,7 @@ export async function POST(req: NextRequest) {
     ok: true,
     result: "pass",
     verificationCode,
+    certId: newCert?.id ?? "",
+    certsEnabled: participant.certs_enabled ?? true,
   });
 }

@@ -167,6 +167,7 @@ export function CapstoneView({ participant }: Props) {
   const [completionCert, setCompletionCert] = useState<CertData | null>(null);
   const [masteryCert, setMasteryCert] = useState<CertData | null>(null);
   const [alreadySubmitted, setAlreadySubmitted] = useState(false);
+  const [certsEnabled, setCertsEnabled] = useState(true);
 
   const firstName = participant.name.split(" ")[0];
 
@@ -186,6 +187,7 @@ export function CapstoneView({ participant }: Props) {
           if (data.submission) setAlreadySubmitted(true);
           setCompletionCert(data.completionCert);
           setMasteryCert(data.masteryCert);
+          setCertsEnabled(data.certsEnabled ?? true);
         }
       })
       .catch(() => {});
@@ -231,6 +233,7 @@ export function CapstoneView({ participant }: Props) {
       if (data.ok) {
         setSubmitResult("pass");
         setAlreadySubmitted(true);
+        setCertsEnabled(data.certsEnabled ?? true);
         setMasteryCert({
           id: data.certId ?? "",
           verification_code: data.verificationCode,
@@ -774,7 +777,9 @@ export function CapstoneView({ participant }: Props) {
                 Project submitted
               </p>
               <p className="text-sm text-green-700 dark:text-green-400">
-                Your Certificate of Mastery has been issued. See the Certificate section below.
+                {certsEnabled
+                  ? "Your Certificate of Mastery has been issued. See the Certificate section below."
+                  : "Your certificate is under review. Check back soon — it will appear in the Certificate section below once confirmed."}
               </p>
             </div>
           ) : (
@@ -913,7 +918,7 @@ export function CapstoneView({ participant }: Props) {
           <div className="flex flex-col gap-4">
 
             {/* Completion cert */}
-            {completionCert ? (
+            {completionCert && certsEnabled ? (
               <div className="rounded-md border p-5 flex items-center justify-between gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
@@ -951,6 +956,23 @@ export function CapstoneView({ participant }: Props) {
                   Download PDF
                 </button>
               </div>
+            ) : completionCert && !certsEnabled ? (
+              <div className="rounded-md border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">Certificate of Completion</p>
+                    <p className="mt-0.5 text-xs text-amber-800 dark:text-amber-400">
+                      Your completion is being confirmed. Your certificate will be available here shortly.
+                    </p>
+                  </div>
+                </div>
+              </div>
             ) : (
               <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
                 <div className="flex items-start gap-4">
@@ -971,7 +993,7 @@ export function CapstoneView({ participant }: Props) {
             )}
 
             {/* Mastery cert */}
-            {masteryCert ? (
+            {masteryCert && certsEnabled ? (
               <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
@@ -1008,6 +1030,23 @@ export function CapstoneView({ participant }: Props) {
                   </svg>
                   Download PDF
                 </button>
+              </div>
+            ) : masteryCert && !certsEnabled ? (
+              <div className="rounded-md border border-amber-200 bg-amber-50 p-5 dark:border-amber-900 dark:bg-amber-950">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-amber-900 dark:text-amber-300">Certificate of Mastery</p>
+                    <p className="mt-0.5 text-xs text-amber-800 dark:text-amber-400">
+                      Submitted. Your certificate is under review. Check back soon.
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
