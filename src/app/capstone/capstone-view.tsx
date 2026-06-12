@@ -6,11 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import type { Participant } from "@/lib/types";
 
-type SectionId = "lesson" | "example" | "submit" | "certificate";
+type SectionId = "start" | "build" | "submit" | "certificate";
 
 const SECTIONS: { id: SectionId; label: string }[] = [
-  { id: "lesson", label: "Lesson" },
-  { id: "example", label: "Example" },
+  { id: "start", label: "Start" },
+  { id: "build", label: "Build" },
   { id: "submit", label: "Submit" },
   { id: "certificate", label: "Certificate" },
 ];
@@ -21,6 +21,15 @@ const SECTIONS: { id: SectionId; label: string }[] = [
 const SLIDE_EMBED_URL = "https://www.canva.com/design/DAHK7uXjMHs/9aIpInGH-5WN5eMMAnyG7A/view?embed";
 const VIDEO_EMBED_URL = ""; // e.g. "https://player.vimeo.com/video/XXXX"
 const USE_VIDEO = false;
+
+// Key links
+const HANDOUT_URL = "https://tiny.cc/sparksend";
+const REVIEW_GPT_URL =
+  "https://chatgpt.com/g/g-6a033acc15448191bf72d50f6069dbe2-ai-tools-reviewer";
+const EVAL_FORM_URL = "https://forms.gle/VSLBXXNqUesYqXQW8";
+
+// The live "Try it" demo tool - The Devil's Advocate. Leave empty for a "coming soon" pill.
+const EXAMPLE_TOOL_URL = "https://chatgpt.com/g/g-6a190e4fed9881918828a961d5a1d120-the-devil-s-advocate";
 
 type PlatformId = "gemini" | "chatgpt-project" | "chatgpt-gpt" | "claude";
 
@@ -64,80 +73,74 @@ const PLATFORMS: {
 ];
 
 // Each step may carry an optional `image` (screenshot). Drop files in
-// /public/assets/capstone/<platform>/ and reference them here, e.g.
-// image: "/assets/capstone/gemini/step-01.png"
+// /public/assets/capstone/<platform>/ and reference them here.
 type Step = { task: string; title: string; items: string[]; image?: string };
 
 const PLATFORM_STEPS: Record<PlatformId, Step[]> = {
   gemini: [
     { task: "01", title: "Open Gemini Gems", items: ["Go to gemini.google.com and open the side panel.", "Select Explore Gems, then New Gem."], image: "/assets/capstone/gemini/step-01.png" },
-    { task: "02", title: "Name your Gem", items: ["Give it a name and a one-sentence description of what it does."], image: "/assets/capstone/gemini/step-02.png" },
-    { task: "03", title: "Paste your working instructions", items: ["Paste your instruction text into the instructions field.", "This is your working instructions — how it thinks, behaves, and what it outputs."], image: "" },
+    { task: "02", title: "Name your Gem", items: ["Give it a name and a one-line description."], image: "/assets/capstone/gemini/step-02.png" },
+    { task: "03", title: "Paste your instructions", items: ["Paste your instruction text into the instructions field."], image: "" },
     { task: "04", title: "Test and refine", items: ["Click Save, then test it with a real task.", "Adjust the instructions based on what you get back."], image: "" },
-    { task: "05", title: "Copy the share link", items: ["Once happy, copy the share link from the Gem menu.", "This is what you paste into the submission form."], image: "" },
+    { task: "05", title: "Copy the share link", items: ["Copy the share link from the Gem menu.", "This is the optional link for the submit step."], image: "" },
   ],
   "chatgpt-project": [
-    { task: "01", title: "Open ChatGPT Projects", items: ["Go to chatgpt.com and click Projects in the left sidebar.", "Click New project and give it a name."], image: "/assets/capstone/chatgpt-project/1.png" },
-    { task: "02", title: "Add custom instructions", items: ["Open the project settings and find the Instructions field.", "Paste your working instructions here — this sets the default behaviour for every chat in the project."], image: "/assets/capstone/chatgpt-project/2.png" },
-    { task: "03", title: "Upload context files (optional)", items: ["Add any reference documents, examples, or templates your tool should know about.", "These stay attached to every conversation in the project."], image: "/assets/capstone/chatgpt-project/3.png" },
-    { task: "04", title: "Test and refine", items: ["Start a chat inside the project and run a real task through it.", "Tweak the instructions if the output isn't quite right."], image: "" },
-    { task: "05", title: "Share the project link", items: ["Copy the project URL from your browser.", "Paste it into the submission form below."], image: "" },
+    { task: "01", title: "Open ChatGPT Projects", items: ["Go to chatgpt.com and click Projects in the left sidebar.", "Click New project and name it."], image: "/assets/capstone/chatgpt-project/1.png" },
+    { task: "02", title: "Add instructions", items: ["Open project settings and find the Instructions field.", "Paste your instructions here."], image: "/assets/capstone/chatgpt-project/2.png" },
+    { task: "03", title: "Add files (optional)", items: ["Add any reference documents your tool should know about."], image: "/assets/capstone/chatgpt-project/3.png" },
+    { task: "04", title: "Test and refine", items: ["Run a real task through it.", "Tweak the instructions if needed."], image: "" },
+    { task: "05", title: "Copy the link", items: ["Copy the project URL from your browser."], image: "" },
   ],
   "chatgpt-gpt": [
-    { task: "01", title: "Open the GPT builder", items: ["Go to chatgpt.com/gpts/mine and click Create.", "You need a ChatGPT Plus or Team account to build custom GPTs."], image: "/assets/capstone/chatgpt-gpt/1.png" },
-    { task: "02", title: "Configure in the builder", items: ["Switch to the Configure tab — this gives you full control.", "Add a name, description, and paste your working instructions into the Instructions field."], image: "/assets/capstone/chatgpt-gpt/2.png" },
-    { task: "03", title: "Set conversation starters", items: ["Add 2–3 example prompts that show what the tool does.", "This helps users understand how to use it from the first screen."], image: "" },
-    { task: "04", title: "Test in the preview panel", items: ["Use the preview on the right to test your GPT live.", "Adjust instructions until the output matches what you need."], image: "" },
-    { task: "05", title: "Publish and copy the link", items: ["Set sharing to Anyone with a link and click Save.", "Copy the share URL — this goes in the submission form."], image: "/assets/capstone/chatgpt-gpt/5.png" },
+    { task: "01", title: "Open the GPT builder", items: ["Go to chatgpt.com/gpts/mine and click Create.", "Needs a ChatGPT Plus or Team account."], image: "/assets/capstone/chatgpt-gpt/1.png" },
+    { task: "02", title: "Configure", items: ["Switch to the Configure tab.", "Add a name, description, and paste your instructions."], image: "/assets/capstone/chatgpt-gpt/2.png" },
+    { task: "03", title: "Add starters", items: ["Add 2 to 3 example prompts that show what it does."], image: "" },
+    { task: "04", title: "Test in preview", items: ["Use the preview panel to test it live.", "Adjust until the output matches what you need."], image: "" },
+    { task: "05", title: "Publish and copy", items: ["Set sharing to Anyone with a link and Save.", "Copy the share URL."], image: "/assets/capstone/chatgpt-gpt/5.png" },
   ],
   claude: [
-    { task: "01", title: "Open Claude Projects", items: ["Go to claude.ai/projects and click New project.", "Projects are available on Claude Pro and Team plans."], image: "/assets/capstone/claude/1.png" },
-    { task: "02", title: "Add project instructions", items: ["Click Project instructions and paste your working instructions.", "This runs before every conversation in the project, setting the tool's role and behaviour."], image: "/assets/capstone/claude/2.png" },
-    { task: "03", title: "Upload knowledge files (optional)", items: ["Add any reference documents or examples under Project knowledge.", "Claude will use these as context in every conversation."], image: "" },
-    { task: "04", title: "Test with a real task", items: ["Start a conversation inside the project and run your chosen task through it.", "Revise the instructions based on what you observe."], image: "" },
-    ],
+    { task: "01", title: "Open Claude Projects", items: ["Go to claude.ai/projects and click New project.", "Available on Claude Pro and Team plans."], image: "/assets/capstone/claude/1.png" },
+    { task: "02", title: "Add instructions", items: ["Click Project instructions and paste your instructions."], image: "/assets/capstone/claude/2.png" },
+    { task: "03", title: "Add files (optional)", items: ["Add reference documents under Project knowledge."], image: "" },
+    { task: "04", title: "Test with a real task", items: ["Run your task through it.", "Revise the instructions based on what you see."], image: "" },
+  ],
 };
 
-// The three ingredients — the spine of the lesson, matching the deck.
-// "Working instructions" expands into sub-points on the page so it doesn't become a vague catch-all.
-const INGREDIENTS: { label: string; sub: string; text: string; subPoints?: { label: string; text: string }[] }[] = [
+// Phase 1 - the four ingredients, as short build steps. Detail lives in the handout.
+const BUILD_STEPS: { task: string; title: string; items: string[] }[] = [
   {
-    label: "Purpose",
-    sub: "What is it for?",
-    text: "The one job this tool exists to do, and who it's for. Specific, not general — 'pressure-test a decision', not 'help with work'.",
-  },
-  {
-    label: "Working instructions",
-    sub: "How should it work?",
-    text: "How it thinks and behaves. This is the big one — break it into four parts:",
-    subPoints: [
-      { label: "Role & behaviour", text: "How it interacts, its tone, what it asks before it answers." },
-      { label: "Method", text: "The steps it follows to solve the problem." },
-      { label: "Using the knowledge", text: "How to read and apply the files — e.g. 'always match the format in the sample brief'." },
-      { label: "Output", text: "The exact shape of the result, plus at least one constraint — something it never does." },
+    task: "01",
+    title: "Define your objective",
+    items: [
+      "Say what your tool is for, in one or two lines.",
+      "Made a TRUE NORTH on Day 5? Use it. It works as your objective.",
     ],
   },
   {
-    label: "Knowledge files",
-    sub: "What should it know?",
-    text: "The documents that make its answers yours, not generic: internal files, past emails, project plans, sample formats for documents and emails, templates. This is what turns a clever assistant into one that knows your world.",
+    task: "02",
+    title: "Gather your data",
+    items: [
+      "Collect the files, examples, or notes your tool should know.",
+      "Add only what the task needs. This step is optional.",
+    ],
+  },
+  {
+    task: "03",
+    title: "Write your work methods and output",
+    items: [
+      "Say how it should work and what it should produce.",
+      "The handout has a prompt that writes this with you.",
+    ],
+  },
+  {
+    task: "04",
+    title: "Build and test",
+    items: [
+      "Pick a platform below and set it up.",
+      "Run it on something real. Adjust if needed.",
+    ],
   },
 ];
-
-// The Devil's Advocate — the live demo tool, also used as the worked breakdown.
-const EXAMPLE_INGREDIENTS: { label: string; text: string }[] = [
-  { label: "Purpose", text: "Stress-test any plan, decision, or idea so you catch its weakest point before reality does." },
-  { label: "Working instructions", text: "A sharp, respectful critic — never a cheerleader. Restate the idea in one line, then give the strongest counter-case, the failure mode you're underweighting, and the one question to answer first. End with a verdict: proceed, proceed with caution, or rethink." },
-  { label: "Knowledge files", text: "Optional here — it works on any input cold. Feed it your goals or past post-mortems and its critiques get sharper and more specific to you." },
-];
-
-const REVIEW_GPT_URL =
-  "https://chatgpt.com/g/g-6a033acc15448191bf72d50f6069dbe2-ai-tools-reviewer";
-
-// The live "Try it" tool — The Devil's Advocate. Paste its public share link here
-// (e.g. a Gemini Gem or Custom GPT share URL) and the "Try it" button activates.
-// Leave empty to show a "coming soon" pill instead.
-const EXAMPLE_TOOL_URL = "https://chatgpt.com/g/g-6a190e4fed9881918828a961d5a1d120-the-devil-s-advocate";
 
 interface CertData {
   id: string;
@@ -150,7 +153,7 @@ interface Props {
 }
 
 export function CapstoneView({ participant }: Props) {
-  const [activeSection, setActiveSection] = useState<SectionId>("lesson");
+  const [activeSection, setActiveSection] = useState<SectionId>("start");
   const [activePlatform, setActivePlatform] = useState<PlatformId>("gemini");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -393,19 +396,14 @@ export function CapstoneView({ participant }: Props) {
           </p>
           <h1 className="mt-2 text-3xl font-medium">Build your own AI tool</h1>
           <p className="mt-1 text-base text-muted-foreground">
-            Apply everything from the 10 days. Build something real that you will actually use.
+            Apply everything from the 10 days. Build one tool you will actually use.
           </p>
         </div>
 
-        {/* ── LESSON ── */}
-        <section id="lesson" className="scroll-mt-20 py-8">
-          <h2 className="mb-3 text-lg font-medium">Lesson</h2>
-          <p className="mb-4 text-sm text-muted-foreground">
-            Watch the capstone brief before you start building.
-          </p>
+        {/* ── START ── */}
+        <section id="start" className="scroll-mt-20 py-8">
 
-          {/* Media slot — slide embed stands in until the video is recorded.
-              Swap by setting USE_VIDEO = true and filling VIDEO_EMBED_URL above. */}
+          {/* Slides */}
           <div className="aspect-video overflow-hidden rounded-md border bg-black mb-6">
             {USE_VIDEO && VIDEO_EMBED_URL ? (
               <iframe
@@ -425,171 +423,69 @@ export function CapstoneView({ participant }: Props) {
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center">
-                <span className="text-sm text-white/40">Capstone brief — slides coming soon</span>
+                <span className="text-sm text-white/40">Capstone brief coming soon</span>
               </div>
             )}
           </div>
 
-          <div className="mt-6 flex flex-col gap-2">
-            {[
-              {
-                label: "Core idea",
-                text: "You have spent 10 days learning a method. The capstone is where you apply it to something that matters to you — one specific, recurring task in your work.",
-                highlight: true,
-              },
-              {
-                label: "The goal",
-                text: "Build a custom AI tool on any platform. It should do one thing well, for one specific purpose, with clear instructions on how to behave.",
-                highlight: false,
-              },
-              {
-                label: "Key takeaway",
-                text: "The tool you build is the proof that you have learned something. Not a certificate — the thing itself.",
-                highlight: true,
-              },
-            ].map((row) => (
-              <div
-                key={row.label}
-                className={
-                  "rounded-r-md border-l-[3px] px-4 py-3 " +
-                  (row.highlight
-                    ? "border-l-[#E24B4A] bg-[#FCEBEB] dark:bg-[#3a1010]"
-                    : "border-l-border bg-muted/40")
-                }
-              >
-                <p className={
-                  "mb-1 text-[10px] font-medium uppercase tracking-[0.4px] " +
-                  (row.highlight ? "text-[#A32D2D]" : "text-muted-foreground")
-                }>
-                  {row.label}
-                </p>
-                <p className={
-                  "text-sm leading-relaxed " +
-                  (row.highlight ? "text-[#501313] dark:text-[#f5c1c1]" : "text-foreground")
-                }>
-                  {row.text}
+          {/* Handout callout - prominent, near the top */}
+          <a
+            href={HANDOUT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="mb-6 flex items-center justify-between gap-4 rounded-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-5 py-4 hover:opacity-90 dark:bg-[#3a1010]"
+          >
+            <div className="flex items-start gap-3">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+              <div>
+                <p className="text-sm font-semibold text-[#501313] dark:text-[#f5c1c1]">Your step-by-step guide</p>
+                <p className="mt-0.5 text-xs text-[#791F1F] dark:text-[#f5c1c1]">
+                  The full walkthrough, with the prompts that do the work. Keep it open while you build.
                 </p>
               </div>
-            ))}
-          </div>
-
-          {/* ── The three ingredients ── */}
-          <div className="mt-8 mb-2 border-t pt-6">
-            <h3 className="text-base font-semibold">The three ingredients</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Every custom tool — on any platform — is built from the same three parts. Answer these three questions and you have your tool.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            {INGREDIENTS.map((ing) => (
-              <div key={ing.label} className="rounded-md border bg-muted/30 p-4">
-                <div className="mb-1 flex items-baseline gap-2">
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-[#E24B4A]" />
-                  <span className="text-sm font-semibold">{ing.label}</span>
-                  <span className="text-xs italic text-[#A32D2D]">{ing.sub}</span>
-                </div>
-                <p className="pl-4 text-sm leading-relaxed text-muted-foreground">{ing.text}</p>
-                {ing.subPoints ? (
-                  <div className="mt-2 grid gap-2 pl-4 sm:grid-cols-2">
-                    {ing.subPoints.map((sp) => (
-                      <div key={sp.label} className="rounded border bg-background px-3 py-2">
-                        <p className="text-xs font-semibold">{sp.label}</p>
-                        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{sp.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-
-          {/* ── Instructions = thinking rules (vague vs structured) ── */}
-          <div className="mt-8 mb-2 border-t pt-6">
-            <h3 className="text-base font-semibold">Your instructions are thinking rules</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              The instructions field is not a description — it tells the tool how to reason. Same AI, completely different output.
-            </p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {/* Vague */}
-            <div className="rounded-md border bg-muted/40 p-4">
-              <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground">Vague</p>
-              <p className="text-sm italic leading-relaxed">&ldquo;You are a helpful assistant.&rdquo;</p>
-              <div className="my-3 border-t" />
-              <p className="text-xs text-muted-foreground">→ Generic, forgettable output.</p>
             </div>
-            {/* Structured */}
-            <div className="rounded-md border-l-[3px] border-l-[#E24B4A] border bg-[#FCEBEB] p-4 dark:bg-[#3a1010]">
-              <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">Structured</p>
-              <p className="text-sm italic leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
-                &ldquo;Ask what objective this tool serves. Score it against our goals. Recommend: adopt, defer, or reject.&rdquo;
-              </p>
-              <div className="my-3 border-t border-[#F09595]/50" />
-              <p className="text-xs text-[#791F1F] dark:text-[#f5c1c1]">→ Actionable output, every time.</p>
+            <span className="shrink-0 text-sm font-medium text-[#A32D2D]">Open guide →</span>
+          </a>
+
+          {/* How it works - two phases */}
+          <div className="rounded-md border bg-muted/20 p-5">
+            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-3">
+              How it works
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="rounded-md border bg-background p-4">
+                <p className="text-sm font-semibold">Phase 1 · Make</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Build your tool in 4 steps. See the Build section below.
+                </p>
+              </div>
+              <div className="rounded-md border bg-background p-4">
+                <p className="text-sm font-semibold">Phase 2 · Submit</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Review it, submit it, fill the short form. See the Submit section below.
+                </p>
+              </div>
             </div>
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            A good tool has a clear role, a defined task, a specific output format, and at least one constraint — something it will never do.
+        </section>
+
+        <Separator />
+
+        {/* ── BUILD (Phase 1) ── */}
+        <section id="build" className="scroll-mt-20 py-8">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Phase 1</p>
+          <h2 className="mt-1 mb-1 text-lg font-medium">Make your tool</h2>
+          <p className="mb-6 text-sm text-muted-foreground">
+            Four steps. The prompts that help with each one are in your{" "}
+            <a href={HANDOUT_URL} target="_blank" rel="noreferrer" className="text-[#E24B4A] hover:underline">guide</a>.
           </p>
 
-          {/* ── Plan your three ingredients (scaffold) ── */}
-          <div className="mt-8 mb-2 border-t pt-6">
-            <h3 className="text-base font-semibold">Plan your three ingredients</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Before you open any builder, write these three out for your own tool. This is the thinking that makes it work — do it on paper or jot it here.
-            </p>
-          </div>
-          <div className="flex flex-col gap-2">
-            {INGREDIENTS.map((ing) => (
-              <div key={ing.label} className="flex items-start gap-3 rounded-md border bg-muted/20 px-4 py-3">
-                <span className="mt-0.5 w-40 shrink-0 text-sm font-medium">{ing.label}</span>
-                <span className="text-sm text-muted-foreground">{ing.sub}…</span>
-              </div>
-            ))}
-          </div>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Tip: keep this somewhere handy — your purpose and working instructions go straight into the instructions field, and your knowledge files attach alongside.
-          </p>
-
-          <div className="mt-8 mb-2 border-t pt-6">
-            <h3 className="text-base font-semibold">What to do</h3>
-          </div>
-          <div className="mb-4 flex flex-col gap-3">
-            {[
-              {
-                task: "01",
-                title: "Pick your use case",
-                items: [
-                  "Choose one specific, recurring task in your work that AI could help with.",
-                  "Be specific — not 'productivity in general' but something concrete: briefing, reviewing, generating, summarising.",
-                ],
-              },
-              {
-                task: "02",
-                title: "Write your three ingredients",
-                items: [
-                  "Purpose, working instructions, knowledge files — write each one for your tool.",
-                  "In the working instructions, include the role it plays, the steps it follows, the output format, and at least one constraint.",
-                ],
-              },
-              {
-                task: "03",
-                title: "Build and test",
-                items: [
-                  "Create your tool on any AI platform (see the Example section for step-by-step guides).",
-                  "Run three real tasks through it and note where it works and where it needs adjustment.",
-                  "Refine based on what you find.",
-                ],
-              },
-              {
-                task: "04",
-                title: "Review and submit",
-                items: [
-                  "Run your instruction file through the AI review tool in the Submit section.",
-                  "Paste the report and add a one-sentence description of what you built.",
-                ],
-              },
-            ].map((step, i) => (
+          {/* The 4 build steps */}
+          <div className="mb-8 flex flex-col gap-3">
+            {BUILD_STEPS.map((step, i) => (
               <div key={i} className="rounded-md border bg-muted/30 p-4">
                 <div className="mb-2 flex items-center gap-2">
                   <span className="text-lg font-medium text-[#E24B4A] leading-none">{step.task}</span>
@@ -606,31 +502,17 @@ export function CapstoneView({ participant }: Props) {
               </div>
             ))}
           </div>
-          <div className="rounded-md border bg-muted/20 px-3 py-2 text-xs text-muted-foreground">
-            <span className="font-medium">Done when: </span>
-            You have a working tool that performs your chosen task and produces a useful result on a real problem.
-          </div>
-        </section>
 
-        <Separator />
-
-        {/* ── EXAMPLE ── */}
-        <section id="example" className="scroll-mt-20 py-8">
-          <h2 className="mb-1 text-lg font-medium">Example</h2>
-          <p className="mb-6 text-sm text-muted-foreground">
-            Try a real custom tool first — then see exactly how it was built, and build your own.
-          </p>
-
-          {/* Live demo: try it first, breakdown below */}
-          <div className="mb-6 rounded-md border bg-muted/30 p-5">
-            <div className="mb-4 flex items-start justify-between gap-4">
+          {/* Small, separated example card */}
+          <div className="mb-8 rounded-md border border-dashed bg-muted/10 p-4">
+            <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-1">
-                  Try this tool
+                <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-muted-foreground">
+                  Want to see a finished one first?
                 </p>
-                <p className="text-base font-medium">The Devil&rsquo;s Advocate</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Paste any plan, decision, or idea — and instead of agreeing, it pushes back. It gives you the strongest case against, the failure mode you&rsquo;re missing, and the one question to answer first. Try it with something real you&rsquo;re working on.
+                <p className="mt-1 text-sm font-medium">The Devil&rsquo;s Advocate</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  A tool that pushes back on any plan instead of agreeing. Try it, then build your own.
                 </p>
               </div>
               {EXAMPLE_TOOL_URL ? (
@@ -638,43 +520,24 @@ export function CapstoneView({ participant }: Props) {
                   href={EXAMPLE_TOOL_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="shrink-0 rounded-md bg-[#E24B4A] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  className="shrink-0 rounded-md border px-4 py-2 text-sm font-medium hover:bg-accent"
                 >
                   Try it →
                 </a>
               ) : (
-                <span className="shrink-0 rounded-md border border-dashed px-5 py-2.5 text-sm text-muted-foreground">
-                  Try it — coming soon
+                <span className="shrink-0 rounded-md border border-dashed px-4 py-2 text-sm text-muted-foreground">
+                  Coming soon
                 </span>
               )}
             </div>
-            <div className="border-t pt-4">
-              <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                How this exact tool was built — its three ingredients
-              </p>
-              <div className="flex flex-col gap-2.5">
-                {EXAMPLE_INGREDIENTS.map((ing) => (
-                  <div key={ing.label} className="flex items-start gap-2 text-sm">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E24B4A]" />
-                    <span>
-                      <span className="font-semibold">{ing.label}:</span>{" "}
-                      <span className="text-muted-foreground">{ing.text}</span>
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                That&rsquo;s the whole recipe. Now build your own the same way.
-              </p>
-            </div>
           </div>
 
-          {/* Platform tabs */}
-          <div className="mt-8 mb-0 border-t pt-6">
+          {/* Build on your platform */}
+          <div className="border-t pt-6">
             <h3 className="mb-1 text-base font-semibold">Build it on your platform</h3>
             <p className="mb-3 text-sm text-muted-foreground">
-              The three ingredients are the same everywhere — only the screen changes. We recommend starting with{" "}
-              <span className="font-medium text-foreground">Gemini</span>, which is free for anyone. ChatGPT and Claude are excellent if you have the paid version.
+              Same steps everywhere, only the screen changes. Start with{" "}
+              <span className="font-medium text-foreground">Gemini</span>, free for anyone.
             </p>
 
             <div className="flex flex-wrap gap-1 rounded-md border bg-muted/30 p-1">
@@ -726,7 +589,7 @@ export function CapstoneView({ participant }: Props) {
                 </a>
                 {currentPlatform.recommended ? (
                   <span className="rounded bg-[#FCEBEB] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[#A32D2D]">
-                    Recommended — free
+                    Recommended, free
                   </span>
                 ) : null}
               </div>
@@ -746,11 +609,10 @@ export function CapstoneView({ participant }: Props) {
                         </li>
                       ))}
                     </ul>
-                    {/* Optional screenshot for this step. Set `image` in PLATFORM_STEPS to show. */}
                     {step.image ? (
                       <img
                         src={step.image}
-                        alt={currentPlatform.label + " — " + step.title}
+                        alt={currentPlatform.label + " " + step.title}
                         className="mt-3 w-full rounded border"
                         loading="lazy"
                       />
@@ -764,35 +626,56 @@ export function CapstoneView({ participant }: Props) {
 
         <Separator />
 
-        {/* ── SUBMIT ── */}
+        {/* ── SUBMIT (Phase 2) ── */}
         <section id="submit" className="scroll-mt-20 py-8">
-          <h2 className="mb-1 text-lg font-medium">Submit your project</h2>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Phase 2</p>
+          <h2 className="mt-1 mb-1 text-lg font-medium">Review and submit</h2>
           <p className="mb-6 text-sm text-muted-foreground">
-            Complete the three steps below to earn your Certificate of Mastery.
+            Review your tool, submit it, then fill the short form.
           </p>
 
           {alreadySubmitted ? (
-            <div className="rounded-md border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
-              <p className="text-base font-medium text-green-800 dark:text-green-300 mb-1">
-                Project submitted
-              </p>
-              <p className="text-sm text-green-700 dark:text-green-400">
-                {certsEnabled
-                  ? "Your Certificate of Mastery has been issued. See the Certificate section below."
-                  : "Your certificate is under review. Check back soon — it will appear in the Certificate section below once confirmed."}
-              </p>
+            <div className="flex flex-col gap-4">
+              <div className="rounded-md border border-green-200 bg-green-50 p-6 text-center dark:border-green-900 dark:bg-green-950">
+                <p className="text-base font-medium text-green-800 dark:text-green-300 mb-1">
+                  Project submitted
+                </p>
+                <p className="text-sm text-green-700 dark:text-green-400">
+                  {certsEnabled
+                    ? "Your certificate has been issued. See the Certificate section below."
+                    : "We are reviewing your submission. Your certificate will appear in the Certificate section below once it is ready."}
+                </p>
+              </div>
+
+              {/* Form still required after submit */}
+              <div className="rounded-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] p-5 dark:bg-[#3a1010]">
+                <p className="text-sm font-semibold text-[#501313] dark:text-[#f5c1c1]">
+                  One last step: the course form
+                </p>
+                <p className="mt-1 text-xs text-[#791F1F] dark:text-[#f5c1c1]">
+                  If you have not filled it yet, please do. It helps us review your submission.
+                </p>
+                <a
+                  href={EVAL_FORM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                >
+                  Open the course form →
+                </a>
+              </div>
             </div>
           ) : (
             <div className="flex flex-col gap-5">
 
-              {/* Step 1 — Review GPT */}
+              {/* Step 1 - Review GPT */}
               <div className="rounded-md border p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">1</span>
                   <span className="text-sm font-medium">Review your tool</span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Open the Review GPT and submit your instruction file. It checks your tool privately and gives you a report to paste below.
+                  Open the Review GPT. Give it the three things it asks for. It returns a report.
                 </p>
                 <a
                   href={REVIEW_GPT_URL}
@@ -804,9 +687,9 @@ export function CapstoneView({ participant }: Props) {
                 </a>
                 <ul className="mt-4 space-y-1.5">
                   {[
-                    "Open the GPT and tell it you are submitting a capstone tool for review.",
-                    "Paste your instruction text (your purpose + working instructions) or upload your instruction file when prompted.",
-                    "Wait for the full report, then copy all of it — including the verification line at the end.",
+                    "Tell it you are submitting a capstone tool for review.",
+                    "Give it your project description, your objective, and your instructions.",
+                    "When it is done, copy the whole response.",
                   ].map((item, i) => (
                     <li key={i} className="flex gap-2 text-sm text-muted-foreground">
                       <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-muted-foreground" />
@@ -815,27 +698,26 @@ export function CapstoneView({ participant }: Props) {
                   ))}
                 </ul>
                 <p className="mt-4 text-xs text-muted-foreground rounded-md bg-muted/40 px-3 py-2">
-                  We never see your instruction file. The GPT processes it privately and does not store it.
+                  Your files stay private. The GPT reviews your work in its own window. We never see your files.
                 </p>
               </div>
 
-              {/* Step 2 — Paste report */}
+              {/* Step 2 - Paste report */}
               <div className="rounded-md border p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">2</span>
                   <span className="text-sm font-medium">Paste the report</span>
                 </div>
                 <label className="mb-1.5 block text-sm text-muted-foreground">
-                  Paste the full report from the Review GPT here — copy everything, including the verification line at the end.
+                  Paste the whole response from the Review GPT. Copy everything, top to bottom.
                 </label>
                 <textarea
                   className="w-full min-h-[140px] rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y"
-                  placeholder="Paste the complete report from the Review GPT..."
+                  placeholder="Paste the complete response from the Review GPT..."
                   value={reviewReport}
                   onChange={(e) => setReviewReport(e.target.value)}
                 />
 
-                {/* Inline feedback for fail / wrong source — shown here under the paste box */}
                 {submitResult === "fail" && (
                   <div className="mt-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
                     {submitError}
@@ -848,7 +730,7 @@ export function CapstoneView({ participant }: Props) {
                 )}
               </div>
 
-              {/* Step 3 — Tell us what you built */}
+              {/* Step 3 - Tell us what you built */}
               <div className="rounded-md border p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">3</span>
@@ -868,7 +750,7 @@ export function CapstoneView({ participant }: Props) {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value)}
                     />
                     <p className="mt-1.5 text-xs text-muted-foreground">
-                      One sentence. Specific about what it does and who it is for.
+                      One line, in your own words.
                     </p>
                   </div>
 
@@ -884,13 +766,12 @@ export function CapstoneView({ participant }: Props) {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setGemUrl(e.target.value)}
                     />
                     <p className="mt-1.5 text-xs text-muted-foreground">
-                      Link to your Gem, custom GPT, Claude project, or any shared AI tool.
+                      Link to your Gem, GPT, or project, if it is shareable.
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* General error (non-result errors) */}
               {submitError && submitResult === null && (
                 <p className="text-xs text-destructive">{submitError}</p>
               )}
@@ -900,8 +781,27 @@ export function CapstoneView({ participant }: Props) {
                 onClick={handleSubmit}
                 disabled={submitting}
               >
-                {submitting ? "Submitting..." : "Submit and earn Certificate of Mastery"}
+                {submitting ? "Submitting..." : "Submit capstone"}
               </Button>
+
+              {/* Course form - required final step, below the submit button */}
+              <div className="rounded-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] p-5 dark:bg-[#3a1010]">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#E24B4A] text-xs font-medium text-white">4</span>
+                  <span className="text-sm font-semibold text-[#501313] dark:text-[#f5c1c1]">Fill the course form</span>
+                </div>
+                <p className="mt-1 text-xs text-[#791F1F] dark:text-[#f5c1c1]">
+                  After you submit, fill this short form. It helps us review your submission.
+                </p>
+                <a
+                  href={EVAL_FORM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                >
+                  Open the course form →
+                </a>
+              </div>
             </div>
           )}
         </section>
