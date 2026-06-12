@@ -964,7 +964,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/LlwKcZ6uyOk?si=elCDJHqKgQQO1cUp?rel=0",
-      //slideUrl: "https://www.canva.com/design/DAHFCQfjIO0/ACzpFZCecJeWH5twR0nX7g/view?embed",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-9-Essential.pdf",
       durationSeconds: 600,
       summary: {
         coreIdea: "You spend 20 minutes crafting the perfect prompt. The output comes back fine. Not sharp. Not yours. You copy-paste it anyway. Three days later you read it and think: this is mediocre. But you already sent it. A good prompt does not get it right the first time. A good prompt gets you raw material. Iteration is where the real work starts. Your best work with AI lives on the other side of one more round.",
@@ -1010,6 +1010,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/kyoh-hPqPjo?si=ZxLR0YNlxqgJLd_p?rel=0",
+      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-9-Advanced.pdf",
       durationSeconds: 840,
       summary: {
         coreIdea: "You iterate. The output gets better. But if someone asked what changed between version one and version three, you could not answer. The improvement happened. You just cannot reproduce it. Next project, you start from scratch again. Documented iteration is a skill. Undocumented iteration is luck. If you cannot see what changed between versions, you are not iterating. You are guessing.",
@@ -1054,9 +1055,31 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     learnMore: [
-      { title: "Article 1", url: "http://tiny.cc/day9_art1", type: "article" },
-      { title: "Article 2", url: "http://tiny.cc/day9_art2", type: "article" },
-      { title: "NotebookLM", url: "http://tiny.cc/day9_notebook", type: "tool" },
+      {
+        title: "Self-Refine: Iterative Refinement with Self-Feedback",
+        url: "https://openreview.net/forum?id=S37hOerQLB",
+        type: "article"
+      },
+      {
+        title: "2 Chapters on Persistence",
+        url: "https://www.books.genorg.ai",
+        type: "other"
+      },
+      {
+        title: "NotebookLM",
+        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468",
+        type: "tool"
+      },
+      {
+        title: "NotebookLM Podcast - Teaching AI to Fix Its Own Mistake",
+        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/25a4cb86-fc1a-4721-9474-da376e25a6fa?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art%20share_1",
+        type: "other"
+      },
+      {
+        title: "Video - The Persistent Engine",
+        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/cfb8e87e-d4eb-4682-a28e-ae2c30ce9e6e?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art%20share_1",
+        type: "video"
+      }
     ],
   },
 
