@@ -32,10 +32,20 @@ export async function GET(req: NextRequest) {
   const completionCert = certs?.find((c) => c.type === "completion") ?? null;
   const masteryCert = certs?.find((c) => c.type === "mastery") ?? null;
 
+  // Cert visibility flag — when false, certs exist but are hidden from participant
+  const { data: participant } = await supabase
+    .from("participants")
+    .select("certs_enabled")
+    .eq("id", participantId)
+    .single();
+
+  const certsEnabled = participant?.certs_enabled ?? true;
+
   return NextResponse.json({
     ok: true,
     submission,
     completionCert,
     masteryCert,
+    certsEnabled,
   });
 }
