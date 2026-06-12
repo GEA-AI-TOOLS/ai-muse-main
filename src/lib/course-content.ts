@@ -963,7 +963,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
+      videoUrl: "https://www.youtube.com/embed/LlwKcZ6uyOk?si=elCDJHqKgQQO1cUp?rel=0",
       //slideUrl: "https://www.canva.com/design/DAHFCQfjIO0/ACzpFZCecJeWH5twR0nX7g/view?embed",
       durationSeconds: 600,
       summary: {
@@ -1009,7 +1009,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
+      videoUrl: "https://www.youtube.com/embed/kyoh-hPqPjo?si=ZxLR0YNlxqgJLd_p?rel=0",
       durationSeconds: 840,
       summary: {
         coreIdea: "You iterate. The output gets better. But if someone asked what changed between version one and version three, you could not answer. The improvement happened. You just cannot reproduce it. Next project, you start from scratch again. Documented iteration is a skill. Undocumented iteration is luck. If you cannot see what changed between versions, you are not iterating. You are guessing.",
