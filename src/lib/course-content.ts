@@ -148,7 +148,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "hthttps://www.youtube.com/embed/c9WopFRNGrY?si=Vq3VkBuyCUWrJY1H?rel=0",
+      videoUrl: "https://www.youtube.com/embed/c9WopFRNGrY?si=Vq3VkBuyCUWrJY1H?rel=0",
       slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%202-%20Essentials%20Expertise.pdf",
       durationSeconds: 600,
       summary: {
