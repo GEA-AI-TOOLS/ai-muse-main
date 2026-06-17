@@ -1094,7 +1094,7 @@ https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review`,
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/5yCxbXQL9Jc?si=Dj6jsAXoOPjZrAIw?rel=0",
+      videoUrl: "https://www.youtube.com/embed/6uiBVDVbKfE?si=AoUUdrGO84WY654R?rel=0",
       slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-10-Essential.pdf",
       durationSeconds: 600,
       summary: {
