@@ -282,8 +282,26 @@ export function LessonView({ participant, lesson, section }: Props) {
           ) : (
             <div className="mb-4" />
           )}
+
+          {/* Core idea — hook first, above the video */}
+          {lesson.essential.summary.coreIdea?.trim() && (
+            <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+              <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
+                Core idea
+              </p>
+              <p className="text-sm leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
+                {lesson.essential.summary.coreIdea}
+              </p>
+            </div>
+          )}
+
           <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
-          <SummaryBlock summary={lesson.essential.summary} />
+
+          {/* Summary heading */}
+          <div className="mt-8 mb-1">
+            <h3 className="text-base font-semibold">Summary</h3>
+          </div>
+          <SummaryBlock summary={lesson.essential.summary} skipCoreIdea />
           <div className="mt-8 mb-2 border-t pt-6">
             <h3 className="text-base font-semibold">Exercise</h3>
           </div>
@@ -341,8 +359,21 @@ export function LessonView({ participant, lesson, section }: Props) {
 
           {advancedOpen && (
             <div className="mt-6">
+              {lesson.advanced.summary.coreIdea?.trim() && (
+                <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+                  <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
+                    Core idea
+                  </p>
+                  <p className="text-sm leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
+                    {lesson.advanced.summary.coreIdea}
+                  </p>
+                </div>
+              )}
               <VideoPlayer videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
-              <SummaryBlock summary={lesson.advanced.summary} />
+              <div className="mt-8 mb-1">
+                <h3 className="text-base font-semibold">Summary</h3>
+              </div>
+              <SummaryBlock summary={lesson.advanced.summary} skipCoreIdea />
               <div className="mt-8 mb-2 border-t pt-6">
                 <h3 className="text-base font-semibold">Exercise</h3>
               </div>
@@ -355,7 +386,23 @@ export function LessonView({ participant, lesson, section }: Props) {
             </div>
           )}
         </section>
-
+        {/* Next lesson */}
+        {lesson.day < 10 && (
+          <div className="pb-2">
+            <a
+              href={"/lesson/" + String(lesson.day + 1)}
+              className="flex items-center justify-between rounded-md border bg-muted/30 px-5 py-4 hover:bg-muted/50 transition-colors"
+            >
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-0.5">
+                  Next lesson
+                </p>
+                <p className="text-sm font-medium">{"Day " + String(lesson.day + 1)}</p>
+              </div>
+              <span className="text-sm text-[#E24B4A]">Continue →</span>
+            </a>
+          </div>
+        )}
         <Separator />
 
         {/* Learn More */}
@@ -397,15 +444,22 @@ export function LessonView({ participant, lesson, section }: Props) {
 }
 
 function VideoPlayer({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: string }) {
+  const hasVideo = videoUrl?.trim().length > 0;
   return (
     <div className="flex flex-col gap-3">
       <div className="aspect-video overflow-hidden rounded-md bg-black">
-        <iframe
-          src={videoUrl}
-          className="h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        {hasVideo ? (
+          <iframe
+            src={videoUrl}
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-muted">
+            <p className="text-sm text-muted-foreground">Video coming soon</p>
+          </div>
+        )}
       </div>
       {slideUrl && (
         <a

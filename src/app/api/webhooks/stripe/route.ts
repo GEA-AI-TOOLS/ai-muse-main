@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { supabase } from "@/lib/supabase";
-import { sendWelcomeEmail } from "@/lib/email";
+import { fulfillEnrollment } from "@/lib/enrollment";
 
 let stripe: Stripe;
 
@@ -31,10 +30,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No signature." }, { status: 400 });
   }
 
-  let event: Stripe.Event;
+  let stripeEvent: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
+    stripeEvent = stripe.webhooks.constructEvent(
       body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -45,119 +44,42 @@ export async function POST(req: NextRequest) {
   }
 
   // Only handle checkout completion
-  if (event.type !== "checkout.session.completed") {
+  if (stripeEvent.type !== "checkout.session.completed") {
     return NextResponse.json({ received: true });
   }
 
-const session = event.data.object as Stripe.Checkout.Session;
+  const session = stripeEvent.data.object as Stripe.Checkout.Session;
 
-  // Idempotency check — skip if already processed
-  const { data: existing } = await supabase
-    .from("participants")
-    .select("id")
-    .eq("stripe_payment_id", session.id)
-    .single();
-
-  if (existing) {
-    console.log("Already processed session:", session.id);
-    return NextResponse.json({ received: true });
-  }
-
-  // Get pending enrollment from metadata
   const pendingId = session.metadata?.pending_enrollment_id;
   if (!pendingId) {
     console.error("No pending_enrollment_id in metadata");
     return NextResponse.json({ received: true });
   }
 
-  const { data: enrollment, error: enrollError } = await supabase
-    .from("pending_enrollments")
-    .select("*")
-    .eq("id", pendingId)
-    .single();
+  const result = await fulfillEnrollment(session.id, pendingId, session.created);
 
-  if (enrollError || !enrollment) {
-    console.error("Pending enrollment not found:", pendingId);
+  if (!result) {
+    // Creation genuinely failed (not just "already existed") — let Stripe retry
+    return NextResponse.json({ error: "Fulfillment failed." }, { status: 500 });
+  }
+
+  console.log("Webhook fulfilled:", session.id, "existed:", result.alreadyExisted);
+  return NextResponse.json({ received: true });
+}const session = event.data.object as Stripe.Checkout.Session;
+
+  const pendingId = session.metadata?.pending_enrollment_id;
+  if (!pendingId) {
+    console.error("No pending_enrollment_id in metadata");
     return NextResponse.json({ received: true });
   }
 
-  // Compute cohort
-  const paymentDate = new Date(session.created * 1000);
-  const monday = getUpcomingMonday(paymentDate);
-  const cohortId = formatCohortId(monday);
-  const startDate = monday.toISOString().split("T")[0];
+  const result = await fulfillEnrollment(session.id, pendingId, session.created);
 
-  // Create cohort if it doesn't exist
-  await supabase
-    .from("cohorts")
-    .upsert(
-      {
-        cohort_id: cohortId,
-        start_date: startDate,
-        status: "open",
-      },
-      { onConflict: "cohort_id", ignoreDuplicates: true }
-    );
-
-  // Create participant
-  const { data: participant, error: participantError } = await supabase
-    .from("participants")
-    .insert({
-      cohort_id: cohortId,
-      name: enrollment.name,
-      last_name: enrollment.last_name ?? null,
-      email: enrollment.email,
-      phone: enrollment.phone,
-      timezone: enrollment.timezone,
-      status: "active",
-      current_day: 0,
-      revoked: false,
-      stripe_payment_id: session.id,
-    })
-    .select("id")
-    .single();
-
-  if (participantError || !participant) {
-    console.error("Participant insert failed:", participantError);
-    // Return 500 so Stripe retries
-    return NextResponse.json(
-      { error: "Participant creation failed." },
-      { status: 500 }
-    );
+  if (!result) {
+    // Genuine failure (not "already existed") — let Stripe retry
+    return NextResponse.json({ error: "Fulfillment failed." }, { status: 500 });
   }
 
-  // Create 10 day state rows
-  const dayRows = Array.from({ length: 10 }, (_, i) => ({
-    participant_id: participant.id,
-    day: i + 1,
-  }));
-
-  const { error: dayStateError } = await supabase
-    .from("participant_day_state")
-    .insert(dayRows);
-
-  if (dayStateError) {
-    console.error("Day state insert failed:", dayStateError);
-    // Don't return 500 here — participant exists, day states can be fixed manually
-  }
-
-  // Mark pending enrollment as fulfilled
-  await supabase
-    .from("pending_enrollments")
-    .update({
-      status: "fulfilled",
-      fulfilled_participant_id: participant.id,
-    })
-    .eq("id", pendingId);
-
-  // Send welcome email
-  try {
-    await sendWelcomeEmail(enrollment.email, enrollment.name, cohortId);
-  } catch (err) {
-    console.error("Welcome email failed:", err);
-    // Don't fail the webhook — participant is created, email can be retried
-  }
-
-  console.log("Enrolled:", enrollment.email, "cohort:", cohortId);
+  console.log("Webhook fulfilled:", session.id, "existed:", result.alreadyExisted);
   return NextResponse.json({ received: true });
 }

@@ -28,6 +28,41 @@ export function verifyOtpHash(otp: string, hash: string): boolean {
   }
 }
 
+// ---------- Reminder unsubscribe token ----------
+// Token = participantId.HMAC(participantId). No expiry — unsub links should work indefinitely.
+
+export function makeReminderToken(participantId: string): string {
+  const sig = crypto
+    .createHmac("sha256", process.env.COOKIE_SECRET!)
+    .update(participantId)
+    .digest("hex");
+  return participantId + "." + sig;
+}
+
+export function verifyReminderToken(token: string): string | null {
+  const dot = token.lastIndexOf(".");
+  if (dot === -1) return null;
+
+  const participantId = token.slice(0, dot);
+  const sig = token.slice(dot + 1);
+  if (!participantId || !sig) return null;
+
+  const expected = crypto
+    .createHmac("sha256", process.env.COOKIE_SECRET!)
+    .update(participantId)
+    .digest("hex");
+
+  try {
+    const ok = crypto.timingSafeEqual(
+      Buffer.from(expected, "hex"),
+      Buffer.from(sig, "hex")
+    );
+    return ok ? participantId : null;
+  } catch {
+    return null;
+  }
+}
+
 // ---------- Send ----------
 
 export async function sendOtpEmail(

@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { generateOtp, hashOtp, sendOtpEmail } from "@/lib/otp";
-import { sendWhatsAppOtp } from "@/lib/whatsapp";
-
+import { sendPhoneOtp } from "@/lib/phone";
 const OTP_EXPIRY_MINUTES = 10;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, lastName, email, phone, timezone } = body;
+  const { name, lastName, email, phone, timezone, emailReminders } = body;
 
   if (!name || !email || !timezone) {
     return NextResponse.json(
@@ -48,9 +47,7 @@ export async function POST(req: NextRequest) {
     Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000
   ).toISOString();
 
-  // Generate WhatsApp OTP if phone given
-  const whatsappOtp = hasPhone ? generateOtp() : null;
-  const whatsappHash = whatsappOtp ? hashOtp(whatsappOtp) : null;
+  
 
   // Insert pending enrollment
   const { error: insertError } = await supabase
@@ -64,10 +61,8 @@ export async function POST(req: NextRequest) {
       otp_hash: emailHash,
       otp_attempts: 0,
       otp_expires_at: expiresAt,
-      whatsapp_otp_hash: whatsappHash,
-      whatsapp_otp_attempts: 0,
-      whatsapp_otp_expires_at: hasPhone ? expiresAt : null,
       phone_verified: false,
+      email_reminders: emailReminders ?? true,
       status: "pending",
     });
 
@@ -79,13 +74,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Send both OTPs in parallel
+  // Send email OTP (ours) + phone OTP (Twilio Verify) in parallel
   const sends: Promise<void>[] = [
     sendOtpEmail(cleanEmail, name.trim(), emailOtp),
   ];
 
-  if (hasPhone && whatsappOtp) {
-    sends.push(sendWhatsAppOtp(cleanPhone, whatsappOtp, name.trim()));
+  if (hasPhone) {
+    sends.push(sendPhoneOtp(cleanPhone));
   }
 
   try {

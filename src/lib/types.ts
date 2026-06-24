@@ -24,6 +24,10 @@ export interface Exercise {
   timeMinutes: number;
   steps: ExerciseStep[];
   prompt: string | null;
+  demo?: {
+    videoUrl: string;
+    title: string;
+  };
 }
 
 export interface LessonVideo {
@@ -73,6 +77,8 @@ export interface SessionData {
   currentDay: number;
   daysComplete: number[];
   revoked: boolean;
+  status?: string;       // carry status so /api/participant stops hardcoding "active"
+  fetchedAt?: number;    // epoch ms when this cookie was last refreshed from DB
 }
 
 export interface ParticipantResponse {

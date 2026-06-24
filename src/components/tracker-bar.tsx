@@ -47,16 +47,12 @@ export function TrackerBar({ currentDay, daysComplete, allDone }: Props) {
             </div>
           );
 
-          // Completed and past days are clickable
-          if (isComplete || isMissed) {
-            return (
-              <a key={day} href={"/lesson/" + String(day)}>
-                {dot}
-              </a>
-            );
-          }
-
-          return <div key={day}>{dot}</div>;
+          // All days are openable now — every dot links to its lesson
+          return (
+            <a key={day} href={"/lesson/" + String(day)}>
+              {dot}
+            </a>
+          );
         })}
       </div>
 

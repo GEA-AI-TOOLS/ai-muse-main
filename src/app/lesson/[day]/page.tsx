@@ -31,9 +31,10 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
 
   const { participant } = participantRes;
 
-  if (day > participant.currentDay) {
-    redirect("/progress");
-  }
+  // Video version (self_paced): all 10 days unlocked. The day gate only applies
+  // to the live version, where content must be delivered in sequence.
+  // current_day still drives emails — it just no longer gates lesson access here.
+  // (When live version lands, re-add the gate keyed on participant.cohort_type === "live".)
 
   const { s } = await searchParams;
   return <LessonView participant={participant} lesson={lesson} section={s} />;}

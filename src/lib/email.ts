@@ -23,15 +23,54 @@ function formatCohortDate(cohortId: string): string {
   });
 }
 
-export async function sendWelcomeEmail(
+// TODO: replace with final completion email content (with day-email batch)
+export async function sendCompletionEmail(
   toEmail: string,
   toName: string,
   cohortId: string
 ): Promise<void> {
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks.bryancassady.com").replace(/\/$/, "");
+  const firstName = toName.split(" ")[0];
+
+  await brevo().transactionalEmails.sendTransacEmail({
+    sender: { name: FROM_NAME, email: FROM_EMAIL },
+    to: [{ email: toEmail, name: toName }],
+    subject: "You've completed all 10 days",
+    textContent: [
+      "Hi " + firstName + ",",
+      "",
+      "You've marked all 10 days as done. Your completion certificate is available now:",
+      base + "/progress",
+      "",
+      "The capstone section is now unlocked. Completing it earns the certificate of mastery:",
+      base + "/capstone",
+      "",
+      "Bryan Cassady",
+    ].join("\n"),
+    htmlContent:
+      "<div style='font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;'>" +
+      "<h1 style='font-size:22px;color:#111;'>All 10 days complete</h1>" +
+      "<p style='font-size:15px;color:#333;'>Hi " + firstName + ", you've marked all 10 days as done.</p>" +
+      "<p style='font-size:15px;color:#333;'>Your completion certificate is available now, and the capstone is unlocked — finishing it earns the certificate of mastery.</p>" +
+      "<p style='font-size:15px;'><a href='" + base + "/progress' style='color:#cc0000;'>View your certificate →</a></p>" +
+      "<p style='font-size:13px;color:#999;'>Bryan Cassady</p>" +
+      "</div>",
+  });
+}
+
+import { buildCourseIcs } from "@/lib/ics";
+
+export async function sendWelcomeEmail(
+  toEmail: string,
+  toName: string,
+  cohortId: string,
+  timezone: string,
+  participantId: string
+): Promise<void> {
   const startDate = formatCohortDate(cohortId);
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks.bryancassady.com";
-  const loginUrl = appUrl + "/login";
-  const welcomeUrl = appUrl + "/welcome";
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks.bryancassady.com").replace(/\/$/, "");
+  const loginUrl = base + "/login";
+  const welcomeUrl = base + "/welcome";
   const firstName = toName.split(" ")[0];
 
   const html = `<!DOCTYPE html>
@@ -233,7 +272,7 @@ export async function sendWelcomeEmail(
 <p style="margin:0; font-size:12px; color:#999999;">Enter your email &rarr; get a one-time code &rarr; you're in</p>
 </td>
 <td width="34%" style="padding:15px 20px 15px 10px; vertical-align:middle; text-align:center;">
-<a href="https://sparks.bryancassady.com/login" target="_blank" style="text-decoration:none;">
+<a href="${loginUrl}" target="_blank" style="text-decoration:none;">
 <div style="background-color:#cc0000; border-radius:4px; padding:12px 16px; display:inline-block;">
 <p style="margin:0; font-size:13px; color:#ffffff; font-family:Arial, sans-serif; font-weight:bold;">LOG IN &rarr;</p>
 </div>
@@ -268,9 +307,18 @@ export async function sendWelcomeEmail(
 </body>
 </html>`;
 
+  const ics = buildCourseIcs(cohortId, timezone, loginUrl, participantId);
+  const icsBase64 = Buffer.from(ics, "utf-8").toString("base64");
+
   await brevo().transactionalEmails.sendTransacEmail({
     sender: { name: FROM_NAME, email: FROM_EMAIL },
     to: [{ email: toEmail, name: toName }],
+    attachment: [
+      {
+        name: "sparks-course.ics",
+        content: icsBase64,
+      },
+    ],
     subject: "You're in — your cohort starts " + startDate,
     textContent: [
       "Hi " + firstName + ",",

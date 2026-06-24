@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendCompletionEmail } from "@/lib/email";
 import { supabase } from "@/lib/supabase";
 import {
   validateSessionToken,
@@ -72,42 +73,67 @@ export async function POST(req: NextRequest) {
     .filter((d) => d.done_at !== null)
     .map((d) => d.day as number);
 
-  // After marking day done, check if all 10 complete and issue cert
-  if (day === 10) {
-    const { data: allDayStates } = await supabase
-      .from("participant_day_state")
-      .select("day, done_at")
-      .eq("participant_id", participantId);
+  // --- Re-activation + counter reset on every completion ---
+  // Activity signal = any lesson completion. Reset counter; if inactive/needs_attention → active.
+  const newStatus =
+    participant.status === "inactive" || participant.status === "needs_attention"
+      ? "active"
+      : participant.status;
 
-    const completedCount = (allDayStates ?? []).filter((d) => d.done_at !== null).length;
+  await supabase
+    .from("participants")
+    .update({
+      missed_day_counter: 0,
+      status: newStatus,
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", participantId);
 
-    if (completedCount === 10) {
-      const { data: existingCompletionCert } = await supabase
-        .from("certificates")
-        .select("id")
-        .eq("participant_id", participantId)
-        .eq("type", "completion")
-        .single();
+  // --- All-10-done detection (runs on every completion, not just day 10) ---
+  const completedCount = daysComplete.length; // already computed above from fresh dayStates
 
-      if (!existingCompletionCert) {
-        const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-        let certCode = "MUSE-" + String(new Date().getFullYear()) + "-";
-        for (let i = 0; i < 4; i++) {
-          certCode += chars[Math.floor(Math.random() * chars.length)];
-        }
+  if (completedCount === 10) {
+    // Mark completed (terminal state — stops all scheduler sends)
+    await supabase
+      .from("participants")
+      .update({ status: "completed", completed_at: new Date().toISOString() })
+      .eq("id", participantId);
 
-        const { data: partForCert } = await supabase
-          .from("participants")
-          .select("cohort_id")
-          .eq("id", participantId)
-          .single();
+    // Issue completion cert if not already issued
+    const { data: existingCompletionCert } = await supabase
+      .from("certificates")
+      .select("id")
+      .eq("participant_id", participantId)
+      .eq("type", "completion")
+      .maybeSingle();
 
-        await supabase.from("certificates").insert({
+    if (!existingCompletionCert) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let certCode = "MUSE-" + String(new Date().getFullYear()) + "-";
+      for (let i = 0; i < 4; i++) {
+        certCode += chars[Math.floor(Math.random() * chars.length)];
+      }
+
+      await supabase.from("certificates").insert({
+        participant_id: participantId,
+        type: "completion",
+        verification_code: certCode,
+        cohort_id: participant.cohort_id,
+      });
+
+      // Fire completion email (dummy for now — real content later, with day emails)
+      try {
+        await sendCompletionEmail(participant.email, participant.name, participant.cohort_id);
+        await supabase.from("message_logs").insert({
           participant_id: participantId,
-          type: "completion",
-          verification_code: certCode,
-          cohort_id: partForCert?.cohort_id ?? "unknown",
+          message_type: "completion_email",
+          channel: "email",
+          status: "sent",
+          sent_at: new Date().toISOString(),
         });
+      } catch (err) {
+        console.error("Completion email failed:", err);
+        // Don't fail the request — cert is already issued, email is best-effort
       }
     }
   }
@@ -120,6 +146,8 @@ export async function POST(req: NextRequest) {
     currentDay: participant.current_day,
     daysComplete,
     revoked: participant.revoked,
+    status: participant.status,
+    fetchedAt: Date.now(),
   };
 
   const res = NextResponse.json({ ok: true, daysComplete });

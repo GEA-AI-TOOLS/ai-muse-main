@@ -76,6 +76,10 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
           },
         ],
         prompt: "I am working on [describe your initiative or decision].\nThe bottleneck is: [one sentence. Not the symptom. The root cause.]\nGiven only this bottleneck, what are the [three / five] highest-leverage actions I can take in the next [30 days / 90 days / this quarter]?\nDo not suggest tools or platforms. Do not solve the symptom. Stay focused on the bottleneck I defined.\n-----------\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to help me fill it in. Start with the initiative. Then the bottleneck. Then the time horizon. Do not move to the next question until I have answered the current one. When I answer, reflect back what I said and ask if it captures the real bottleneck or just the symptom. Make this a thinking exercise, not a form to complete.",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Walkthrough: defining a bottleneck before opening AI",
+        },
       },
     },
 

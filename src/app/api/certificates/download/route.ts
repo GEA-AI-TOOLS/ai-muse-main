@@ -3,8 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { validateSessionToken } from "@/lib/cookies";
 import { renderToBuffer } from "@react-pdf/renderer";
 import { CertificatePDF } from "@/components/certificate-pdf";
-import { Document } from "@react-pdf/renderer";
-import { createElement } from "react";
+import { appHost } from "@/lib/urls";
 
 export async function GET(req: NextRequest) {
   const authToken = req.cookies.get("auth")?.value;
@@ -60,6 +59,7 @@ export async function GET(req: NextRequest) {
         cohortDate,
         issuedDate,
         verificationCode: cert.verification_code,
+        verifyHost: appHost(),
     });
 
     const buffer = await renderToBuffer(certElement);

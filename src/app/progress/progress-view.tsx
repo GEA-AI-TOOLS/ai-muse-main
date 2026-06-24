@@ -47,6 +47,7 @@ export function ProgressView({ participant }: Props) {
   const firstName = participant.name.split(" ")[0];
   const totalComplete = daysComplete.length;
   const allDone = totalComplete === 10;
+  const verifyHost = (process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks.bryancassady.com").replace(/^https?:\/\//, "").replace(/\/$/, "");
 
   useEffect(() => {
     fetch("/api/capstone/status")
@@ -311,9 +312,9 @@ export function ProgressView({ participant }: Props) {
           {!allDone && (
             <>
               <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                Upcoming
+                Upcoming — open anytime
               </p>
-              <div className="divide-y opacity-50">
+              <div className="divide-y">
                 {Array.from({ length: 10 }, (_, i) => i + 1)
                   .filter((day) => getDayStatus(day) === "locked")
                   .map((day) => (
@@ -366,7 +367,7 @@ export function ProgressView({ participant }: Props) {
                         rel="noreferrer"
                         className="text-[#E24B4A] hover:underline"
                       >
-                        {"muse.bryancassady.com/verify/" + completionCert.verification_code}
+                        {verifyHost + "/verify/" + completionCert.verification_code}
                       </a>
                     </p>
                   </div>
@@ -463,7 +464,7 @@ export function ProgressView({ participant }: Props) {
                         rel="noreferrer"
                         className="underline hover:opacity-80"
                       >
-                        {"muse.bryancassady.com/verify/" + masteryCert.verification_code}
+                        {verifyHost + "/verify/" + masteryCert.verification_code}
                       </a>
                     </p>
                   </div>
@@ -628,13 +629,17 @@ function DayRow({
     );
   }
 
+  // "locked" days are now openable (all 10 unlocked) — render as a startable link
   return (
-    <div className="flex items-center justify-between py-3">
+    <a
+      href={"/lesson/" + String(day)}
+      className="flex items-center justify-between py-3 hover:opacity-70"
+    >
       <div>
         <p className="text-sm">{label}</p>
         <p className="text-xs text-muted-foreground">{sublabel}</p>
       </div>
-      <span className="text-xs text-muted-foreground">Locked</span>
-    </div>
+      <span className="text-xs text-muted-foreground">Start →</span>
+    </a>
   );
 }

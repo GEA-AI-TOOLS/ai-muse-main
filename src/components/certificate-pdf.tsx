@@ -269,6 +269,7 @@ interface Props {
   cohortDate: string;
   issuedDate: string;
   verificationCode: string;
+  verifyHost: string;
 }
 
 export function CertificatePDF({
@@ -277,6 +278,7 @@ export function CertificatePDF({
   cohortDate,
   issuedDate,
   verificationCode,
+  verifyHost,
 }: Props) {
   const isMastery = kind === "mastery";
 
@@ -344,7 +346,7 @@ export function CertificatePDF({
 
           {/* Centre — verification */}
           <View style={s.centerVerify}>
-            <Text style={s.verifyUrl}>sparks.bryancassady.com/verify</Text>
+            <Text style={s.verifyUrl}>{verifyHost + "/verify"}</Text>
             <Text style={s.verifyCode}>{verificationCode}</Text>
           </View>
 

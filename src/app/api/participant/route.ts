@@ -6,94 +6,43 @@ import {
   SESSION_COOKIE_OPTIONS,
 } from "@/lib/cookies";
 
+const SESSION_TTL_MS = 10 * 60 * 1000; // 10 min
+
 export async function GET(req: NextRequest) {
+
   const sessionData = await getSessionData();
 
-  if (sessionData) {
+  // --- Fast path: serve from cookie if fresh and not revoked ---
+  if (sessionData && sessionData.fetchedAt) {
+    const age = Date.now() - sessionData.fetchedAt;
+
     if (sessionData.revoked) {
-      const res = NextResponse.json(
-        { error: "Access revoked." },
-        { status: 403 }
-      );
+      const res = NextResponse.json({ error: "Access revoked." }, { status: 403 });
       res.cookies.set("auth", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
       res.cookies.set("session_data", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
       return res;
     }
 
-    // Always fetch current_day and daysComplete fresh from DB
-    // session_data can be stale if n8n incremented current_day
-    const authToken = req.cookies.get("auth")?.value;
-    if (authToken) {
-      const participantId = await validateSessionToken(authToken);
-      if (participantId) {
-        const { data: fresh } = await supabase
-          .from("participants")
-          .select("id, current_day, revoked, status")
-          .eq("id", participantId)
-          .single();
-
-        if (fresh) {
-          const { data: dayStates } = await supabase
-            .from("participant_day_state")
-            .select("day, done_at")
-            .eq("participant_id", participantId);
-
-          const daysComplete = (dayStates ?? [])
-            .filter((d) => d.done_at !== null)
-            .map((d) => d.day as number);
-
-          const newSessionData = {
-            name: sessionData.name,
-            email: sessionData.email,
-            cohortId: sessionData.cohortId,
-            currentDay: fresh.current_day,
-            daysComplete,
-            revoked: fresh.revoked,
-          };
-
-          const res = NextResponse.json({
-            participant: {
-              id: fresh.id,
-              name: sessionData.name,
-              email: sessionData.email,
-              cohortId: sessionData.cohortId,
-              currentDay: fresh.current_day,
-              status: fresh.status,
-              timezone: "UTC",
-              enrolledAt: "",
-              revoked: fresh.revoked,
-              daysComplete,
-            },
-          });
-
-          res.cookies.set(
-            "session_data",
-            JSON.stringify(newSessionData),
-            SESSION_COOKIE_OPTIONS
-          );
-
-          return res;
-        }
-      }
+    if (age < SESSION_TTL_MS) {
+      // Fresh enough — zero DB calls
+      return NextResponse.json({
+        participant: {
+          id: "from-session",
+          name: sessionData.name,
+          email: sessionData.email,
+          cohortId: sessionData.cohortId,
+          currentDay: sessionData.currentDay,
+          status: sessionData.status ?? "active",
+          timezone: "UTC",
+          enrolledAt: "",
+          revoked: sessionData.revoked,
+          daysComplete: sessionData.daysComplete,
+        },
+      });
     }
-
-    // Fallback to session_data if DB fetch fails
-    return NextResponse.json({
-      participant: {
-        id: "from-session",
-        name: sessionData.name,
-        email: sessionData.email,
-        cohortId: sessionData.cohortId,
-        currentDay: sessionData.currentDay,
-        status: "active",
-        timezone: "UTC",
-        enrolledAt: "",
-        revoked: sessionData.revoked,
-        daysComplete: sessionData.daysComplete,
-      },
-    });
   }
 
+  // --- Slow path: cookie missing or stale → refresh from DB ---
   const authToken = req.cookies.get("auth")?.value;
   if (!authToken) {
     return NextResponse.json({ error: "Not authenticated." }, { status: 401 });
@@ -101,32 +50,21 @@ export async function GET(req: NextRequest) {
 
   const participantId = await validateSessionToken(authToken);
   if (!participantId) {
-    return NextResponse.json(
-      { error: "Invalid or expired session." },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Invalid or expired session." }, { status: 401 });
   }
 
   const { data: participant, error: pError } = await supabase
     .from("participants")
-    .select(
-      "id, name, email, cohort_id, current_day, status, timezone, enrolled_at, revoked"
-    )
+    .select("id, name, email, cohort_id, current_day, status, timezone, enrolled_at, revoked")
     .eq("id", participantId)
     .single();
 
   if (pError || !participant) {
-    return NextResponse.json(
-      { error: "Participant not found." },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: "Participant not found." }, { status: 404 });
   }
 
   if (participant.revoked) {
-    const res = NextResponse.json(
-      { error: "Access revoked." },
-      { status: 403 }
-    );
+    const res = NextResponse.json({ error: "Access revoked." }, { status: 403 });
     res.cookies.set("auth", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
     res.cookies.set("session_data", "", { ...SESSION_COOKIE_OPTIONS, maxAge: 0 });
     return res;
@@ -148,6 +86,8 @@ export async function GET(req: NextRequest) {
     currentDay: participant.current_day,
     daysComplete,
     revoked: participant.revoked,
+    status: participant.status,
+    fetchedAt: Date.now(),
   };
 
   const res = NextResponse.json({
@@ -165,11 +105,6 @@ export async function GET(req: NextRequest) {
     },
   });
 
-  res.cookies.set(
-    "session_data",
-    JSON.stringify(newSessionData),
-    SESSION_COOKIE_OPTIONS
-  );
-
+  res.cookies.set("session_data", JSON.stringify(newSessionData), SESSION_COOKIE_OPTIONS);
   return res;
 }

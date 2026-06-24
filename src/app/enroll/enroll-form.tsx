@@ -74,6 +74,7 @@ export function EnrollForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [wantsWhatsapp, setWantsWhatsapp] = useState(false);
+  const [emailReminders, setEmailReminders] = useState(true);
   const [dialCode, setDialCode] = useState("+1");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [timezone, setTimezone] = useState(detectTimezone());
@@ -102,7 +103,7 @@ export function EnrollForm() {
       const res = await fetch("/api/enroll/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, lastName, email, phone, timezone }),
+        body: JSON.stringify({ name, lastName, email, phone, timezone, emailReminders }),
       });
       const data = await res.json();
       if (!data.ok) {
@@ -282,6 +283,23 @@ export function EnrollForm() {
                     </p>
                   </div>
                 )}
+              </div>
+              {/* Email reminders opt-out */}
+              <div className="rounded-md border bg-muted/20 px-4 py-3">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={emailReminders}
+                    onChange={(e) => setEmailReminders(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border accent-[#E24B4A]"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">Send me an evening nudge</p>
+                    <p className="mt-0.5 text-xs text-muted-foreground">
+                      If you haven&apos;t opened the day&apos;s lesson by evening, we&apos;ll send one reminder. You&apos;ll always get the morning lesson email — that&apos;s the course itself. You can turn nudges off anytime.
+                    </p>
+                  </div>
+                </label>
               </div>
 
               <div>

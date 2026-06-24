@@ -39,12 +39,14 @@ export async function getSessionData(): Promise<SessionData | null> {
   }
 }
 
+const LAST_SEEN_THROTTLE_MS = 10 * 60 * 1000; // 10 min
+
 export async function validateSessionToken(
   token: string
 ): Promise<string | null> {
   const { data, error } = await supabase
     .from("sessions")
-    .select("id, participant_id, expires_at")
+    .select("id, participant_id, expires_at, last_seen_at")
     .eq("session_token", token)
     .single();
 
@@ -55,10 +57,14 @@ export async function validateSessionToken(
     return null;
   }
 
-  await supabase
-    .from("sessions")
-    .update({ last_seen_at: new Date().toISOString() })
-    .eq("session_token", token);
+  // Only bump last_seen_at if it's stale — avoids a write on every request
+  const lastSeen = data.last_seen_at ? new Date(data.last_seen_at).getTime() : 0;
+  if (Date.now() - lastSeen > LAST_SEEN_THROTTLE_MS) {
+    await supabase
+      .from("sessions")
+      .update({ last_seen_at: new Date().toISOString() })
+      .eq("session_token", token);
+  }
 
   return data.participant_id as string;
 }

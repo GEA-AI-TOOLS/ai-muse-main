@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 import { verifyOtpHash } from "@/lib/otp";
+import { checkPhoneOtp } from "@/lib/phone";
 
 const MAX_ATTEMPTS = 5;
 
@@ -78,46 +79,17 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // --- Validate WhatsApp OTP (only if phone given) ---
+  // --- Validate phone OTP via Twilio Verify (only if phone given) ---
 
+  let phoneApproved = false;
   if (hasPhone && whatsappOtp) {
-    if ((enrollment.whatsapp_otp_attempts ?? 0) >= MAX_ATTEMPTS) {
-      return NextResponse.json(
-        { ok: false, error: "Too many WhatsApp attempts. Please start over." },
-        { status: 429 }
-      );
-    }
-
-    if (
-      !enrollment.whatsapp_otp_expires_at ||
-      new Date(enrollment.whatsapp_otp_expires_at) < new Date()
-    ) {
-      return NextResponse.json(
-        { ok: false, error: "WhatsApp code expired. Please start over." },
-        { status: 401 }
-      );
-    }
-
-    if (
-      !enrollment.whatsapp_otp_hash ||
-      !verifyOtpHash(whatsappOtp.trim(), enrollment.whatsapp_otp_hash)
-    ) {
-      await supabase
-        .from("pending_enrollments")
-        .update({
-          whatsapp_otp_attempts: (enrollment.whatsapp_otp_attempts ?? 0) + 1,
-        })
-        .eq("id", enrollment.id);
-
-      const remaining = MAX_ATTEMPTS - (enrollment.whatsapp_otp_attempts ?? 0) - 1;
+    phoneApproved = await checkPhoneOtp(enrollment.phone, whatsappOtp.trim());
+    if (!phoneApproved) {
       return NextResponse.json(
         {
           ok: false,
           field: "whatsapp",
-          error:
-            remaining > 0
-              ? "Incorrect WhatsApp code. " + String(remaining) + " attempts remaining."
-              : "Too many attempts. Please start over.",
+          error: "Incorrect or expired phone code. Please try again.",
         },
         { status: 401 }
       );
@@ -134,11 +106,8 @@ export async function POST(req: NextRequest) {
       otp_hash: null,
       otp_attempts: 0,
       otp_expires_at: null,
-      whatsapp_otp_hash: null,
-      whatsapp_otp_attempts: 0,
-      whatsapp_otp_expires_at: null,
-      phone_verified: hasPhone && !!whatsappOtp,
-      whatsapp_reminders: hasPhone && !!whatsappOtp,
+      phone_verified: phoneApproved,
+      whatsapp_reminders: phoneApproved,
     })
     .eq("id", enrollment.id);
 

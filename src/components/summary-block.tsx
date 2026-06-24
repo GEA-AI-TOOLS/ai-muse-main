@@ -15,10 +15,12 @@ const ROWS: {
 
 interface Props {
   summary: SummarySection;
+  skipCoreIdea?: boolean;
 }
 
-export function SummaryBlock({ summary }: Props) {
+export function SummaryBlock({ summary, skipCoreIdea = false }: Props) {
   const visibleRows = ROWS.filter((row) => {
+    if (skipCoreIdea && row.key === "coreIdea") return false;
     const val = summary[row.key];
     return val && val.trim().length > 0;
   });
