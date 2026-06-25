@@ -1,39 +1,29 @@
 import type { SummarySection } from "@/lib/types";
 
-const ROWS: {
-  key: keyof SummarySection;
-  label: string;
-  highlight: boolean;
-}[] = [
-  { key: "coreIdea", label: "Core idea", highlight: true },
-  { key: "science", label: "The science", highlight: false },
-  { key: "fact", label: "Myth or fact", highlight: false },
-  { key: "framework", label: "The Framework / Mechanism", highlight: false },
-  { key: "example", label: "Example", highlight: false },
-  { key: "keyTakeaway", label: "Key takeaway", highlight: true },
-];
-
 interface Props {
   summary: SummarySection;
-  skipCoreIdea?: boolean;
+  skipFirst?: boolean; // skip the first block (it's rendered above the video as the hook)
 }
 
-export function SummaryBlock({ summary, skipCoreIdea = false }: Props) {
-  const visibleRows = ROWS.filter((row) => {
-    if (skipCoreIdea && row.key === "coreIdea") return false;
-    const val = summary[row.key];
-    return val && val.trim().length > 0;
-  });
+export function SummaryBlock({ summary, skipFirst = false }: Props) {
+  const blocks = (summary ?? []).filter((b) => b.body && b.body.trim().length > 0);
+  const visible = skipFirst ? blocks.slice(1) : blocks;
 
-  if (visibleRows.length === 0) return null;
+  if (visible.length === 0) return null;
+
+  const lastIndex = visible.length - 1;
 
   return (
     <div className="mt-4 flex flex-col gap-2">
-      {visibleRows.map((row) => {
-        const isHighlight = row.highlight;
+      {visible.map((block, i) => {
+        const h = block.heading.trim().toLowerCase();
+        // Red only if it's the core idea (and first) or the key takeaway (and last)
+        const isHighlight =
+          (i === 0 && h === "core idea") ||
+          (i === lastIndex && h === "key takeaway");
         return (
           <div
-            key={row.key}
+            key={i}
             className={
               "rounded-r-md border-l-[3px] px-4 py-3 " +
               (isHighlight
@@ -47,7 +37,7 @@ export function SummaryBlock({ summary, skipCoreIdea = false }: Props) {
                 (isHighlight ? "text-[#A32D2D]" : "text-muted-foreground")
               }
             >
-              {row.label}
+              {block.heading}
             </p>
             <p
               className={
@@ -55,7 +45,7 @@ export function SummaryBlock({ summary, skipCoreIdea = false }: Props) {
                 (isHighlight ? "text-[#501313] dark:text-[#f5c1c1]" : "text-foreground")
               }
             >
-              {summary[row.key]}
+              {block.body}
             </p>
           </div>
         );

@@ -3,14 +3,13 @@ export type Phase = "foundation" | "sparks";
 export type LessonSection = "essential" | "advanced" | "learnmore";
 export type LearnMoreType = "article" | "tool" | "video" | "other";
 
-export interface SummarySection {
-  coreIdea: string;
-  science: string;
-  fact: string;
-  framework: string;
-  example: string;
-  keyTakeaway: string;
+export interface SummaryBlock {
+  heading: string;
+  body: string;
 }
+
+// summary is now an ordered list of heading/body blocks — headers are dynamic per lesson
+export type SummarySection = SummaryBlock[];
 
 export interface ExerciseStep {
   task: string;
@@ -49,11 +48,11 @@ export interface Lesson {
   title: string;
   phase: Phase;
   essential: LessonVideo;
-  advanced: LessonVideo;
-  learnMore: LearnMoreLink[];
+  advanced?: LessonVideo;
+  learnMore?: LearnMoreLink[];
   sectionTitles: {
   essential: string;
-  advanced: string;
+  advanced?: string;
 };
 }
 

@@ -146,7 +146,7 @@ export function LessonView({ participant, lesson, section }: Props) {
   }
 
   const essentialUrls = getLlmUrls(lesson.essential.exercise.prompt);
-  const advancedUrls = getLlmUrls(lesson.advanced.exercise.prompt);
+  const advancedUrls = getLlmUrls(lesson.advanced?.exercise.prompt ?? null);
 
   return (
     <div className="min-h-screen bg-background">
@@ -217,7 +217,11 @@ export function LessonView({ participant, lesson, section }: Props) {
       {/* Sticky nav */}
       <nav className="sticky top-0 z-10 border-b bg-background">
         <div className="mx-auto flex max-w-4xl gap-1 px-8 py-2">
-          {SECTIONS.map((section) => {
+          {SECTIONS.filter((s) => {
+            if (s.id === "advanced") return !!lesson.advanced;
+            if (s.id === "learnmore") return !!(lesson.learnMore && lesson.learnMore.length > 0);
+            return true;
+          }).map((section) => {
             const isActive = activeSection === section.id;
             return (
               <a
@@ -283,14 +287,14 @@ export function LessonView({ participant, lesson, section }: Props) {
             <div className="mb-4" />
           )}
 
-          {/* Core idea — hook first, above the video */}
-          {lesson.essential.summary.coreIdea?.trim() && (
+          {/* First summary block — hook above the video */}
+          {lesson.essential.summary[0]?.body?.trim() && (
             <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
               <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
-                Core idea
+                {lesson.essential.summary[0].heading}
               </p>
               <p className="text-sm leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
-                {lesson.essential.summary.coreIdea}
+                {lesson.essential.summary[0].body}
               </p>
             </div>
           )}
@@ -301,7 +305,7 @@ export function LessonView({ participant, lesson, section }: Props) {
           <div className="mt-8 mb-1">
             <h3 className="text-base font-semibold">Summary</h3>
           </div>
-          <SummaryBlock summary={lesson.essential.summary} skipCoreIdea />
+          <SummaryBlock summary={lesson.essential.summary} skipFirst />
           <div className="mt-8 mb-2 border-t pt-6">
             <h3 className="text-base font-semibold">Exercise</h3>
           </div>
@@ -330,7 +334,8 @@ export function LessonView({ participant, lesson, section }: Props) {
 
         <Separator />
 
-        {/* Advanced — accordion */}
+        {/* Advanced — accordion (optional; absent on some days e.g. Day 10) */}
+        {lesson.advanced && (
         <section id="advanced" className="scroll-mt-20 py-8">
           <button
             onClick={() => setAdvancedOpen(!advancedOpen)}
@@ -359,13 +364,13 @@ export function LessonView({ participant, lesson, section }: Props) {
 
           {advancedOpen && (
             <div className="mt-6">
-              {lesson.advanced.summary.coreIdea?.trim() && (
+              {lesson.advanced.summary[0]?.body?.trim() && (
                 <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
                   <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
-                    Core idea
+                    {lesson.advanced.summary[0].heading}
                   </p>
                   <p className="text-sm leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
-                    {lesson.advanced.summary.coreIdea}
+                    {lesson.advanced.summary[0].body}
                   </p>
                 </div>
               )}
@@ -373,7 +378,7 @@ export function LessonView({ participant, lesson, section }: Props) {
               <div className="mt-8 mb-1">
                 <h3 className="text-base font-semibold">Summary</h3>
               </div>
-              <SummaryBlock summary={lesson.advanced.summary} skipCoreIdea />
+              <SummaryBlock summary={lesson.advanced.summary} skipFirst />
               <div className="mt-8 mb-2 border-t pt-6">
                 <h3 className="text-base font-semibold">Exercise</h3>
               </div>
@@ -386,6 +391,7 @@ export function LessonView({ participant, lesson, section }: Props) {
             </div>
           )}
         </section>
+        )}
         {/* Next lesson */}
         {lesson.day < 10 && (
           <div className="pb-2">
@@ -405,7 +411,8 @@ export function LessonView({ participant, lesson, section }: Props) {
         )}
         <Separator />
 
-        {/* Learn More */}
+        {/* Learn More (optional) */}
+        {lesson.learnMore && lesson.learnMore.length > 0 && (
         <section id="learnmore" className="scroll-mt-20 py-8 pb-16">
           <h2 className="mb-1 text-xl font-semibold text-[#E24B4A]">Learn More</h2>
           <p className="mb-5 text-sm text-muted-foreground">
@@ -428,6 +435,7 @@ export function LessonView({ participant, lesson, section }: Props) {
             ))}
           </div>
         </section>
+        )}
 
       </main>
 

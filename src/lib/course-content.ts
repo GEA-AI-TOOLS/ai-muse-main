@@ -28,22 +28,35 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     phase: "foundation",
 
     sectionTitles: {
-      essential: "AI is a Muse, Not an Oracle",
+      essential: "AI is a Muse",
       advanced: "The AI Divide",
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/4598hpYrCiw?si=5BrpJrzafRIuI7pI?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%201%20_%20Intro%20+%20lesson%201.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "AI has no knowledge of your business, your context, or your goals. It only knows what you tell it. The people who get value from AI direct it. The people who don't defer to it. That is the only distinction that matters. The quality of your input determines the quality of your output. Every time.",
-        fact: "Most people assume smarter AI produces better outcomes. Wrong. 78% of organisations use AI regularly. More than 80% report zero measurable impact on earnings. The tool was not the problem. The question was. AI was not working on your problem. It was working on the most likely version of your problem based on every similar question it has ever seen. That is not the same thing.",
-        science: "McKinsey's 2024 global survey found that high-performing organisations define strategic goals and operational bottlenecks before selecting tools. These leaders generate $3.70 for every dollar spent on AI. Gen AI high performers reach $10.30 per dollar. Organisations that adopt tools without defining the problem first average zero measurable impact. The difference is not budget. It is not technical capability. It is whether the problem was defined before the tool was opened.",
-        framework: "Three steps. Write the bottleneck in one sentence before opening any AI tool. Not the symptom. The bottleneck. Bring that sentence to AI as a directed question aimed at that specific problem. Evaluate every output against the bottleneck you defined. Does this solve it? If not, reject it and redirect.",
-        example: "Albemarle, a global energy firm, had one rule. No chasing shiny objects. They defined one problem: how to aggregate cross-plant operational data into a single reusable model. That one defined problem powered over 200 improvement projects and saved $150 million annually. One problem solved everywhere. Not many problems solved once.",
-        keyTakeaway: "Define the problem first. AI answers questions. You ask them. A muse does not make decisions for you. It provokes, challenges, and expands your thinking. But only after you have defined the direction.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "AI is not an oracle. It does not know what your organization needs, what your priorities are, or what success looks like for you. It only knows what you give it. The moment you ask AI what to do before defining what you need, you hand over the steering wheel. The right model: you bring the problem, AI pressure-tests it, you make the decision. AI as muse, not authority.",
+        },
+        {
+          heading: "The Data",
+          body: "High performers return $3.70 to $10.30 per $1 spent on AI. Everyone else sees zero measurable EBIT impact. Same tools. Completely different results. The gap is not about which platform they use or how advanced their prompts are. It comes down to one thing: whether the problem was clearly defined before the tool was opened.",
+        },
+        {
+          heading: "How AI Actually Works",
+          body: "AI is a system trained on human-generated data. It finds patterns in that data and predicts the most useful response to whatever input you give it. The less context you provide, the more it defaults to the most obvious, generic patterns. It has no awareness of your situation, your constraints, or your goals. It fills the gap with plausible-sounding answers. That is not intelligence. That is pattern completion.",
+        },
+        {
+          heading: "The Oracle Trap",
+          body: "Most people open AI and ask what to do. AI answers confidently. They follow. The output lands somewhere, just not where they needed to go. This is the Oracle Trap: deferring to AI before defining the problem. The fix is a sequencing shift. Define the bottleneck first. Not the symptom, the root cause. One clear sentence. Then bring AI in to work on that specific thing. Same tool. Completely different output.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Most AI failures are not tool failures. They are sequencing failures. The people getting real ROI from AI are not using better prompts. They are asking better questions before they open the tool. Problem definition is the skill. AI is just what comes after.",
+        },
+      ],
       exercise: {
         objective: "Use AI as a muse to remove a bottleneck",
         doneWhen: "You have run the prompt, identified the real bottleneck, and have at least one high-leverage action you will test this week.",
@@ -83,17 +96,30 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/AjcFQvpGRtA?si=9TOX-ADndFfxIcDa?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day_1-%20Advanced.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 840,
-      summary: {
-        coreIdea: "The gap between what AI could do for your organisation and what it is actually delivering is not closing. It is getting wider. The organisations winning with AI are not running more experiments. They are running fewer and finishing them. The AI Divide is not a technology problem. It is a problem-definition problem.",
-        fact: "Most organisations respond to poor AI results by running more pilots. Wrong response. The 6% of organisations capturing real measurable value started with the business, not the tool. More experiments without a defined business objective just produces more pilots that never reach production.",
-        science: "High-performing organisations focus on three to five use cases maximum at any given time. Laggard organisations run six or more pilots simultaneously. None reach production. 78% of organisations report regular AI use. More than 80% report zero measurable impact on earnings. The only consistent differentiator across every study is whether the problem was precisely defined before the tool was selected.",
-        framework: "Three concepts. The 10-20-70 rule: 10% on models, 20% on data, 70% on people, process, and culture. Most organisations invert this and spend 70% on technology. The value was always in the 70%. Pilot Purgatory: pilots loop endlessly because they are not connected to a defined objective with a named owner and a production pathway. The Replication Gap: high performers design every use case as a reusable module from day one. Tools-first organisations rebuild from scratch every time.",
-        example: "A bank deploying AI for credit risk. The objective was not \"improve credit decisions.\" It was: reduce default rate by 8% while maintaining full compliance with regulation X. That one sentence governed every decision. Two models compared. The less accurate but more auditable model was selected because it fit the defined problem. The output was embedded directly into the existing credit officer interface. No extra screens. No extra clicks. A production system. Not a pilot.",
-        keyTakeaway: "AI is not the strategy. The business is the strategy. High performers transition from Project AI to Operation AI. That transition only happens when the problem is defined before the tool is opened.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "80% of AI investment produces nothing. Organizations run pilots, see promising demos, then hit friction around ownership, data, and risk. The pilot gets parked. A new one starts. The cycle repeats. The 20% who get real value do one thing differently: they connect AI to a clearly defined problem with a clear objective and a systems view of how change actually happens.",
+        },
+        {
+          heading: "The Data",
+          body: "AI value breaks down like this: 10% comes from algorithms, 20% from data infrastructure, and 70% from people, process, and culture. Most organizations invert this. They spend 70% on technology and hope value emerges from the other 30%. It does not. The bottleneck is almost never the tool.",
+        },
+        {
+          heading: "How Systems Actually Fail",
+          body: "Russell Ackoff put it plainly: the more efficiently you solve the wrong problem, the worse it gets. Most AI failures are not execution failures. They are objective failures. The team was moving fast in the wrong direction. One pause, one question, one clear objective changes the output entirely. 94% of errors live in the system, not in the individual doing the work.",
+        },
+        {
+          heading: "Pilot Purgatory",
+          body: "The pattern is predictable. Launch a proof of concept. Prove AI works in a narrow setting. Hit friction around data access, ownership, or risk. Park it. Start a new pilot. Each cycle builds AI skepticism and sunk cost without producing anything in production. The exit from this loop is not a better pilot. It is a clearer problem definition tied to a real business objective before the pilot starts.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "The AI divide is not a technology gap. It is a thinking gap. The organizations winning with AI are not using more advanced tools. They are defining better objectives before they touch the tool. Identify the obvious solution everyone is pushing for. Then stop. Ask what the real objective is. The non-obvious solution almost always lives there.",
+        },
+      ],
       exercise: {
         objective: "Apply the non-obvious process to a real challenge you are facing",
         doneWhen: "You have one non-obvious idea to work with",
@@ -146,22 +172,35 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     phase: "foundation",
 
     sectionTitles: {
-      essential: "The Human Element",
+      essential: "The Human Element: Your Expertise is Irreplaceable",
       advanced: "How to become an expert in anything fast with AI​",
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/c9WopFRNGrY?si=Vq3VkBuyCUWrJY1H?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%202-%20Essentials%20Expertise.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "AI multiplies your expertise. It does not replace it. Shallow thinking in gives you polished but hollow output. Deep expertise in gives you something genuinely useful. You and a colleague can use the exact same tool with the exact same prompt and get completely different quality. The gap is not the prompt. It is what you bring to it.",
-        fact: "Four beliefs to drop. AI is the great equalizer. It is not. The gap between experts and novices gets bigger with AI, not smaller. Better prompts mean better output. Wrong. Prompts shape delivery, knowledge drives quality. You don't need to learn deeply anymore. Dangerous. It leads straight to skill atrophy. More AI use means smarter work. Also wrong. Brain-first workers consistently beat AI-first workers.",
-        science: "MIT ran an EEG study on AI reliance. Full AI reliance caused a 55% drop in brain connectivity. Technical experts using AI still gained 45% in performance. General staff gained only 20%. The amplifier is only as good as the signal going in.",
-        framework: "Four steps, in order, every time. Think first. Before you open any AI tool, write your own take. Identify your gaps. What are you uncertain about? What would take long to verify? Delegate precisely. Give AI your draft and your context. Ask it to fill only those gaps. Judge and refine. You own the output. AI assisted.",
-        example: "Draft your answer first. Then open AI and see what it actually changed. Take an AI output you would normally accept and find three things wrong with it using your own knowledge. After using AI, close the chat and recall three key points from memory. If you cannot, you did not own it.",
-        keyTakeaway: "Amplifiers magnify what you bring. Brilliance or noise. Brain first, bot second. Experts catch what AI misses. Your knowledge is the multiplier, not the tool.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "AI does not equalize capability. It amplifies what you already bring. A novice and an expert using the same tool, the same prompt, and the same model produce dramatically different outputs. The gap is not in the prompting. It is in the thinking behind the prompt. Your domain knowledge is not a nice-to-have. It is the multiplier.",
+        },
+        {
+          heading: "The Data",
+          body: "AI gives technical experts a 45% performance lift, middle managers 35%, and general staff 20%. Same tools. Widening gap. Research also shows that when you write something yourself, recall is around 80%. When AI writes it and you just read it, you forget 83% of it. Offloading your thinking to AI does not just produce weaker output. It erodes your ability to think at all.",
+        },
+        {
+          heading: "Three Things Going Wrong",
+          body: "First: productive failure gets skipped. Research by Manu Kapur at ETH Zurich over 20 years shows that wrestling with wrong attempts before getting help produces 30 to 40% better understanding. Second: premature agreement kicks in. A well-phrased, confident AI response feels like clarity. You stop thinking. Confirmation bias takes over. Third: use it or lose it. When you stop asking hard questions yourself, you gradually lose the ability to ask them.",
+        },
+        {
+          heading: "The Amplifier Model",
+          body: "AI is a cognitive amplifier. Amplifiers magnify what you bring in. Bring brilliance, get insight. Bring vague thinking, get noise that sounds credible. The future is not prompt engineering. It is context engineering: giving AI your real thinking, your genuine uncertainties, and your domain knowledge so it can respond to what you actually know and what you actually need.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "The people getting the most from AI are not the fastest prompt writers. They are the deepest thinkers. They bring their current thinking first, then use AI to fill specific gaps. Brain first. Bot second. Your knowledge does not become obsolete when AI arrives. It becomes more valuable.",
+        },
+      ],
       exercise: {
         objective: "See how expertise changes the output",
         doneWhen: "You have run the prompt and can answer: does this help more than a generic prompt?",
@@ -202,62 +241,75 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-    videoUrl: "https://www.youtube.com/embed/adKQchE9FKE?si=ttJZNYn5OwRRyqmM?rel=0",
-    slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day%202-%20Advanced%20Expert%20anything%20fast.pdf",
-    durationSeconds: 840,
-    summary: {
-      coreIdea: "You give AI a topic. It gives you a summary. That is not research. That is recycling. The model is not the constraint. The question is the constraint. A sharper question run on a basic tool beats a vague question run on the most powerful model available. Only you can write a sharp question. AI cannot do it for you. When you bring the depth of your expertise to the question and let AI bring its reach to the search, you produce findings that neither of you could reach alone.",
-      fact: "Most people believe better AI gives better research. Wrong. The moment you let AI decide what is worth asking, the whole system collapses. A topic dressed as a question gets you an essay. Interesting, generic, forgettable. A precise question with a population, a variable, and a time frame gives AI something real to find. That second question came from someone who knows the field. AI cannot write that question. You can.",
-      science: "Boston Consulting Group ran a field experiment with 500 consultants. On complex professional tasks, consultants using AI alone were 19 percentage points less likely to produce correct solutions than those working without it. But consultants combining expertise with AI on tasks within AI's capability scored 40% higher on quality than those using no AI at all. The gap is not the tool. The gap is whether the expert is steering it.",
-      framework: "Four steps. Write your current belief about a topic in one sentence. What do you think is true right now? Write what would prove you wrong. That tension between what you believe and what might disprove it is your research question. Sharpen it: add a population, a variable, a time frame. Make it specific enough that you can imagine what a real finding would look like. Hand it to AI and read what comes back. Not to confirm what you already think. To find what you do not yet know.",
-      example: "Two people. Same tool. The novice types the topic, reads the summary, accepts it. Produces something that sounds researched but cannot survive a single hard question. The expert writes a precise question drawn from ten years of domain knowledge, runs the source-grounded search, gets three findings they genuinely did not know, and spots the one AI got wrong because they know the field. Same tool. Different question. Completely different world.",
-      keyTakeaway: "You write the question. AI finds the answer. A topic gets you a summary, rarely usable. A vague question gets you a plausible answer, sometimes usable. A precise question gets you cited findings, always usable. The only variable is the quality of the input. And the only source of a quality input is your expertise.",
-    },
-    exercise: {
-      objective: "Apply the full 4-step method to a real challenge from your work. Artifact: Your Deep Research File.",
-      doneWhen: "You have extended your expertise in one area important to you.",
-      timeMinutes: 10,
-      steps: [
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      durationSeconds: 840,
+      summary: [
         {
-          task: "01",
-          title: "Define your research question",
-          items: [
-            "Write what you believe is true in your field right now — one sentence.",
-            "Use the GPT or prompt guide to sharpen it into a deep search question: <a href=\"https://docs.google.com/document/d/1H2_z3V-RHlJWtPFVqhfOriV4tlj9KTzxfrdKvlPeBXs/edit?tab=t.mq13ety9iq09\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://docs.google.com/document/d/1H2_z3V-RHlJWtPFVqhfOriV4tlj9KTzxfrdKvlPeBXs/edit?tab=t.mq13ety9iq09</a>",
-            "Or use the Literature Review GPT directly: <a href=\"https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review</a>",
-          ],
+          heading: "Core Idea",
+          body: "AI can accelerate expertise building if you know how to use it as a research partner, not a search engine. The key is to start with a hypothesis or a research question, not a generic topic. A well-formed research question tells AI what to look for, what to exclude, and what level of evidence to prioritize.",
         },
         {
-          task: "02",
-          title: "Run deep research with AI",
-          items: [
-            "Use more than one model.",
-            "Come back in a few minutes for the results.",
-          ],
+          heading: "The Method",
+          body: "There are two ways in. Search for tensions: find where experts disagree and what is still unsettled in a field. Or write a research question: start with an objective or a hypothesis, then use AI to build a structured literature review around it. Both approaches force you to think before you search, which changes the quality of what comes back.",
         },
         {
-          task: "03",
-          title: "Review the results as a human",
-          items: [
-            "Judge what comes back. If using NotebookLM, make a video, podcast, or infographic.",
-            "Note new hypotheses and what you did not know.",
-          ],
+          heading: "The 4-Step Process",
+          body: "Step one: define your research question. Narrow, testable, answerable. Step two: run deep research with more than one AI model. Step three: review the results as a human. Judge what comes back. Flag contradictions. Note what you did not know. Step four: create a context file. Save the key findings so future AI sessions start from your extended knowledge, not from zero.",
         },
         {
-          task: "04",
-          title: "Create a context file",
-          items: [
-            "Save key data into a resource file or new project — ChatGPT, Gemini, or NotebookLM.",
-          ],
+          heading: "Three Research Modes",
+          body: "Choose the mode that fits the task. Broad scan: understand the landscape of a new topic quickly. Deep dive: follow a specific question into the evidence. Synthesis: combine outputs from multiple sources into one coherent picture. Each mode calls for a different approach to how you frame your question and which tools you use.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "AI cannot build expertise for you. But it can compress the time it takes to build it yourself. The constraint is always the quality of the question you start with. A sharp research question turns AI into a research collaborator. A vague one gives you a confident-sounding summary of the obvious.",
         },
       ],
-      prompt: null,
-      demo: {
-        videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
-        title: "Day 2 : Advanced Demo",
+      exercise: {
+        objective: "Apply the full 4-step method to a real challenge from your work. Artifact: Your Deep Research File.",
+        doneWhen: "You have extended your expertise in one area important to you.",
+        timeMinutes: 10,
+        steps: [
+          {
+            task: "01",
+            title: "Define your research question",
+            items: [
+              "Write what you believe is true in your field right now — one sentence.",
+              "Use the GPT or prompt guide to sharpen it into a deep search question: <a href=\"https://docs.google.com/document/d/1H2_z3V-RHlJWtPFVqhfOriV4tlj9KTzxfrdKvlPeBXs/edit?tab=t.mq13ety9iq09\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://docs.google.com/document/d/1H2_z3V-RHlJWtPFVqhfOriV4tlj9KTzxfrdKvlPeBXs/edit?tab=t.mq13ety9iq09</a>",
+              "Or use the Literature Review GPT directly: <a href=\"https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://chatgpt.com/g/g-6a1c4b5bbf748191a5b0fbbfb0d62501-literature-review</a>",
+            ],
+          },
+          {
+            task: "02",
+            title: "Run deep research with AI",
+            items: [
+              "Use more than one model.",
+              "Come back in a few minutes for the results.",
+            ],
+          },
+          {
+            task: "03",
+            title: "Review the results as a human",
+            items: [
+              "Judge what comes back. If using NotebookLM, make a video, podcast, or infographic.",
+              "Note new hypotheses and what you did not know.",
+            ],
+          },
+          {
+            task: "04",
+            title: "Create a context file",
+            items: [
+              "Save key data into a resource file or new project — ChatGPT, Gemini, or NotebookLM.",
+            ],
+          },
+        ],
+        prompt: null,
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 2 : Advanced Demo",
+        },
       },
     },
-  },
 
     learnMore: [
       { title: "When help comes too early. TEDx Rabat April 26- Bryan Cassady", url: "http://tiny.cc/Help-Early-slides", type: "other" },
@@ -275,22 +327,35 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     phase: "foundation",
 
     sectionTitles: {
-      essential: "The C.A.R. Framework",
-      advanced: "The Friction Framework",
+      essential: "Unlocking Innovation with AI (Generic to Creative)",
+      advanced: "Constrained Creativity: The Friction Framework",
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/coNfyR_6lt0?si=MBPsyPBR4ygkjBzt?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-3-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "Structure changes everything. You can use the same AI, the same screen, and the same person and get completely different results just by changing how you think before you hit send. Typing \"give me ideas\" is the worst thing you can do. It gives AI nothing to work with. Structure is what turns a traffic jam into a highway.",
-        fact: "Most people think better AI output comes from using AI more or finding smarter prompts. Wrong. The variable was never the technology. It was always the structure you brought to it. A vague question gets the most average answer. Every time.",
-        science: "The numbers are hard to ignore. Humans alone produced 1.4 good ideas per hundred. Adding AI with no structure moved it to 1.7. Adding context got to 2.0. Adding structured techniques hit 5.8. Add a proper review step and you reach 14. Nearly ten times the starting point. Same AI throughout. Only the structure changed.",
-        framework: "C.A.R. has three parts. Context is not just what your brand does. It is who your buyer is, what tension they carry, what they resist. Action is not \"give me ideas.\" It is a specific task, a creative technique, and one constraint that forces originality. Review is the most skipped step and the most powerful one. Rank the output. Kill the weak ideas. Keep only what earns its place.",
-        example: "Bohler Knives. 200 years old. Selling a £180 knife to a 31-year-old who replaces everything. The vague prompt gave them: highlight craftsmanship, partner with influencers, offer a lifetime guarantee. Every other brand says the same. The C.A.R. prompt gave them: \"You will throw away 11 phones before this knife needs sharpening.\" One line. Completely different thinking.",
-        keyTakeaway: "Creativity with AI is not about more ideas faster. It is about better ideas more consistently. The output always tells you everything about the prompt that made it. Use C.A.R. on something real today.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "AI can generate more ideas than any human team. That is not the problem. The problem is that without structure, it generates the most average ideas, the ones that every other brand in your category is already doing. The C.A.R. framework (Context, Action, Result) is how you move from generic to genuinely creative output.",
+        },
+        {
+          heading: "The Science",
+          body: "Scientists scanned brains during AI brainstorming sessions and found that unstructured AI use produces high mental effort with low creative output. Structured AI does the opposite: it reduces strain and increases creative synthesis. The formula for human idea generation is Stimulus x Diversity squared x Clarity. AI adds Clarity squared and removes Fear. Structure is the mechanism that unlocks this.",
+        },
+        {
+          heading: "The C.A.R. Framework",
+          body: "Context means setting the scene completely: who, what, why, and what is at stake. Action means defining the task, the technique, and the constraint. How should AI approach this? What creative method should it use? What is off-limits? Result means specifying how the output should be evaluated and filtered: rank by discomfort, surface the surprising, kill the weak.",
+        },
+        {
+          heading: "Böhler Knives",
+          body: "A 200-year-old knife brand entering the home cooking market asked AI for marketing ideas with no context. It got: highlight your craftsmanship and heritage. Every knife brand says this. Rebuilt with C.A.R., banning heritage language, targeting a buyer who replaces everything, and constraining to five provocative concepts, the output became: 'You will throw away 11 phones before this knife needs sharpening.' Only that brand could say that.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Creativity with AI is not about more ideas faster. It is about better ideas, more consistently. The C.A.R. framework is not a prompt trick. It is a thinking discipline. Give AI the full scene, tell it how to work, and tell it how to filter. The structure is what gets you into the creative sweet spot.",
+        },
+      ],
       exercise: {
         objective: "Apply CAR method in your real work",
         doneWhen: "You have ideas that are more creative than when you started",
@@ -333,59 +398,72 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/pi3rt1umo2o?si=ZpoIi_hcWWkJxeG4?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-3-Advanced.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 840,
-      summary: {
-        coreIdea: "C.A.R. makes you better. It does not make you breakthrough. Even with perfect context, perfect action, and perfect review, AI is still a pattern recognition engine reaching for the most probable answer. To get ideas that could not have existed any other way, you need friction. Deliberate constraint that forces AI out of familiar territory.",
-        fact: "Most people think more freedom produces more creativity. Wrong. The restricted group produced solutions rated 30% more novel than the group with unlimited resources. Without a wall to push against, you drift back to the average. Every time. The wall is not the obstacle. The wall is the brief.",
-        science: "Constraints produce 30% more novel solutions than unlimited resources. This is not a creative philosophy. It is empirical research. Dr. Seuss wrote Green Eggs and Ham under a 50-word limit. The constraint did not shrink the idea. It forced a completely different kind of thinking.",
-        framework: "Three steps. The Wall: identify the three most obvious directions AI will take and ban all three explicitly in the prompt. The Bridge: pick one completely unrelated domain and inject its logic into the brief. The Result: AI is forced to combine two things that should not go together. That collision is where the original idea lives. The more wrong the combination feels, the more right the output tends to be.",
-        example: "The Guardian needed to reach Gen Z. The plain prompt gave them: launch TikTok, use memes, partner with influencers. Every legacy media brand already does this. With friction, they banned the words news, journalism, truth, and credibility. They injected the logic of a 100-year-old tree. AI came back with: \"Every ring is a year it did not lie to you. 100 rings. Still standing.\" No mention of journalism. No mention of truth. The most honest thing The Guardian ever said to a generation that trusts nothing.",
-        keyTakeaway: "C.A.R. every day. Friction when you hit the ceiling. The signal is when outputs feel almost right but not quite. That almost is when you build the wall. The discomfort in your prompt is not a problem. It is the point.",
-      },
-      exercise: {
-      objective: "Generate ideas using The Wall and The Bridge",
-      doneWhen: "You have three options built entirely from that collision, the weakest killed, and the strongest recommended.",
-      timeMinutes: 10,
-      steps: [
+      summary: [
         {
-          task: "01",
-          title: "My brief",
-          items: [
-            "My brief: [what you are working on, your audience, what they want, and what stops them.]",
-          ],
+          heading: "Core Idea",
+          body: "C.A.R. gets you consistent creative output. Friction gets you breakthroughs. When you force AI away from the most probable answers by banning the obvious and injecting unrelated domains, you get 30% more novel solutions. Constraints are not a limitation on creativity. They are the engine of it.",
         },
         {
-          task: "02",
-          title: "The Wall",
-          items: [
-            "The Wall: Here are 3 obvious solutions [list solutions] ban all three completely.",
-            "Do not use them anywhere in the response.",
-          ],
+          heading: "The Science",
+          body: "Restricted toolsets force AI away from its probabilistic center, the cluster of most common, most expected answers. The result is genuinely novel output. Without a wall, AI defaults to average. The discomfort you feel when setting a hard constraint is not a problem with the approach. It is a signal that the constraint is working.",
         },
         {
-          task: "03",
-          title: "The Bridge",
-          items: [
-            "The Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.",
-          ],
+          heading: "The Friction Formula",
+          body: "Step one: write your goal. Step two: list the three most obvious ideas and ban them completely. Step three: pick one unrelated domain, a sport, a courtroom, a recipe, a natural phenomenon, anything. Step four: force AI to solve your brief using only that domain's logic, language, and structure. The collision between your brief and the alien domain is where the idea lives.",
         },
         {
-          task: "04",
-          title: "To deliver",
-          items: [
-            "To deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]",
-            "End with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].",
-          ],
+          heading: "The Guardian",
+          body: "The Guardian newspaper, 100 years old, targeting Gen Z, asked AI for marketing ideas with a baseline prompt. It got: launch a TikTok, use memes, partner with influencers. Every legacy media brand is already doing this. With friction, banning all references to news, journalism, and credibility, and injecting the logic of a tree, the output became: 'Every ring is a year it did not lie to you. 100 rings. Still standing.'",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Great creativity is not the absence of limits. It is what happens when you weaponize them. C.A.R. gives you consistency. Friction gives you originality. Use C.A.R. when you need reliable quality. Use Friction when you need something no one has seen before.",
         },
       ],
-      prompt: "My brief: [what you are working on, your audience, what they want, and what stops them.]\n\nThe Wall: Here are 3 obvious solutions [list solutions] ban all three completely.\nDo not use them anywhere in the response.\n\nThe Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.\n\nTo deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]\n\nEnd with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].\n\nScan every bracket. For each unfilled bracket teach and ask one question at a time in this exact way.\n\nFor the brief ask: Great friction starts with a clear brief. What are you working on, who is it for, and what stops them from engaging?\n\nFor the unrelated world say first: Now we build the wall. The more unrelated the world you pick, the more original your output will be. Then suggest three options based on the brief and ask: Here are three worlds we could inject into your brief: [suggest three]. Which feels most interesting? Or pick your own.",
-      demo: {
-        videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
-        title: "Day 3 : Advanced Demo",
+      exercise: {
+        objective: "Generate ideas using The Wall and The Bridge",
+        doneWhen: "You have three options built entirely from that collision, the weakest killed, and the strongest recommended.",
+        timeMinutes: 10,
+        steps: [
+          {
+            task: "01",
+            title: "My brief",
+            items: [
+              "My brief: [what you are working on, your audience, what they want, and what stops them.]",
+            ],
+          },
+          {
+            task: "02",
+            title: "The Wall",
+            items: [
+              "The Wall: Here are 3 obvious solutions [list solutions] ban all three completely.",
+              "Do not use them anywhere in the response.",
+            ],
+          },
+          {
+            task: "03",
+            title: "The Bridge",
+            items: [
+              "The Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.",
+            ],
+          },
+          {
+            task: "04",
+            title: "To deliver",
+            items: [
+              "To deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]",
+              "End with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].",
+            ],
+          },
+        ],
+        prompt: "My brief: [what you are working on, your audience, what they want, and what stops them.]\n\nThe Wall: Here are 3 obvious solutions [list solutions] ban all three completely.\nDo not use them anywhere in the response.\n\nThe Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.\n\nTo deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]\n\nEnd with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].\n\nScan every bracket. For each unfilled bracket teach and ask one question at a time in this exact way.\n\nFor the brief ask: Great friction starts with a clear brief. What are you working on, who is it for, and what stops them from engaging?\n\nFor the unrelated world say first: Now we build the wall. The more unrelated the world you pick, the more original your output will be. Then suggest three options based on the brief and ask: Here are three worlds we could inject into your brief: [suggest three]. Which feels most interesting? Or pick your own.",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 3 : Advanced Demo",
+        },
       },
-    },
     },
 
     learnMore: [
@@ -404,21 +482,34 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     sectionTitles: {
       essential: "How We Use AI Wrong",
-      advanced: "How Often Al​ Sounds Right While Being Wrong​",
+      advanced: "How Often AI Sounds Right While Being Wrong",
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/OV8_PlPGXG0?si=L_K0QQFwNu-mdvMl?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-4-Essentials.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "Every time you ask AI a question and move on without checking, your thinking gets skipped. Not slowed. Skipped entirely. Default AI is optimized to stop your thinking. It gives polished answers instantly, agrees with your framing, and never tells you what is missing. The fix is one setting change. Not a new tool. Not a new skill. One paste.",
-        fact: "Most people believe faster and smoother AI answers are better. Wrong. Default AI exploits three biases at once and they compound. Satisficing: your brain accepts the first good enough answer and stops searching. Authority bias: AI sounds confident so you trust it like an expert even though it has no judgment. Confirmation bias: AI mirrors your framing and agrees with your premise. You never hear the pushback you need. Each one makes the next one harder to notice.",
-        science: "A study of 666 people measured the relationship between AI use and critical thinking. The correlation was negative 0.68. The more you use AI, the less critically you think. The mediating factor was cognitive offloading. That correlation was even stronger at negative 0.75. Harvard professor Karen Thornber puts it simply: LLMs enable us to avoid engaging in challenging mental skills. Unpracticed thinking gets worse. Your AI is not making you dumber. But it is making you less practiced. That has the same result.",
-        framework: "One setting change. Three protocols. Epistemic humility: AI labels every claim as fact, inference, or speculation. No more fake certainty. Active engagement: AI asks one clarifying question before solving. It makes you think before it thinks for you. Anti-sycophancy: AI never defaults to agreement. It pushes back and gives counter-arguments. One paste. Every conversation changes from that point forward.",
-        example: "Input: \"We're moving to cross-functional squads. Good idea?\" Default AI validates the choice. Thinking stops. You feel good. You move on. With custom instructions, the same question gets a confidence tag, a clarifying question about what problem you are actually solving, and a counter-argument. The first answer ended your thinking. The second made it sharper.",
-        keyTakeaway: "Default AI makes you think less. Change the instructions or your judgment degrades every time you use it. Same tool. Different behavior. The difference is one setting.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Default AI is optimized to stop your thinking. It gives you fast, confident, complete-sounding answers that feel like conclusions. You accept them. You move on. Your reasoning muscle never fires. This is not a bug in the technology. It is the design. And it gets worse the more you use it without changing the instructions.",
+        },
+        {
+          heading: "The Data",
+          body: "Research shows AI usage correlates with critical thinking at r = -0.68, and the cognitive offloading factor is r = -0.75. Squaring that last number means AI usage explains 56% of the variance in reduced critical thinking. Karen Thornber at Harvard put it plainly: LLMs enable us to avoid engaging in challenging mental skills. Unpracticed thinking gets worse.",
+        },
+        {
+          heading: "The Bias Stack",
+          body: "Three biases compound when you use default AI without safeguards. Satisficing: you accept the first answer that seems good enough. Authority bias: confident, well-structured AI output feels authoritative, so you trust it. Confirmation bias: you read AI responses looking for agreement, and you find it, because AI is trained to agree. All three work together to degrade your judgment over time.",
+        },
+        {
+          heading: "The Fix",
+          body: "Change your custom instructions. Set up AI to label uncertainty, to push back on weak premises, to ask one clarifying question before solving, and to never default to agreement. This is not about making AI harder to use. It is about making it work with your thinking rather than replacing it. The same tool, with different instructions, produces fundamentally different interactions.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Default AI makes you think less. This is measurable and it compounds. The solution is not to use AI less. It is to use it differently. Update your instructions once. The dividend is every conversation after that.",
+        },
+      ],
       exercise: {
         objective: "Personalize your instructions for your needs",
         doneWhen: "Your instructions are updated",
@@ -469,17 +560,30 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/aqR9eSh50Ss?si=UB9GC3Roo3SpE2AI?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-4-Advanced.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 840,
-      summary: {
-        coreIdea: "AI does not look things up. It predicts the most plausible next word. Confidence is a design feature, not a reliability signal. The more convincing an answer sounds, the more dangerous it is to accept without checking. You did not catch the error because you did not know the right answer. That is exactly when it matters most.",
-        fact: "Most people believe that a specific, confident AI answer means it is drawing from real information. Wrong. AI is never trained to say it does not know. When it hits a knowledge gap it does not stop. It predicts what a knowledgeable answer would look like and delivers it with full confidence. It is not lying. It is performing what knowledge looks like.",
-        science: "257 medical students made 3,855 diagnostic decisions with AI support. When AI was right, explanations helped. Accuracy went up 6.3 points. When AI was wrong, explanations made things worse. Accuracy dropped 4.9 points. Students treated explained AI as 15 percentage points more accurate than it actually was. The better AI explained itself, the more dangerous the wrong answers became.",
-        framework: "The stress test has three requirements. Demand a source for every claim. Demand a confidence rating: high, medium, or low. Demand that AI states uncertainty explicitly. This does not make AI smarter. It makes the gaps visible. The hallucinations were always there. The stress test forces them into the open.",
-        example: "A New York attorney asked ChatGPT for legal cases. Six citations came back. Perfect format. Quoted passages. He filed them in federal court without verifying. Three cases were completely fabricated. Invented names. Invented courts. Invented rulings. He was fined $5,000. The only way to catch it was to check. He did not check.",
-        keyTakeaway: "Fluency is not truth. Stress test before you trust. Same AI, one added line, completely different visibility.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "AI does not look things up. It predicts the most plausible next word, based on patterns in its training data. Confidence is a design feature, not a signal of accuracy. The more convincing an answer sounds, the more dangerous it is to accept without verification.",
+        },
+        {
+          heading: "The Mechanism",
+          body: "When AI encounters a knowledge gap, it does not say it does not know. It does what it was trained to do: produce the most plausible-sounding continuation. Dates, names, statistics, and citations all get generated with the same fluency whether they are real or fabricated. The structure of the answer is perfect. The content may be fiction.",
+        },
+        {
+          heading: "The Transparency Paradox",
+          body: "A study of 257 medical students making 3,855 diagnostic decisions found that when AI was right and explained its reasoning, accuracy increased by 6.3%. When AI was wrong and explained its reasoning, accuracy dropped by 4.9%. The explanation made the wrong answer more convincing. Fluency is not truth. A well-explained error is more dangerous than a naked one.",
+        },
+        {
+          heading: "Real Consequences",
+          body: "In 2023, a New York attorney filed legal briefs citing cases that AI had fabricated. The format was perfect. The quotes read like law. Three cases were completely invented. He filed without verifying. He was fined $5,000. This is not an edge case. It is the default behavior of a system that is optimized to sound right, not to be right.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Treat every number, date, name, and citation in an AI response as unverified until sourced. The stress test is simple: demand a source, demand a confidence rating, demand explicit uncertainty. AI fluency is a trust signal, not a truth signal. They are not the same thing.",
+        },
+      ],
       exercise: {
         objective: "Build a healthy skepticism of AI OUTPUTS",
         doneWhen: "You have found at least one error and understand why AI produced it",
@@ -541,22 +645,35 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     phase: "sparks",
 
     sectionTitles: {
-      essential: "S. Speak It Out",
-      advanced: "True North",
+      essential: "S: Speak It Out",
+      advanced: "TRUE NORTH",
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/KkTSKO7khUg?si=gAYitGHjThym19HT?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-5-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "Before any tool, before any AI, before any brainstorm or brief, you need to say what you are trying to do, why it matters, and what is off the table. Out loud. In plain language. When you skip this step, everyone nods and nothing moves. The most expensive meeting you will ever run is the one where everyone agrees and nobody means the same thing.",
-        fact: "Most people think alignment comes from agreement in the room. Wrong. The Abilene Paradox proves otherwise. A leadership team can collectively commit to a direction that no individual member actually supports, because each assumes the others are on board. It almost never surfaces in the meeting. It surfaces three weeks later when nothing moves. The antidote is not more meetings. It is one person speaking clearly first.",
-        science: "Research across more than 400 companies involving 22 innovation experts found that only half of middle managers can name their organisation's top priorities at any given time. The same research found that structured briefing before ideation reduces innovation risk by up to 50% and accelerates speed to market by six times. The bottleneck is almost never a shortage of ideas. It is a shortage of clarity about what problem the ideas are supposed to solve.",
-        framework: "Three things must be spoken before anything else. The goal: one sentence, no jargon, a destination not a direction. The why: two sentences in plain language. Why does this matter now and what changes if you get it right? The constraints: what you will not do and what you cannot do. Both are equally important. Nothing else is needed before work begins. Everything else is noise until these three are clear.",
-        example: "Wendy's original mission statement was long and full of jargon. Nobody at store level knew what to do with it. It was reframed in plain language: Healthy Fast Food. One constraint was named explicitly: never use the label \"health food\" because it deters as many customers as it attracts. That single act of spoken clarity gave every team one direction to execute against. Clarity did not limit the work. It unlocked it.",
-        keyTakeaway: "Say what you want. Say why it matters. Say what is off the table. Generative AI has no knowledge of your context. When you give it a vague brief, it fills the gaps with the most probable answers from every similar question it has ever seen. Those answers are not wrong. They are just not yours.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Writing filters ideas before they form. When you type, your brain simultaneously manages syntax, spelling, fine motor control, and idea generation, and they all compete for the same working memory. The first casualty is early-stage thinking. Speech does not have this problem. Speech is a biological adaptation of 200,000 years. Writing is a cultural technology of 5,000. Say the idea out loud before you write it.",
+        },
+        {
+          heading: "The Science",
+          body: "Research on working memory shows that writing overloads cognitive capacity and destroys early-stage ideas before they reach the page. Oral speech mathematically increases the originality of connections. Dictation produces narratives that are longer, more complex, and structurally stronger than typed equivalents. Speed matters too: you speak at around 180 words per minute and type at around 40. The mouth is not slower. It is faster and less filtered.",
+        },
+        {
+          heading: "The Mechanism",
+          body: "Step one: voice memo, 60 to 90 seconds, unedited. Do not correct yourself. Do not stop. Step two: paste the raw transcript into AI without cleaning it. Step three: ask AI to extract the argument hiding in what you said. Step four: write from knowing, not discovering. You are not replacing writing. You are giving writing something real to work with.",
+        },
+        {
+          heading: "The Comparison",
+          body: "A senior strategist given a complex brief typed for 45 minutes and produced half a page. Thinking was present. The modality strangled it. The same strategist, same brief, used a voice memo instead. In 90 seconds: 'The question is not how do we present it. It is how do we make the answer feel obvious.' The insight was already there. The tool was wrong.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "S is not a speaking exercise. It is a thinking liberation. The blank page does not free your ideas. It censors them. The editing loop that makes writing feel careful is the same mechanism that kills your best ideas before you know you had them. Speak first. Write second. Give AI your raw voice, not your cleaned thinking.",
+        },
+      ],
       exercise: {
         objective: "Speak it out. How could AI help you at work?",
         doneWhen: "You have given speaking things out a real try",
@@ -597,17 +714,30 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/V4RyntUGUbk?si=zsOHbiD1IRBBSvXl?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-5-Advanced.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 840,
-      summary: {
-        coreIdea: "A spoken brief gets everyone pointed in the same direction. True North makes that direction precise enough that people can act without asking permission and AI can produce output that is actually useful. Clarity of language is not enough. Structure makes clarity executable. Without structure, clear language still leaves room for interpretation. And interpretation is where alignment breaks down.",
-        fact: "Most people believe that if you speak clearly, teams align. Wrong. Three people can hear the same clear brief and go in three different directions. Not because they disagreed. Because each interpreted it differently. The brief was clear. The structure was missing. True North does not replace your spoken brief. It sharpens it and removes the interpretation gap entirely.",
-        science: "A 2011 study in Psychological Science gave teams tightly constrained creative briefs. Their ideas were rated 28% more original than teams given open-ended briefs. The Byron and Khazanchi meta-analysis covered 145 separate workplace studies. The finding was consistent: moderate constraints consistently outperform both total freedom and total rigidity on measurable creative output. Constraints do not limit creativity. They direct it.",
-        framework: "True North has six components. Narrative: why this problem exists for this team right now, one honest sentence. Objective: the goal written as \"we need ideas for blank,\" no jargon, no wiggle room. Restrictions: not what you cannot do but what you will not do. Decisions eliminate whole categories of bad ideas instantly. Tactical Constraints: the hard facts, deadline, budget, team size. Start Here: one reference point that gives momentum without prescribing the answer. Headline: two or three words maximum. If your team cannot say it from memory tomorrow morning, go back and tighten it.",
-        example: "Vague prompt: \"Help me with our innovation strategy.\" AI output: innovation involves creativity, technology, and stakeholder alignment to drive sustainable growth. Useless. True North prompt: we need ideas for reducing sprint cycle time, no new hires, no new tools, no budget changes, fourteen days, two hours training maximum, zero downtime. AI output: async standups replacing sync meetings, automated pull request triggers, a single deployment checklist. Three specific ideas. All executable on day one.",
-        keyTakeaway: "Structure your input. Structure your output. The only thing that changed between a generic AI response and a useful one was the quality of the structure you put in. Does your team know what not to do? That question is the test of every brief you will ever write.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Vague thinking does not disappear when you use AI. It gets faster. TRUE NORTH is a structured brief that turns vague principles into a story anyone can execute, whether that is a team member, an AI tool, or both. Fewer than 2 in 5 managers can name one of their company's top five strategic priorities. TRUE NORTH solves that.",
+        },
+        {
+          heading: "The Science",
+          body: "Research shows constrained briefs produce 28% more original ideas than open ones. 145 workplace studies confirm this. Psychological Science (2011) and Byron and Khazanchi (2012) both find that boundaries are not a creativity constraint. They are a creativity engine. The Wendy's case shows exactly why: vague mission in, generic ideas out. TRUE NORTH in, specific actionable ideas out.",
+        },
+        {
+          heading: "The TRUE NORTH Structure",
+          body: "N: Narrative. The story. Why this matters. O: Objective. We need ideas for blank. R: Restrictions. What we will NOT do. T: Tactical constraints. The hard limits. H: Start Here. Where to look first, plus a two or three word headline that anyone on the team can act on without asking a question.",
+        },
+        {
+          heading: "Wendy's",
+          body: "Wendy's mission statement: deliver superior quality products through leadership and innovation. Ask AI for product ideas from that: five generic ideas that could apply to any fast food company anywhere. Rebuilt with TRUE NORTH, defining the narrative around a health-skeptical consumer, restrictions banning health-food language, and a clear start-here on existing menu strengths, the output produced: 'Swap the Fries,' real customer stories, calorie boards framed as confidence. Specific. Actionable. Only Wendy's could say it.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Give AI and your team the full story. A TRUE NORTH is not a strategy document. It is the minimum context required for anyone, human or AI, to know what to do next without asking. Build it once. Use it every session.",
+        },
+      ],
       exercise: {
         objective: "Make a TRUE NORTH",
         doneWhen: "You have a TRUE NORTH that is clear enough for both AI and your team to act on",
@@ -664,110 +794,130 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 6,
     title: "Pivot Roles",
     phase: "sparks",
-
     sectionTitles: {
-      essential: "P is for Pivot",
-      advanced: "Design the AI That Interrogates Your Organisation",
+      essential: "P: Pivot Roles. Let AI Be the Interviewer.",
+      advanced: "Uncovering Deeper Insights by Reversing the Dialogue",
     },
-
     essential: {
-      videoUrl: "https://www.youtube.com/embed/sLkwWIvo5Fg?si=o9nb5ZC-vza55GMn?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-6-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "The problem with most AI output is not the answer. It is the question you never got asked. Humans are poor at articulating what they need without being questioned first. We do not know what we know until someone asks us. A prompt is a monologue. A good outcome requires a dialogue. The AI that asks you questions produces better output than the AI you simply instruct.",
-        fact: "Most people assume a detailed prompt produces a relevant answer. Wrong. Every constraint you fail to articulate becomes a gap. Every gap becomes an assumption AI fills in for you. Those assumptions are where the output goes wrong. The pivot is not about which AI you use. It is about what the questioning surfaces in you before any output is generated.",
-        science: "In an English proficiency study, students using standard prompting scored between 60 and 70. Students using AI-led flipped interaction scored between 80 and 85. Same students, same material, different interaction model. In a survey of 319 knowledge workers, higher confidence in AI tools was associated with less critical thinking, not more. In mechanical design experiments, users whose AI asked reflective questions produced significantly more feasible designs than users who gave direct instructions.",
-        framework: "Three steps. Give AI your task and add one sentence: \"Before answering, ask me everything you need to know to do this well.\" Answer every question fully in your own words. Do not skip any. Only after all questions are answered, ask AI to generate the output. The sequence matters. Questions first. Output second. Always.",
-        example: "A research team applied this to patent drafting using TRIZ methodology. Standard model: ChatGPT given the problem directly. Output was generic with no meaningful alignment to real solutions. Flipped model: AI asked first what it needed to know. The expert answered. The resulting solutions mirrored outcomes found in authorised patents. The AI did not get smarter between those two conditions. The interaction got deeper. That is the entire lesson.",
-        keyTakeaway: "Pivot first. Better questions before answers. Always. For routine tasks, instruct and move on. For anything where a shallow answer carries real cost, the flipped interaction is not optional.",
-      },
+      summary: [
+        { heading: "Core Idea", body: "You wrote the prompt carefully. AI answered instantly. It looked right. You moved on. Later you realized you had been working on the wrong challenge. The problem was never the AI answer. It was the question you never got asked. Stop giving AI instructions to answer. Give it permission to interrogate you first." },
+        { heading: "The Science", body: "Humans are poor at articulating what they need without being questioned first. Research on 319 knowledge workers found that higher AI confidence correlates with less critical thinking from the user. A separate study on mechanical designers found that those using AI questioning produced significantly more feasible designs than those who simply prompted directly. The AI that asks you questions produces better output than the AI you instruct." },
+        { heading: "The Intent Formulation Gap", body: "You carry tacit knowledge, things you know but have never had to articulate. AI operates on explicit constraints, things you have stated in the prompt. Between those two sits the gap where most AI output goes wrong. Questioning is the bridge. When AI asks you a question, you answer it. That answer contains constraints you did not know you had. Those constraints change the output." },
+        { heading: "The Flipped Interaction", body: "Model A: you instruct, AI answers. Fast. Shallow. Risk of missed constraints. Model B: AI questions, you clarify, AI answers. Slower. Grounded. Output built on your actual situation. The TRIZ patent drafting study showed that standard prompting produced generic output with no match to real patents. Flipped interaction produced solutions that mirrored actual authorized patent outcomes." },
+        { heading: "Key Takeaway", body: "Before answering, ask me everything you need to know. Three words you can add to almost any prompt. They slow the interaction down by two minutes and improve the output by an order of magnitude. Model B is not harder. It just requires you to answer questions. That is where the real thinking happens." },
+      ],
       exercise: {
-        objective: "Get better AI output by letting AI question you first, before it answers",
-        doneWhen: "You have answered every question AI asked you fully — and only then received the output.",
-        timeMinutes: 8,
+        objective: "Get AI to ask questions about how you could be using AI better",
+        doneWhen: "You have at least one non-obvious AI recommendation you will act on",
+        timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Write your task and add the flip",
+            title: "Update the prompt (for you) + context about yourself",
             items: [
-              "Describe the task or decision you need help with.",
-              "Add the flip: ask AI to question you before answering.",
+              "Add context about yourself and your role",
+              "Attach any relevant files that describe your work or current initiatives",
             ],
           },
           {
             task: "02",
-            title: "Answer every question",
+            title: "Answer questions",
             items: [
-              "Answer every question AI asks. Do not skip any.",
-              "Use your own words. Be specific.",
+              "Let AI ask you questions one at a time about your targets, current initiatives, and constraints",
+              "Answer until it has enough context to give you both obvious and non-obvious AI recommendations",
             ],
           },
           {
             task: "03",
-            title: "Only then ask for the output",
+            title: "Reflect",
             items: [
-              "When all questions are answered, ask AI to generate the output.",
-              "Compare it to what you would have got from a direct prompt.",
+              "Review the recommendations. Which ones surprised you?",
+              "Bonus: Run this using the TRUE NORTH GPT to turn ideas into a capstone project: https://chatgpt.com/g/g6754129342648191a94c50c383fd267b-cycles-2-0-9-true-north",
             ],
           },
         ],
-        prompt: "I need help with [describe your task or decision].\nBefore answering, ask me everything you need to know to give me genuinely useful advice for this specific situation. Ask one question at a time. Wait for my answer before asking the next. Do not skip to advice. Do not give generic tips.\nOnly after I have answered all your questions, generate the output.\n\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to help me fill it in. Start with the initiative. Then the bottleneck. Then the time horizon. Do not move to the next question until I have answered the current one. When I answer, reflect back what I said and ask if it captures the real bottleneck or just the symptom. Make this a thinking exercise, not a form to complete.",
+        prompt: "I'm [add some context about yourself + Attach some relevant files]\n\nI'd like your help figuring out how I can best use AI to solve some of my important business challenges.\n\nAsk me questions, one at a time, about our targets, current initiatives, and constraints until you have enough context to give me a few obvious and a few non-obvious AI recommendations.",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 6 : Essential Demo",
+        },
       },
     },
-
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/f0EFqbSFuQw?si=Bjc_iNOZ4P5OX_5B?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-6-Advanced.pdf",
-      durationSeconds: 840,
-      summary: {
-        coreIdea: "Your senior expert is leaving. Thirty years of knowledge. You run knowledge transfer sessions. They produce documents full of process steps. The judgment calls, the workarounds, the unwritten rules that only make sense after a decade in the role. None of it makes it into any document. It leaves with the person. Every time. The problem is not that the expert is unwilling to share. The right questions were never asked.",
-        fact: "Most organisations believe experts can transfer knowledge if given enough time and the right structure. Wrong. Tacit knowledge cannot be extracted by asking someone to explain what they know. It can only be extracted by asking them to justify what they do, in the moment, in context, under questioning. Interrogation. Not instruction.",
-        science: "A systematic review of 126 publications found that externalization, converting tacit knowledge into explicit concepts, is the hardest step in knowledge creation. It is also exactly what AI-led questioning targets. The Socrates 2.0 study found an effect size of d=0.30 for cognitive restructuring through Socratic questioning alone. No solutions were given. No advice offered. The questioning itself produced the shift. And again, 319 knowledge workers: higher confidence in AI was associated with less critical thinking enacted. The pattern holds across every domain studied.",
-        framework: "Three categories of tacit knowledge to target. Relational: who actually makes decisions, what can only be said in person. Somatic: physical intuition built over years. Collective: what the team actually does versus what the manual says. Each requires a different questioning strategy designed in advance. Give AI one instruction: ask questions only, do not summarise, do not advise. After each answer, instruct AI to go one level deeper into the same category. Do not let it move on. You steer. AI excavates.",
-        example: "LumaStyle, an online fashion brand. Standard prompt asking for a marketing budget recommendation produced a generic channel split based on industry averages. Socratic prompting forced the leadership team to surface hidden assumptions about rising customer acquisition costs and diminishing returns on their primary channel. Final output was a risk-adjusted allocation built around long-term ROI. A fundamentally different strategic recommendation. GPT had the reasoning capacity to reach that conclusion in both conditions. It only deployed it when questioned into context.",
-        keyTakeaway: "Your organisation's most valuable knowledge has never been written down. Until now. The difference between a knowledge transfer session and a structured elicitation protocol is this: one captures steps, the other captures judgment.",
-      },
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      durationSeconds: 600,
+      summary: [
+        { heading: "Core Idea", body: "Your senior expert is leaving in six months. They run knowledge transfer sessions. The result is a document of process steps. The judgment, the workarounds, the unwritten rules, the mindset: those leave with the person. Tacit knowledge cannot be extracted by instruction alone. It can only be surfaced through interrogation. AI-led questioning is the only scalable tool that can capture it before it disappears." },
+        { heading: "Three Types of Hidden Knowledge", body: "Relational knowledge: unwritten social rules, expectations, and how people actually react versus how the org chart says they should. Somatic knowledge: physical intuition, the mechanic's trained ear, the sensory cues that experienced practitioners use but cannot describe. Collective knowledge: the team heuristics and norms that differ from official guidelines and exist only in practice." },
+        { heading: "The Load That Builds Expertise", body: "When AI absorbs the task complexity, it also absorbs the cognitive work that builds skill. Model A, where you instruct and AI delivers, minimizes friction but also minimizes schema development. Model B, where AI questions and you externalize your thinking, forces reasoning, schema-building, and reflection. The output is grounded. The long-term effect is that expertise is preserved, captured, and scaled rather than allowed to quietly disappear." },
+        { heading: "LumaStyle", body: "An online fashion brand facing rising customer acquisition costs used Model A: one prompt, generic marketing budget split, mechanized convergence. Using Model B, AI questioned the user through Socratic prompting, surfacing hidden assumptions about diminishing returns and channel attribution. The output became a risk-adjusted allocation emphasizing long-term ROI. Same challenge. Completely different level of output." },
+        { heading: "Key Takeaway", body: "The organization's most valuable knowledge has never been written down. The exit interview catches what people remember to say. AI-led questioning catches what people did not know they knew. Build the habit now. Before the expert leaves." },
+      ],
       exercise: {
-        objective: "Extract critical knowledge from an expert through AI-led elicitation, not a standard interview",
-        doneWhen: "You have run AI through all three categories of tacit knowledge and produced the elicitation record.",
-        timeMinutes: 8,
+        objective: "Use Pivoting to better understand the work of a colleague, and ask the right questions if he/she left",
+        doneWhen: "You have an exit interview questionnaire ready to use",
+        timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Prepare your questions",
+            title: "Update the prompt",
             items: [
-              "Before opening AI, write three questions — one per category.",
-              "Relational, somatic, collective. One each.",
+              "Insert the primary job title or role of the colleague you want to understand",
+              "Add any relevant context about their work",
             ],
           },
           {
             task: "02",
-            title: "Run the interview",
+            title: "Answer questions",
             items: [
-              "Give AI the interview instruction below.",
-              "Paste your first question. Answer fully before moving on.",
+              "Let AI ask you questions one at a time about your colleague's key tasks and roles",
+              "Answer until it has enough context to build a clear picture of their work",
             ],
           },
           {
             task: "03",
-            title: "Produce the record",
+            title: "Reflect. Is this better or worse than you would have done without AI?",
             items: [
-              "Only after all questions are exhausted, ask AI to produce the elicitation record.",
-              "Three categories: what was explicit, what was hidden, what the organisation was about to lose.",
+              "Review the exit interview questionnaire AI produced",
+              "Ask yourself: would you have thought of these questions on your own?",
             ],
           },
         ],
-        prompt: "I need to extract critical knowledge from [1. their role] who works in [2. their department or field] and has been here for [3. how many years].\nYou are conducting a knowledge elicitation interview. Ask questions only. Do not summarise. Do not advise. Do not move to the next question until I say so.\nAsk me one question at a time across these three categories:\nFirst, relational knowledge. Who actually makes decisions. Who needs to be consulted. What can only be said in person. Ask me: [4. write your own question here, or use this: \"Who do you actually call before making a big decision, and why that person specifically?\"]\nSecond, somatic knowledge. What the expert feels before any data confirms it. Ask me: [5. write your own question here, or use this: \"How do you know something is wrong before any system flags it?\"]\nThird, collective knowledge. What the team actually does versus what the manual says. Ask me: [6. write your own question here, or use this: \"What does your team do differently from the official process, and why does it work better?\"]\nAfter each answer go one level deeper into the same category. Do not move on until I say next. When I say done, produce the elicitation record. Three categories. What was explicit. What was hidden. What the organisation was about to lose.\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to fill them in. Start with role. Then department. Then years. Then begin the interview.",
+        prompt: "I would like to better understand the work a colleague does.\n\nAsk me questions about his/her job one at a time to clearly understand his/her key tasks and roles. His/her primary job is [insert data].\n\nAsk me questions one at a time to better understand the content of work being done and the questions I would need to ask if he/she left the company.\n\nOutput: an exit interview questionnaire",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 6 : Advanced Demo",
+        },
       },
     },
-
     learnMore: [
-      { title: "Rethinking AI Conversations (6 min)", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/47b59664-8b80-49b2-bcdc-a8d375d91ee4", type: "video" },
-      { title: "Epistemic Reversal — Slides", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/27eeedd5-d1b0-4d71-ab53-f5b4c1093576", type: "other" },
-      { title: "The Pivot — What Happens When AI Asks the Questions", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d?authuser=2", type: "tool" },
-      { title: "Flipped Interaction with AI: A Systematic Literature Review on Clarifying Questions, Output Quality, and Evidence-Based Prompting Protocols", url: "https://1drv.ms/w/c/c37128d8066b9290/IQBm6Dely9z1RadRwuFMTapsAWuC406gsavP9tUHWd66_M?e=nLo9WL", type: "article" },
-      { title: "Why Your AI Should Interview You First — Podcast", url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/af7748a6-aaa5-4bbe-be25-c151acb23877", type: "video" },
+      {
+        title: "Rethinking AI conversations (6 Minutes)",
+        url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/47b59664-8b80-49b2-bcdc-a8d375d91ee4",
+        type: "video",
+      },
+      {
+        title: "Epistemic Reversal",
+        url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/27eeedd5-d1b0-4d71-ab53-f5b4c1093576",
+        type: "other",
+      },
+      {
+        title: "The Pivot - What happens when AI asks the questions",
+        url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d?authuser=2",
+        type: "tool",
+      },
+      {
+        title: "Flipped Interaction with AI: A Systematic Literature Review on Clarifying Questions, Output Quality, and Evidence-Based Prompting Protocols",
+        url: "https://1drv.ms/w/c/c37128d8066b9290/IQBm6Dely9z1RadRwuFMTapsAWuC406gsavP9tUHWd66M?e=nLo9WL",
+        type: "article",
+      },
+      {
+        title: "Why your AI should interview you first",
+        url: "https://notebooklm.google.com/notebook/47de7061-ed48-44d9-9a4c-99bb64b4766d/artifact/af7748a6-aaa5-4bbe-be25-c151acb23877",
+        type: "other",
+      },
     ],
   },
 
@@ -775,111 +925,175 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 7,
     title: "Ask for More",
     phase: "sparks",
-
     sectionTitles: {
-      essential: "A. Ask for More",
-      advanced: "The AI Expert Panel",
+      essential: "A: Ask for More. Building Your Idea Factory.",
+      advanced: "Using AI Panels and Libraries for Diverse Perspectives",
     },
-
     essential: {
-      videoUrl: "https://www.youtube.com/embed/5Jy2H7JX5dM?si=oLARQTYBwGH8yuxX?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-7-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "You ask AI for ideas. It gives you five that sound like they came from a textbook. You rephrase the prompt. Same five ideas, different order. The problem is not the prompt. It is that you accepted the first answer and called it done. The fastest way to improve AI output is not a better prompt. It is a better follow-up.",
-        fact: "Most people believe if the first prompt is good enough, the first answer is good enough. Wrong. Even a good first answer is worth challenging. AI's first answer is its most average answer. The prompt might be great. The answer still has room to move.",
-        science: "The swap test is the quality check. Read the answer. Ask yourself: could you swap your company name for any other company and the answer still works? If yes, it is generic. Two seconds. Tells you everything. Research on directed iteration consistently shows that specific redirects outperform vague ones. Telling AI exactly what to change produces better output than telling it to try again.",
-        framework: "Three steps. Read: take the output seriously enough to evaluate it. Test: run the swap test. Redirect: tell AI exactly what is wrong and what to change. Not \"make it better.\" Say what is missing and why. Then ask again. That is the loop. Read. Test. Redirect. Repeat. Directed persistence is the difference between lazy iteration and useful iteration.",
-        example: "A product manager asked AI for launch risks for a new product in a new market. First answer: regulatory, currency, competition. All true. All obvious. Nothing he did not already know. He pushed back. \"These are too broad. We are a 20-person team launching in Southeast Asia with no local partners.\" Second answer surfaced three risks nobody on the team had discussed. One of them changed the launch timeline. Same AI. Same day. Different discipline.",
-        keyTakeaway: "The vending machine gives you what is pre-loaded. The sparring partner gives you sharper output because you stayed in the ring. The difference is not the tool. It is whether you left after round one.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "AI's first answer is its most average answer. It is the statistical center of everything it has seen on a topic. When you accept the first response and move on, you are not getting AI's best output. You are getting its default. The fastest way to improve AI output is not a better prompt. It is a better follow-up.",
+        },
+        {
+          heading: "The Data",
+          body: "Research shows that challenging the first AI answer and asking for more produces 15% higher output quality while reducing time spent by 40%. You do not need to write a better prompt. You need to stay in the conversation longer. Most people quit after round one. The people getting the best output stay in the ring.",
+        },
+        {
+          heading: "The READ Framework",
+          body: "R: Read the output. What works, what does not. E: Direct it. Keep what you like, name what to drop, push the focus. A: Ask for more. Constrain: remove the obvious. Extend: look in this direction. Associate: combine with this stimulus. D: Done when you have something genuinely better than the first response, not just rearranged.",
+        },
+        {
+          heading: "Vending Machine vs. Sparring Partner",
+          body: "Most people use AI like a vending machine: insert prompt, receive answer, walk away. The output is pre-loaded and generic. Treat it like a sparring partner instead: you throw a jab, it responds, you adjust, it adapts. The output sharpens because you stayed in the ring. The interaction itself is the quality mechanism.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "The first answer is where the average lives. Everything worth using is one or two follow-ups deeper. Read the output, name what is weak, redirect, push, constrain, extend. Ask for more every time the first answer feels flat. It almost always does.",
+        },
+      ],
       exercise: {
-        objective: "Turn a generic AI answer into a specific one by running the read-test-redirect loop",
-        doneWhen: "You have two AI outputs side by side and can name one specific thing the second answer improved.",
-        timeMinutes: 8,
-        steps: [
-          {
-            task: "01",
-            title: "Get the first answer",
-            items: [
-              "Describe your specific challenge and your situation.",
-              "Ask for what you need — risks, ideas, options, a plan.",
-            ],
-          },
-          {
-            task: "02",
-            title: "Run the swap test, then redirect",
-            items: [
-              "Could you swap your company name for any other and the answer still works?",
-              "If yes, tell AI exactly what is missing — and ask again.",
-            ],
-          },
-          {
-            task: "03",
-            title: "Compare side by side",
-            items: [
-              "Put both outputs side by side.",
-              "Write down one specific thing that improved. That improvement is your second ask.",
-            ],
-          },
-        ],
-        prompt: "Step 1. I need help with [1. describe your specific challenge]. My situation is specific: [2. your team size, your market, your constraint, your context]. Give me [3. what you need — risks, ideas, options, a plan].\nStep 2. After reading the first answer, paste this: \"Your first answer could apply to any company anywhere. What I need is specific to [2. your situation]. The first answer missed [4. what was wrong — be specific]. Give me a second answer that addresses only my situation. Ignore everything generic.\"\nStep 3. Put both outputs side by side. Write down one specific thing that improved. That improvement is your second ask.\n------------\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time. Start with the challenge. Then the specific context. Then what the first answer missed. Do not move to the next question until I have answered fully. When I answer, reflect back what I said and ask — could Blockbuster have received this same answer? If yes — we are not done yet.",
-      },
-    },
-
-    advanced: {
-      videoUrl: "https://www.youtube.com/embed/pAwD5_H7lzk?si=Je8QZpezq1S6v8XE?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-7-Advanced.pdf",
-      durationSeconds: 840,
-      summary: {
-        coreIdea: "You learned to push back on AI. The answers got sharper. But they got sharper in the same direction. Deeper on one track, not wider. You iterated your way into a tunnel. You are still thinking inside one mind. Creative leverage comes from forcing AI to think like a diverse team, not a single tool. One prompt. Three minds. You just built a boardroom out of a chat window.",
-        fact: "Most people believe more iterations means more creativity. Wrong. More iterations means more depth on the same track. More perspectives means more creativity. That is the upgrade. Solo iteration polishes the gem. The panel checks if you are holding a gem or a rock. You need both. But if you only have one, you are flying with one eye closed.",
-        science: "Teams with diverse perspectives make better decisions 87% of the time. Not sometimes. Not \"it depends.\" 87%. You do not need a bigger team to get this. You do not need to hire three consultants. You need a better prompt. The expert panel manufactures diversity of thought on demand.",
-        framework: "Three steps. Summarise your idea in three to five sentences before opening AI. Run the panel: instruct AI to respond as three distinct expert roles, each giving one paragraph of feedback from their lens. Read the feedback, write down one specific improvement you will act on, then save the panel prompt with a title and purpose. That is your prompt library. Not a prompt. Infrastructure.",
-        example: "A product team ran an AI expert panel the night before their quarterly review. Twelve minutes. The CFO persona flagged a budget gap: the number assumed full attendance and was off by 30%. The designer persona caught an onboarding flaw: new users would get stuck on step two. Neither issue had come up in three weeks of meetings. Both were fixed before leadership walked into the room. The proposal they saw had already survived the objections they were about to raise.",
-        keyTakeaway: "Better ideas emerge when AI thinks like a team. Iteration refines what you already see. The panel finds what you cannot see alone. Build the panel. Save it. Use it before anything leaves your desk.",
-      },
-      exercise: {
-        objective: "Stress-test a real proposal through three expert personas before it leaves your desk",
-        doneWhen: "You have one paragraph of feedback from each of three distinct experts — and one specific improvement you will act on.",
+        objective: "The first answer is the most average answer. Push for a second better answer.",
+        doneWhen: "You have gone from a generic reply to a creative one by asking for more",
         timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Summarise your proposal",
+            title: "Find a recent AI reply that needs to be improved",
             items: [
-              "Write your idea in three to five sentences before opening AI.",
-              "If it does not fit in five, it is not ready for the panel yet.",
+              "Pick any AI reply from the last few days that felt generic or flat",
+              "Paste it into the Ask for More template",
             ],
           },
           {
             task: "02",
-            title: "Run the panel",
+            title: "Reframe and Push",
             items: [
-              "Use the prompt below. Pick Option A (define your experts) or Option B (let AI suggest them).",
-              "Each expert gives one paragraph of feedback only — objections, not solutions.",
+              "Open the template: <a href=\"https://tiny.cc/askmore\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://tiny.cc/askmore</a>",
+              "Make a copy, go to the \"Ask for more\" sheet, and fill in the blanks in red box",
+              "Run the prompt. Let AI push past its first answer.",
             ],
           },
           {
             task: "03",
-            title: "Save it as infrastructure",
+            title: "Compare your results",
             items: [
-              "Write down one specific improvement you will act on.",
-              "Save the panel prompt with a title and purpose. This is your prompt library.",
+              "Put the first reply and the new reply side by side",
+              "Ask yourself: which one would you actually use?",
             ],
           },
         ],
-        prompt: "Here is my proposal: [1. describe your idea in three to five sentences].\nI need three expert personas to stress-test this. Two options:\nOption A — I will define my experts:\nExpert 1 is a [2. role — example: CFO, finance lead, budget holder]. They care about [3. what they care about — example: cost, return, and risk].\nExpert 2 is a [4. role — example: end user, frontline manager, customer]. They care about [5. what they care about — example: practicality and time].\nExpert 3 is a [6. role — example: skeptic, competitor, HR director]. They care about [7. what they care about — example: finding the weakest point in the argument].\nOption B — Based on my proposal, suggest four expert roles I could use. For each one tell me their role, what they care about, and what objection they are most likely to raise.\nEach expert gives one paragraph of feedback only. Do not give solutions yet. Only surface the objections each one would raise in a real room.\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time. Start with the proposal. Then ask which option they prefer. Then build the panel. When I answer, reflect back what I said and ask — would this person be in the room when this proposal gets challenged? If not — pick someone who would.",
+        prompt: null,
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 7 : Essential Demo",
+        },
       },
     },
-
+    advanced: {
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      durationSeconds: 600,
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Iteration inside one mind, even an AI mind, goes deeper but not wider. The same blind spots persist. The same assumptions stay unchallenged. Diversity of perspective does more for creative and strategic output than depth of iteration. You do not need a bigger team. You need a better prompt that forces AI to think like a team.",
+        },
+        {
+          heading: "The Data",
+          body: "Decisions made with diverse perspectives are 87% better. Source: Cloverpop, Hacking Diversity with Inclusive Decision Making. A CFO, a product designer, and a frontline support agent looking at the same proposal ask fundamentally different questions. What does this cost? Will people use it? What breaks first? Each question opens a different failure mode. Solo iteration misses all three.",
+        },
+        {
+          heading: "Solo Iteration vs. Panel Critique",
+          body: "Solo iteration goes deeper. It improves the answer you already have. It refines what you can already see. Panel critique goes wider. It finds blind spots. It stress-tests the thinking. It surfaces assumptions that look like facts. Both have a place, but most people use only one. The missing mode is almost always the panel.",
+        },
+        {
+          heading: "How to Build a Panel",
+          body: "Name the perspectives you want. CFO, HR Director, CEO, Sales Director, customer, skeptic, competitor. Give AI enough context on each role or person to make the feedback specific. Ask it to respond as each persona in turn. Then ask for the key patterns across all feedback and the top three improvements. The panel is as good as the personas you define.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Better ideas emerge when AI thinks like a team. You do not need permission, budget, or a meeting. You need one prompt that assigns roles and asks for feedback from each. Build the panel before the presentation, not after it.",
+        },
+      ],
+      exercise: {
+        objective: "Ask AI for more. Get synthetic user feedback on a proposal.",
+        doneWhen: "You have synthetic feedback from at least two personas and 3 concrete improvements to act on",
+        timeMinutes: 15,
+        steps: [
+          {
+            task: "01",
+            title: "Find something you would like to get feedback on",
+            items: [
+              "Pick a proposal, idea, or presentation you are working on",
+            ],
+          },
+          {
+            task: "02",
+            title: "Give context. Describe your challenge, insert your idea. Update.",
+            items: [
+              "Describe your challenge in one sentence",
+              "Insert your idea or attach your document",
+            ],
+          },
+          {
+            task: "03",
+            title: "Define your personas. Update and run the prompt.",
+            items: [
+              "Name the personas you want feedback from: CFO, HR Director, CEO, Sales Director, or whoever matters",
+              "Optional: download their LinkedIn profiles or answer questions about each to make the personas sharper",
+              "Run the prompt and let AI respond as each persona",
+            ],
+          },
+          {
+            task: "04",
+            title: "Reflection",
+            items: [
+              "Review the feedback from each persona",
+              "Identify the key patterns across all feedback",
+              "Pick 3 suggestions to improve your proposal",
+            ],
+          },
+        ],
+        prompt: "I have been working on [describe your challenge]\nI have this idea [Insert Idea]\nPlease create a series of personas to represent [people in my management team]\n[CFO | HR Director | CEO | Sales Director] [note: you could include PDFs of their profiles by downloading their LinkedIn profiles or answer questions about each]\nPlease provide feedback on my presentation using these personas\nBased on this, summarize the key feedback, give 3 suggestions on how to improve this project",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 7 : Advanced Demo",
+        },
+      },
+    },
     learnMore: [
-      { title: "NotebookLM: Ask More — Improving AI Reasoning Through Collaboration", url: "http://tiny.cc/notebook_day7", type: "tool" },
-      { title: "Encouraging Divergent Thinking in Large Language Models through Multi-Agent Debate", url: "https://arxiv.org/html/2305.19118v4", type: "article" },
-      { title: "NotebookLM Podcast: Chain-of-Thought vs Tree-of-Thoughts", url: "http://tiny.cc/podcast_day7", type: "video" },
-      { title: "Making the Difference: Applying a Logic of Diversity", url: "https://www.researchgate.net/publication/276055305_Making_the_Difference_Applying_a_Logic_of_Diversity", type: "article" },
-      { title: "ChatGPT as a Board of Advisors", url: "https://www.youtube.com/watch?v=Bh-46lrcHpc", type: "video" },
-      { title: "Delivering Through Diversity — McKinsey", url: "https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/delivering-through-diversity", type: "article" },
+      {
+        title: "Notebook LM podcast: Chain-of-Thought versus Tree-of-Thoughts",
+        url: "https://tiny.cc/podcast_day7",
+        type: "other",
+      },
+      {
+        title: "Notebook - Ask more: Improving AI reasoning through collaboration",
+        url: "https://tiny.cc/notebook_day7",
+        type: "tool",
+      },
+      {
+        title: "Encouraging Divergent Thinking in Large Language Models through MultiAgent Debate",
+        url: "https://arxiv.org/html/2305.19118v4",
+        type: "article",
+      },
+      {
+        title: "Making the Difference: Applying a Logic of Diversity",
+        url: "https://www.researchgate.net/publication/276055305_Making_the_Difference_Applying_a_Logic_of_Diversity",
+        type: "article",
+      },
+      {
+        title: "ChatGPT as a board of advisors",
+        url: "https://www.youtube.com/watch?v=Bh-46lrcHpc",
+        type: "video",
+      },
+      {
+        title: "Delivering through diversity",
+        url: "https://www.mckinsey.com/capabilities/people-and-organizational-performance/our-insights/delivering-through-diversity",
+        type: "article",
+      },
     ],
   },
 
@@ -887,112 +1101,166 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 8,
     title: "Reframe",
     phase: "sparks",
-
     sectionTitles: {
-      essential: "R is for Reframe",
-      advanced: "R: Going Deeper",
+      essential: "R: Reframe. Seeing the Problem Anew.",
+      advanced: "Problution",
     },
-
     essential: {
-      videoUrl: "https://www.youtube.com/embed/hrzSVpk9x68?si=jlfHVDqpqo2x5hWw?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-8-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "Sometimes the thinking is brilliant. The output is strong. But the solution is still completely wrong. Not because you failed. Because you were solving the right problem perfectly, except it was the wrong problem all along. Thinking harder inside the wrong frame does not get you to the right answer. It gets you to the wrong answer faster, with more confidence, and probably more money spent. R finds the real problem hiding behind the one you were given.",
-        fact: "Most people believe that if you think harder, ask better questions, and push further, you will find the answer. Wrong. Every tool learned so far, S, P, and A, was focused on finding better solutions. Reframing does something different. When you change the problem, not the answer, everything downstream changes with it. A well defined problem is already half solved.",
-        science: "Research on high-performing creative teams found they explore up to 26 levels of problem depth before they start solving. Most teams stop between 4 and 10. The gap between 10 and 26 is where the real problem lives. Structured reframing combined with AI produces ideas rated 6.2 out of 7 for novelty and 6.1 out of 7 for feasibility simultaneously. That almost never happens. Unstructured AI gives high novelty but low feasibility. Single frame human thinking gives high feasibility but low novelty. Only structured reframing delivers both at the same time.",
-        framework: "Four steps. Name it: state the problem exactly as given, not how you think it should be framed. Challenge it: ask who defined this problem and whose perspective is completely missing. In almost every case the person who defined the problem is not the person experiencing it. Find the value arena: look for the functional need, the experiential need, and the social need. These three lenses almost always reveal something the original frame missed. Restate it: write one new problem statement from what you found.",
-        example: "A hospital could not fill nursing positions. Leadership framed it as a budget crisis. AI was asked how to retain nurses. Output: benchmark salaries, recruitment drives, signing bonuses. Salaries went up. Costs went up. Problem persisted. Reframed using the four steps. New problem statement: how do we make nursing here feel worth staying for? New AI prompt: what assumptions are we making about why nurses leave? Output: culture redesign, shift flexibility, peer recognition programmes. Near zero cost. Retention improved. The budget was never the constraint. The frame was.",
-        keyTakeaway: "Before you solve the problem, make sure you reframe it. Every time you are handed a brief, before you open AI, before you brainstorm, ask: is this the real problem? Whose lens defined it? Who was not in the room?",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Thinking harder inside the wrong frame gets you to the wrong place faster. Reframing is not about finding a better solution to the problem you were given. It is about finding the real problem hiding behind the one you were given. The question you start with determines every answer that follows.",
+        },
+        {
+          heading: "The Science",
+          body: "Research by Rittel (1973) found that high-creative teams explore up to 26 levels of problem depth. Most teams stop at 4 to 10. The gap between 10 and 26 is where the real problem lives. The How Might We (HMW) method is the tool that operationalizes this: it reframes the challenge as an opportunity, opens new solution spaces, and forces you to name the barrier explicitly before asking for solutions.",
+        },
+        {
+          heading: "Weak vs. Strong HMW",
+          body: "A weak HMW is vague about the user, abstract about the outcome, and names no barrier. It produces generic solutions: pay more, add benefits, recruit harder. A strong HMW is specific about the user's lived experience, concrete about the outcome, and names the real barrier. The hospital nursing case shows this precisely: 'How do we retain nurses?' produces salary benchmarks. 'How might we help nurses feel staying is worth it despite stressful shifts?' produces recognition, recovery time, peer support, and manager behavior changes.",
+        },
+        {
+          heading: "AI Amplifies the Frame You Provide",
+          body: "AI does not question your problem statement. It accepts it and works inside it. If the frame is wrong, every suggestion AI produces will be wrong in the same direction. The hospital asked AI 'how do we retain nurses?' and got higher salaries and signing bonuses. That is not wrong. It is incomplete. The frame limited the search space. Reframing before prompting changes everything.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Reframing is not creativity. It is excavation. You are digging for the real problem that sits beneath the one everyone agreed to work on. Ask AI for five HMW reframes of your current challenge. Pick the one that opens the most interesting solution space. That is where the better answer lives.",
+        },
+      ],
       exercise: {
-        objective: "Find the real problem hiding behind the one you were given, before you spend energy solving the wrong one",
-        doneWhen: "You have one new problem statement starting with \"How do we...\" — and you can tell whether it changes what you would ask AI to solve.",
+        objective: "Practice making HMWs to find better solutions",
+        doneWhen: "You have used one reframe to create new ideas",
         timeMinutes: 8,
         steps: [
           {
             task: "01",
-            title: "State the problem as given",
+            title: "Choose one real challenge",
             items: [
-              "Write the problem exactly as it was handed to you.",
-              "Not how you think it should be framed. As given.",
+              "Pick a challenge you are currently working on",
+              "Write it in one sentence",
             ],
           },
           {
             task: "02",
-            title: "Run the four questions",
+            title: "Ask AI for 5 HMW reframes and new solutions",
             items: [
-              "Use the prompt below — answer the four reframing questions one at a time.",
-              "Who defined it. The functional, experiential, and social need.",
+              "Insert your challenge into the prompt",
+              "Ask AI to reframe it 5 different ways using \"How Might We\"",
+              "For each reframe, ask AI to show the new solution space it opens",
             ],
           },
           {
             task: "03",
-            title: "Restate it",
+            title: "Choose the best reframe and generate ideas",
             items: [
-              "Write one new problem statement starting with \"How do we...\"",
-              "Ask yourself: does this change what you would ask AI to solve?",
+              "Pick the reframe that opens the most interesting solution space",
+              "Generate ideas from that angle",
             ],
           },
         ],
-        prompt: "I have been given this problem to solve: [1. state the problem exactly as it was handed to you or just what problem are you working on].\nBefore giving me solutions, I need you to help me reframe it.\nAsk me these four questions one at a time:\nWho defined this problem and whose perspective is completely missing from that definition?\nWhat is the functional need — what does the solution actually need to do?\nWhat is the experiential need — how does it need to feel for the people involved?\nWhat is the social need — what does it need to mean to the people experiencing it?\nAfter I answer all four, write one new problem statement that starts with \"How do we...\" Then ask me — does this new problem change what you would ask AI to solve?\nIf any bracket above is not filled in, do not proceed. Ask me what problem I have been given first. Do not move to the next question until I have answered fully. When I answer, reflect back what I said and ask — is this the problem you were handed or the real problem underneath it?",
+        prompt: "I am working on this challenge: [#1 insert challenge].\nHow might we see this challenge from another perspective?\nGive me 5 different How Might We reframes.\nFor each reframe, show the new solution space it opens.",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 8 : Essential Demo",
+        },
       },
     },
-
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-8-Advanced.pdf",
-      durationSeconds: 840,
-      summary: {
-        coreIdea: "You have the four steps of reframing. Today you go underneath them. Reframing is not a creative technique. It is a cognitive disruptor. When you deliberately reframe a problem you are breaking entrenched neural pathways. The brain has a default route for familiar problems. Reframing forces it off that route. The four steps are not a checklist. They are a mechanism for triggering a fundamentally different cognitive state.",
-        fact: "Most people assume creativity and practicality are a trade-off. Novel or executable. Brainstorming tool or execution tool. Wrong. It is not a trade-off. It is a model selection problem. Unstructured AI gives high novelty but low feasibility. Single frame human thinking gives high feasibility but low novelty. Structured human-AI reframing delivers both simultaneously. Most teams live in single frame or unstructured AI. The goal after today is structured human-AI.",
-        science: "The relationship between AI assistance and output quality is not linear. It is a curve with a peak at approximately 15 interactions. Too little AI and you are constrained by your own cognitive limits. Too much and automation bias sets in, judgment switches off, and you accept outputs without interrogating them. At the peak you get the highest originality and the lowest overconfidence simultaneously. More AI is not better. The right depth is better. And AI does not level the playing field. It amplifies whoever is already thinking harder.",
-        framework: "Four commitments. Go to 26 levels of depth, not 4 or 10. High-creative teams reach 26 levels of problem specification. That is where the real problem lives. Enforce role separation: Planner frames, Critic interrogates, Mediator synthesises. When one person does all three simultaneously the quality of each collapses. Return to the definition as the solution space expands. Measure the frame as a performance metric, not a soft skill.",
-        example: "Most teams use independent search. One prompt, one response, done. The AI goes where it always goes, its most average instinct. High performers use differentiated search. Each prompt criticises and redirects the previous output. Not asking for answers. Excavating assumptions. The difference between one move and multiple moves is the difference between a confident generic answer and the real problem underneath it.",
-        keyTakeaway: "Change the frame. Change everything. Three failure modes undo all of this. Satisficing: stopping at level 4 and feeling like progress. Automation bias: steering once and then switching judgment off. LLM hacking: unsteered use where the model completes its way to a confident and wrong answer. The frame is only as good as the judgment behind it.",
-      },
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      durationSeconds: 600,
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "You ask AI to solve your problem. Back comes something fast and generic. You rephrase, add detail, ask again. Still generic, just dressed differently. You are polishing the wrong lever. A better prompt does not get a better answer when the problem definition is wrong. A better problem does.",
+        },
+        {
+          heading: "The Method",
+          body: "Keep reframing the problem until you find the version that is both right and solvable. Right: if you solved it, the original pain goes away. Solvable: you can act on it with what you control. Three tools: Altitude (move the problem up or down, ask why you want it or what stops it), Reversal (flip the goal, ask how you would make it worse on purpose), Perspective (change whose problem it is: the customer, the doer, a rival).",
+        },
+        {
+          heading: "Altitude",
+          body: "Moving up means finding the real goal behind the stated problem. Moving down means finding the specific person or moment where the problem actually happens. The books-driving-talks challenge, restated at altitude, becomes: the book is the trailer, not the movie. A book that wins talks gets seen, not read cover to cover. That reframe changes the entire approach.",
+        },
+        {
+          heading: "Reversal",
+          body: "Ask how you would guarantee the problem gets worse. List the actions that would maximize failure. Then read that list. It tells you exactly what assumptions are baked into the current solution. Guarantee zero usage: write another generic 250-page AI book for everyone, give no path from page to booking. Reading that in reverse reveals the actual levers.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Solve first or frame first. Old approach: solve the problem as first stated, get generic options, little action. New approach: build a solvable frame, then ask, get specific options and something to do this week. The quality of the solution is determined before you open the tool.",
+        },
+      ],
       exercise: {
-        objective: "Go beneath the surface frame to find the real problem — the one three levels deeper",
-        doneWhen: "You have a new problem statement starting with \"How do we...\" that names the assumption nobody had questioned yet.",
-        timeMinutes: 10,
+        objective: "Going on a problution journey",
+        doneWhen: "You have at least one reframe that changes how you see the problem",
+        timeMinutes: 8,
         steps: [
           {
             task: "01",
-            title: "State the surface frame",
+            title: "Write your problem in one sentence. No jargon.",
             items: [
-              "Write the problem exactly as you see it right now.",
-              "This is the frame you will work beneath.",
+              "State the problem plainly. One sentence. No buzzwords.",
             ],
           },
           {
             task: "02",
-            title: "Excavate, do not solve",
+            title: "Pick one or more method. Ask AI to reframe the challenge.",
             items: [
-              "Use the prompt below. Answer the three questions one at a time, fully.",
-              "You are looking for the unquestioned assumption underneath, not the next idea.",
+              "Altitude: move the problem up or down. Ask why you want it, or what stops it.",
+              "Reversal: flip the goal. Ask how you would make this worse on purpose.",
+              "Perspective: change whose problem it is. The customer, the doer, a rival.",
             ],
           },
           {
             task: "03",
-            title: "Restate from underneath",
+            title: "Reflect. Do these problem definitions get you closer to a solution?",
             items: [
-              "Write one new problem statement that starts with \"How do we...\"",
-              "Ask: is this the problem you were handed or the one three levels deeper?",
+              "Compare your original problem statement to the reframes",
+              "Pick the definition that opens the most useful solution space",
             ],
           },
         ],
-        prompt: "I have a problem I need to reframe before I solve it.\nThe problem as I have defined it is: [1. state the problem exactly as you see it right now].\nI need you to help me find the real problem underneath. Ask me these three questions one at a time. Wait for my full answer before moving to the next.\nFirst — who defined this problem and whose perspective is completely missing from that definition?\nSecond — what does the person experiencing this problem actually need to feel, not just get? What is the functional need, the experiential need, and the social need?\nThird — if everything obvious has already been tried and failed, what is the one assumption still sitting underneath this problem that nobody has questioned yet?\nAfter I answer all three, write one new problem statement that starts with: \"How do we...\" Then ask me — is this the problem you were handed or the real problem underneath it?\nIf any bracket above is not filled in, do not proceed. Ask me what problem I am trying to solve first. Do not move to the next question until I have answered fully. When I answer, reflect back what I said and ask — is this the surface problem or the one three levels deeper?",
+        prompt: null,
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 8 : Advanced Demo",
+        },
       },
     },
-
     learnMore: [
-      { title: "NotebookLM Podcast: Learn How Human and AI Synergy Drives Innovation", url: "http://tiny.cc/day8_podcast", type: "video" },
-      { title: "Evidence of Problem Exploration in Creative Designs", url: "http://tiny.cc/day8_article", type: "article" },
-      { title: "NotebookLM: Reframe Problems to Unlock True Innovation", url: "https://notebooklm.google.com/notebook/21b92200-127c-4861-bd25-f85a43ac60c4", type: "tool" },
-      { title: "Are You Solving the Right Problems? — Thomas Wedell-Wedellsborg, HBR", url: "https://hbr.org/2017/01/are-you-solving-the-right-problems", type: "article" },
-      { title: "TEDx Salford — Bryan Cassady: The One Thing to Teach If You Teach One Thing", url: "https://youtu.be/aFnS3SVXFpY", type: "video" },
-      { title: "Problem Definition: CYCLES (Ch. 11) and The Generative Organization (Ch. 10)", url: "https://www.books.genorg.ai", type: "article" },
-      { title: "Stalking the Wild Solution", url: "https://www.amazon.co.uk/Stalking-Wild-Solution-Approach-Creative/dp/0943456193", type: "article" },
+      {
+        title: "NotebookLM podcast - Learn how Human and AI synergy drives innovation",
+        url: "https://tiny.cc/day8_podcast",
+        type: "other",
+      },
+      {
+        title: "Evidence of problem exploration in creative designs",
+        url: "https://tiny.cc/day8_article",
+        type: "article",
+      },
+      {
+        title: "Notebook LM - Reframe problems to unlock innovation.",
+        url: "https://notebooklm.google.com/notebook/21b92200-127c-4861-bd25-f85a43ac60c4",
+        type: "tool",
+      },
+      {
+        title: "Are You Solving the Right Problem? HBR, Wedell-Wedellsborg.",
+        url: "https://hbr.org/2017/01/are-you-solving-the-right-problems",
+        type: "article",
+      },
+      {
+        title: "Problem definition: CYCLES ch.11 and The Generative Organization ch.10. Free download",
+        url: "https://www.books.genorg.ai",
+        type: "article",
+      },
+      {
+        title: "Stalking the Wild solution",
+        url: "https://www.amazon.co.uk/Stalking-Wild-Solution-Approach-Creative/dp/0943456193",
+        type: "article",
+      },
     ],
   },
 
@@ -1000,130 +1268,160 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 9,
     title: "Keep Going",
     phase: "sparks",
-
     sectionTitles: {
-      essential: "K. Keep Going",
-      advanced: "Persistent Refinement",
+      essential: "K: Keep Going",
+      advanced: "How to Persistently Refine and Improve with AI",
     },
-
     essential: {
-      videoUrl: "https://www.youtube.com/embed/LlwKcZ6uyOk?si=elCDJHqKgQQO1cUp?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-9-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "You spend 20 minutes crafting the perfect prompt. The output comes back fine. Not sharp. Not yours. You copy-paste it anyway. Three days later you read it and think: this is mediocre. But you already sent it. A good prompt does not get it right the first time. A good prompt gets you raw material. Iteration is where the real work starts. Your best work with AI lives on the other side of one more round.",
-        fact: "Most people believe a good prompt should get it right the first time. Wrong. And vague feedback does nothing. \"Make it better\" gives you more of the same. Specific feedback, cut by half, remove jargon, lead with the conclusion, that changes everything. The AI did not decide what was wrong. You did. The AI executed your judgment.",
-        science: "In blind human evaluations, people preferred iteratively refined output 75% of the time over first-draft output. Same AI model. No retraining. No new technology. Just structured feedback loops. Three out of four outputs improved by doing nothing except running one more round. A ceramics study split students into two groups. One graded on weight of output. One on producing a single perfect piece. All the best work came from the quantity group. They learned by doing more, not by planning more.",
-        framework: "Three tools. The Loop: generate, critique, refine. Get output, name what is wrong, ask for a specific fix, repeat. The Ratchet: each iteration locks in a gain. Fix one thing per round. V1 fixes structure. V2 fixes tone. V3 tightens language. Progress only moves forward. Quantity breeds quality: the more rounds you run, the higher your odds of landing something great.",
-        example: "James Dyson. 5,127 prototypes. Five years. Each prototype taught him one thing to fix. He did not get smarter at guessing. He got better at iterating. Prototype 5,127 became the world's first bagless vacuum. The principle is the same whether you are building a vacuum or refining a paragraph. Name the flaw. Fix the flaw. Run it again.",
-        keyTakeaway: "One more round always wins. Accept the first output and it is fast but consistently weaker. Three rounds of directed refinement takes minutes longer and produces something that leads with the point, cuts the jargon, and fits the audience. The difference is not the AI. It is whether you stayed in the ring.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "Creativity is doing more than the first thing you thought of. Mediocre ideas become great ones through cycles of iteration, reflection, and return. Winners do not start with better ideas. They take good or even mediocre ideas and make them great over time. Just doing it seldom works. Doing it, thinking, doing it again does.",
+        },
+        {
+          heading: "Three Facts About Persistence",
+          body: "First: great ideas almost always come after the obvious ones. Day two of a brainstorm typically produces 80% of the big ideas. First-day thinking is warm-up. Second: TRIZ analysis shows that 97% of innovations are recombinations of existing ideas. AI is exceptionally good at recombination, but only if you keep pushing past the first output. Third: do it, think, do it again. Reflection between cycles is what converts iteration into learning.",
+        },
+        {
+          heading: "Smart AI Has Discipline",
+          body: "The difference between AI that helps and AI that spins is discipline. Clear objectives: what does done look like? Structured methodology: what process are we following? Human-AI collaboration: who decides and when? Without these three, more iteration does not mean better output. It means more of the same output with greater time invested.",
+        },
+        {
+          heading: "SPARKS as a System",
+          body: "Each behavior in SPARKS is a habit that keeps you working smart. S-P-A-R-K is five habits that compound. The sixth, S for Stop and Think, comes on Day 10. Together they form the practice. Not a technique you use once. A system you build over time. Innovation is not a sprint of brilliant insights. It is a marathon of thoughtful, purposeful strides.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "The biggest risk in AI-assisted work is stopping too soon. The first output is the starting point. Track your score from your pre-course assessment versus now. Look at what changed. Name one habit you will keep. Then keep going.",
+        },
+      ],
       exercise: {
-        objective: "Turn a flat first-draft AI output into something sharper by running one directed round of refinement",
-        doneWhen: "You have two outputs side by side and can name one specific thing that improved between them.",
-        timeMinutes: 8,
-        steps: [
-          {
-            task: "01",
-            title: "Pick the output to refine",
-            items: [
-              "Pick any AI output you have that you want to refine.",
-              "Something flat or generic works best for this exercise.",
-            ],
-          },
-          {
-            task: "02",
-            title: "Name the flaw, run the fix",
-            items: [
-              "Use the prompt below. Let AI name the single biggest flaw first.",
-              "Then give it one specific fix — not 'make it better.'",
-            ],
-          },
-          {
-            task: "03",
-            title: "Compare side by side",
-            items: [
-              "Put both outputs side by side.",
-              "Write down one specific thing that improved.",
-            ],
-          },
-        ],
-        prompt: "Here is my current output: [1. paste your AI output here].\nDo not rewrite it yet.\nFirst tell me: what is the single biggest flaw in this output? One sentence. Be specific.\nThen rewrite it with these instructions only: [2. cut to how many words] / [3. lead with what] / [4. remove what].\nDo not change anything else. Fix only what was named.\nAfter the rewrite, ask me: could this have been written by anyone about anything? If yes, we run one more round. If no, we are done.\n\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time. Start with the output. Then the flaw. Then the fix. Do not move to the next question until I have answered fully. When I answer, reflect back what I said and ask: is this specific enough that Gordon Ramsay would know exactly what to fix?\nDo the same thing as before but upload a context file of your company or work.",
-      },
-    },
-
-    advanced: {
-      videoUrl: "https://www.youtube.com/embed/kyoh-hPqPjo?si=ZxLR0YNlxqgJLd_p?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-9-Advanced.pdf",
-      durationSeconds: 840,
-      summary: {
-        coreIdea: "You iterate. The output gets better. But if someone asked what changed between version one and version three, you could not answer. The improvement happened. You just cannot reproduce it. Next project, you start from scratch again. Documented iteration is a skill. Undocumented iteration is luck. If you cannot see what changed between versions, you are not iterating. You are guessing.",
-        fact: "Most people believe that if the output improved, the iteration worked. Wrong. If you cannot explain why it improved, you cannot repeat it. And if you cannot repeat it, it is not a skill. The diagnosis is the prompt. Name the disease and the cure writes itself. This is the skill that separates someone who iterates from someone who just re-rolls the dice.",
-        science: "In the Self-Refine study, code optimization scores went from 22 to 27 after one round. After round two: 27.9. Round three: 28.8. Most of the gain happened in the first two iterations. The pattern held across every task tested. Rounds one and two do the heavy lifting. Round three is polish. Round four is usually noise. The plateau is not failure. It is the signal to stop.",
-        framework: "Three tools. Diagnostic Feedback: name the flaw before you fix it. Not \"it's bad\" but \"this reads like a press release and needs to be an internal memo.\" The diagnosis gives AI a target. The V1-V2-V3 Method: write three versions with one sentence between each noting what the flaw was and what prompt fixed it. The document is the learning. The Plateau Signal: recognise when the improvement is smaller than the effort. Most people quit too early. Some iterate too long and the output starts drifting.",
-        example: "A project management app pitch. V1 came back buzzword heavy with no clear value proposition. Diagnosis: reads like every other app on the market. V2 prompt: lead with the one problem this app solves, no buzzwords. V2 was clearer but still abstract. Diagnosis: no concrete scenario. V3 prompt: add one specific scenario in the first sentence, cut to 80 words. V3 landed tight, concrete, and opened with a real situation. The changelog took ten seconds to write. Next time: lead with the problem, add a scenario, cut the buzzwords. You do not start from zero. You start from your changelog.",
-        keyTakeaway: "Name the flaw before you fix it. The AI did not diagnose what was wrong. You did. The AI executed your judgment. That distinction is everything. Build the Iteration Log. It is not just a better output. It is a personal playbook that compounds over time.",
-      },
-      exercise: {
-        objective: "Produce three documented versions of an output with a changelog you can reuse next time",
-        doneWhen: "You have V1, V2, V3 — each with a named flaw and a named fix — and a one-line changelog you would use again.",
+        objective: "Keep going.",
+        doneWhen: "You have compared your results and identified one area to keep improving",
         timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Generate V1",
+            title: "Reflect. For you, what is \"Smart AI\"?",
             items: [
-              "Describe what you need AI to write — pitch, email, proposal, description.",
-              "Generate V1 cold. Do not ask for feedback yet.",
+              "Search for your old AI usage assessment results",
+              "Write down what smart AI use looks like for you personally",
             ],
           },
           {
             task: "02",
-            title: "Diagnose, then fix — twice",
+            title: "Re-do your AI Usage Assessment",
             items: [
-              "Name the V1 flaw in one sentence. Apply one specific fix. That is V2.",
-              "Name the V2 flaw in one sentence. Apply one specific fix. That is V3.",
+              "Retake the assessment: <a href=\"https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY</a>",
+              "Compare your new results to your previous ones",
             ],
           },
           {
             task: "03",
-            title: "Write the changelog",
+            title: "Compare versus your previous results. Reflect: are you making progress?",
             items: [
-              "After V3, write the changelog: V1 → V2 and V2 → V3, with what changed and why.",
-              "That changelog is your playbook. Next time you start here, not from zero.",
+              "Look at what changed and what did not",
+              "Name one thing you will do differently in the next 30 days",
             ],
           },
         ],
-        prompt: "Here is my task: [1. describe what you need AI to write — a pitch, an email, a proposal, a description].\nGenerate V1. Do not ask me for feedback yet.\nV1 flaw: [2. name the specific flaw in one sentence — not \"it is bad\" but what exactly is wrong].\nFix only this: [3. cut to how many words / lead with what / remove what / add what]. Do not change anything else.\nV2 flaw: [4. name the next specific flaw in one sentence].\nFix only this: [5. the one specific fix for V2]. Do not change anything else.\nAfter V3 write the changelog: V1 to V2: [what changed and why] V2 to V3: [what changed and why]\nThat changelog is your playbook. Next time you write a [1. same type of output] you start from the changelog. Not from zero.\n--------------------\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time. Start with the task. Then generate V1. Then ask me what the flaw is. Do not tell me what is wrong. I diagnose. You fix. When I name the flaw, reflect it back and ask — is this specific enough that the fix writes itself?",
+        prompt: "Below are my 2 AI usage assessments, first is my assessment results before the class, the second is my assessment results now.\nMake a comparison chart. Do you see changes in the way I use AI?\nProvide recommendations to continue improving.\n\nMy before Assessment:\n[Paste your older assessment here]\n\nMy Latest Assessment:\n[Paste your newer assessment here]",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 9 : Essential Demo",
+        },
       },
     },
-
+    advanced: {
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      durationSeconds: 600,
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "You iterate. Output gets better. Someone asks what changed between V1 and V3. You cannot answer. Next project: round one again. Undocumented iteration is luck. Documented iteration is a skill. If you cannot explain why the output got better, you cannot repeat it.",
+        },
+        {
+          heading: "The Data",
+          body: "Research published at NeurIPS 2023 (Self-Refine) tracked performance across iteration rounds: Round 1 to Round 2 produces a jump from 22 to 27 points. Round 2 to Round 3: 27 to 28.8. Round 3 to Round 4: 28.8 to 28.9. Most gains happen in rounds 1 and 2. After that, diminishing returns set in sharply. Knowing when to stop is as important as knowing how to continue.",
+        },
+        {
+          heading: "The V1-V2-V3 Method",
+          body: "Between each version, write one sentence: what was the flaw, and what was the fix. That sentence is the learning. Over time, your change log becomes your process manual. You stop starting from zero. You start each new project from the lessons of the last one. The document is the discipline.",
+        },
+        {
+          heading: "The Plateau Signal",
+          body: "V1 to V2: big jump. V2 to V3: clear gain. V3 to V4: barely different. Stop. Most people quit too early on quality and too late on polish. The plateau signal is simple: if two consecutive rounds produce no meaningful change, the current approach is exhausted. Either stop or change the approach entirely before continuing.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "Smart persistence is not more iterations. It is documented iterations with a clear stop signal. Build a change log. Write the flaw and the fix between every version. Review the log before the next project. Never start from zero again.",
+        },
+      ],
+      exercise: {
+        objective: "Build a change log. Learn to never start from zero again.",
+        doneWhen: "You have a change log and a better prompt ready for next time",
+        timeMinutes: 10,
+        steps: [
+          {
+            task: "01",
+            title: "Do something with iterations",
+            items: [
+              "Pick a task you just completed with AI where you ran multiple rounds",
+              "Gather the results, the feedback you gave, and the final output",
+            ],
+          },
+          {
+            task: "02",
+            title: "Analyze the results with the prompt below",
+            items: [
+              "Run the prompt: \"Based on the work I just did, please help me create a change log and a new and better prompt for next time\"",
+              "The output will include: what you did, user feedback, a checklist for next time, how to improve the process, and a prompt to run next time",
+            ],
+          },
+          {
+            task: "03",
+            title: "Reflect. How could you do this more often?",
+            items: [
+              "Review the change log AI produced",
+              "Identify one process you repeat regularly where this would save you time",
+            ],
+          },
+        ],
+        prompt: "Based on the work I just did, please help me create a change log and a new and better prompt for next time\n\nKey outputs\nResults of my work\nFeedback I gave\nA new and better process and prompt\nHow to improve the process\nA prompt to run next time",
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 9 : Advanced Demo",
+        },
+      },
+    },
     learnMore: [
       {
         title: "Self-Refine: Iterative Refinement with Self-Feedback",
         url: "https://openreview.net/forum?id=S37hOerQLB",
-        type: "article"
+        type: "article",
       },
       {
-        title: "2 Chapters on Persistence",
+        title: "2 Chapters on persistence Chapter 14 in CYCLES, 13 in the Generative Organization. Free download",
         url: "https://www.books.genorg.ai",
-        type: "other"
+        type: "article",
       },
       {
-        title: "NotebookLM",
+        title: "Notebook LM - Keep going - your key to success",
         url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468",
-        type: "tool"
+        type: "tool",
       },
       {
-        title: "NotebookLM Podcast - Teaching AI to Fix Its Own Mistake",
-        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/25a4cb86-fc1a-4721-9474-da376e25a6fa?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art%20share_1",
-        type: "other"
+        title: "NotebookLM podcast - Teaching AI to fix its own mistake",
+        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/25a4cb86-fc1a-4721-9474-da376e25a6fa?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_",
+        type: "other",
       },
       {
-        title: "Video - The Persistent Engine",
-        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/cfb8e87e-d4eb-4682-a28e-ae2c30ce9e6e?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art%20share_1",
-        type: "video"
-      }
+        title: "The Persistent Engine",
+        url: "https://notebooklm.google.com/notebook/58932dde-cd07-476d-907e-b3fe36edb468/artifact/cfb8e87e-d4eb-4682-a28e-ae2c30ce9e6e?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_1&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_1_",
+        type: "video",
+      },
     ],
   },
 
@@ -1131,124 +1429,85 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     day: 10,
     title: "Stop and Think",
     phase: "sparks",
-
     sectionTitles: {
-      essential: "S. Stop and Think",
-      advanced: "Calibrating the Human in the Loop",
+      essential: "Stop and Think: Making AI Your Own",
     },
-
     essential: {
-      videoUrl: "https://www.youtube.com/embed/6uiBVDVbKfE?si=AoUUdrGO84WY654R?rel=0",
-      slideUrl: "https://ukscjhoyjyfmfyqxhraq.supabase.co/storage/v1/object/public/course-assets/Day-10-Essential.pdf",
+      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
       durationSeconds: 600,
-      summary: {
-        coreIdea: "This is the last lesson, and the last S in SPARKS: Stop and Think. You have spent ten days learning to direct AI instead of just accepting it. The capstone is where all of it lands. You stop, look back across everything you learned, and build one real tool for a task you actually do. Not to impress anyone. To prove the method is now yours. Your expertise is the product. The tool is just how you deliver it.",
-        fact: "Most people finish a course and keep nothing. They remember a few tips for a week, then drift back to old habits. A built tool is different. It holds your thinking in a form you reuse. Over 3,000,000 custom AI tools have already been built, most by people who do not write code. The ones that work are not the clever ones. They are the ones built around a clear objective and the builder's own knowledge.",
-        science: "Structured context is what separates a useful tool from a generic one. In studies of custom AI assistants, tools given clear objectives, real data, and defined output performed measurably better, while the same tools without that structure dropped in quality. The lesson is simple: the tool is only as good as the four things you put into it. Objectives, data, work methods, and target output. Get those clear and the tool almost builds itself.",
-        framework: "Your tool is built from four ingredients. Objectives: what it is for, in plain words, or your TRUE NORTH from Day 5. Data: the files, examples, and context it should know. Work Methods: how it works, the steps it follows every time. Target Output: the exact shape of what it produces. These four never change, only the platform does. Define them, then build on Gemini, ChatGPT, or Claude.",
-        example: "Take a weekly review assistant. Objective: run a clear 15-minute review every week. Data: a note on the format you like. Work methods: ask what you finished, what slipped, what mattered most. Target output: one page, three wins, two lessons, one priority, under 200 words. Four ingredients, one tool, used every week. That is the whole recipe, and it is the same recipe for any tool you will ever build.",
-        keyTakeaway: "Stop and Think one last time, then build. Mark all ten days as done to unlock your Capstone page below the progress bar. The handout has the full steps and the prompts that do the heavy lifting. Ten days in, you do not walk away with a certificate. You walk away with a tool, and a habit.",
-      },
+      summary: [
+        {
+          heading: "Core Idea",
+          body: "The final letter of SPARKS is S: Stop and Think. It is the protocol most people skip. Strategic pauses produce measurable results. Research across 312 companies found that teams that built in structured pauses saw 40% more sales and 52% higher profits compared to teams that operated in constant motion. Stopping is not a failure of momentum. It is the act that makes momentum sustainable.",
+        },
+        {
+          heading: "The Three Questions",
+          body: "Every strategic pause comes down to three questions. Am I doing something I should be doing? Am I getting closer to my objective? Should I change my approach? These are not reflection exercises. They are course-correction tools. The capstone is a structured application of all three: stop, assess what you have built, and decide whether it does what you set out to do.",
+        },
+        {
+          heading: "The Capstone",
+          body: "The capstone is a custom AI tool built around one real challenge from your work. It requires four ingredients: a clear objective (ideally a TRUE NORTH from Day 5), any data or context the tool needs, the work methods the tool will follow, and a specific target output. The build uses the skills from all ten days, particularly problem definition, flipped interaction, and structured briefs.",
+        },
+        {
+          heading: "Regular LLM vs. Custom AI Tool",
+          body: "A regular LLM gives you a blank prompt box and a general-purpose model. A custom AI tool starts from your objective, follows your process, uses your context, and produces your specified output every time. The difference is not the underlying technology. It is the structured thinking you built into the instructions. That is the skill the course has been building toward.",
+        },
+        {
+          heading: "Key Takeaway",
+          body: "You have spent ten days learning to think before you type, define before you prompt, and push past the first answer. The capstone is the proof that you can. Build something real. Test it on something real. Improve it. Then keep going. The goal was never to finish the course. It was to change how you work.",
+        },
+      ],
       exercise: {
-        objective: "Build your own AI tool by defining its four ingredients, then head to the Capstone page for the full steps",
-        doneWhen: "You have your four ingredients written and you know how to open your Capstone page.",
-        timeMinutes: 60,
+        objective: "Build your AI tool",
+        doneWhen: "You have a working AI tool you have tested on a real task",
+        timeMinutes: 10,
         steps: [
           {
             task: "01",
-            title: "Define your objective",
+            title: "Define Objectives",
             items: [
-              "What is this tool for? Write it in your own words.",
-              'Made a TRUE NORTH on Day 5? Use it. If not, a short written objective is enough: <a href="https://chatgpt.com/g/g-6754129342648191a94c50c383fd267b-cycles-2-0-9-true-north" target="_blank" rel="noreferrer" style="color:#E24B4A;">TRUE NORTH GPT →</a>',
+              "Write what this tool is for in your own words",
+              "Use a TRUE NORTH if you made one on Day 5. If not, a short written objective is enough to start.",
             ],
           },
           {
             task: "02",
-            title: "Gather your data",
+            title: "Gather Data",
             items: [
-              "Collect the files, examples, and context your tool needs.",
-              "Bonus: use the Deep Search prompt in the handout.",
+              "Collect the files, examples, and context your tool needs",
+              "Bonus: use the Deep Search prompt",
             ],
           },
           {
             task: "03",
-            title: "Methods and output",
+            title: "Methods + Output",
             items: [
-              "Write how it works and what it produces.",
-              "Bonus: use the Make Instructions prompt in the handout.",
+              "Write how the tool works and what it produces",
+              "Ask AI for help",
+              "Bonus: use the Make Instruction prompt",
             ],
           },
           {
             task: "04",
             title: "Build, test, improve",
             items: [
-              "Build it on your platform. Run it on something real. Improve if needed.",
-              'Full steps, the 4 prompts, and platform guides are in your handout: <a href="https://tiny.cc/sparksend" target="_blank" rel="noreferrer" style="color:#E24B4A;">Open the handout →</a>',
-            ],
-          },
-          {
-            task: "05",
-            title: "Open your Capstone page",
-            items: [
-              "Mark all 10 days as done. Your Capstone then unlocks below the progress bar.",
-              "The Capstone page has detailed steps, screenshots, and where to submit.",
+              "Build it on your platform of choice. Run it on something real.",
+              "Improve based on what you find",
+              "Bonus: use the Ping Pong Test prompt",
+              "The capstone page has detailed steps with screenshots.",
+              "You have to submit the project there.",
+              "It is only unlocked once all 10 lessons are marked as done.",
+              "All links: <a href=\"https://www.tiny.cc/sparksend/\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://www.tiny.cc/sparksend/</a>",
             ],
           },
         ],
         prompt: null,
+        demo: {
+          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          title: "Day 10 : Essential Demo",
+        },
       },
     },
-
-    advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=4l8sOmFPTF582ZyO?rel=0",
-      durationSeconds: 840,
-      summary: {
-        coreIdea: "This is not the problem of people who do not pause. That is the beginner problem. This is the problem of people who do pause, who frame first, who interrogate, and who are still getting it wrong. Stopping the line does not automatically change the trajectory. You can pause perfectly and still arrive at the wrong destination. The pause is a vehicle. What matters is where you steer it once you stop. The pause is necessary. It is not sufficient.",
-        fact: "Most people believe more human judgment always improves AI output. Wrong. Chess grandmasters who overrode AI recommendations most frequently performed worst. AI alone outperformed. In demand forecasting, statistical AI acting alone outperformed human-AI teams. Not because the humans were careless. Because their professional intuition introduced systematic bias into predictions the model had already optimised. Sometimes the most dangerous thing in the loop is you.",
-        science: "Researchers analysed thousands of instances where humans paused and reconsidered AI output. Less than 2% of those reflections changed a wrong answer to a right one. Not because people were not trying. Because they used the pause to justify, not to challenge. They read the output, felt discomfort, paused, and then looked for reasons to confirm what they already believed. The pause became a justification engine. Documented performance gains occur only when human overrides are highly selective and systematically mapped. Precision outperforms volume.",
-        framework: "Three types of pause. Most people only ever use one. Verification: is this factually correct? Use when AI hallucination is the risk. Interrogative: is this the real answer? Use when the problem requires judgment AI may have flattened. Delegation: should I be in this loop at all? Use when AI's pattern recognition has surpassed your intuition and your presence degrades the output. Before any override, one question: is my objection based on evidence I have that AI lacks, or is it based on familiarity and discomfort? Evidence is signal. Override. Familiarity is noise. Delegate. And when you delegate, document why and what outcome you are watching for.",
-        example: "A chess grandmaster preparing for competition. The AI recommends a piece sacrifice. Counterintuitive. Against everything their pattern recognition has ever told them. They pause genuinely and carefully. They examine the position from multiple angles. Then they override and play the familiar line. They lose. The reflection was real. The pause was genuine. The outcome was worse because the reflection was filtered through expertise the AI had already surpassed in that specific position. Expertise as noise. The thing that made them good was the thing that made them wrong.",
-        keyTakeaway: "Stop and Think is not about trusting yourself more than AI. It is about knowing exactly where to trust yourself. Two failure modes: not pausing, and pausing to confirm. The second looks identical to good practice from the outside. Same visual behaviour, same deliberate engagement, same wrong answer, just delivered more slowly and with more confidence. Knowing which pause to deploy is the actual skill.",
-      },
-      exercise: {
-        objective: "Run the Delegation Test on a real decision to find out whether your override was signal or noise",
-        doneWhen: "You have named your objection, tested it against the evidence-or-familiarity question, and written one sentence documenting your choice.",
-        timeMinutes: 10,
-        steps: [
-          {
-            task: "01",
-            title: "Pick a real decision",
-            items: [
-              "Pick a decision you made this week where you overrode AI or ignored its recommendation.",
-              "Be honest. The test only works on real decisions.",
-            ],
-          },
-          {
-            task: "02",
-            title: "Run the Delegation Test",
-            items: [
-              "Copy the prompt below and fill in all three brackets.",
-              "Answer the one question it asks: evidence or familiarity?",
-            ],
-          },
-          {
-            task: "03",
-            title: "Document it",
-            items: [
-              "Write one sentence. Whether you override or delegate, write why.",
-              "That sentence is your record. It is how a pause becomes a pattern.",
-            ],
-          },
-        ],
-        prompt: "I need to run the Delegation Test on a real decision.\nHere is the decision: [1. describe the decision you faced].\nHere is what AI recommended: [2. what did AI suggest].\nHere is why I overrode it: [3. your reason for overriding — be honest].\nNow ask me one question only: is my reason based on evidence I have that you lack — or is it based on familiarity and discomfort?\nIf I say evidence — ask me to state the specific evidence in one sentence. Then tell me whether my judgment belongs in this loop.\nIf I say familiarity — tell me to delegate. Then ask me to write one sentence documenting why I am delegating and what outcome I will watch for.\n-----------------\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time. Start with the decision. Then the AI recommendation. Then my reason for overriding. Do not run the Delegation Test until I have answered all three. When I answer, reflect back what I said and ask.",
-      },
-    },
-
-    learnMore: [
-      { title: "Article", url: "http://tiny.cc/articl_day10", type: "article" },
-      { title: "NotebookLM Podcast", url: "http://tiny.cc/podcast_day10", type: "article" },
-      { title: "NotebookLM", url: "http://tiny.cc/notebookLM_dy10", type: "tool" },
-    ],
   },
 };
 
