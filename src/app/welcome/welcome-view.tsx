@@ -159,11 +159,11 @@ export function WelcomeView({ participant }: Props) {
         <div className="py-8 border-b">
           <div className="aspect-video overflow-hidden rounded-md bg-black">
             <iframe
-              src="https://player.vimeo.com/video/502671331"
-              className="h-full w-full"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-            />
+            src="https://www.youtube.com/embed/dlY4Rh1LXXQ?si=lBtOQn_rRg1Wg8oz"
+            className="h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
           </div>
         </div>
 
@@ -174,7 +174,7 @@ export function WelcomeView({ participant }: Props) {
           </p>
           <h2 className="text-xl font-medium mb-2">Know where you start</h2>
           <p className="text-sm text-muted-foreground mb-4">
-            Run this prompt in any AI tool before the course begins. It gives you a baseline of how you currently work with AI. You will run a second assessment after Day 10.
+            Run this prompt in any AI tool before the course begins. It gives you a baseline of how you currently work with AI. You will run a second assessment after Day 9.
           </p>
           <AssessmentPrompt />
         </div>

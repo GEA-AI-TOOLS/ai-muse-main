@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
   const { data: participant, error } = await supabase
     .from("participants")
-    .select("id, name, email, status, revoked")
+    .select("id, name, email, status, revoked, cohort_id")
     .eq("email", email.toLowerCase().trim())
     .single();
 
@@ -29,6 +29,23 @@ export async function POST(req: NextRequest) {
 
   if (participant.revoked || participant.status === "inactive") {
     return NextResponse.json({ ok: false, revoked: true });
+  }
+
+  // Version gate (video deployment): reject live-cohort accounts before sending a code.
+  const { data: reqCohort } = await supabase
+    .from("cohorts")
+    .select("cohort_type")
+    .eq("cohort_id", participant.cohort_id)
+    .single();
+
+  if (reqCohort?.cohort_type === "live") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "This account is registered for the live version. Please log in at https://sparks.bryancassady.com.",
+      },
+      { status: 403 }
+    );
   }
 
   const otp = generateOtp();

@@ -26,6 +26,15 @@ async function autoLogin(participantId: string): Promise<boolean> {
 
   if (!participant || participant.revoked) return false;
 
+  // Version gate: don't auto-login live-cohort accounts on the video deployment
+  const { data: scCohort } = await supabase
+    .from("cohorts")
+    .select("cohort_type")
+    .eq("cohort_id", participant.cohort_id)
+    .single();
+
+  if (scCohort?.cohort_type === "live") return false;
+
   const { data: dayStates } = await supabase
     .from("participant_day_state")
     .select("day, done_at")

@@ -232,7 +232,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             ],
           },
         ],
-        prompt: null,
+        prompt: "I am working on: [ describe your task or challenge in one sentence + attach relevant files. ]\n\nMy current thinking is: [ paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says. ]\n\nI am uncertain about: [ specific gaps. What you don't know. What would take you long to verify. ]\n\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n\n---------\n\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
           title: "Day 2 : Essential Demo",

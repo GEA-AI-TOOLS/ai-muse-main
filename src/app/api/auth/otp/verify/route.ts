@@ -42,6 +42,23 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  // Version gate (video deployment): reject live-cohort accounts.
+  const { data: verifyCohort } = await supabase
+    .from("cohorts")
+    .select("cohort_type")
+    .eq("cohort_id", participant.cohort_id)
+    .single();
+
+  if (verifyCohort?.cohort_type === "live") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "This account is registered for the live version. Please log in at https://sparks.bryancassady.com.",
+      },
+      { status: 403 }
+    );
+  }
+
   if (participant.login_otp_attempts >= MAX_ATTEMPTS) {
     return NextResponse.json(
       { ok: false, error: "Too many attempts. Request a new code." },
