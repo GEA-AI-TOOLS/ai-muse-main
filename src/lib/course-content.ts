@@ -89,7 +89,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I am working on [describe your initiative or decision].\n\nThe bottleneck is: [one sentence. Not the symptom. The root cause.]\n\nGiven only this bottleneck, what are the highest-leverage actions I can take.\n\nDo not suggest tools or platforms. Do not solve the symptom. Stay focused on the bottleneck I defined.\n\n-----------\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to help me fill it in. Start with the initiative. Then the bottleneck. Do not move to the next question until I have answered the current one. When I answer, reflect back what I said and ask if it captures the real bottleneck or just the symptom. Make this a thinking exercise, not a form to complete.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/avH9md3C-5c?si=0_l2rxyTe4Z3ujT4",
           title: "Day 1 : Essential Demo",
         },
       },
@@ -152,7 +152,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I have a problem I need to solve at work.\n\nThe situation is: [describe what is going wrong. One to three sentences.]\n\nThe obvious solution everyone is pushing for is: [what is the default fix people are jumping to.]\n\nBefore I go there, help me do this properly.\n\nStep one. Ask me one question to help me write the real objective in one sentence. Not the symptom. Not the direction. The precise outcome I need.\n\nStep two. Once I have the objective, give me three solutions. One slow. One fast. One I have not thought of.\n\nStep three. Evaluate all three against my objective. Not against cost. Not against effort. Against the objective only. Recommend the one that fits best.\n\n------------\n\nIf any bracket is empty, ask me one question at a time before proceeding. Start with the situation. Then the obvious solution. Do not move to step two until my objective is written in one clear sentence. Push back if it sounds like a direction rather than a precise outcome.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/vs1BedZV-6s?si=aqbqsFL1ulVRsrUJ",
           title: "Day 1 : Advanced Demo",
         },
       },
@@ -162,7 +162,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       { title: "Read more on problem definition Chapters 11 in CYCLES and 10 in the Generative Organization", url: "https://www.books.genorg.ai", type: "article" },
       { title: "Draft Video - What is the one thing to teach if you teach 1 thing Ted X Salford- Bryan Cassady", url: "https://youtu.be/aFnS3SVXFpY", type: "video" },
       { title: "Notebook LM: Using Al - Objectives or Tools first", url: "https://notebooklm.google.com/notebook/9479de63-ed47-4bd9-8269-685fb6580d5a?authuser=2", type: "tool" },
-      { title: "Bonus: My collection for HR managers ... Literature reviews: Effective usage of Al, and Training methods", url: "https://shares.showellapp.com/3KY2GPTzxunwQdJ740hBysNn", type: "other" },
+      //{ title: "Bonus: My collection for HR managers ... Literature reviews: Effective usage of Al, and Training methods", url: "https://shares.showellapp.com/3KY2GPTzxunwQdJ740hBysNn", type: "other" },
     ],
   },
 
@@ -234,7 +234,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I am working on: [ describe your task or challenge in one sentence + attach relevant files. ]\n\nMy current thinking is: [ paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says. ]\n\nI am uncertain about: [ specific gaps. What you don't know. What would take you long to verify. ]\n\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n\n---------\n\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/8bOKvuWzF-0?si=n02m_DRRMoIssGbE",
           title: "Day 2 : Essential Demo",
         },
       },
@@ -305,7 +305,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
           title: "Day 2 : Advanced Demo",
         },
       },
@@ -314,8 +314,8 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     learnMore: [
       { title: "When help comes too early. TEDx Rabat April 26- Bryan Cassady", url: "http://tiny.cc/Help-Early-slides", type: "other" },
       { title: "Al as Equalizer or Amplifier? Task Complexity as the Moderating Factor for Human Expertise in Hybrid Intelligence Systems", url: "http://tiny.cc/day2_article", type: "article" },
-      { title: "The importance of expertise in the age of Al", url: "http://tiny.cc/notebookLM2", type: "tool" },
-      { title: "Systems-Level Expertise: An Al-Augmented Framework for Accelerated Domain Mastery\" (A notebook LM research report)", url: "https://1drv.ms/b/c/c37128d8066b9290/IQDp-I8HJyDsT5cP_1fHFVa6ASchCUEK4ZvtAjzjGZv1Ptl?e=hN2BYz", type: "article" },
+      // { title: "The importance of expertise in the age of Al", url: "http://tiny.cc/notebookLM2", type: "tool" },
+      // { title: "Systems-Level Expertise: An Al-Augmented Framework for Accelerated Domain Mastery\" (A notebook LM research report)", url: "https://1drv.ms/b/c/c37128d8066b9290/IQDp-I8HJyDsT5cP_1fHFVa6ASchCUEK4ZvtAjzjGZv1Ptl?e=hN2BYz", type: "article" },
       { title: "Notebook Guide: 7 Steps to Master Research Projects Fast", url: "https://www.wisdomquant.com/notebooklm-guide-research-projects/", type: "article" },
       { title: "Building Expertise Fast with Al", url: "https://notebooklm.google.com/notebook/e02b1788-1e33-49c2-9385-ee7b7958cfb4?authuser=2", type: "tool" },
     ],
@@ -391,7 +391,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/Mc52QH4cKDU?si=cgzXQYcMSr24z4bQ",
           title: "Day 3 : Essential Demo",
         },
       },
@@ -460,7 +460,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "My brief: [what you are working on, your audience, what they want, and what stops them.]\n\nThe Wall: Here are 3 obvious solutions [list solutions] ban all three completely.\nDo not use them anywhere in the response.\n\nThe Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.\n\nTo deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]\n\nEnd with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].\n\nScan every bracket. For each unfilled bracket teach and ask one question at a time in this exact way.\n\nFor the brief ask: Great friction starts with a clear brief. What are you working on, who is it for, and what stops them from engaging?\n\nFor the unrelated world say first: Now we build the wall. The more unrelated the world you pick, the more original your output will be. Then suggest three options based on the brief and ask: Here are three worlds we could inject into your brief: [suggest three]. Which feels most interesting? Or pick your own.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/h7c7Q9PQ4Y0?si=50cV235WZzl6wWsH",
           title: "Day 3 : Advanced Demo",
         },
       },
@@ -553,7 +553,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/7ML8RYOsl2w?si=DoTvrCUGgDso-Whr",
           title: "Day 4 : Essential Demo",
         },
       },
@@ -626,7 +626,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "You are a Verification Analyst helping me fact-check AI-generated content.\n\nExtract each factual claim. Rate confidence HIGH/MEDIUM/LOW. Flag anything you cannot verify.\n\nDo not assume accuracy. Treat every name, date, and number as unverified until sourced.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/NEe-vgVIois?si=SgjYYeRbk27TKE5j",
           title: "Day 4 : Advanced Demo",
         },
       },
@@ -707,7 +707,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "You are a thinking partner helping me extract the argument from raw spoken thought.\n\nI will give you an unedited voice transcript. It might be messy, unstructured, and conversational.\n\nRespond with:\n\nOne core message – what is the big idea here\n\nTwo supporting points — the evidence or reasoning already in the transcript.\n\nOne opening sentence — the sharpest way to start if I were to write this up.\n\nDo not rewrite or polish. Do not add ideas I did not say. Only find the argument already in it.\n\n[Speak it out using voice feature or paste your raw transcript here]",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/DZJtkQqXN7g?si=xmTM-eLAQFu1E5T8",
           title: "Day 5 : Essential Demo",
         },
       },
@@ -771,7 +771,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "The AI solution\nI would like help writing a TRUE NORTH\n\nGive me a first draft\n\nThen ask me questions about each section one at a time, so I can accept or improve\n\nGoal = A clear, very clear objective for me, AI and my team\n[first ideas]\nIf applicable, attach documents",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/LL910WqkulM?si=t3dbxreryEvhs9ZG",
           title: "Day 5 : Advanced Demo",
         },
       },
@@ -779,9 +779,9 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     learnMore: [
       { title: "\"Rambler: Supporting Writing With Speech via LLM-Assisted Gist Manipulation\"", url: "https://arxiv.org/html/2401.10838v2", type: "article" },
-      { title: "Speaking versus writing Speaking reduces cognitive load and enhances Al collaboration", url: "https://notebooklm.google.com/notebook/6c78bd65-d982-4198-b8f5-ebced697acb1", type: "tool" },
+      // { title: "Speaking versus writing Speaking reduces cognitive load and enhances Al collaboration", url: "https://notebooklm.google.com/notebook/6c78bd65-d982-4198-b8f5-ebced697acb1", type: "tool" },
       { title: "Claude report: EFFECTIVE AI USE IN KNOWLEDGE WORK- A Central Synthesis of Six Research Reports (92 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQAJGJyKJTCKSZw4B9mTmovoAaTNs0HMFFL5PDjYssILygg?e=KWwM1f", type: "article" },
-      { title: "Effective versus merely efficient Al use by knowledge workers (36 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQChxePCfsvzSLcijgplmhT8AVOvWqXKY0MWceLS50C1mvU?e=IMPu9c", type: "article" },
+      // { title: "Effective versus merely efficient Al use by knowledge workers (36 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQChxePCfsvzSLcijgplmhT8AVOvWqXKY0MWceLS50C1mvU?e=IMPu9c", type: "article" },
       { title: "Effective Use of ChatGPT and Claude by Knowledge Workers (12 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQBAhtccl4j8RIv0AsDHpa5DAWGFiNhQmFjLinX726uopAM?e=wG8wus", type: "article" },
       { title: "Notebook LM: Effective versus Efficient usage of Al - Facts and research (220 articles and studies)", url: "https://notebooklm.google.com/notebook/f3168f59-185a-44e5-ae29-d591ac121cbe", type: "tool" },
       { title: "Get Any Team Aligned in 30 Minutes Cassady & Gueorguiev - ResearchGate, 2023", url: "https://www.researchgate.net/publication/371867884_Get_any_team_aligned_in_less_than_30_minutes", type: "article" },
