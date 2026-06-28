@@ -33,7 +33,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/SW7-qabC61o?si=vD2Eu7gdJ9IQYZ4V",
       durationSeconds: 600,
       summary: [
         {
@@ -96,7 +96,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/wbw2UkaMUBU?si=fwb04ag84j_NBoWN",
       durationSeconds: 840,
       summary: [
         {
@@ -177,7 +177,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/VcX4OK66TXI?si=-E277i8yKoBnTZse",
       durationSeconds: 600,
       summary: [
         {
@@ -241,7 +241,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/sfRvb9zDXhA?si=vZxbmlUCXGAfNIpf",
       durationSeconds: 840,
       summary: [
         {
@@ -332,7 +332,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/x5f1e1_9xI4?si=NP5Nv6DhXefRUXwW",
       durationSeconds: 600,
       summary: [
         {
@@ -398,7 +398,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/EeBV8CBphmI?si=ki1osc8w1ZAzVK8s",
       durationSeconds: 840,
       summary: [
         {
@@ -486,7 +486,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/RV75EMovRBA?si=yglVEgbSxzfZNZBH",
       durationSeconds: 600,
       summary: [
         {
@@ -560,7 +560,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/7ZQ5EM-wEWU?si=XNmH9NIYQ7LWf4Fx",
       durationSeconds: 840,
       summary: [
         {
@@ -650,7 +650,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/tYnO5DlfDA0?si=nDJD9dgQY90g1SMQ",
       durationSeconds: 600,
       summary: [
         {
@@ -714,7 +714,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/h3M4PxPz6jo?si=EjH5y8mrDDM81sh2",
       durationSeconds: 840,
       summary: [
         {
@@ -846,7 +846,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/LktSYyznOf8?si=vpo1rvDeTua_O13h",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "Your senior expert is leaving in six months. They run knowledge transfer sessions. The result is a document of process steps. The judgment, the workarounds, the unwritten rules, the mindset: those leave with the person. Tacit knowledge cannot be extracted by instruction alone. It can only be surfaced through interrogation. AI-led questioning is the only scalable tool that can capture it before it disappears." },
@@ -993,7 +993,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/aNfyBHl66zA?si=s_3ewxsqd4l8x2HW",
       durationSeconds: 600,
       summary: [
         {
