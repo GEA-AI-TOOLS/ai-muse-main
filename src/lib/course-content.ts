@@ -96,7 +96,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/wbw2UkaMUBU?si=fwb04ag84j_NBoWN",
+      videoUrl: "https://www.youtube.com/embed/2i9l5mjwWeI?si=Gc0Y_aDFmJi-e1o2",
       durationSeconds: 840,
       summary: [
         {
