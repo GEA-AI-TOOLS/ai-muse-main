@@ -21,6 +21,8 @@ const PLACEHOLDER_EXERCISE = {
   prompt: null as null,
 };
 
+// test commit comment
+
 export const COURSE_CONTENT: Record<number, Lesson> = {
   1: {
     day: 1,
