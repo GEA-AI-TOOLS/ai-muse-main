@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, notEnrolled: true });
   }
 
-  if (participant.revoked || participant.status === "inactive") {
+  if (participant.revoked) {
     return NextResponse.json({ ok: false, revoked: true });
   }
 

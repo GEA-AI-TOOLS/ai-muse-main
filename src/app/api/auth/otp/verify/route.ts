@@ -172,6 +172,8 @@ export async function POST(req: NextRequest) {
     currentDay: participant.current_day,
     daysComplete,
     revoked: participant.revoked,
+    status: participant.status,
+    fetchedAt: Date.now(),
   };
 
   const res = NextResponse.json({ ok: true, redirectTo: "/today" });
