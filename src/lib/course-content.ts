@@ -840,7 +840,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I'm [add some context about yourself + Attach some relevant files]\n\nI'd like your help figuring out how I can best use AI to solve some of my important business challenges.\n\nAsk me questions, one at a time, about our targets, current initiatives, and constraints until you have enough context to give me a few obvious and a few non-obvious AI recommendations.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
           title: "Day 6 : Essential Demo",
         },
       },
@@ -887,7 +887,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I would like to better understand the work a colleague does.\n\nAsk me questions about his/her job one at a time to clearly understand his/her key tasks and roles. His/her primary job is [insert data].\n\nAsk me questions one at a time to better understand the content of work being done and the questions I would need to ask if he/she left the company.\n\nOutput: an exit interview questionnaire",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
           title: "Day 6 : Advanced Demo",
         },
       },
