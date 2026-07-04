@@ -801,7 +801,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Uncovering Deeper Insights by Reversing the Dialogue",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/i_HaEWl97lQ?si=16Umk2zGHynWpxg6",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "You wrote the prompt carefully. AI answered instantly. It looked right. You moved on. Later you realized you had been working on the wrong challenge. The problem was never the AI answer. It was the question you never got asked. Stop giving AI instructions to answer. Give it permission to interrogate you first." },
@@ -932,7 +932,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Using AI Panels and Libraries for Diverse Perspectives",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/8fkW0heKZng?si=ACTsmo2aaauhei2N",
       durationSeconds: 600,
       summary: [
         {
@@ -989,7 +989,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
           title: "Day 7 : Essential Demo",
         },
       },
@@ -1060,7 +1060,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I have been working on [describe your challenge]\nI have this idea [Insert Idea]\nPlease create a series of personas to represent [people in my management team]\n[CFO | HR Director | CEO | Sales Director] [note: you could include PDFs of their profiles by downloading their LinkedIn profiles or answer questions about each]\nPlease provide feedback on my presentation using these personas\nBased on this, summarize the key feedback, give 3 suggestions on how to improve this project",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
           title: "Day 7 : Advanced Demo",
         },
       },
@@ -1108,7 +1108,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Problution",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
       durationSeconds: 600,
       summary: [
         {
@@ -1165,13 +1165,13 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I am working on this challenge: [#1 insert challenge].\nHow might we see this challenge from another perspective?\nGive me 5 different How Might We reframes.\nFor each reframe, show the new solution space it opens.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
           title: "Day 8 : Essential Demo",
         },
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
       durationSeconds: 600,
       summary: [
         {
@@ -1227,7 +1227,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
           title: "Day 8 : Advanced Demo",
         },
       },
@@ -1275,7 +1275,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "How to Persistently Refine and Improve with AI",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
       durationSeconds: 600,
       summary: [
         {
@@ -1331,13 +1331,13 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "Below are my 2 AI usage assessments, first is my assessment results before the class, the second is my assessment results now.\nMake a comparison chart. Do you see changes in the way I use AI?\nProvide recommendations to continue improving.\n\nMy before Assessment:\n[Paste your older assessment here]\n\nMy Latest Assessment:\n[Paste your newer assessment here]",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=AEo7noZx0lnisPyx",
           title: "Day 9 : Essential Demo",
         },
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
       durationSeconds: 600,
       summary: [
         {
@@ -1393,7 +1393,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "Based on the work I just did, please help me create a change log and a new and better prompt for next time\n\nKey outputs\nResults of my work\nFeedback I gave\nA new and better process and prompt\nHow to improve the process\nA prompt to run next time",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/GwGiFf_cYQ4?si=zIaOZQ8q31dS-Wiq",
           title: "Day 9 : Advanced Demo",
         },
       },
@@ -1435,7 +1435,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       essential: "Stop and Think: Making AI Your Own",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
       durationSeconds: 600,
       summary: [
         {
@@ -1505,7 +1505,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/TMLxdpM-Bsw?si=FVR1OlV9f30oY2TN",
+          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
           title: "Day 10 : Essential Demo",
         },
       },
