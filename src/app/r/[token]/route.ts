@@ -71,9 +71,9 @@ export async function GET(
       : []),
   ]);
 
-  // 4. Redirect to /today — today already redirects to /lesson/:day,
-  //    and the browser will follow to the anchor
-  const dest = new URL("/today", req.url);
+  // 4. Redirect to the SPECIFIC day this link was for (from the token), not /today.
+  //    A Day 4 link must open Day 4 even if the participant is now on Day 5.
+  const dest = new URL("/lesson/" + String(day), req.url);
   dest.searchParams.set("s", section);
   return NextResponse.redirect(dest, { status: 302 });
 }
