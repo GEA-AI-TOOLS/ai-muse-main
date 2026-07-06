@@ -836,7 +836,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             title: "Reflect",
             items: [
               "Review the recommendations. Which ones surprised you?",
-              "Bonus: Run this using the TRUE NORTH GPT to turn ideas into a capstone project: https://chatgpt.com/g/g6754129342648191a94c50c383fd267b-cycles-2-0-9-true-north",
+              "Bonus: Run this using the TRUE NORTH GPT to turn ideas into a capstone project: https://chatgpt.com/g/g-6754129342648191a94c50c383fd267b-cycles-2-0-9-true-north",
             ],
           },
         ],
@@ -932,7 +932,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Using AI Panels and Libraries for Diverse Perspectives",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/8fkW0heKZng?si=ACTsmo2aaauhei2N",
+      videoUrl: "https://www.youtube.com/embed/AyIIA2ysYuM?si=7DBxPoSpEckoZ6va",
       durationSeconds: 600,
       summary: [
         {
@@ -989,7 +989,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+          videoUrl: "https://www.youtube.com/embed/QG_Hw9ErZbA?si=CjtDP4VfRMRnlOzC",
           title: "Day 7 : Essential Demo",
         },
       },
@@ -1060,7 +1060,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I have been working on [describe your challenge]\nI have this idea [Insert Idea]\nPlease create a series of personas to represent [people in my management team]\n[CFO | HR Director | CEO | Sales Director] [note: you could include PDFs of their profiles by downloading their LinkedIn profiles or answer questions about each]\nPlease provide feedback on my presentation using these personas\nBased on this, summarize the key feedback, give 3 suggestions on how to improve this project",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+          videoUrl: "https://www.youtube.com/embed/S09dXQer_Ic?si=oQqnbIWZ1fFE-RbN",
           title: "Day 7 : Advanced Demo",
         },
       },
