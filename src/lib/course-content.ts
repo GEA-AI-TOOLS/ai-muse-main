@@ -98,7 +98,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/2i9l5mjwWeI?si=Gc0Y_aDFmJi-e1o2",
+      videoUrl: "https://www.youtube.com/embed/wbw2UkaMUBU?si=CupkPVs5k-Y8yYYN",
       durationSeconds: 840,
       summary: [
         {
@@ -1275,7 +1275,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "How to Persistently Refine and Improve with AI",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+      videoUrl: "https://www.youtube.com/embed/9PvP5_vMnAw?si=qItXiiVI-SE1CbII",
       durationSeconds: 600,
       summary: [
         {
