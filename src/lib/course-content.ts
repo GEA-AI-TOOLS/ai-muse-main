@@ -1108,7 +1108,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Problution",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+      videoUrl: "https://www.youtube.com/embed/m4d05xzzLOU?si=VCfrqApX8D9Nbk_8",
       durationSeconds: 600,
       summary: [
         {
@@ -1171,7 +1171,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+      videoUrl: "https://www.youtube.com/embed/TvR7YgJ3qjc?si=B0e8iiBfDrrtmP-d",
       durationSeconds: 600,
       summary: [
         {
@@ -1435,7 +1435,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       essential: "Stop and Think: Making AI Your Own",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+      videoUrl: "https://www.youtube.com/embed/PzG3Q1yU0EI?si=rJf_tk-tNCY-fET6",
       durationSeconds: 600,
       summary: [
         {
