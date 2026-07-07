@@ -1165,7 +1165,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: "I am working on this challenge: [#1 insert challenge].\nHow might we see this challenge from another perspective?\nGive me 5 different How Might We reframes.\nFor each reframe, show the new solution space it opens.",
         demo: {
-          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+          videoUrl: "https://www.youtube.com/embed/1GZ7MvglvXM?si=gsyIHxkIAH3572xd",
           title: "Day 8 : Essential Demo",
         },
       },
@@ -1227,7 +1227,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+          videoUrl: "https://www.youtube.com/embed/gSvjE5zA4f4?si=Er2FSkZ7B5sWMq4t",
           title: "Day 8 : Advanced Demo",
         },
       },
@@ -1316,7 +1316,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             task: "02",
             title: "Re-do your AI Usage Assessment",
             items: [
-              "Retake the assessment: <a href=\"https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY</a>",
+              "Retake the assessment: <a href=\"https://shares.showellapp.com/yNgk9qeArvSKm9Wm8nYxmVGY\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY</a>",
               "Compare your new results to your previous ones",
             ],
           },
