@@ -1316,7 +1316,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             task: "02",
             title: "Re-do your AI Usage Assessment",
             items: [
-              "Retake the assessment: <a href=\"https://shares.showellapp.com/yNgk9qeArvSKm9Wm8nYxmVGY\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://shares.showellapp.com/yNqk9qeArvSKm9Wm8nYxmVGY</a>",
+              "Retake the assessment: <a href=\"https://shares.showellapp.com/yNgk9qeArvSKm9Wm8nYxmVGY\" target=\"_blank\" rel=\"noreferrer\" style=\"color:#E24B4A;\">https://shares.showellapp.com/yNgk9qeArvSKm9Wm8nYxmVGY</a>",
               "Compare your new results to your previous ones",
             ],
           },
