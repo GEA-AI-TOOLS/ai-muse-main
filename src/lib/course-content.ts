@@ -1108,7 +1108,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "Problution",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/m4d05xzzLOU?si=VCfrqApX8D9Nbk_8",
+      videoUrl: "https://www.youtube.com/embed/nUV7CGCTeCs?si=WLCaO_Toov7q6jS5",
       durationSeconds: 600,
       summary: [
         {
@@ -1171,7 +1171,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/TvR7YgJ3qjc?si=B0e8iiBfDrrtmP-d",
+      videoUrl: "https://www.youtube.com/embed/BSa_mY7o2OU?si=7CZ-RPRtjQOf90Nl",
       durationSeconds: 600,
       summary: [
         {
@@ -1275,7 +1275,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       advanced: "How to Persistently Refine and Improve with AI",
     },
     essential: {
-      videoUrl: "https://www.youtube.com/embed/9PvP5_vMnAw?si=qItXiiVI-SE1CbII",
+      videoUrl: "https://www.youtube.com/embed/znfkC-CaQtE?si=vH2o5eabZ7eMvXq3",
       durationSeconds: 600,
       summary: [
         {
@@ -1337,7 +1337,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       },
     },
     advanced: {
-      videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+      videoUrl: "https://www.youtube.com/embed/RMme-mY5A6I?si=vSkSPJpLqwknockf",
       durationSeconds: 600,
       summary: [
         {
