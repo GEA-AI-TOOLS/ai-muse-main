@@ -32,29 +32,146 @@ export async function sendCompletionEmail(
   const base = (process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks.bryancassady.com").replace(/\/$/, "");
   const firstName = toName.split(" ")[0];
 
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You completed Make AI Your Muse</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Georgia, 'Times New Roman', serif;">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4;">
+<tr>
+<td align="center" style="padding:30px 10px;">
+
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:4px;">
+
+<!-- Header -->
+<tr>
+<td style="padding:40px 40px 10px 40px;">
+<p style="margin:0; font-size:12px; color:#999999; text-transform:uppercase; letter-spacing:2px;">SPARKS &mdash; Course Complete</p>
+</td>
+</tr>
+
+<!-- Title -->
+<tr>
+<td style="padding:10px 40px 30px 40px;">
+<h1 style="margin:0; font-size:28px; color:#1a1a1a; line-height:1.3; font-weight:bold;">You did it, ${firstName}.</h1>
+</td>
+</tr>
+
+<!-- Divider -->
+<tr>
+<td style="padding:0 40px;">
+<hr style="border:none; border-top:2px solid #cc0000; width:60px; margin:0;">
+</td>
+</tr>
+
+<!-- Body copy -->
+<tr>
+<td style="padding:30px 40px 0 40px; font-size:16px; line-height:1.7; color:#333333;">
+<p style="margin:0 0 20px 0;">Dear ${firstName},</p>
+
+<p style="margin:0 0 20px 0;">You just marked all 10 days complete.</p>
+
+<p style="margin:0 0 20px 0;">Studies consistently show that fewer than 15% of people who start an online course finish it. You are in that 15%. That is not a small thing.</p>
+
+<p style="margin:0 0 20px 0;">Ten days of showing up. Ten lessons. A framework you now own. The SPARKS method does not disappear when the course ends. It is a way of working with AI that you carry into every project, every conversation, every problem that lands on your desk.</p>
+
+<p style="margin:0 0 30px 0;">Two things are waiting for you now.</p>
+</td>
+</tr>
+
+<!-- Certificate block -->
+<tr>
+<td style="padding:10px 40px 8px 40px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f0f5f9; border-radius:6px;">
+<tr>
+<td style="padding:24px 24px 24px 24px;">
+<p style="margin:0 0 6px 0; font-size:11px; color:#cc0000; text-transform:uppercase; letter-spacing:2px; font-family:Arial, sans-serif; font-weight:bold;">Certificate of Completion</p>
+<p style="margin:0 0 10px 0; font-size:18px; color:#1a1a1a; line-height:1.3; font-weight:bold;">Your certificate is ready to download.</p>
+<p style="margin:0 0 16px 0; font-size:14px; line-height:1.7; color:#555555;">Downloadable as a PDF and verifiable with a unique code. Share it on LinkedIn to show your network what you have built.</p>
+<table role="presentation" cellpadding="0" cellspacing="0">
+<tr>
+<td style="background-color:#1a1a1a; border-radius:4px;">
+<a href="${base}/progress" target="_blank" style="display:inline-block; padding:11px 22px; font-family:Arial, sans-serif; font-size:13px; font-weight:bold; color:#ffffff; text-decoration:none; letter-spacing:0.5px;">GET YOUR CERTIFICATE &rarr;</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Capstone block -->
+<tr>
+<td style="padding:0 40px 10px 40px;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#fcebeb; border-radius:6px; border-left:4px solid #cc0000;">
+<tr>
+<td style="padding:24px 24px 24px 24px;">
+<p style="margin:0 0 6px 0; font-size:11px; color:#cc0000; text-transform:uppercase; letter-spacing:2px; font-family:Arial, sans-serif; font-weight:bold;">Capstone Project &mdash; Now Unlocked</p>
+<p style="margin:0 0 10px 0; font-size:18px; color:#1a1a1a; line-height:1.3; font-weight:bold;">Go further. Earn the Certificate of Mastery.</p>
+<p style="margin:0 0 16px 0; font-size:14px; line-height:1.7; color:#333333;">Build your own Custom AI Tool using everything you have learned. Submit it for review and earn a second certificate: the Certificate of Mastery. Verifiable and shareable on LinkedIn.</p>
+<p style="margin:0 0 20px 0; font-size:14px; line-height:1.7; color:#333333;">This is where the course becomes something real. A tool you built. A skill you proved.</p>
+<table role="presentation" cellpadding="0" cellspacing="0">
+<tr>
+<td style="background-color:#cc0000; border-radius:4px;">
+<a href="${base}/capstone" target="_blank" style="display:inline-block; padding:11px 22px; font-family:Arial, sans-serif; font-size:13px; font-weight:bold; color:#ffffff; text-decoration:none; letter-spacing:0.5px;">START THE CAPSTONE &rarr;</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Closing copy -->
+<tr>
+<td style="padding:20px 40px 0 40px; font-size:16px; line-height:1.7; color:#333333;">
+<p style="margin:0 0 20px 0;">Thank you for trusting this course with your time. We are genuinely grateful you came this far.</p>
+
+<p style="margin:0 0 10px 0;">Best,<br>Bryan Cassady</p>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:30px 40px 40px 40px;">
+<hr style="border:none; border-top:1px solid #e0e0e0; margin:0 0 20px 0;">
+<p style="margin:0; font-size:12px; color:#999999; line-height:1.5;">SPARKS &mdash; Make AI Your Muse &mdash; 10-Day Course</p>
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>`;
+
   await brevo().transactionalEmails.sendTransacEmail({
     sender: { name: FROM_NAME, email: FROM_EMAIL },
     to: [{ email: toEmail, name: toName }],
-    subject: "You've completed all 10 days",
+    subject: "You did it, " + firstName + " — you completed SPARKS",
     textContent: [
-      "Hi " + firstName + ",",
+      "You did it, " + firstName + ".",
       "",
-      "You've marked all 10 days as done. Your completion certificate is available now:",
-      base + "/progress",
+      "You just marked all 10 days complete. Fewer than 15% of people who start an online course finish it. You're in that 15%.",
       "",
-      "The capstone section is now unlocked. Completing it earns the certificate of mastery:",
-      base + "/capstone",
+      "Your certificate of completion is ready: " + base + "/progress",
+      "",
+      "The capstone is now unlocked — build your own custom AI tool and earn the certificate of mastery: " + base + "/capstone",
+      "",
+      "Thank you for trusting this course with your time.",
       "",
       "Bryan Cassady",
     ].join("\n"),
-    htmlContent:
-      "<div style='font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;'>" +
-      "<h1 style='font-size:22px;color:#111;'>All 10 days complete</h1>" +
-      "<p style='font-size:15px;color:#333;'>Hi " + firstName + ", you've marked all 10 days as done.</p>" +
-      "<p style='font-size:15px;color:#333;'>Your completion certificate is available now, and the capstone is unlocked — finishing it earns the certificate of mastery.</p>" +
-      "<p style='font-size:15px;'><a href='" + base + "/progress' style='color:#cc0000;'>View your certificate →</a></p>" +
-      "<p style='font-size:13px;color:#999;'>Bryan Cassady</p>" +
-      "</div>",
+    htmlContent: html,
   });
 }
 

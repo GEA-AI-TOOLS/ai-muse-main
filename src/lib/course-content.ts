@@ -1505,7 +1505,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         ],
         prompt: null,
         demo: {
-          videoUrl: "https://www.youtube.com/embed/R2-jWykbh0c?si=dEpPhr1aXPZ1h-JA",
+          videoUrl: "https://www.youtube.com/embed/yjjL8x8EG84?si=b84mVznSmLlQn2I7",
           title: "Day 10 : Essential Demo",
         },
       },
