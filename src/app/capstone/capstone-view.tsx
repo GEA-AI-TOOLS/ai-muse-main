@@ -26,7 +26,7 @@ const USE_VIDEO = false;
 const HANDOUT_URL = "https://tiny.cc/sparksend";
 const REVIEW_GPT_URL =
   "https://chatgpt.com/g/g-6a033acc15448191bf72d50f6069dbe2-ai-tools-reviewer";
-const EVAL_FORM_URL = "https://forms.gle/VSLBXXNqUesYqXQW8";
+const EVAL_FORM_URL = "https://forms.gle/pGAcLWDgnkhdpyv36";
 
 // The live "Try it" demo tool - The Devil's Advocate. Leave empty for a "coming soon" pill.
 const EXAMPLE_TOOL_URL = "https://chatgpt.com/g/g-6a190e4fed9881918828a961d5a1d120-the-devil-s-advocate";
@@ -839,7 +839,7 @@ export function CapstoneView({ participant }: Props) {
                         rel="noreferrer"
                         className="text-[#E24B4A] hover:underline"
                       >
-                        {"muse.bryancassady.com/verify/" + completionCert.verification_code}
+                        {"sparks-v.bryancassady.com/verify/" + completionCert.verification_code}
                       </a>
                     </p>
                   </div>
@@ -914,7 +914,7 @@ export function CapstoneView({ participant }: Props) {
                         rel="noreferrer"
                         className="underline hover:opacity-80"
                       >
-                        {"muse.bryancassady.com/verify/" + masteryCert.verification_code}
+                        {"sparks-v.bryancassady.com/verify/" + masteryCert.verification_code}
                       </a>
                     </p>
                   </div>
