@@ -16,13 +16,17 @@ async function getCertificate(code: string) {
 
   const { data: participant } = await supabase
     .from("participants")
-    .select("name")
+    .select("name, last_name")
     .eq("id", cert.participant_id)
     .single();
 
+  const fullName = participant
+    ? [participant.name, participant.last_name].filter(Boolean).join(" ")
+    : "Unknown";
+
   return {
     ...cert,
-    participantName: participant?.name ?? "Unknown",
+    participantName: fullName,
   };
 }
 

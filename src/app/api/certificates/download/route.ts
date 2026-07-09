@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
   // Fetch participant name
   const { data: participant } = await supabase
     .from("participants")
-    .select("name")
+    .select("name, last_name")
     .eq("id", cert.participant_id)
     .single();
 
@@ -54,9 +54,13 @@ export async function GET(req: NextRequest) {
     day: "numeric", month: "long", year: "numeric",
   });
 
+    const fullName = participant
+      ? [participant.name, participant.last_name].filter(Boolean).join(" ")
+      : "Participant";
+
     const certElement = CertificatePDF({
         kind: cert.type as "completion" | "mastery",
-        recipientName: participant?.name ?? "Participant",
+        recipientName: fullName,
         cohortDate,
         issuedDate,
         verificationCode: cert.verification_code,
