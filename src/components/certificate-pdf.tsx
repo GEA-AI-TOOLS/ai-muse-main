@@ -165,15 +165,7 @@ const s = StyleSheet.create({
     marginBottom: 8,
     fontFamily: "Inter",
   },
-  recipientName: {
-    fontSize: 54,
-    color: BRAND.ink,
-    fontStyle: "italic",
-    marginTop: 16,
-    marginBottom: 8,
-    letterSpacing: -0.5,
-    fontFamily: "Cormorant Garamond",
-  },
+  
   nameLine: {
     width: 380,
     height: 0.5,
@@ -291,7 +283,17 @@ export function CertificatePDF({
     (isMastery ? " with distinction," : ",") +
     " a daily practice in thinking and working better with AI. Cohort of " +
     cohortDate + ".";
+    function getNameFontSize(name: string): number {
+      const len = name.length;
+      if (len <= 22) return 54;
+      if (len <= 28) return 48;
+      if (len <= 34) return 42;
+      if (len <= 40) return 37;
+      if (len <= 48) return 32;
+      return 28;
+    }
 
+    const nameFontSize = getNameFontSize(recipientName);
   return (
     <Document>
       <Page
@@ -323,7 +325,16 @@ export function CertificatePDF({
 
           <Text style={s.certifiesLabel}>This certifies that</Text>
 
-          <Text style={s.recipientName}>{recipientName}</Text>
+          <View style={{ height: 90, justifyContent: "center", alignItems: "center", width: "100%" }}>
+            <Text style={{
+              fontSize: nameFontSize,
+              color: BRAND.ink,
+              fontStyle: "italic",
+              letterSpacing: -0.5,
+              fontFamily: "Cormorant Garamond",
+              textAlign: "center",
+            }}>{recipientName}</Text>
+          </View>
           <View style={s.nameLine} />
 
           <Text style={s.bodyText}>{bodyText}</Text>
