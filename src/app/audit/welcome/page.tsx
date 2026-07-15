@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AuditWelcomeView } from "./audit-welcome-view.tsx";
+import { AuditWelcomeView } from "./audit-welcome-view";
 
 export const metadata: Metadata = {
   title: "Course overview, Make AI Your Muse",
