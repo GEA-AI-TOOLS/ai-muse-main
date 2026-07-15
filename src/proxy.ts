@@ -16,6 +16,8 @@ const PUBLIC_PATHS = [
   "/verify",
   "/waiting",
   "/assets",
+  "/home",
+  "/audit",
 ];
 
 export async function proxy(req: NextRequest) {
@@ -26,6 +28,15 @@ export async function proxy(req: NextRequest) {
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon")
   ) {
+    return NextResponse.next();
+  }
+
+  if (pathname === "/") {
+    if (!req.cookies.get("auth")?.value) {
+      const url = req.nextUrl.clone();
+      url.pathname = "/home";
+      return NextResponse.redirect(url);
+    }
     return NextResponse.next();
   }
 
