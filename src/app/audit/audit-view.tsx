@@ -22,43 +22,6 @@ const PHASE_LABEL: Record<number, string> = {
   5: "sparks", 6: "sparks", 7: "sparks", 8: "sparks", 9: "sparks", 10: "sparks",
 };
 
-const CONTENT_SECTIONS = [
-  {
-    tag: "You are not behind.",
-    body: "You are at the point where how you use AI starts to matter. Stop treating it like an answer box. Start reasoning with it.",
-  },
-  {
-    tag: "Stop querying. Start reasoning.",
-    body: "AI is not here to replace your thinking. It is here to extend it. The mistake most people make is querying. The move is reasoning together.",
-  },
-  {
-    tag: "Three things change everything.",
-    list: [
-      "How you frame the problem",
-      "How you iterate",
-      "How you steer what comes back",
-    ],
-    footer: "Improve these, your results improve immediately.",
-  },
-  {
-    tag: "What the 10 days look like.",
-    body: "Days 1 to 4 build the foundation — mindset shift, using AI to challenge your thinking, generating volume, and synthesizing complexity. Days 5 to 10 apply the SPARKS system: Speak, Pivot, Ask, Reframe, Keep going, Strategic pause. These are behaviours, not features.",
-  },
-  {
-    tag: "You build something real.",
-    body: "The capstone is a personal AI assistant built around your work, your challenges, your way of thinking. Not a certificate — the thing itself.",
-  },
-  {
-    tag: "10 minutes a day. That's it.",
-    body: "Show up. Try things. Consistent practice beats perfect prompts.",
-  },
-  {
-    tag: "The tool doesn't change. You do.",
-    body: "The value is not in the tool. It is in how you use it. Reasoning with AI, not querying it, is what changes your output.",
-    highlight: true,
-  },
-];
-
 function getDayStatus(day: number): "complete" | "today" | "missed" | "upcoming" {
   if (AUDIT_PERSONA.daysComplete.includes(day)) return "complete";
   if (day === AUDIT_PERSONA.currentDay) return "today";
@@ -86,8 +49,9 @@ export function AuditView() {
             Make AI Your Muse in 10 Days
           </h1>
           <p className="max-w-xl text-base text-muted-foreground">
-            This page mirrors the real course — same structure, same summaries, same
-            daily rhythm. Video, exercises, and prompts unlock when you enroll.
+            This page mirrors the real course. Same structure, same summaries, same
+            daily rhythm. Day 1 is fully open below, so you can see exactly what
+            enrolling gets you.
           </p>
           <div className="mt-6">
             <EnrollCta />
@@ -109,30 +73,78 @@ export function AuditView() {
             />
           </div>
           <p className="mt-3 text-xs text-muted-foreground">
-            {totalComplete} of 10 days complete · today is Day{" "}
-            {AUDIT_PERSONA.currentDay}
+            {totalComplete} of 10 days complete. Today is Day {AUDIT_PERSONA.currentDay}.
           </p>
+        </div>
+
+        <Separator />
+
+        {/* Course overview link, mirrors /progress -> /welcome in the real app */}
+        <div className="py-4">
+          <a
+            href="/audit/welcome"
+            className="flex items-center justify-between rounded-md border bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50"
+          >
+            <div>
+              <p className="mb-0.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                {AUDIT_COPY.courseOverviewTitle}
+              </p>
+              <p className="text-sm font-medium">{AUDIT_COPY.courseOverviewSubtitle}</p>
+            </div>
+            <span className="shrink-0 text-xs text-muted-foreground">Read →</span>
+          </a>
+        </div>
+
+        <Separator />
+
+        {/* Day 1 highlight */}
+        <div className="py-8">
+          <a
+            href="/audit/lesson/1"
+            className="block rounded-lg border-2 border-[#E24B4A] bg-[#FCEBEB] px-5 py-5 transition-opacity hover:opacity-90 dark:bg-[#3a1010]"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-wide text-[#A32D2D] dark:text-[#f5c1c1]">
+                  {AUDIT_COPY.day1HighlightTitle}
+                </p>
+                <p className="mt-1 text-base font-medium text-[#501313] dark:text-[#f5c1c1]">
+                  {"Day 1 · " + DAY_TITLES[1]}
+                </p>
+                <p className="mt-1 max-w-md text-xs text-[#791F1F] dark:text-[#f5c1c1]">
+                  {AUDIT_COPY.day1HighlightBody}
+                </p>
+              </div>
+              <span className="shrink-0 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white">
+                {AUDIT_COPY.day1Cta}
+              </span>
+            </div>
+          </a>
         </div>
 
         {/* Day list */}
         <div className="border-b py-8">
-          <h2 className="mb-4 text-xl font-medium">All 10 days</h2>
+          <h2 className="mb-1 text-xl font-medium">All 10 days</h2>
           <p className="mb-4 text-sm text-muted-foreground">
-            {AUDIT_COPY.dayListHint}
+            {AUDIT_COPY.otherDaysNote}
           </p>
           <div className="divide-y">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((day) => {
               const status = getDayStatus(day);
               const title = DAY_TITLES[day] ?? "Lesson " + String(day);
               const phase = PHASE_LABEL[day] === "foundation" ? "Foundation" : "SPARKS";
-              const label =
-                status === "complete" ? "Revisit" :
-                status === "missed" ? "Catch up" :
-                status === "today" ? "Today" : "Preview →";
-              const labelStyle =
-                status === "missed" || status === "today"
-                  ? "text-[#E24B4A]"
-                  : "text-muted-foreground";
+              const isDayOne = day === 1;
+              const label = isDayOne
+                ? "Unlocked"
+                : status === "complete" ? "Revisit"
+                : status === "missed" ? "Catch up"
+                : status === "today" ? "Today"
+                : "Preview →";
+              const labelStyle = isDayOne
+                ? "text-[#0F6E56] font-medium"
+                : status === "missed" || status === "today"
+                ? "text-[#E24B4A]"
+                : "text-muted-foreground";
 
               return (
                 <a
@@ -151,75 +163,12 @@ export function AuditView() {
           </div>
         </div>
 
-        <Separator />
-
-        {/* Intro video — unlocked by design */}
-        <div className="border-b py-8">
-          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            Before you begin
-          </p>
-          <h2 className="mb-4 text-xl font-medium">A word from Bryan</h2>
-          <div className="aspect-video overflow-hidden rounded-md bg-black">
-            <iframe
-              src="https://www.youtube.com/embed/dlY4Rh1LXXQ?si=lBtOQn_rRg1Wg8oz"
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-
-        {/* Assessment — small locked teaser */}
-        <div className="border-b py-8">
-          <LockedCard
-            title="Know where you start"
-            subtitle="A short AI self-assessment prompt, unlocked when you enroll."
-          />
-        </div>
-
-        {/* Content sections */}
-        <div className="flex flex-col py-8">
-          {CONTENT_SECTIONS.map((section, i) => (
-            <div
-              key={i}
-              className={
-                "border-b py-8 " +
-                (section.highlight ? "-ml-6 border-l-[3px] border-l-[#E24B4A] pl-6" : "")
-              }
-            >
-              <h2 className={"mb-3 text-xl font-medium " + (section.highlight ? "text-[#E24B4A]" : "")}>
-                {section.tag}
-              </h2>
-              {section.body && (
-                <p className="text-base leading-relaxed text-muted-foreground">
-                  {section.body}
-                </p>
-              )}
-              {section.list && (
-                <>
-                  <ul className="mb-3 mt-2 flex flex-col gap-2">
-                    {section.list.map((item, j) => (
-                      <li key={j} className="flex items-start gap-3 text-base text-muted-foreground">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#E24B4A]" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  {section.footer && (
-                    <p className="text-sm italic text-muted-foreground">{section.footer}</p>
-                  )}
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-
         {/* What's ahead */}
         <div className="border-b py-8">
           <h2 className="mb-4 text-xl font-medium">What's ahead</h2>
           <div className="flex flex-col gap-3">
             <LockedCard
-              title="Capstone · build your own AI tool"
+              title="Capstone. Build your own AI tool"
               subtitle="Unlocks after all 10 days. Apply everything to something real."
             />
             <LockedCard

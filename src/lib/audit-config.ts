@@ -2,31 +2,30 @@ export type AuditSection =
   | "essentialVideo"
   | "essentialSummary"
   | "essentialExercise"
-  | "essentialPrompt"
-  | "demo"
   | "advanced"
-  | "learnMore"
-  | "capstone"
-  | "assessment";
+  | "learnMore";
 
 type LockMap = Record<AuditSection, boolean>;
 
-// Global default: structure visible, payload locked.
+// Global default. Structure visible, payload locked.
 const DEFAULT_LOCKS: LockMap = {
   essentialVideo: true,
-  essentialSummary: false, // the hook — always visible
-  essentialExercise: true,
-  essentialPrompt: true,
-  demo: true,
+  essentialSummary: false, // the hook, always visible
+  essentialExercise: true, // covers steps, prompt, and demo tab together
   advanced: true,
-  learnMore: true, // titles render, links are dead
-  capstone: true,
-  assessment: true,
+  learnMore: true,
 };
 
-// Per-day overrides. Empty today. Unlock Day 1's video as a taster:
-//   1: { essentialVideo: false },
-const DAY_OVERRIDES: Record<number, Partial<LockMap>> = {};
+// Per-day overrides. Day 1 is the fully open sample.
+// Advanced is left unset on purpose, it stays locked so the teaser
+// still shows visitors what enrolling adds even on the open day.
+const DAY_OVERRIDES: Record<number, Partial<LockMap>> = {
+  1: {
+    essentialVideo: false,
+    essentialExercise: false,
+    learnMore: false,
+  },
+};
 
 export function isLocked(section: AuditSection, day?: number): boolean {
   if (day !== undefined) {
@@ -37,7 +36,7 @@ export function isLocked(section: AuditSection, day?: number): boolean {
 }
 
 // Simulated participant. Day 4 falls out as "missed" from the
-// existing status logic (day < currentDay && !complete).
+// existing status logic (day < currentDay && not complete).
 export const AUDIT_PERSONA = {
   currentDay: 5,
   daysComplete: [1, 2, 3],
@@ -55,13 +54,16 @@ export const AUDIT_COPY = {
   promptLock: "Prompt unlocks on enrollment",
   exerciseLock: "Exercise unlocks on enrollment",
   genericLock: "Unlocks on enrollment",
-  personaNote:
-    "This shows a sample learner's progress. Your own progress starts when you enroll.",
-  dayListHint: "Click any day below to preview it.",
+  personaNote: "This shows a sample learner's progress. Your own progress starts when you enroll.",
+  day1HighlightTitle: "Day 1 is fully unlocked",
+  day1HighlightBody: "Everything below is exactly what you get in the paid course. Video, exercise, prompt, and links, all open.",
+  day1Cta: "Open Day 1",
+  otherDaysNote: "You can audit every other day too. Structure and summaries are open. Video, exercises, and prompts unlock when you enroll.",
+  courseOverviewTitle: "Course overview",
+  courseOverviewSubtitle: "What the 10 days cover, before you begin",
 };
 
-// Fake filler. Never the real prompt — this is what sits under the blur,
-// so nothing real reaches the DOM.
+// Fake filler for locked exercise steps. Never the real prompt.
 export const FILLER_PROMPT = `I am working on [describe the thing you are trying to move forward].
 
 The real constraint is: [one sentence. Not the symptom. The cause.]

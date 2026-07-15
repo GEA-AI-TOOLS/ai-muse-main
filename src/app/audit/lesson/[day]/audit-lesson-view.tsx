@@ -2,6 +2,8 @@ import { Separator } from "@/components/ui/separator";
 import { SummaryBlock } from "@/components/summary-block";
 import { TrackerBar } from "@/components/tracker-bar";
 import { AuditBar, AuditHeader } from "@/components/audit/audit-bar";
+import { ExerciseBlock } from "@/components/exercise-block";
+
 import {
   LockedVideo,
   LockedExercise,
@@ -10,6 +12,45 @@ import {
 } from "@/components/audit/audit-lock";
 import { AUDIT_PERSONA, AUDIT_COPY, isLocked } from "@/lib/audit-config";
 import type { Lesson } from "@/lib/types";
+
+function encodePromptUrl(base: string, prompt: string): string {
+  return base + encodeURIComponent(prompt);
+}
+
+function getLlmUrls(prompt: string | null) {
+  if (!prompt) return {};
+  return {
+    chatGpt: encodePromptUrl("https://chatgpt.com/?q=", prompt),
+    claude: encodePromptUrl("https://claude.ai/new?q=", prompt),
+    gemini: "https://gemini.google.com/app",
+  };
+}
+
+function UnlockedVideo({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: string }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="aspect-video overflow-hidden rounded-md bg-black">
+        <iframe
+          src={videoUrl}
+          className="h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      {slideUrl && (
+        <a
+          href={slideUrl}
+          target="_blank"
+          rel="noreferrer"
+          download
+          className="inline-flex items-center gap-2 self-start rounded-md border px-4 py-2 text-sm hover:bg-accent"
+        >
+          Download slides
+        </a>
+      )}
+    </div>
+  );
+}
 
 const SECTIONS: { id: string; label: string }[] = [
   { id: "essential", label: "Essential" },
@@ -20,6 +61,9 @@ const SECTIONS: { id: string; label: string }[] = [
 export function AuditLessonView({ lesson }: { lesson: Lesson }) {
   const phaseLabel = lesson.phase === "foundation" ? "Foundation" : "SPARKS";
   const hasDemo = !!lesson.essential.exercise.demo?.videoUrl?.trim();
+
+  const essentialUrls = getLlmUrls(lesson.essential.exercise.prompt);
+  const advancedUrls = getLlmUrls(lesson.advanced?.exercise.prompt ?? null);
 
   const navItems = SECTIONS.filter((s) => {
     if (s.id === "advanced") return !!lesson.advanced;
@@ -94,14 +138,7 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
           {isLocked("essentialVideo", lesson.day) ? (
             <LockedVideo />
           ) : (
-            <div className="aspect-video overflow-hidden rounded-md bg-black">
-              <iframe
-                src={lesson.essential.videoUrl}
-                className="h-full w-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            <UnlockedVideo videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
           )}
 
           {!isLocked("essentialSummary", lesson.day) && (
@@ -116,11 +153,20 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
           <div className="mt-8 mb-2 border-t pt-6">
             <h3 className="text-base font-semibold">Exercise</h3>
           </div>
-          <LockedExercise
-            objective={lesson.essential.exercise.objective}
-            timeMinutes={lesson.essential.exercise.timeMinutes}
-            hasDemo={hasDemo}
-          />
+          {isLocked("essentialExercise", lesson.day) ? (
+            <LockedExercise
+              objective={lesson.essential.exercise.objective}
+              timeMinutes={lesson.essential.exercise.timeMinutes}
+              hasDemo={hasDemo}
+            />
+          ) : (
+            <ExerciseBlock
+              exercise={lesson.essential.exercise}
+              promptChatGptUrl={essentialUrls.chatGpt}
+              promptClaudeUrl={essentialUrls.claude}
+              promptGeminiUrl={essentialUrls.gemini}
+            />
+          )}
 
           <div className="mt-8 rounded-md border border-[#F09595] bg-[#FCEBEB] px-5 py-4 dark:border-[#791F1F] dark:bg-[#3a1010]">
             <p className="mb-3 text-sm text-[#501313] dark:text-[#f5c1c1]">
@@ -143,10 +189,29 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
             <p className="mt-0.5 mb-4 text-sm text-muted-foreground">
               Optional. Go deeper when you have time.
             </p>
-            <LockedCard
-              title={lesson.sectionTitles?.advanced ?? "Advanced lesson"}
-              subtitle="A second video, summary, and exercise for this day."
-            />
+            {isLocked("advanced", lesson.day) ? (
+              <LockedCard
+                title={lesson.sectionTitles?.advanced ?? "Advanced lesson"}
+                subtitle="A second video, summary, and exercise for this day."
+              />
+            ) : (
+              <div className="mt-6">
+                <UnlockedVideo videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+                <div className="mt-8 mb-1">
+                  <h3 className="text-base font-semibold">Summary</h3>
+                </div>
+                <SummaryBlock summary={lesson.advanced.summary} skipFirst />
+                <div className="mt-8 mb-2 border-t pt-6">
+                  <h3 className="text-base font-semibold">Exercise</h3>
+                </div>
+                <ExerciseBlock
+                  exercise={lesson.advanced.exercise}
+                  promptChatGptUrl={advancedUrls.chatGpt}
+                  promptClaudeUrl={advancedUrls.claude}
+                  promptGeminiUrl={advancedUrls.gemini}
+                />
+              </div>
+            )}
           </section>
         )}
 
@@ -176,17 +241,29 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
               Articles, tools, and references from this lesson.
             </p>
             <div className="divide-y">
-              {lesson.learnMore.map((link, i) => (
-                <div
-                  key={i}
-                  className="flex cursor-not-allowed items-center justify-between gap-4 py-4"
-                >
-                  <span className="text-base text-muted-foreground">{link.title}</span>
-                  <span className="shrink-0 text-xs capitalize text-muted-foreground opacity-45">
-                    {link.type + " · locked"}
-                  </span>
-                </div>
-              ))}
+              {lesson.learnMore.map((link, i) =>
+                isLocked("learnMore", lesson.day) ? (
+                  <div key={i} className="flex cursor-not-allowed items-center justify-between gap-4 py-4">
+                    <span className="text-base text-muted-foreground">{link.title}</span>
+                    <span className="shrink-0 text-xs capitalize text-muted-foreground opacity-45">
+                      {link.type + " · locked"}
+                    </span>
+                  </div>
+                ) : (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center justify-between gap-4 py-4 hover:opacity-70"
+                  >
+                    <span className="text-base">{link.title}</span>
+                    <span className="shrink-0 text-sm capitalize text-muted-foreground">
+                      {link.type + " ↗"}
+                    </span>
+                  </a>
+                )
+              )}
             </div>
           </section>
         )}
