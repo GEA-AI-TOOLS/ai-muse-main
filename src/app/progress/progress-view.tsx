@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import type { Participant } from "@/lib/types";
 import { useState, useEffect } from "react";
 import { TrackerBar } from "@/components/tracker-bar";
+import { SiteBannerCarousel } from "@/components/site-banner-carousel";
 
 interface Props {
   participant: Participant;
@@ -223,6 +224,8 @@ export function ProgressView({ participant }: Props) {
       </header>
 
       <main className="mx-auto max-w-3xl px-8">
+
+        <SiteBannerCarousel cohortId={participant.cohortId} />
 
         <div className="py-8">
           <h1 className="text-2xl font-medium">Your 10-day journey</h1>
