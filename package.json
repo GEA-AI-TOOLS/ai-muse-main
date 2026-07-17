@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
+    "@mux/mux-node": "^14.1.1",
+    "@mux/mux-player-react": "^3.13.0",
     "@react-pdf/renderer": "^4.5.1",
     "@supabase/supabase-js": "^2.105.1",
     "class-variance-authority": "^0.7.1",
