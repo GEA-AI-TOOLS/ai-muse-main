@@ -1,34 +1,84 @@
 import type { Metadata } from "next";
+import { Fraunces } from "next/font/google";
+import { LandingView } from "./landing-view";
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-display",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Make AI Your Muse in 10 Days",
-  description: "A 10-day self-paced course to change how you work with AI.",
+  title: "Make AI Your Muse in 10 Days | SPARKS by Bryan Cassady",
+  description:
+    "A 10-day AI course for professionals. Ten minutes a day, one behavior at a time, built on the SPARKS framework by Bryan Cassady. Preview Day 1 free, no signup.",
+  alternates: { canonical: "/home" },
+  openGraph: {
+    title: "Make AI Your Muse in 10 Days",
+    description:
+      "Sharper thinking. Better outputs. Decisions you'd defend. A 10-day daily AI practice by Bryan Cassady.",
+    type: "website",
+  },
+};
+
+const courseJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: "Make AI Your Muse in 10 Days",
+  description:
+    "A 10-day self-paced AI course built on the SPARKS framework: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, Stop and think. Ten minutes a day with a real exercise on your own work.",
+  provider: { "@type": "Person", name: "Bryan Cassady" },
+  offers: {
+    "@type": "Offer",
+    price: "195",
+    priceCurrency: "USD",
+    availability: "https://schema.org/InStock",
+  },
+  hasCourseInstance: {
+    "@type": "CourseInstance",
+    courseMode: "online",
+    courseWorkload: "PT10M",
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is the SPARKS framework?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "SPARKS is a six-behavior method for working with AI, created by Bryan Cassady: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, and Stop and think. Days 1 to 4 of the course build the foundation, days 5 to 10 practice one behavior each.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I see the course before buying?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. Day 1 is fully open in the course preview, video, exercise, and prompt included. No signup needed.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is there a version for teams?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. The live version runs as facilitated cohorts for teams and organizations. It is not available to individuals.",
+      },
+    },
+  ],
 };
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-8 text-center">
-      <img src="/assets/site-icon.png" alt="AI Muse" className="h-12 w-12 rounded object-contain" />
-      <h1 className="max-w-lg text-3xl font-medium leading-tight">
-        Make AI Your Muse in 10 Days
-      </h1>
-      <p className="max-w-md text-base text-muted-foreground">
-        A short daily practice to think better with AI. Landing page in progress.
-      </p>
-      <div className="flex items-center gap-3">
-        <a
-          href="/enroll"
-          className="rounded-md bg-[#E24B4A] px-6 py-3 text-sm font-medium text-white hover:bg-[#c73f3e]"
-        >
-          Enroll
-        </a>
-        <a
-          href="/audit"
-          className="rounded-md border px-6 py-3 text-sm font-medium hover:bg-accent"
-        >
-          See a preview
-        </a>
-      </div>
+    <div className={fraunces.variable}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <LandingView />
     </div>
   );
 }

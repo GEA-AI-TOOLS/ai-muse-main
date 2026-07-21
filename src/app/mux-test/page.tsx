@@ -1,10 +1,12 @@
-// app/mux-test/page.tsx
 import Mux from '@mux/mux-node';
 import Player from './player';
 
 export const dynamic = 'force-dynamic';
 
-const PLAYBACK_ID = 'mAF0145Q9nUhAyBGDORBowuDIGlcYNq33QTO5IWZzgic';
+// swap to test different assets
+const VIDEOS = {
+  'd01-demo':   { playbackId: 'mAF0145Q9nUhAyBGDORBowuDIGlcYNq33QTO5IWZzgic', title: 'Day 1 — Demo', posterTime: 3 },
+};
 
 export default async function Page() {
   const mux = new Mux({
@@ -12,10 +14,20 @@ export default async function Page() {
     jwtPrivateKey: process.env.MUX_SIGNING_KEY_PRIVATE!,
   });
 
-  const token = await mux.jwt.signPlaybackId(PLAYBACK_ID, {
-    type: 'video',
-    expiration: '2h',
-  });
+  const entries = await Promise.all(
+    Object.entries(VIDEOS).map(async ([videoId, v]) => {
+      const [playback, thumbnail, storyboard] = await Promise.all([
+        mux.jwt.signPlaybackId(v.playbackId, { expiration: '2h', type: 'video' }),
+        mux.jwt.signPlaybackId(v.playbackId, {
+          expiration: '2h',
+          type: 'thumbnail',
+          params: { time: String(v.posterTime) },
+        }),
+        mux.jwt.signPlaybackId(v.playbackId, { expiration: '2h', type: 'storyboard' }),
+      ]);
+      return [videoId, { ...v, tokens: { playback, thumbnail, storyboard } }];
+    })
+  );
 
-  return <Player playbackId={PLAYBACK_ID} token={token} />;
+  return <Player videos={Object.fromEntries(entries)} />;
 }
