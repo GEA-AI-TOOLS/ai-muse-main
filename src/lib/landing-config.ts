@@ -1,196 +1,215 @@
 // ============================================================
-// LANDING PAGE CONTENT CONFIG
+// LANDING PAGE CONTENT CONFIG v3
 // Everything editable lives here. Components read from this file
-// and never hardcode copy, questions, answers, or testimonials.
+// and never hardcode copy, questions, resources, or testimonials.
 // No em dashes anywhere, per site rule.
 // ============================================================
+
+// Explicit types so per-array inference never breaks the build
+// (every option shares one shape; route is optional everywhere).
+export type ExplorerOption = {
+  id: string;
+  label: string;
+  route?: "team";
+  boosts: Record<string, number>;
+};
+export type ExplorerQuestion = {
+  id: string;
+  question: string;
+  options: ExplorerOption[];
+};
 
 export const LANDING = {
   enrollHref: "/enroll",
   auditHref: "/audit",
-  contactMailto: "mailto:bryan.h@bryancassady.com?subject=SPARKS%20for%20teams",
+  loginHref: "/login",
+  contactMailto: "mailto:bryan@bryancassady.com?subject=SPARKS%20for%20teams",
 
   header: {
     brand: "Make AI Your Muse",
     nav: [
-      { label: "How it works", href: "#shift" },
+      { label: "Proof", href: "#proof" },
       { label: "Curriculum", href: "#curriculum" },
       { label: "Pricing", href: "#pricing" },
       { label: "For teams", href: "#teams" },
-      { label: "Contact", href: "#contact" },
     ],
   },
 
   hero: {
     eyebrow: "A 10-day course. 10 minutes a day.",
     // The word wrapped in *asterisks* gets the red underline treatment.
-    headline: "Sharper thinking. Better outputs. Decisions you'd *defend*.",
-    sub: "Most people use AI like a search engine and get average answers back. SPARKS is a daily practice that changes how you work with AI, built from the methods used inside 200+ organizations.",
+    headline: "The only AI course that *proves* it worked.",
+    sub: "Every participant is scored before the course and after it. Most AI training asks you to trust it. SPARKS shows you the numbers, built from the methods used inside 200+ organizations.",
     trust: "By Bryan Cassady. Bestselling author. 40,000+ leaders trained.",
+    chip: { before: 38, after: 71, label: "median move, past cohorts (sample data)" },
+    nps: { score: 80, label: "NPS across two beta cohorts" },
   },
 
-  stats: [
-    { value: 10.3, prefix: "$", decimals: 1, label: "returned per $1 spent on AI by high performers. Everyone else: no measurable impact.", sub: "range $3.70 to $10.30" },
-    { value: 45, suffix: "%", decimals: 0, label: "performance lift AI gives technical experts. The gap comes from thinking, not tools.", sub: "vs 20% for general staff" },
-    { value: 87, suffix: "%", decimals: 0, label: "better decisions when diverse perspectives are used. One prompt can build the panel.", sub: "covered on Day 7" },
-  ],
-
-  // Placeholder brand names. Replace with real logo <img> paths later.
-  brands: ["Ripple", "IKEA", "British Airways", "Brand four", "Brand five", "Brand six", "Brand seven", "Brand eight"],
-
-  shift: {
-    heading: "The tool was never the problem.",
-    before: {
-      tab: "Asking AI",
-      lines: [
-        "A knife brand asked AI for marketing ideas.",
-        "AI said: highlight your craftsmanship and heritage.",
-        "Every knife brand says this.",
-      ],
+  // ============================================================
+  // PROOF SECTION. Slope graph left, Bryan portrait video right.
+  // Hover any line for the tooltip. All numbers are PLACEHOLDER
+  // until real anonymized cohort data is dropped in.
+  // ============================================================
+  proof: {
+    kicker: "Measured, not promised",
+    heading: "The change, measured. The person behind it.",
+    sub: "The same assessment, run at the start of the course and at the end. Hover any line to see one participant's move. Sample data until the cleaned cohort numbers are in.",
+    facts: [
+      "Built on the research behind the course, roughly 90 academic studies on how AI training actually sticks.",
+      "Completely open. You can run the assessment yourself, free, before spending anything.",
+      "It scores how you actually use AI, read from your AI's own memory of you, not how you think you use it.",
+    ],
+    runItLabel: "Run it yourself, free \u2193",
+    runItHref: "#assessment",
+    axisLabels: { before: "Before", after: "After" },
+    participants: [
+      { id: "a", before: 38, after: 71, beforeLabel: "Fast Producer", afterLabel: "AI Steerer" },
+      { id: "b", before: 52, after: 83, beforeLabel: "Practical Operator", afterLabel: "AI Co-Builder" },
+      { id: "c", before: 24, after: 61, beforeLabel: "Fast Starter", afterLabel: "Practical Operator" },
+      { id: "d", before: 45, after: 78, beforeLabel: "Practical Operator", afterLabel: "AI Steerer" },
+      { id: "e", before: 31, after: 66, beforeLabel: "Fast Producer", afterLabel: "AI Steerer" },
+    ],
+    video: {
+      title: "A word from Bryan",
+      sub: "30 seconds on why this course is measured",
+      // Set to a real portrait mp4 when recorded. Empty = placeholder.
+      videoUrl: "",
     },
-    after: {
-      tab: "Steering AI",
-      lines: [
-        "Same brand. Same AI. Problem defined first, the obvious banned, one constraint added.",
-        "AI said: \u201cYou will throw away 11 phones before this knife needs sharpening.\u201d",
-        "Only that brand could say this.",
-      ],
-    },
-    prose: "Used as an oracle, AI makes you think less. Research puts the correlation between unstructured AI use and declining critical thinking at r = -0.68. Used as a muse, it makes you think better. SPARKS is the muse method: six behaviors, ten minutes a day.",
+  },
+
+  // Brands: if src is empty or the image fails to load, a text chip
+  // with the name renders instead, so the strip always scrolls.
+  brands: {
+    items: [
+      { name: "Ripple", src: "" },
+      { name: "IKEA", src: "" },
+      { name: "British Airways", src: "" },
+      { name: "Air France", src: "" },
+      { name: "Garnier", src: "" },
+      { name: "Kimberly-Clark", src: "" },
+      { name: "Luminus", src: "" },
+      { name: "Brand eight", src: "" },
+    ],
   },
 
   curriculum: {
     heading: "Ten days. One behavior at a time.",
     sub: "Four days of foundation, six days of the SPARKS practice. Every day ends with a real exercise on your real work.",
     days: [
-      { day: 1, label: "Muse, not oracle", letter: null, coreIdea: "AI only knows what you give it. Bring the problem, let AI pressure-test it, keep the decision. Define the bottleneck before you open the tool." },
-      { day: 2, label: "Human element", letter: null, coreIdea: "AI amplifies what you bring. Experts get a 45% lift, novices far less. Your domain knowledge is the multiplier, not a nice-to-have." },
-      { day: 3, label: "C.A.R. framework", letter: null, coreIdea: "Context, Action, Result. The structure that moves AI output from the most average idea in your category to one only you could say." },
-      { day: 4, label: "Think-less trap", letter: null, coreIdea: "Default AI is optimized to stop your thinking. Change your custom instructions once and every conversation after that changes." },
-      { day: 5, label: "Speak it out", letter: "S", coreIdea: "Writing filters ideas before they form. Speak for 90 seconds, unedited, then let AI find the argument already hiding in what you said." },
-      { day: 6, label: "Pivot roles", letter: "P", coreIdea: "Stop instructing AI to answer. Give it permission to interrogate you first. The answer to its question contains constraints you did not know you had." },
-      { day: 7, label: "Ask for more", letter: "A", coreIdea: "AI's first answer is its most average answer. Everything worth using is one or two follow-ups deeper." },
-      { day: 8, label: "Reframe", letter: "R", coreIdea: "Thinking harder inside the wrong frame gets you to the wrong place faster. Find the real problem hiding behind the one you were given." },
-      { day: 9, label: "Keep going", letter: "K", coreIdea: "Great ideas come after the obvious ones. Documented iteration is a skill. Undocumented iteration is luck." },
-      { day: 10, label: "Stop and think", letter: "S", coreIdea: "Strategic pauses produce measurable results: 40% more sales, 52% higher profits. The capstone is a structured application of all ten days." },
+      { day: 1, label: "Muse, not oracle", letter: null, stat: "$3.70 to $10.30 per $1", statLabel: "return for high performers", coreIdea: "AI only knows what you give it. Bring the problem, let AI pressure-test it, keep the decision. Define the bottleneck before you open the tool.", example: null },
+      { day: 2, label: "Human element", letter: null, stat: "45%", statLabel: "performance lift for experts", coreIdea: "AI amplifies what you bring. Experts get a 45% lift, novices far less. Your domain knowledge is the multiplier, not a nice-to-have.", example: null },
+      { day: 3, label: "C.A.R. framework", letter: null, stat: null, statLabel: null, coreIdea: "Context, Action, Result. The structure that moves AI output from the most average idea in your category to one only you could say.",
+        example: {
+          beforeTitle: "Asking",
+          before: "A knife brand asked AI for marketing ideas. AI said: highlight your craftsmanship and heritage. Every knife brand says this.",
+          afterTitle: "Steering",
+          after: "Same brand, same AI, problem defined first and the obvious banned. AI said: \u201cYou will throw away 11 phones before this knife needs sharpening.\u201d Only that brand could say this.",
+        } },
+      { day: 4, label: "Think-less trap", letter: null, stat: "r = -0.68", statLabel: "AI use vs critical thinking", coreIdea: "Default AI is optimized to stop your thinking. Change your custom instructions once and every conversation after that changes.", example: null },
+      { day: 5, label: "Speak it out", letter: "S", stat: "180 vs 40", statLabel: "words per minute, speech vs typing", coreIdea: "Writing filters ideas before they form. Speak for 90 seconds, unedited, then let AI find the argument already hiding in what you said.", example: null },
+      { day: 6, label: "Pivot roles", letter: "P", stat: null, statLabel: null, coreIdea: "Stop instructing AI to answer. Give it permission to interrogate you first. Its questions surface constraints you did not know you had.", example: null },
+      { day: 7, label: "Ask for more", letter: "A", stat: "15% better, 40% faster", statLabel: "from challenging the first answer", coreIdea: "AI's first answer is its most average answer. Everything worth using is one or two follow-ups deeper.", example: null },
+      { day: 8, label: "Reframe", letter: "R", stat: "26 levels", statLabel: "of problem depth in top teams", coreIdea: "Thinking harder inside the wrong frame gets you to the wrong place faster. Find the real problem hiding behind the one you were given.", example: null },
+      { day: 9, label: "Keep going", letter: "K", stat: "80%", statLabel: "of big ideas arrive on day two", coreIdea: "Great ideas come after the obvious ones. Documented iteration is a skill. Undocumented iteration is luck.", example: null },
+      { day: 10, label: "Stop and think", letter: "S", stat: "40% / 52%", statLabel: "more sales / higher profits from pauses", coreIdea: "Strategic pauses produce measurable results. The capstone is a structured application of all ten days.", example: null },
     ],
     capstone: { label: "Capstone", coreIdea: "Build a custom AI tool around one real challenge from your work. Reviewed, and it earns the certificate of mastery." },
   },
 
   // ============================================================
-  // IS THIS FOR ME. Fully config-driven.
-  // Q1 routes: any option with route "team" short-circuits to teamResult.
-  // Otherwise remaining questions show, and the result is picked from
-  // individualResults by the id of the LAST question's chosen option,
-  // with copy that can reference earlier answers.
-  // Add or edit questions and results freely; components adapt.
+  // WHAT YOU WALK AWAY WITH
   // ============================================================
-  fit: {
-    heading: "Is this for you?",
-    sub: "A few taps. Honest answer, no email needed.",
+  included: {
+    heading: "What you walk away with",
+    sub: "Not a certificate for showing up. A stack of things you keep using.",
+    items: [
+      { title: "10 daily lessons", desc: "Video, summary, and a real exercise. Ten minutes each." },
+      { title: "Advanced track", desc: "An optional deeper lesson on every single day." },
+      { title: "Capstone project", desc: "Your own AI tool, built on your real work, reviewed." },
+      { title: "Two verifiable certificates", desc: "Public verification links. Not fakeable." },
+      { title: "Bryan's personal guidance", desc: "Feedback and direction along the way." },
+      { title: "Daily rhythm, kept for you", desc: "Lesson emails plus reminders by email and WhatsApp." },
+      { title: "Resource library", desc: "NotebookLM notebooks, literature reviews, AI papers." },
+      { title: "Prompts, GPTs, templates", desc: "Everything used in the exercises is yours to keep." },
+      { title: "Bragging rights", desc: "A before and after score that proves the change." },
+    ],
+  },
+
+  // ============================================================
+  // RESOURCE EXPLORER
+  // Right panel shows only the matches by default; a toggle
+  // reveals the full catalogue.
+  // ============================================================
+  explorer: {
+    heading: "Where should you start?",
+    sub: "Three quick answers. We point you at the right thing.",
+    highlightCount: 3,
+    emptyHint: "Answer on the left and your matches appear here.",
+    showAllLabel: "Browse everything",
+    hideAllLabel: "Show only my matches",
     questions: [
       {
         id: "who",
-        question: "How are you planning to take this?",
+        question: "How are you planning to work with us?",
         options: [
-          { id: "solo", label: "Just me" },
-          { id: "team", label: "With my team", route: "team" },
+          { id: "solo", label: "Just me", boosts: { course: 3, gpts: 1, prompts: 1 } },
+          { id: "team", label: "With my team", route: "team", boosts: { live: 4, keynote: 2, miro: 1 } },
         ],
       },
       {
         id: "usage",
         question: "How would you describe your AI use today?",
         options: [
-          { id: "barely", label: "Barely use it" },
-          { id: "hitmiss", label: "Results are hit or miss" },
-          { id: "daily", label: "Daily, want an edge" },
+          { id: "barely", label: "Barely use it", boosts: { course: 2, toolkit: 1 } },
+          { id: "hitmiss", label: "Results are hit or miss", boosts: { course: 2, prompts: 2 } },
+          { id: "daily", label: "Daily, want an edge", boosts: { gpts: 2, pitch: 1, prompts: 1 } },
         ],
       },
       {
         id: "goal",
         question: "What would make this worth it?",
         options: [
-          { id: "ideas", label: "Better ideas" },
-          { id: "decisions", label: "Better decisions" },
-          { id: "time", label: "Less time wasted" },
-          { id: "relevance", label: "Staying relevant" },
+          { id: "ideas", label: "Better ideas", boosts: { course: 1, gpts: 2, miro: 1 } },
+          { id: "decisions", label: "Better decisions", boosts: { course: 2, pitch: 2 } },
+          { id: "time", label: "Less time wasted", boosts: { prompts: 2, toolkit: 2 } },
+          { id: "events", label: "Inspiring my org", boosts: { keynote: 3, live: 2 } },
         ],
       },
+    ] as ExplorerQuestion[],
+    reasons: {
+      course: "The 10-day practice is the foundation everything else builds on.",
+      live: "For teams, the live cohort is the same course with your people in the room.",
+      gpts: "29 ready-made GPTs for the jobs you already do.",
+      prompts: "50+ smart prompts that run the method for you.",
+      pitch: "Get a structured, honest review before the real audience sees it.",
+      toolkit: "256 vetted AI tools, organized by what they are actually for.",
+      miro: "AI-enabled Miro templates for workshops and team sessions.",
+      keynote: "Bryan on stage, with a live audience assessment built in.",
+      events: "Talks, workshops, and materials from past events.",
+    } as Record<string, string>,
+    resources: [
+      { id: "course", title: "The 10-day course", desc: "Self-paced, 10 minutes a day", href: "/enroll", tag: "Course" },
+      { id: "live", title: "Live cohort for teams", desc: "Facilitated, organizations only", href: "#teams", tag: "Teams" },
+      { id: "gpts", title: "29 custom GPTs", desc: "Purpose-built assistants", href: "#", tag: "Tools" },
+      { id: "prompts", title: "50+ smart prompts", desc: "Auto-run, guided prompts", href: "#", tag: "Tools" },
+      { id: "pitch", title: "Pitch review tool", desc: "Structured feedback on your pitch", href: "#", tag: "Tools" },
+      { id: "toolkit", title: "AI Innovation Toolkit", desc: "256 AI tools, curated", href: "#", tag: "Library" },
+      { id: "miro", title: "Miro templates", desc: "AI-enabled workshop boards", href: "#", tag: "Teams" },
+      { id: "keynote", title: "Bryan as keynote speaker", desc: "Talks with live assessment", href: "#teams", tag: "Teams" },
+      { id: "events", title: "Past event resources", desc: "Recordings and materials", href: "#", tag: "Library" },
     ],
-    // Keyed by the chosen option id of the "goal" question.
-    individualResults: {
-      ideas: {
-        verdict: "Yes, with one caveat",
-        headline: "Average ideas are a structure problem, and structure is teachable.",
-        body: "High performers return $3.70 to $10.30 per $1 spent on AI. The difference is never the tool. If better ideas are the goal, three days do most of that work:",
-        dayCards: [
-          { day: 3, text: "C.A.R.: from generic output to ideas only you could say." },
-          { day: 7, text: "Push past the first answer, where the average lives." },
-          { day: 8, text: "Reframe the question that limits every answer." },
-        ],
-        caveat: "The caveat: this only works if you do the ten minutes. It is a practice, not a reference library.",
-      },
-      decisions: {
-        verdict: "Yes, with one caveat",
-        headline: "Hit or miss is not a you problem. It is a sequencing problem.",
-        body: "The gap between people who get value from AI and people who don't comes down to whether the problem was defined before the tool was opened. For decisions specifically:",
-        dayCards: [
-          { day: 1, text: "Define the bottleneck before you open the tool." },
-          { day: 8, text: "Find the real problem hiding behind the one you were given." },
-          { day: 10, text: "Stop and think. Verify before you commit." },
-        ],
-        caveat: "The caveat: this only works if you do the ten minutes. It is a practice, not a reference library.",
-      },
-      time: {
-        verdict: "Yes, with one caveat",
-        headline: "You are not slow. Your iteration loop is undocumented.",
-        body: "Pushing past AI's first answer produces 15% better output in 40% less time. The habit takes days, not months, to build:",
-        dayCards: [
-          { day: 4, text: "Fix your default instructions once, benefit every day." },
-          { day: 7, text: "Better follow-ups beat better prompts." },
-          { day: 9, text: "A change log so you never start from zero again." },
-        ],
-        caveat: "The caveat: this only works if you do the ten minutes. It is a practice, not a reference library.",
-      },
-      relevance: {
-        verdict: "Yes, with one caveat",
-        headline: "Your expertise is not obsolete. It is the multiplier.",
-        body: "When AI writes and you just read, you forget 83% of it. The people staying relevant are not the fastest prompters, they are the deepest thinkers:",
-        dayCards: [
-          { day: 2, text: "Why your knowledge is worth more with AI, not less." },
-          { day: 6, text: "Capture what you know before it walks out the door." },
-          { day: 9, text: "Track your own progress and keep compounding." },
-        ],
-        caveat: "The caveat: this only works if you do the ten minutes. It is a practice, not a reference library.",
-      },
-    },
-    teamResult: {
-      verdict: "Then you want the live version",
-      headline: "Same ten days, run as a facilitated cohort with your team in the room.",
-      body: "The exercises work better with colleagues, because you are all bringing real problems from the same organization. Delivered live by Bryan, with group work, discussion, and direct access throughout. Available to teams and organizations only, not to individuals.",
-      facts: [
-        { label: "Format", value: "Live cohort, Zoom" },
-        { label: "Led by", value: "Bryan, in person" },
-        { label: "Delivered inside", value: "200+ organizations" },
-      ],
-      bailout: "Taking it on your own instead? The self-paced course starts whenever you do.",
-    },
+    teamNote: "Team answers point to the live formats. The live cohort and keynotes are for organizations only.",
   },
 
-  // ============================================================
-  // TESTIMONIALS. Dummy entries; replace with real cleaned ones.
-  // type: "text" renders a quote card. type: "video" renders a
-  // portrait card with a play affordance; set videoUrl when ready.
-  // ============================================================
   testimonials: {
     heading: "From past participants",
     sub: "Two cohorts in. Here is what they said.",
     items: [
       { type: "text", name: "Frederic M.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
-      { type: "video", name: "Participant name", role: "Video testimonial", videoUrl: "", quote: "Short pull-quote overlay for the video card." },
       { type: "text", name: "Jay N.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
-      { type: "video", name: "Participant name", role: "Video testimonial", videoUrl: "", quote: "Short pull-quote overlay for the video card." },
       { type: "text", name: "Hannah B.", role: "Participant, video cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the second cohort wave." },
+      { type: "text", name: "Marcus T.", role: "Participant, video cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the second cohort wave." },
+      { type: "text", name: "Priya K.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
     ],
   },
 
@@ -198,38 +217,76 @@ export const LANDING = {
     kicker: "AI collaboration assessment",
     heading: "How do you actually use AI?",
     sub: "Copy the assessment prompt into your AI tool. It is anonymous, runs in your own chat, and if your AI has memory enabled it scores how you really work, not how you think you work. Takes 5 to 10 minutes.",
-    afterCopyHeading: "While it runs: see how past participants moved",
-    afterCopyBody: "The same assessment, taken before and after the course. Replace these with real anonymized results.",
-    examples: [
-      { label: "Participant A", before: 38, beforeLabel: "Fast Producer", after: 71, afterLabel: "AI Steerer" },
-      { label: "Participant B", before: 52, beforeLabel: "Practical Operator", after: 83, afterLabel: "AI Co-Builder" },
-      { label: "Participant C", before: 24, beforeLabel: "Fast Starter", after: 61, afterLabel: "Practical Operator" },
-    ],
+    afterCopyNote: "Copied. Paste it into a new chat. Your profile will look like the sample on the right, then compare your move with the cohort lines above.",
+    sample: {
+      caption: "Sample output",
+      score: 71,
+      profile: "AI Steerer",
+      pair: "Depth Seeker \u2192 Judgment Designer",
+      bars: [
+        { label: "Speak it out", value: 8 },
+        { label: "Pivot roles", value: 5 },
+        { label: "Ask for more", value: 8 },
+        { label: "Reframe", value: 5 },
+        { label: "Keep going", value: 8 },
+        { label: "Stop and think", value: 3 },
+      ],
+    },
   },
 
   bio: {
     heading: "The person behind SPARKS",
-    // First-person scaffold. Bryan rewrites in his own voice.
     paragraphs: [
-      "I'm Bryan Cassady. I've spent the last two decades teaching innovation to leaders, 40,000 of them so far, across 200+ organizations in 32 countries. I wrote the bestselling books CYCLES and The Generative Organization.",
-      "SPARKS exists because I kept watching smart people get average results from AI. The tools were never the problem. The thinking before the tool was. This course is ten days of fixing exactly that.",
+      "I'm Bryan Cassady. Two decades teaching innovation to leaders, 40,000 of them, across 200+ organizations in 32 countries. Author of the bestselling CYCLES and The Generative Organization.",
+      "SPARKS exists because I kept watching smart people get average results from AI. The tools were never the problem. The thinking before the tool was.",
     ],
+    audio: {
+      label: "A hello from Bryan",
+      duration: "Sample audio",
+      // PLACEHOLDER: royalty-free sample track (SoundHelix demo music).
+      // Replace with Bryan's real recorded hello when available.
+      src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    },
+  },
+
+  pricingFaq: {
+    heading: "Choose the way SPARKS fits.",
+    sub: "Start with the individual 10-day course, or bring the measured program to a company cohort.",
   },
 
   pricing: {
+    individualLabel: "For individuals",
     heading: "The 10-day course",
     basePrice: 195,
     salePrice: 147, // set to null to show basePrice plain
     currency: "$",
     priceNote: "Launch pricing",
+    cta: "Enroll in the course",
+    previewCta: "Preview Day 1",
     includes: [
-      "10 daily lessons, video plus summary plus exercise, 10 minutes each",
-      "Advanced track on every day for going deeper",
-      "The prompts, templates, and GPTs used in every exercise",
-      "Capstone: build your own AI tool, reviewed",
-      "Certificates of completion and mastery, publicly verifiable",
+      "All 10 lessons plus the advanced track",
+      "Capstone, reviewed, with both certificates",
+      "Every prompt, GPT, and template used inside",
+      "Daily emails and WhatsApp reminders",
       "Lifetime access",
     ],
+    reassurance: "Preview Day 1 free before you decide.",
+    company: {
+      label: "For companies",
+      heading: "Team cohort",
+      price: "Custom",
+      priceNote: "Company pricing",
+      body: "Run SPARKS with a team as a facilitated cohort, with shared practice, discussion, and a clearer view of behavior change across the group.",
+      includes: [
+        "Live or blended cohort format",
+        "Baseline and follow-up assessment flow",
+        "Team exercises built around real work",
+        "Cohort-level findings and next-step recommendations",
+        "Direct planning with Bryan's team",
+      ],
+      cta: "Discuss company pricing",
+      note: "Best for HR, L&D, transformation, and leadership teams.",
+    },
   },
 
   enterprise: {
@@ -241,26 +298,31 @@ export const LANDING = {
 
   contact: {
     heading: "Get in touch",
-    sub: "Questions about the course, enrollment, or anything else. Send a message and Bryan's team will reply directly to your email.",
+    sub: "Questions before enrolling, team inquiries, or anything else.",
     namePlaceholder: "Your name",
-    emailPlaceholder: "you@company.com",
-    messagePlaceholder: "What's on your mind?",
+    emailPlaceholder: "Your email",
+    messagePlaceholder: "What can we help with?",
     submitLabel: "Send message",
     successHeading: "Message sent",
-    successBody: "Thanks for reaching out. You will hear back at the email you provided.",
-    errorFallback: "Something went wrong. Try again.",
+    successBody: "We read everything. You will hear back within two working days.",
+    errorFallback: "Something went wrong. Try again, or email us directly.",
+    directHeading: "Prefer email?",
+    siteLabel: "sparks-v.bryancassady.com",
+    siteHref: "https://sparks-v.bryancassady.com/",
+    emails: [
+      { label: "Technical questions", address: "Hari@bryancassady.com" },
+      { label: "Content questions", address: "Bryan@bryancassady.com" },
+    ],
   },
 
   faq: {
-    heading: "Questions",
     items: [
       { q: "How is the course delivered?", a: "Self-paced, in your browser. One lesson a day for ten days, each built around a short video, a summary, and an exercise you run on your own work. About ten minutes a day." },
       { q: "Do I need a technical background?", a: "No. You need a free account on any major AI tool. The methods are about thinking, not engineering." },
       { q: "Which AI tools does it work with?", a: "ChatGPT, Claude, and Gemini all work. The methods are tool-agnostic, and every exercise includes one-click links for each." },
       { q: "Can I see the course before buying?", a: "Yes. Day 1 is fully open in the course preview, video, exercise, and prompt included. No signup needed." },
-      { q: "What is the SPARKS framework?", a: "SPARKS is a six-behavior method for working with AI, created by Bryan Cassady: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, and Stop and think. Days 1 to 4 of the course build the foundation, days 5 to 10 practice one behavior each." },
+      { q: "What is the SPARKS framework?", a: "SPARKS is a six-behavior method for working with AI, created by Bryan Cassady: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, and Stop and think. Days 1 to 4 build the foundation, days 5 to 10 practice one behavior each." },
       { q: "What is the capstone?", a: "A custom AI tool you build around one real challenge from your own work, using everything from the ten days. Submitting it earns the certificate of mastery." },
-      { q: "Are the certificates verifiable?", a: "Yes. Both certificates carry a public verification link that anyone can check." },
       { q: "What if I miss a day?", a: "Catch up anytime. You have lifetime access, and the course keeps your place." },
       { q: "Is there a version for teams?", a: "Yes. The live version runs as facilitated cohorts for teams and organizations. It is not available to individuals." },
       { q: "What is the refund policy?", a: "Placeholder. Write the real policy before launch." },
@@ -270,6 +332,7 @@ export const LANDING = {
   finalCta: {
     heading: "Ten minutes a day. Ten days.",
     sub: "The tool doesn't change. You do.",
+    ps: "Still deciding? Day 1 is fully open. Watch it, run the exercise, then come back.",
   },
 
   footer: {
@@ -277,7 +340,7 @@ export const LANDING = {
     links: [
       { label: "Preview the course", href: "/audit" },
       { label: "Enroll", href: "/enroll" },
-      { label: "Contact", href: "mailto:bryan.h@bryancassady.com" },
+      { label: "Contact", href: "#contact" },
     ],
   },
 };

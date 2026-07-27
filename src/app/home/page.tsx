@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces } from "next/font/google";
+import { Fraunces, Geist } from "next/font/google";
+import { LANDING } from "@/lib/landing-config";
 import { LandingView } from "./landing-view";
 
+// Fraunces: wide, warm serif. Replaces Instrument Serif, which is a
+// condensed face and read as horizontally squished at display sizes.
+// If this still is not right, the next candidate is Newsreader.
 const fraunces = Fraunces({
   subsets: ["latin"],
   weight: ["400", "500"],
@@ -9,15 +13,21 @@ const fraunces = Fraunces({
   display: "swap",
 });
 
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Make AI Your Muse in 10 Days | SPARKS by Bryan Cassady",
   description:
-    "A 10-day AI course for professionals. Ten minutes a day, one behavior at a time, built on the SPARKS framework by Bryan Cassady. Preview Day 1 free, no signup.",
+    "The only AI course that scores you before and after. Ten minutes a day for ten days, built on the SPARKS framework by Bryan Cassady. Preview Day 1 free, no signup.",
   alternates: { canonical: "/home" },
   openGraph: {
-    title: "Make AI Your Muse in 10 Days",
+    title: "The only AI course that proves it worked",
     description:
-      "Sharper thinking. Better outputs. Decisions you'd defend. A 10-day daily AI practice by Bryan Cassady.",
+      "Scored before. Scored after. A 10-day daily AI practice by Bryan Cassady.",
     type: "website",
   },
 };
@@ -27,11 +37,11 @@ const courseJsonLd = {
   "@type": "Course",
   name: "Make AI Your Muse in 10 Days",
   description:
-    "A 10-day self-paced AI course built on the SPARKS framework: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, Stop and think. Ten minutes a day with a real exercise on your own work.",
+    "A 10-day self-paced AI course built on the SPARKS framework: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, Stop and think. Every participant is assessed before and after the course.",
   provider: { "@type": "Person", name: "Bryan Cassady" },
   offers: {
     "@type": "Offer",
-    price: "195",
+    price: String(LANDING.pricing.salePrice ?? LANDING.pricing.basePrice),
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
   },
@@ -75,7 +85,7 @@ const faqJsonLd = {
 
 export default function HomePage() {
   return (
-    <div className={fraunces.variable}>
+    <div className={fraunces.variable + " " + geist.variable}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <LandingView />

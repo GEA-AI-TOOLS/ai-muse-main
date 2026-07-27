@@ -132,3 +132,13 @@
     font-size: 112.5%;
   }
 }
+
+
+/* Landing page renders at a 16px rem baseline. The global
+   html{font-size:112.5%} inflates rem units for the course app;
+   counter-scale only the landing subtree so course routes are
+   untouched. */
+.landing-fullbleed {
+  font-size: 88.888%; /* 16 / 18, cancels the global 112.5% for em-based sizing */
+  max-width: none;
+}
