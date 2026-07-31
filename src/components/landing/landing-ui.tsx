@@ -34,20 +34,6 @@ import SideRays from "./side-rays";
 // fallback that already looks like a frozen frame of the shader means there
 // is no visible "pop" moment: the placeholder already reads as the hero, and
 // the real canvas just starts moving once it's ready.
-function SilkFallback() {
-  return (
-    <div
-      aria-hidden="true"
-      className="absolute inset-0"
-      style={{
-        background: "linear-gradient(115deg, #ff2121 0%, #C81E3A 22%, #7A2320 50%, #C81E3A 78%, #ff2121 100%)",
-      }}
-    />
-  );
-}
-
-const Silk = dynamic(() => import("./silk"), { ssr: false, loading: SilkFallback });
-
 // ---------- hydration-safe reduced motion ----------
 
 export function useSafeReducedMotion(): boolean {
