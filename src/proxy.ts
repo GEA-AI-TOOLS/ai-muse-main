@@ -20,6 +20,7 @@ const PUBLIC_PATHS = [
   "/home",
   "/audit",
   "/mux-test",
+  "/under-construction",
 ];
 
 export async function proxy(req: NextRequest) {
