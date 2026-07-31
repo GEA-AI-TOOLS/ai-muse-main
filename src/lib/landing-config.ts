@@ -19,8 +19,30 @@ export type ExplorerQuestion = {
   options: ExplorerOption[];
 };
 
+// Proof section. Explicit types so the mixed-shape summary array and the
+// chart data never break per-array inference.
+export type ProofSummaryItem = {
+  from: number | null; // null renders a single figure instead of a before/after pair
+  to: number;
+  prefix?: string;
+  suffix?: string;
+  label: string;
+};
+export type ProofBand = {
+  range: string;
+  before: number;
+  after: number;
+  highlight?: boolean;
+};
+export type ProofParticipant = {
+  id: number;
+  before: number;
+  after: number;
+};
+
 export const LANDING = {
   enrollHref: "/enroll",
+  liveCohortHref: "/enroll",
   auditHref: "/audit",
   loginHref: "/login",
   contactMailto: "mailto:bryan@bryancassady.com?subject=SPARKS%20for%20teams",
@@ -31,7 +53,7 @@ export const LANDING = {
       { label: "Proof", href: "#proof" },
       { label: "Curriculum", href: "#curriculum" },
       { label: "Pricing", href: "#pricing" },
-      { label: "For teams", href: "#teams" },
+      { label: "For teams", href: "#pricing" },
     ],
   },
 
@@ -41,8 +63,9 @@ export const LANDING = {
     headline: "The only AI course that *proves* it worked.",
     sub: "Every participant is scored before the course and after it. Most AI training asks you to trust it. SPARKS shows you the numbers, built from the methods used inside 200+ organizations.",
     trust: "By Bryan Cassady. Bestselling author. 40,000+ leaders trained.",
-    chip: { before: 38, after: 71, label: "median move, past cohorts (sample data)" },
+    chip: { before: 38, after: 71, label: "Real AI usage, scored before and after (sample data)" },
     nps: { score: 80, label: "NPS across two beta cohorts" },
+    testAssessment: { heading: "Test your AI usage, free", sub: "Takes 5 to 10 minutes" },
   },
 
   // ============================================================
@@ -50,36 +73,104 @@ export const LANDING = {
   // Hover any line for the tooltip. All numbers are PLACEHOLDER
   // until real anonymized cohort data is dropped in.
   // ============================================================
+  // Cohort figures below are from the 24-participant assessment set.
+  // NOTE: distribution.bands "Below 50" (29%) and "50 to 69" (46%) came in as
+  // supplied numbers and do not match the 24-row participant table, which works
+  // out to 37.5% / 37.5% / 25%. The 25% and 96% figures do match. Confirm which
+  // cohort the distribution percentages describe before this goes live.
   proof: {
     kicker: "Measured, not promised",
-    heading: "The change, measured. The person behind it.",
-    sub: "The same assessment, run at the start of the course and at the end. Hover any line to see one participant's move. Sample data until the cleaned cohort numbers are in.",
-    facts: [
-      "Built on the research behind the course, roughly 90 academic studies on how AI training actually sticks.",
-      "Completely open. You can run the assessment yourself, free, before spending anything.",
-      "It scores how you actually use AI, read from your AI's own memory of you, not how you think you use it.",
-    ],
-    runItLabel: "Run it yourself, free \u2193",
-    runItHref: "#assessment",
-    axisLabels: { before: "Before", after: "After" },
-    participants: [
-      { id: "a", before: 38, after: 71, beforeLabel: "Fast Producer", afterLabel: "AI Steerer" },
-      { id: "b", before: 52, after: 83, beforeLabel: "Practical Operator", afterLabel: "AI Co-Builder" },
-      { id: "c", before: 24, after: 61, beforeLabel: "Fast Starter", afterLabel: "Practical Operator" },
-      { id: "d", before: 45, after: 78, beforeLabel: "Practical Operator", afterLabel: "AI Steerer" },
-      { id: "e", before: 31, after: 66, beforeLabel: "Fast Producer", afterLabel: "AI Steerer" },
-    ],
+    heading: "The change, measured.",
+    sub: "The same assessment is completed before and after the course. Explore the results and see how individual participants changed.",
+
+    summary: {
+      items: [
+        { from: 25, to: 96, suffix: "%", label: "Participants scoring 70 or higher" },
+        { from: 57, to: 81, label: "Average assessment score" },
+        { from: null, to: 24, prefix: "+", suffix: " points", label: "Average improvement" },
+      ] as ProofSummaryItem[],
+      note: "70 represents a top 20th percentile result.",
+    },
+
+    distribution: {
+      title: "Where participants moved",
+      caption: "The proportion reaching top-20% performance increased from 25% to 96%.",
+      beforeLabel: "Before",
+      afterLabel: "After",
+      bands: [
+        { range: "Below 50", before: 29, after: 0 },
+        { range: "50 to 69", before: 46, after: 4 },
+        { range: "70+", before: 25, after: 96, highlight: true },
+      ] as ProofBand[],
+    },
+
+    journeys: {
+      title: "Every participant's journey",
+      caption: "19 of 24 participants improved their assessment score.",
+      // A move of 3 points or less either way is treated as no meaningful
+      // change, which is why 3 small declines are not counted as declines.
+      // This threshold is stated on the page so the count is inspectable.
+      meaningfulThreshold: 3,
+      thresholdNote: "Moves of 3 points or less either way are counted as no meaningful change.",
+      benchmark: 70,
+      benchmarkLabel: "70 = Top 20%",
+      axisLabels: { before: "Before", after: "After" },
+      legend: { improved: "Improved", flat: "No meaningful change", declined: "Declined" },
+      participants: [
+        { id: 1, before: 28, after: 71 },
+        { id: 2, before: 32, after: 73 },
+        { id: 3, before: 41, after: 77 },
+        { id: 4, before: 53, after: 76 },
+        { id: 5, before: 54, after: 71 },
+        { id: 6, before: 61, after: 68 },
+        { id: 7, before: 57, after: 86 },
+        { id: 8, before: 76, after: 73 },
+        { id: 9, before: 35, after: 74 },
+        { id: 10, before: 38, after: 77 },
+        { id: 11, before: 43, after: 79 },
+        { id: 12, before: 46, after: 80 },
+        { id: 13, before: 48, after: 82 },
+        { id: 14, before: 42, after: 83 },
+        { id: 15, before: 52, after: 84 },
+        { id: 16, before: 55, after: 85 },
+        { id: 17, before: 57, after: 86 },
+        { id: 18, before: 71, after: 87 },
+        { id: 19, before: 62, after: 90 },
+        { id: 20, before: 82, after: 85 },
+        { id: 21, before: 60, after: 90 },
+        { id: 22, before: 88, after: 79 },
+        { id: 23, before: 86, after: 89 },
+        { id: 24, before: 91, after: 88 },
+      ] as ProofParticipant[],
+    },
+
     video: {
-      title: "A word from Bryan",
-      sub: "30 seconds on why this course is measured",
-      // Set to a real portrait mp4 when recorded. Empty = placeholder.
-      videoUrl: "",
+      title: "See it in 30 seconds",
+      caption: "A short explanation of why the course is assessed before and after.",
+      duration: "0:30",
+      // Public, unsigned Mux playback ID. Empty = placeholder.
+      muxPlaybackId: "P01Se8wzGI8cK6dalce8dHUt1gRjJZKW3gJceGZknpDo",
+      // Frame (in seconds) pulled from Mux for the custom thumbnail.
+      thumbnailTime: 2,
+    },
+
+    trust: {
+      heading: "Built on research. Open to inspection.",
+      points: [
+        "Informed by approximately 90 academic studies on effective AI training.",
+        "The assessment is free to complete before purchasing anything.",
+        "It measures how participants use AI, not only how capable they believe they are.",
+      ],
+      ctaLabel: "Run the assessment, free",
+      ctaHref: "#assessment",
+      ctaNote: "Takes less than five minutes.",
     },
   },
 
   // Brands: if src is empty or the image fails to load, a text chip
   // with the name renders instead, so the strip always scrolls.
   brands: {
+    heading: "Trusted by leaders at",
     items: [
       { name: "Ripple", src: "" },
       { name: "IKEA", src: "" },
@@ -88,7 +179,6 @@ export const LANDING = {
       { name: "Garnier", src: "" },
       { name: "Kimberly-Clark", src: "" },
       { name: "Luminus", src: "" },
-      { name: "Brand eight", src: "" },
     ],
   },
 
@@ -189,13 +279,13 @@ export const LANDING = {
     } as Record<string, string>,
     resources: [
       { id: "course", title: "The 10-day course", desc: "Self-paced, 10 minutes a day", href: "/enroll", tag: "Course" },
-      { id: "live", title: "Live cohort for teams", desc: "Facilitated, organizations only", href: "#teams", tag: "Teams" },
+      { id: "live", title: "Live cohort for teams", desc: "Facilitated, organizations only", href: "#pricing", tag: "Teams" },
       { id: "gpts", title: "29 custom GPTs", desc: "Purpose-built assistants", href: "#", tag: "Tools" },
       { id: "prompts", title: "50+ smart prompts", desc: "Auto-run, guided prompts", href: "#", tag: "Tools" },
       { id: "pitch", title: "Pitch review tool", desc: "Structured feedback on your pitch", href: "#", tag: "Tools" },
       { id: "toolkit", title: "AI Innovation Toolkit", desc: "256 AI tools, curated", href: "#", tag: "Library" },
       { id: "miro", title: "Miro templates", desc: "AI-enabled workshop boards", href: "#", tag: "Teams" },
-      { id: "keynote", title: "Bryan as keynote speaker", desc: "Talks with live assessment", href: "#teams", tag: "Teams" },
+      { id: "keynote", title: "Bryan as keynote speaker", desc: "Talks with live assessment", href: "#pricing", tag: "Teams" },
       { id: "events", title: "Past event resources", desc: "Recordings and materials", href: "#", tag: "Library" },
     ],
     teamNote: "Team answers point to the live formats. The live cohort and keynotes are for organizations only.",
@@ -203,13 +293,43 @@ export const LANDING = {
 
   testimonials: {
     heading: "From past participants",
-    sub: "Two cohorts in. Here is what they said.",
-    items: [
-      { type: "text", name: "Frederic M.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
-      { type: "text", name: "Jay N.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
-      { type: "text", name: "Hannah B.", role: "Participant, video cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the second cohort wave." },
-      { type: "text", name: "Marcus T.", role: "Participant, video cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the second cohort wave." },
-      { type: "text", name: "Priya K.", role: "Participant, live cohort", quote: "Placeholder quote. Replace with the cleaned testimonial text from the first cohort wave." },
+    sub: "Two cohorts in. Sample quotes below while the cleaned testimonial set is finalized.",
+items: [
+      {
+        type: "text",
+        name: "Giovanni Alvarado",
+        role: "RACSA",
+        quote:
+          "SPARKS completely transforms how you work with AI. It’s not just about getting answers. It’s a structured framework that amplifies your own expertise and builds a true collaborative partnership.",
+      },
+      {
+        type: "text",
+        name: "Ian Koh",
+        role: "Experienced AI user",
+        quote:
+          "This course is excellent, even for someone who has been using AI for quite a while. I was skeptical at first, but I was blown away by what I learned. Highly recommended.",
+      },
+      {
+        type: "text",
+        name: "Adrian Phang",
+        role: "Participant · Live cohort",
+        quote:
+          "As a novice AI user, I learned to use AI as a thinking partner. It challenged me to become clearer in my messaging, and the quality of the output improved with the clarity of my instructions.",
+      },
+      {
+        type: "text",
+        name: "Roland Geyer",
+        role: "Onyx Enterprises GmbH",
+        quote:
+          "SPARKS does much more than introduce AI tools. It changes how you work with AI. The daily exercises apply directly to your own tasks, making the time immediately useful and helping the learning stick.",
+      },
+      {
+        type: "text",
+        name: "Ricardo Barbosa",
+        role: "CENIT",
+        quote:
+          "The most important change was rewriting my AI instructions. It radically changed every interaction, and the outcomes became genuinely impressive.",
+      },
     ],
   },
 
@@ -250,42 +370,87 @@ export const LANDING = {
   },
 
   pricingFaq: {
-    heading: "Choose the way SPARKS fits.",
-    sub: "Start with the individual 10-day course, or bring the measured program to a company cohort.",
+    heading: "Choose how you build better AI habits.",
+    sub: "A practical 10-day program that changes how you think and work with AI. Learn independently, practise live with Bryan, or bring a measured cohort program to your organization.",
   },
 
+  // Company starting price, live cohort date, and the money-back guarantee
+  // row are placeholders pending confirmation from Bryan's fact sheet.
+  // Do not treat as final; confirm before this goes live to real traffic.
   pricing: {
-    individualLabel: "For individuals",
-    heading: "The 10-day course",
-    basePrice: 195,
-    salePrice: 147, // set to null to show basePrice plain
-    currency: "$",
-    priceNote: "Launch pricing",
-    cta: "Enroll in the course",
-    previewCta: "Preview Day 1",
-    includes: [
-      "All 10 lessons plus the advanced track",
-      "Capstone, reviewed, with both certificates",
-      "Every prompt, GPT, and template used inside",
-      "Daily emails and WhatsApp reminders",
-      "Lifetime access",
-    ],
-    reassurance: "Preview Day 1 free before you decide.",
-    company: {
-      label: "For companies",
-      heading: "Team cohort",
-      price: "Custom",
-      priceNote: "Company pricing",
-      body: "Run SPARKS with a team as a facilitated cohort, with shared practice, discussion, and a clearer view of behavior change across the group.",
+    selfPaced: {
+      kicker: "Self-paced · Video course",
+      heading: "The 10-Day Course",
+      basePrice: 195,
+      salePrice: 147, // set to null to show basePrice plain
+      currency: "$",
+      priceNote: "launch price",
+      afterLaunchNote: "After launch $195",
+      body: "Build the six SPARKS behaviors at your own pace.",
       includes: [
-        "Live or blended cohort format",
-        "Baseline and follow-up assessment flow",
-        "Team exercises built around real work",
-        "Cohort-level findings and next-step recommendations",
-        "Direct planning with Bryan's team",
+        "10 practical lessons",
+        "Advanced track",
+        "One exercise each day",
+        "Every prompt, GPT, and template used in the course",
+        "Capstone review and certificates",
+        "Lifetime access",
       ],
-      cta: "Discuss company pricing",
-      note: "Best for HR, L&D, transformation, and leadership teams.",
+      time: "10 minutes a day",
+      cta: "Enroll in the course",
+    },
+    liveCohort: {
+      badge: "Best results",
+      kicker: "Live cohort",
+      heading: "The Live Cohort",
+      price: 1095,
+      currency: "$",
+      priceUnit: "per person",
+      body: "Everything in the self-paced course, plus live practice, feedback, and accountability with Bryan.",
+      includes: [
+        "Live sessions with Bryan",
+        "Real-time application and group discussion",
+        "Feedback on exercises and capstone",
+        "All course materials, prompts, GPTs, and templates",
+        "Certificates and lifetime access",
+      ],
+      time: "30 minutes a day for 10 days",
+      cohortDate: "Next cohort: Sept 7 to 18", // placeholder, confirm real date/seats before launch
+      cta: "Join the next cohort",
+    },
+    company: {
+      kicker: "Company program",
+      tagline: "Disciplined AI for teams",
+      heading: "Company Cohort",
+      priceFrom: 12500, // placeholder, confirm starting price before launch
+      currency: "$",
+      priceNote: "Programs from",
+      body: "A measured program built around your team's real work.",
+      includes: [
+        "Baseline AI-usage assessment",
+        "Live or self-paced cohort delivery",
+        "Exercises grounded in current company work",
+        "Content shaped around priority use cases and risks",
+        "Follow-up assessment",
+        "Cohort-level findings",
+        "Leadership debrief and next-step recommendations",
+        "Direct program planning with Bryan's team",
+      ],
+      time: "Live delivery is 30 minutes a day for 10 days",
+      cta: "Design your company cohort",
+    },
+    previewCta: "Free course preview",
+    comparison: {
+      columns: ["Self-paced", "Live", "Company"],
+      // Money-back guarantee row is a placeholder pending confirmation of real terms.
+      rows: [
+        { label: "Daily time", values: ["10 min", "30 min", "30 min live"] },
+        { label: "Live guidance", values: ["No", "Yes", "Optional"] },
+        { label: "Individual feedback", values: ["Capstone", "Live + capstone", "Program-dependent"] },
+        { label: "Assessment", values: ["Individual", "Individual", "Baseline + follow-up"] },
+        { label: "Money-back guarantee", values: ["Yes", "Yes", "Yes"] },
+        { label: "Uses real company work", values: ["Participant choice", "Participant choice", "Yes"] },
+        { label: "Leadership report", values: ["No", "No", "Yes"] },
+      ],
     },
   },
 
@@ -306,13 +471,6 @@ export const LANDING = {
     successHeading: "Message sent",
     successBody: "We read everything. You will hear back within two working days.",
     errorFallback: "Something went wrong. Try again, or email us directly.",
-    directHeading: "Prefer email?",
-    siteLabel: "sparks-v.bryancassady.com",
-    siteHref: "https://sparks-v.bryancassady.com/",
-    emails: [
-      { label: "Technical questions", address: "Hari@bryancassady.com" },
-      { label: "Content questions", address: "Bryan@bryancassady.com" },
-    ],
   },
 
   faq: {
@@ -324,8 +482,8 @@ export const LANDING = {
       { q: "What is the SPARKS framework?", a: "SPARKS is a six-behavior method for working with AI, created by Bryan Cassady: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, and Stop and think. Days 1 to 4 build the foundation, days 5 to 10 practice one behavior each." },
       { q: "What is the capstone?", a: "A custom AI tool you build around one real challenge from your own work, using everything from the ten days. Submitting it earns the certificate of mastery." },
       { q: "What if I miss a day?", a: "Catch up anytime. You have lifetime access, and the course keeps your place." },
-      { q: "Is there a version for teams?", a: "Yes. The live version runs as facilitated cohorts for teams and organizations. It is not available to individuals." },
-      { q: "What is the refund policy?", a: "Placeholder. Write the real policy before launch." },
+      { q: "Is there a version for teams?", a: "Yes. Individuals can join a live cohort with Bryan, and companies can run SPARKS as a facilitated program built around their team's real work." },
+      { q: "What is the refund policy?", a: "All three tiers include a money-back guarantee. Exact terms and window are being finalized. If this affects your decision to enroll, contact us first and we will confirm the current policy before you pay." },
     ],
   },
 

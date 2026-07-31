@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion, useInView } from "motion/react";
-import { ArrowRight, Check, Copy, ExternalLink, Mail, Play, Star } from "lucide-react";
+import { ArrowRight, Check, Copy, ExternalLink, Play, Sparkles, Star } from "lucide-react";
 import { LANDING, ASSESSMENT_PROMPTS, type AssessmentModel } from "@/lib/landing-config";
+import MuxPlayer from "@mux/mux-player-react";
 import SpecularButton from "@/components/landing/specular-button";
 import ShinyText from "@/components/landing/shiny-text";
 import TrueFocus from "@/components/landing/true-focus";
 import {
+  Badge,
   Reveal,
   Ticker,
   Marquee,
@@ -17,10 +19,11 @@ import {
   GrainOverlay,
   HeroBackground,
   BlobBackground,
-  LiquidSignalBackground,
   WaveBackground,
   DarkVeilBackground,
   DotBackground,
+  GridSpotlightBackground,
+  PricingRaysBackground,
   useSafeReducedMotion,
 } from "@/components/landing/landing-ui";
 import { Button } from "@/components/ui/button";
@@ -28,8 +31,20 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const RED = "#E24B4A";
+// The system's one deliberate second hue (see DESIGN.md "The Two-Signal
+// Rule"): a cool steel blue used exclusively for the "before" state in the
+// before/after proof motif, so the transformation reads as an actual color
+// shift, not just a number and a lighter/darker red.
+const BEFORE = "#7C93B3";
+// Solid-fill CTAs use #C81E3A/#E0233F (Tailwind arbitrary values, hardcoded
+// per class below) rather than RED: white text on #E24B4A is 3.9:1, below
+// WCAG AA's 4.5:1 floor. #C81E3A ("Cardinal" in DESIGN.md) hits 5.67:1 at
+// rest; #E0233F ("Cardinal Bright") hits 4.69:1 on hover, brighter and more
+// saturated than the rest state so "hover intensifies" still holds. Chosen
+// over the previous #C73F3E specifically for higher chroma: same lightness
+// range reads as vivid blood red instead of a muted brownish red.
 const PANEL = "border border-white/10 bg-white/[0.045] shadow-[0_24px_90px_rgba(0,0,0,0.34)] backdrop-blur-xl";
-const PANEL_STRONG = "border border-[#E24B4A]/25 bg-[#130608]/70 shadow-[0_30px_110px_rgba(226,75,74,0.16)] backdrop-blur-2xl";
+const PANEL_STRONG = "border border-[#C81E3A]/30 bg-[#130608]/70 shadow-[0_30px_110px_rgba(200,30,58,0.18)] backdrop-blur-2xl";
 const display = { fontFamily: "var(--font-display), Georgia, serif" };
 
 // Layout rule for every section:
@@ -45,7 +60,7 @@ function EnrollButton({ small = false }: { small?: boolean }) {
     <a
       href={LANDING.enrollHref}
       className={
-        "group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-[#E24B4A] font-medium text-white shadow-[0_0_34px_rgba(226,75,74,0.28)] transition-all before:absolute before:inset-y-0 before:-left-10 before:w-8 before:rotate-12 before:bg-white/30 before:blur-sm before:transition-transform before:duration-700 hover:bg-[#ff5a56] hover:shadow-[0_0_52px_rgba(226,75,74,0.42)] hover:before:translate-x-44 active:scale-[0.98] " +
+        "group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-[#C81E3A] font-medium text-white shadow-[0_0_34px_rgba(226,75,74,0.28)] transition-all before:absolute before:inset-y-0 before:-left-10 before:w-8 before:rotate-12 before:bg-white/30 before:blur-sm before:transition-transform before:duration-700 hover:bg-[#E0233F] hover:shadow-[0_0_52px_rgba(226,75,74,0.42)] hover:before:translate-x-44 active:scale-[0.98] " +
         (small ? "px-4 py-2 text-sm" : "px-6 py-3 text-sm")
       }
     >
@@ -56,11 +71,11 @@ function EnrollButton({ small = false }: { small?: boolean }) {
 
 function HeroEnrollButton() {
   return (
-    <a href={LANDING.enrollHref} className="inline-flex overflow-hidden rounded-[10px]">
+    <a href="#pricing" className="inline-flex overflow-hidden rounded-[10px]">
       <SpecularButton
-        size="md"
+        size="sm"
         radius={10}
-        tint="#E24B4A"
+        tint="#C81E3A"
         tintOpacity={0.94}
         blur={0}
         textColor="#ffffff"
@@ -75,7 +90,7 @@ function HeroEnrollButton() {
         proximity={220}
         autoAnimate={false}
       >
-        Enroll
+        Learn More
       </SpecularButton>
     </a>
   );
@@ -85,8 +100,8 @@ function PreviewButton({ small = false }: { small?: boolean }) {
     <a
       href={LANDING.auditHref}
       className={
-        "inline-flex items-center justify-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] font-medium text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-all hover:border-[#E24B4A]/50 hover:bg-[#E24B4A]/10 hover:text-white active:scale-[0.98] " +
-        (small ? "px-4 py-2 text-sm" : "px-6 py-3 text-sm")
+        "inline-flex items-center justify-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] font-medium leading-none text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-all hover:border-[#E24B4A]/50 hover:bg-[#E24B4A]/10 hover:text-white active:scale-[0.98] " +
+        (small ? "px-4 py-2 text-sm" : "px-[22px] py-[10px] text-[0.85rem]")
       }
     >
       Preview Day 1 free
@@ -94,9 +109,12 @@ function PreviewButton({ small = false }: { small?: boolean }) {
   );
 }
 
-function SectionHeading({ children }: { children: ReactNode }) {
+function SectionHeading({ children, color = "white" }: { children: ReactNode; color?: "white" | "bright-red" }) {
   return (
-    <h2 style={display} className="text-[28px] leading-tight text-white sm:text-[34px]">
+    <h2
+      style={display}
+      className={"text-[28px] leading-tight sm:text-[34px] " + (color === "bright-red" ? "text-[#FF3B3B]" : "text-white")}
+    >
       {children}
     </h2>
   );
@@ -147,7 +165,7 @@ function Header() {
           </a>
           <nav className="hidden items-center gap-6 md:flex">
             {LANDING.header.nav.map((item) => (
-              <a key={item.href} href={item.href} className="text-sm text-neutral-300 transition-colors hover:text-white">
+              <a key={item.label} href={item.href} className="text-sm text-neutral-300 transition-colors hover:text-white">
                 {item.label}
               </a>
             ))}
@@ -175,6 +193,15 @@ function Hero() {
   return (
     <section id="top" className="relative isolate min-h-[100svh] overflow-hidden">
       <HeroBackground />
+
+      <Reveal delay={200} className="absolute right-5 top-20 z-10 sm:right-8 sm:top-24">
+        <div className="flex items-center gap-2 rounded-full border border-[#E24B4A]/35 bg-white/[0.06] px-4 py-2 shadow-[0_10px_30px_rgba(0,0,0,0.3)] backdrop-blur-xl">
+          <Star size={14} className="text-[#ff8a82]" fill="currentColor" />
+          <span style={display} className="text-sm font-medium text-white">
+            {"NPS "}<Ticker value={nps.score} duration={1200} />
+          </span>
+        </div>
+      </Reveal>
 
       <Col className="flex flex-col items-center pb-10 pt-16 text-center sm:pb-16 sm:pt-24 lg:pt-28">
         <Reveal>
@@ -224,24 +251,27 @@ function Hero() {
               </span>
               <div className="text-left leading-tight">
                 <p style={display} className="text-[16px] text-white">
-                  <Ticker value={chip.before} duration={900} className="text-neutral-400" />
+                  <Ticker value={chip.before} duration={900} className="text-[#7C93B3]" />
                   <span className="mx-1.5 text-[#E24B4A]">{"\u2192"}</span>
                   <Ticker value={chip.after} duration={1400} className="font-medium text-[#ff9a92]" />
                 </p>
                 <p className="mt-0.5 text-[11px] uppercase tracking-wide text-neutral-400">{chip.label}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-colors hover:border-[#E24B4A]/40">
+            <a
+              href="#assessment"
+              className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-colors hover:border-[#E24B4A]/40 hover:bg-[#E24B4A]/10"
+            >
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]/15">
-                <Star size={15} className="text-[#ff8a82]" fill="currentColor" />
+                <Sparkles size={15} className="text-[#ff8a82]" />
               </span>
               <div className="text-left leading-tight">
                 <p style={display} className="text-[16px] font-medium text-[#ff9a92]">
-                  {"NPS "}<Ticker value={nps.score} duration={1200} />
+                  {LANDING.hero.testAssessment.heading}
                 </p>
-                <p className="mt-0.5 text-[11px] uppercase tracking-wide text-neutral-400">{nps.label}</p>
+                <p className="mt-0.5 text-[11px] uppercase tracking-wide text-neutral-400">{LANDING.hero.testAssessment.sub}</p>
               </div>
-            </div>
+            </a>
           </div>
           <p className="mt-4 text-sm text-neutral-500">{LANDING.hero.trust}</p>
         </Reveal>
@@ -255,126 +285,410 @@ function Hero() {
   );
 }
 
-// ---------- proof (slope chart + portrait video) ----------
+// ---------- proof (summary + distribution / journeys / video + trust) ----------
 
-function SlopeChart() {
-  const cfg = LANDING.proof;
-  const ref = useRef<SVGSVGElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
-  const reduce = useSafeReducedMotion();
-  const [hovered, setHovered] = useState<string | null>(null);
+// All three evidence cards share this shell so they render at exactly the same
+// width, radius, padding, heading position, and caption position. Grid stretch
+// plus flex-1 bodies then force identical heights across the row.
+const PROOF_CARD = "flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-xl";
+const PROOF_BODY = "relative mt-4 min-h-[248px] flex-1";
+// min-h reserves two lines so the divider rule lands at the same height in all
+// three cards even though the captions are different lengths.
+const PROOF_CAPTION = "mt-4 min-h-[52px] border-t border-white/10 pt-3 text-[12px] leading-relaxed text-neutral-500";
+const FLAT = "#57534E";
 
-  const W = 420;
-  const H = 250;
-  const X0 = 78;
-  const X1 = 342;
-  const yFor = (score: number) => 214 - (score / 100) * 176;
+function ProofCardTitle({ children }: { children: ReactNode }) {
+  return <p style={display} className="text-[17px] leading-snug text-white">{children}</p>;
+}
 
-  const hoveredP = cfg.participants.find((p) => p.id === hovered);
-
+function ProofSummary() {
+  const cfg = LANDING.proof.summary;
   return (
-    <div className="relative">
-      <AnimatePresence>
-        {hoveredP && (
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="pointer-events-none absolute left-1/2 top-1 z-10 -translate-x-1/2 whitespace-nowrap rounded-md bg-neutral-900 px-3 py-1.5 text-xs text-white shadow-lg"
-          >
-            <span className="text-neutral-500">{String(hoveredP.before) + " \u00b7 " + hoveredP.beforeLabel}</span>
-            <span className="mx-2 text-[#F09595]">{"\u2192"}</span>
-            <span className="font-medium">{String(hoveredP.after) + " \u00b7 " + hoveredP.afterLabel}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <svg
-        ref={ref}
-        viewBox={"0 0 " + String(W) + " " + String(H)}
-        className="w-full overflow-visible"
-        role="img"
-        aria-label="Before and after assessment scores per participant"
-      >
-        <defs>
-          <radialGradient id="proofAfterGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#E24B4A" stopOpacity="0.22" />
-            <stop offset="100%" stopColor="#E24B4A" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <circle cx={X1} cy={124} r={130} fill="url(#proofAfterGlow)" />
-        {[X0, X1].map((x) => (
-          <line key={x} x1={x} y1={30} x2={x} y2={218} stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
-        ))}
-        {[0, 50, 100].map((s) => (
-          <g key={s}>
-            <line x1={X0 - 4} y1={yFor(s)} x2={X0} y2={yFor(s)} stroke="rgba(255,255,255,0.18)" strokeWidth="1" />
-            <text x={X0 - 10} y={yFor(s) + 3.5} textAnchor="end" fontSize="10" fill="#A8A29E">{s}</text>
-          </g>
-        ))}
-        <text x={X0} y={238} textAnchor="middle" fontSize="11" fill="#A8A29E">{cfg.axisLabels.before}</text>
-        <text x={X1} y={238} textAnchor="middle" fontSize="11" fill="#A8A29E">{cfg.axisLabels.after}</text>
-
-        {cfg.participants.map((p, i) => {
-          const isHover = hovered === p.id;
-          const dim = hovered !== null && !isHover;
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-5 backdrop-blur-xl sm:px-7">
+      <div className="grid gap-5 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-white/10">
+        {cfg.items.map((item, i) => {
+          // A suffix that starts with a space is a word ("points") and renders
+          // smaller alongside the figure; a symbol suffix ("%") stays inline.
+          const wordSuffix = item.suffix?.startsWith(" ") ?? false;
+          const inlineSuffix = wordSuffix ? "" : (item.suffix ?? "");
           return (
-            <g
-              key={p.id}
-              onMouseEnter={() => setHovered(p.id)}
-              onMouseLeave={() => setHovered(null)}
-              style={{ cursor: "pointer" }}
-            >
-              <line x1={X0} y1={yFor(p.before)} x2={X1} y2={yFor(p.after)} stroke="transparent" strokeWidth="18" />
-              <motion.line
-                x1={X0}
-                y1={yFor(p.before)}
-                x2={X1}
-                y2={yFor(p.after)}
-                stroke={isHover ? RED : "#F09595"}
-                strokeWidth={isHover ? 2.5 : 1.75}
-                strokeLinecap="round"
-                opacity={dim ? 0.25 : 1}
-                initial={reduce ? undefined : { pathLength: 0 }}
-                animate={inView ? { pathLength: 1 } : undefined}
-                transition={{ duration: 0.9, delay: 0.15 * i, ease: [0.22, 1, 0.36, 1] }}
-              />
-              {!reduce && (
-                <motion.circle
-                  cx={X1}
-                  cy={yFor(p.after)}
-                  r={5}
-                  fill="none"
-                  stroke={RED}
-                  strokeWidth="1.5"
-                  opacity={dim ? 0 : 0.5}
-                  animate={{ r: [5, 11, 5], opacity: dim ? 0 : [0.5, 0, 0.5] }}
-                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeOut", delay: 0.15 * i }}
-                />
-              )}
-              {[
-                { x: X0, y: yFor(p.before) },
-                { x: X1, y: yFor(p.after) },
-              ].map((pt, j) => (
-                <motion.circle
-                  key={j}
-                  cx={pt.x}
-                  cy={pt.y}
-                  r={isHover ? 5 : 3.5}
-                  fill={j === 1 ? RED : "#090405"}
-                  stroke={RED}
-                  strokeWidth="1.5"
-                  opacity={dim ? 0.25 : 1}
-                  initial={reduce ? undefined : { scale: 0 }}
-                  animate={inView ? { scale: 1 } : undefined}
-                  transition={{ duration: 0.35, delay: 0.15 * i + (j === 1 ? 0.85 : 0.05) }}
-                />
-              ))}
-            </g>
+            <div key={item.label} className={i === 0 ? "sm:pr-6" : "sm:px-6"}>
+              <div style={display} className="flex items-baseline gap-2 text-[28px] leading-none">
+                {item.from !== null && (
+                  <>
+                    <span className="text-neutral-500">
+                      <Ticker value={item.from} suffix={inlineSuffix} duration={900} />
+                    </span>
+                    <span className="text-[17px] text-neutral-600">{"\u2192"}</span>
+                  </>
+                )}
+                <span className="text-[#ff9a92]">
+                  <Ticker value={item.to} prefix={item.prefix ?? ""} suffix={inlineSuffix} duration={900} />
+                </span>
+                {wordSuffix && <span className="text-sm text-neutral-500">{(item.suffix ?? "").trim()}</span>}
+              </div>
+              <p className="mt-2 text-[13px] leading-relaxed text-neutral-400">{item.label}</p>
+            </div>
           );
         })}
-      </svg>
+      </div>
+      <p className="mt-5 border-t border-white/10 pt-3 text-xs text-neutral-500">{cfg.note}</p>
+    </div>
+  );
+}
+
+function DistributionBar({
+  label,
+  value,
+  color,
+  inView,
+  reduce,
+  delay,
+}: {
+  label: string;
+  value: number;
+  color: string;
+  inView: boolean;
+  reduce: boolean;
+  delay: number;
+}) {
+  return (
+    <div className="mt-2 flex items-center gap-2.5">
+      <span className="w-11 shrink-0 text-[11px] uppercase tracking-[0.08em] text-neutral-500">{label}</span>
+      <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+        <motion.div
+          className="h-full w-full rounded-full"
+          style={{ background: color, transformOrigin: "left" }}
+          initial={reduce ? false : { scaleX: 0 }}
+          animate={inView ? { scaleX: value / 100 } : undefined}
+          transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </div>
+      <span className="w-9 shrink-0 text-right text-[11px] tabular-nums text-neutral-400">{String(value) + "%"}</span>
+    </div>
+  );
+}
+
+function DistributionChart() {
+  const cfg = LANDING.proof.distribution;
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.4 });
+  const reduce = useSafeReducedMotion();
+  const [active, setActive] = useState<string | null>(null);
+
+  return (
+    <div ref={ref} className="flex h-full flex-col justify-center gap-2.5">
+      {cfg.bands.map((band, i) => {
+        const isActive = active === band.range;
+        return (
+          <div
+            key={band.range}
+            onMouseEnter={() => setActive(band.range)}
+            onMouseLeave={() => setActive(null)}
+            onTouchStart={() => setActive(isActive ? null : band.range)}
+            className={
+              "relative cursor-default rounded-lg px-2.5 py-2 transition-colors " +
+              (band.highlight
+                ? "bg-[#E24B4A]/[0.07] ring-1 ring-inset ring-[#E24B4A]/25"
+                : "ring-1 ring-inset ring-transparent hover:bg-white/[0.035]")
+            }
+          >
+            <AnimatePresence>
+              {isActive && (
+                <motion.div
+                  initial={reduce ? false : { opacity: 0, y: 4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="pointer-events-none absolute -top-1 left-1/2 z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded-md border border-white/10 bg-neutral-900 px-2.5 py-1.5 text-[11px] shadow-lg"
+                >
+                  <span className="font-medium text-white">{band.range}</span>
+                  <span className="mx-1.5 text-neutral-500">{"\u00b7"}</span>
+                  <span className="text-neutral-400">{cfg.beforeLabel + " " + String(band.before) + "%"}</span>
+                  <span className="mx-1.5 text-neutral-600">{"\u2192"}</span>
+                  <span className="text-[#ff9a92]">{cfg.afterLabel + " " + String(band.after) + "%"}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <div className="flex items-baseline justify-between gap-2">
+              <span className={"text-[12px] " + (band.highlight ? "font-medium text-[#ff9a92]" : "text-neutral-400")}>
+                {band.range}
+              </span>
+              {band.highlight && <Badge tone="accent-tint" size="sm">Top 20%</Badge>}
+            </div>
+            <DistributionBar
+              label={cfg.beforeLabel}
+              value={band.before}
+              color={BEFORE}
+              inView={inView}
+              reduce={reduce}
+              delay={0.1 * i}
+            />
+            <DistributionBar
+              label={cfg.afterLabel}
+              value={band.after}
+              color={RED}
+              inView={inView}
+              reduce={reduce}
+              delay={0.1 * i + 0.12}
+            />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function JourneyChart() {
+  const cfg = LANDING.proof.journeys;
+  const ref = useRef<SVGSVGElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.3 });
+  const reduce = useSafeReducedMotion();
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const W = 300;
+  const H = 236;
+  const X0 = 46;
+  const X1 = 222;
+  const TOP = 20;
+  const BOT = 200;
+  const yFor = (score: number) => BOT - (score / 100) * (BOT - TOP);
+
+  const T = cfg.meaningfulThreshold;
+  // Colour strictly by actual score movement, so the three real declines stay
+  // visible rather than being folded into the improved count.
+  const kindOf = (delta: number) => (delta > T ? "up" : delta < -T ? "down" : "flat");
+  const hoveredP = cfg.participants.find((p) => p.id === hovered);
+  const hoveredDelta = hoveredP ? hoveredP.after - hoveredP.before : 0;
+
+  return (
+    <div className="flex h-full flex-col">
+      <div className="relative flex-1">
+        <AnimatePresence>
+          {hoveredP && (
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="pointer-events-none absolute left-1/2 top-0 z-10 -translate-x-1/2 whitespace-nowrap rounded-md border border-white/10 bg-neutral-900 px-2.5 py-1.5 text-[11px] shadow-lg"
+            >
+              <span className="font-medium text-white">{"Participant " + String(hoveredP.id)}</span>
+              <span className="mx-1.5 text-neutral-600">{"\u00b7"}</span>
+              <span className="text-neutral-400">{hoveredP.before}</span>
+              <span className="mx-1 text-neutral-600">{"\u2192"}</span>
+              <span className="text-[#ff9a92]">{hoveredP.after}</span>
+              <span className="mx-1.5 text-neutral-600">{"\u00b7"}</span>
+              <span className={hoveredDelta > 0 ? "text-[#ff9a92]" : "text-neutral-400"}>
+                {(hoveredDelta > 0 ? "+" : "") + String(hoveredDelta)}
+              </span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        <svg
+          ref={ref}
+          viewBox={"0 0 " + String(W) + " " + String(H)}
+          className="h-full w-full"
+          role="img"
+          aria-label="Before and after assessment score for each of 24 participants"
+        >
+          <defs>
+            <linearGradient id="proofJourneyUp" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={BEFORE} />
+              <stop offset="100%" stopColor={RED} />
+            </linearGradient>
+          </defs>
+
+          {[X0, X1].map((x) => (
+            <line key={x} x1={x} y1={TOP} x2={x} y2={BOT} stroke="rgba(255,255,255,0.12)" strokeWidth="1" />
+          ))}
+          {[0, 50, 100].map((s) => (
+            <text key={s} x={X0 - 8} y={yFor(s) + 3.5} textAnchor="end" fontSize="9" fill="#78716C">{s}</text>
+          ))}
+
+          <line
+            x1={X0}
+            y1={yFor(cfg.benchmark)}
+            x2={X1}
+            y2={yFor(cfg.benchmark)}
+            stroke="rgba(255,255,255,0.28)"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+          />
+          <text x={W - 2} y={yFor(cfg.benchmark) - 5} textAnchor="end" fontSize="9" fill="#A8A29E">
+            {cfg.benchmarkLabel}
+          </text>
+
+          <text x={X0} y={BOT + 20} textAnchor="middle" fontSize="10" fill="#A8A29E">{cfg.axisLabels.before}</text>
+          <text x={X1} y={BOT + 20} textAnchor="middle" fontSize="10" fill="#A8A29E">{cfg.axisLabels.after}</text>
+
+          {cfg.participants.map((p, i) => {
+            const delta = p.after - p.before;
+            const kind = kindOf(delta);
+            const isHover = hovered === p.id;
+            const dim = hovered !== null && !isHover;
+            const stroke = kind === "up" ? "url(#proofJourneyUp)" : kind === "down" ? BEFORE : FLAT;
+            return (
+              <g
+                key={p.id}
+                onMouseEnter={() => setHovered(p.id)}
+                onMouseLeave={() => setHovered(null)}
+                onTouchStart={() => setHovered(isHover ? null : p.id)}
+                style={{ cursor: "pointer" }}
+              >
+                <line x1={X0} y1={yFor(p.before)} x2={X1} y2={yFor(p.after)} stroke="transparent" strokeWidth="12" />
+                {kind === "down" ? (
+                  // Declines fade in rather than draw: animating pathLength makes
+                  // framer-motion own stroke-dasharray, which would wipe out the
+                  // dashed treatment the legend refers to.
+                  <motion.line
+                    x1={X0}
+                    y1={yFor(p.before)}
+                    x2={X1}
+                    y2={yFor(p.after)}
+                    stroke={isHover ? RED : stroke}
+                    strokeWidth={isHover ? 2.5 : 1.25}
+                    strokeLinecap="round"
+                    strokeDasharray="3 3"
+                    initial={reduce ? undefined : { opacity: 0 }}
+                    animate={inView ? { opacity: dim ? 0.18 : 0.75 } : undefined}
+                    transition={{ duration: 0.8, delay: 0.03 * i, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                ) : (
+                  <motion.line
+                    x1={X0}
+                    y1={yFor(p.before)}
+                    x2={X1}
+                    y2={yFor(p.after)}
+                    stroke={isHover ? RED : stroke}
+                    strokeWidth={isHover ? 2.5 : kind === "up" ? 1.5 : 1.25}
+                    strokeLinecap="round"
+                    opacity={dim ? 0.18 : kind === "up" ? 0.9 : 0.75}
+                    initial={reduce ? undefined : { pathLength: 0 }}
+                    animate={inView ? { pathLength: 1 } : undefined}
+                    transition={{ duration: 0.8, delay: 0.03 * i, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                )}
+                {isHover && (
+                  <>
+                    <circle cx={X0} cy={yFor(p.before)} r={3.5} fill={BEFORE} />
+                    <circle cx={X1} cy={yFor(p.after)} r={3.5} fill={RED} />
+                  </>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+
+      <div className="mt-2 flex flex-wrap items-center gap-x-3.5 gap-y-1.5 text-[12px] text-neutral-500">
+        <span className="flex items-center gap-1.5">
+          <span className="h-[2px] w-4 rounded-full" style={{ background: "linear-gradient(90deg," + BEFORE + "," + RED + ")" }} />
+          {cfg.legend.improved}
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-[2px] w-4 rounded-full" style={{ background: FLAT }} />
+          {cfg.legend.flat}
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span
+            className="h-0 w-4 border-t-2 border-dashed"
+            style={{ borderColor: BEFORE }}
+          />
+          {cfg.legend.declined}
+        </span>
+      </div>
+      <p className="mt-1.5 text-[12px] leading-relaxed text-neutral-600">{cfg.thresholdNote}</p>
+    </div>
+  );
+}
+
+function ProofVideo() {
+  const cfg = LANDING.proof.video;
+  const [playing, setPlaying] = useState(false);
+  const poster = cfg.muxPlaybackId
+    ? "https://image.mux.com/" + cfg.muxPlaybackId + "/thumbnail.jpg?time=" + String(cfg.thumbnailTime) + "&width=800"
+    : "";
+
+  return (
+    <div className="relative h-full w-full overflow-hidden rounded-xl bg-[#0b0708]">
+      {playing && cfg.muxPlaybackId ? (
+        <MuxPlayer
+          playbackId={cfg.muxPlaybackId}
+          accentColor="#C81E3A"
+          autoPlay
+          metadata={{ video_title: cfg.title }}
+          className="absolute inset-0 h-full w-full"
+          // --media-object-fit crops the portrait source to the card box
+          // instead of letterboxing or stretching it.
+          style={{ "--media-object-fit": "cover", height: "100%", width: "100%" }}
+        />
+      ) : (
+        <button
+          type="button"
+          onClick={() => setPlaying(true)}
+          aria-label={"Play video: " + cfg.title}
+          className="group absolute inset-0 h-full w-full"
+        >
+          {poster && (
+            <img
+              src={poster}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity duration-300 group-hover:opacity-85"
+            />
+          )}
+          {/* Brand-consistent tint so the thumbnail sits in the site palette. */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 42%, rgba(226,75,74,0.22), transparent 62%)," +
+                "linear-gradient(to top, rgba(9,4,5,0.92), rgba(9,4,5,0.28) 55%, rgba(9,4,5,0.5))",
+            }}
+          />
+          <span className="absolute inset-0 flex items-center justify-center">
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 shadow-lg transition-transform duration-200 group-hover:scale-105">
+              <Play size={18} fill="currentColor" className="ml-0.5 text-[#171514]" />
+            </span>
+          </span>
+          <span className="absolute bottom-3 right-3 rounded-full border border-white/15 bg-black/60 px-2 py-0.5 text-[11px] font-medium tabular-nums text-white backdrop-blur-sm">
+            {cfg.duration}
+          </span>
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ProofTrust() {
+  const cfg = LANDING.proof.trust;
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl sm:p-8">
+      <div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+        <div>
+          <p style={display} className="text-xl leading-snug text-white">{cfg.heading}</p>
+          <ul className="mt-4 flex flex-col gap-2.5">
+            {cfg.points.map((point, i) => (
+              <li key={i} className="flex gap-2.5 text-[13px] leading-relaxed text-neutral-400">
+                <Check size={13} className="mt-1 shrink-0 text-[#E24B4A]" strokeWidth={3} />
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex flex-col items-start gap-2 lg:items-end">
+          <a
+            href={cfg.ctaHref}
+            className="inline-flex items-center justify-center rounded-md bg-[#C81E3A] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]"
+          >
+            {cfg.ctaLabel}
+          </a>
+          <p className="text-xs text-neutral-500">{cfg.ctaNote}</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -389,8 +703,7 @@ function Proof() {
           <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-[#ff8a82]">{cfg.kicker}</p>
           <div style={display} className="text-[28px] leading-tight text-white sm:text-[34px]">
             <TrueFocus
-              sentence={cfg.heading.replace(". ", ".|")}
-              separator="|"
+              sentence={cfg.heading}
               blurAmount={4}
               animationDuration={0.5}
               pauseBetweenAnimations={2.2}
@@ -398,55 +711,50 @@ function Proof() {
           </div>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-neutral-400">{cfg.sub}</p>
         </Reveal>
-        <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-[1fr_320px] md:items-start">
-          <Reveal delay={100}>
-            <div className={"relative rounded-2xl p-5 sm:p-7 " + PANEL}>
-              <div className="absolute right-5 top-5 flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 backdrop-blur-xl sm:right-7 sm:top-7">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#E24B4A]" />
-                <span style={display} className="text-sm font-medium text-[#ff9a92]">
-                  {"+"}<Ticker value={LANDING.hero.chip.after - LANDING.hero.chip.before} duration={1200} />
-                </span>
-                <span className="text-xs text-neutral-500">median points</span>
+
+        <Reveal delay={80}>
+          <div className="mt-8">
+            <ProofSummary />
+          </div>
+        </Reveal>
+
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <Reveal delay={120} className="h-full">
+            <div className={PROOF_CARD}>
+              <ProofCardTitle>{cfg.distribution.title}</ProofCardTitle>
+              <div className={PROOF_BODY}>
+                <DistributionChart />
               </div>
-              <SlopeChart />
+              <p className={PROOF_CAPTION}>{cfg.distribution.caption}</p>
             </div>
-            <ul className="mt-6 flex flex-col gap-2.5">
-              {cfg.facts.map((f, i) => (
-                <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-neutral-400">
-                  <Check size={13} className="mt-1 shrink-0 text-[#E24B4A]" strokeWidth={3} />
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <a href={cfg.runItHref} className="mt-4 inline-block text-sm font-medium text-[#E24B4A] hover:underline">
-              {cfg.runItLabel}
-            </a>
           </Reveal>
-          <Reveal delay={200} className="md:self-start">
-            <div className="relative flex aspect-[3/4] flex-col justify-end overflow-hidden rounded-2xl bg-neutral-900 md:sticky md:top-24">
-              {cfg.video.videoUrl ? (
-                <video src={cfg.video.videoUrl} className="absolute inset-0 h-full w-full object-cover" controls playsInline />
-              ) : (
-                <>
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 opacity-50"
-                    style={{ background: "radial-gradient(circle at 30% 25%, rgba(226,75,74,0.5), transparent 60%)" }}
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 shadow-lg transition-transform hover:scale-105">
-                      <Play size={18} fill="currentColor" className="ml-0.5 text-[#171514]" />
-                    </span>
-                  </div>
-                </>
-              )}
-              <div className="relative bg-gradient-to-t from-black/70 to-transparent p-5 pt-12">
-                <p className="text-sm font-medium text-white">{cfg.video.title}</p>
-                <p className="mt-0.5 text-xs text-white/70">{cfg.video.sub}</p>
+
+          <Reveal delay={160} className="h-full">
+            <div className={PROOF_CARD}>
+              <ProofCardTitle>{cfg.journeys.title}</ProofCardTitle>
+              <div className={PROOF_BODY}>
+                <JourneyChart />
               </div>
+              <p className={PROOF_CAPTION}>{cfg.journeys.caption}</p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={200} className="h-full">
+            <div className={PROOF_CARD}>
+              <ProofCardTitle>{cfg.video.title}</ProofCardTitle>
+              <div className={PROOF_BODY}>
+                <ProofVideo />
+              </div>
+              <p className={PROOF_CAPTION}>{cfg.video.caption}</p>
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={240}>
+          <div className="mt-4">
+            <ProofTrust />
+          </div>
+        </Reveal>
       </Col>
     </section>
   );
@@ -490,7 +798,7 @@ function Brands() {
   return (
     <section className="relative isolate overflow-hidden bg-[#090405]">
       <div className="pb-12 pt-7">
-        <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">Trusted by leaders at</p>
+        <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.14em] text-neutral-500">{cfg.heading}</p>
         <Marquee>
           {cfg.items.map((brand, i) => (
             <BrandItem key={i} name={brand.name} src={brand.src} />
@@ -521,8 +829,8 @@ function Curriculum() {
   }
 
   return (
-    <section id="curriculum" className="relative isolate overflow-hidden border-t border-white/10 bg-[#090405]">
-      <BlobBackground opacity={0.7} />
+    <section id="curriculum" className="relative isolate overflow-hidden border-t border-white/10 bg-[#050810]">
+      <BlobBackground opacity={0.7} colors={["rgba(58,92,168,0.30)", "rgba(80,120,190,0.22)", "rgba(56,180,210,0.16)"]} />
       <Col className="py-16 sm:py-24">
         <Reveal>
           <SectionHeading>{LANDING.curriculum.heading}</SectionHeading>
@@ -566,17 +874,17 @@ function Curriculum() {
                         animate={isOpen && !reduce ? { scale: [1, 1.18, 1] } : undefined}
                         transition={{ duration: 0.35 }}
                         className={
-                          "flex h-10 w-10 items-center justify-center rounded-full border text-sm font-medium shadow-[0_0_0_4px_#0a0405] transition-colors " +
+                          "flex h-10 w-10 items-center justify-center rounded-full border text-sm font-medium shadow-[0_0_0_4px_#0a0f18] transition-colors " +
                           (isOpen
-                            ? "border-[#E24B4A] bg-[#E24B4A] text-white ring-4 ring-[#E24B4A]/15"
+                            ? "border-[#C81E3A] bg-[#C81E3A] text-white ring-4 ring-[#E24B4A]/15"
                             : isSparks
-                            ? "border-[#F09595] bg-[#20090a] text-[#ff9a92] group-hover:border-[#E24B4A]"
-                            : "border-white/15 bg-[#170b0c] text-neutral-300 group-hover:border-neutral-400")
+                            ? "border-[#F09595] bg-[#0d1420] text-[#ff9a92] group-hover:border-[#E24B4A]"
+                            : "border-white/15 bg-[#0f151f] text-neutral-300 group-hover:border-neutral-400")
                         }
                       >
                         {d.letter ?? d.day}
                       </motion.span>
-                      <span className={"text-center text-[10px] leading-tight sm:text-[11px] " + (isOpen ? "font-medium text-[#ff8a82]" : "text-neutral-500")}>
+                      <span className={"text-center text-[11px] leading-tight " + (isOpen ? "font-medium text-[#ff8a82]" : "text-neutral-500")}>
                         {d.label}
                       </span>
                     </motion.button>
@@ -593,15 +901,15 @@ function Curriculum() {
                 >
                   <span
                     className={
-                      "flex h-10 w-10 items-center justify-center rounded-full border border-dashed text-[#E24B4A] transition-colors " +
-                      (open === 11 ? "border-[#E24B4A] bg-[#E24B4A]/12 ring-4 ring-[#E24B4A]/15" : "border-[#E24B4A]/45 bg-white/[0.04] group-hover:bg-[#E24B4A]/12")
+                      "flex h-10 w-10 items-center justify-center rounded-full border border-dashed text-[#E24B4A] shadow-[0_0_0_4px_#0a0f18] transition-colors " +
+                      (open === 11 ? "border-[#E24B4A] bg-[#3a1216] ring-4 ring-[#E24B4A]/15" : "border-[#E24B4A]/45 bg-[#150a0c] group-hover:bg-[#2a1013]")
                     }
                   >
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
                     </svg>
                   </span>
-                  <span className={"text-center text-[10px] leading-tight sm:text-[11px] " + (open === 11 ? "font-medium text-[#ff8a82]" : "text-neutral-500")}>
+                  <span className={"text-center text-[11px] leading-tight " + (open === 11 ? "font-medium text-[#ff8a82]" : "text-neutral-500")}>
                     {LANDING.curriculum.capstone.label}
                   </span>
                 </motion.button>
@@ -652,11 +960,11 @@ function Curriculum() {
                               {openDay.example && (
                                 <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
                                   <div className="rounded-lg border border-white/10 bg-white/[0.07] p-4">
-                                    <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-neutral-500">{openDay.example.beforeTitle}</p>
+                                    <p className="text-[11px] font-medium uppercase tracking-[0.4px] text-neutral-500">{openDay.example.beforeTitle}</p>
                                     <p className="mt-1.5 text-[13px] leading-relaxed text-neutral-400">{openDay.example.before}</p>
                                   </div>
                                   <div className="rounded-lg border-l-[3px] border-[#E24B4A] bg-[#E24B4A]/16 p-4">
-                                    <p className="text-[10px] font-medium uppercase tracking-[0.4px] text-[#ff8a82]">{openDay.example.afterTitle}</p>
+                                    <p className="text-[11px] font-medium uppercase tracking-[0.4px] text-[#ff8a82]">{openDay.example.afterTitle}</p>
                                     <p className="mt-1.5 text-[13px] leading-relaxed text-red-100/80">{openDay.example.after}</p>
                                   </div>
                                 </div>
@@ -710,6 +1018,18 @@ const INCLUDED_ICONS: Record<string, ReactNode> = {
   "Bragging rights": <path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 5H4a2 2 0 0 0 0 4h.5M17 5h3a2 2 0 0 1 0 4h-.5" />,
 };
 
+// Bento pattern for the 9 included-items grid: exactly one hero tile (2x2)
+// at lg and up, everything else uniform 1x1. This is deliberate arithmetic,
+// not a style choice: with a 3-col grid, one 2x2 tile plus two 1x1 tiles
+// exactly fills the first two rows (4+1+1=6 cells), and the remaining 6
+// items exactly fill two more rows of three. A second or third wide tile
+// breaks that division and strands a tile alone on its own row (confirmed
+// bug: item 8 previously spanned 2 cols and had no neighbor left to pair
+// with). Mobile/tablet stay uniform; asymmetry is a desktop-only device.
+const INCLUDED_BENTO: Record<number, { span: string; featured?: boolean }> = {
+  0: { span: "lg:col-span-2 lg:row-span-2", featured: true },
+};
+
 function IncludedTile({ item, index }: { item: { title: string; desc: string }; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -723,18 +1043,26 @@ function IncludedTile({ item, index }: { item: { title: string; desc: string }; 
   }
 
   const icon = INCLUDED_ICONS[item.title] ?? <polyline points="20 6 9 17 4 12" />;
+  const bento = INCLUDED_BENTO[index];
+  const featured = !!bento?.featured;
 
   return (
-    <Reveal delay={index * 50}>
+    <Reveal delay={index * 50} className={bento?.span}>
       <div
         ref={ref}
         onPointerMove={onMove}
         onPointerLeave={() => setPos(null)}
-        className="group relative h-full overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] p-5 shadow-[0_18px_60px_rgba(0,0,0,0.25)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#E24B4A]/45 hover:bg-white/[0.07]"
+        className={
+          "group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-white/[0.045] shadow-[0_18px_60px_rgba(0,0,0,0.25)] backdrop-blur-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FF3B3B]/55 hover:bg-white/[0.07] " +
+          (featured ? "justify-end p-5 sm:p-6" : "justify-center p-4")
+        }
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#E24B4A]/10 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className={
+            "pointer-events-none absolute -right-12 -top-12 rounded-full bg-[#FF3B3B]/16 blur-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 " +
+            (featured ? "h-56 w-56" : "h-32 w-32")
+          }
         />
         {pos && (
           <div
@@ -743,18 +1071,27 @@ function IncludedTile({ item, index }: { item: { title: string; desc: string }; 
             style={{
               background:
                 "radial-gradient(180px circle at " + String(pos.x) + "px " + String(pos.y) +
-                "px, rgba(226,75,74,0.14), transparent 70%)",
+                "px, rgba(255,59,59,0.18), transparent 70%)",
             }}
           />
         )}
         <div className="relative">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-[#E24B4A]/12 text-[#ff9a92] transition-colors group-hover:bg-[#E24B4A]/20">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <span
+            className={
+              "inline-flex items-center justify-center rounded-lg bg-[#FF3B3B] text-white shadow-[0_0_18px_rgba(255,59,59,0.35)] transition-transform duration-300 group-hover:scale-110 " +
+              (featured ? "h-10 w-10" : "h-7 w-7")
+            }
+          >
+            <svg width={featured ? "19" : "13"} height={featured ? "19" : "13"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               {icon}
             </svg>
           </span>
-          <p className="mt-3 text-sm font-medium text-white">{item.title}</p>
-          <p className="mt-1 text-[13px] leading-relaxed text-neutral-500">{item.desc}</p>
+          {featured ? (
+            <p style={{ fontFamily: "var(--font-display), Georgia, serif" }} className="mt-3 text-xl text-[#FF3B3B]">{item.title}</p>
+          ) : (
+            <p className="mt-2 text-sm font-medium text-white">{item.title}</p>
+          )}
+          <p className={"mt-1 leading-snug text-neutral-500 line-clamp-2 " + (featured ? "max-w-xs text-sm" : "text-[13px]")}>{item.desc}</p>
         </div>
       </div>
     </Reveal>
@@ -764,14 +1101,13 @@ function IncludedTile({ item, index }: { item: { title: string; desc: string }; 
 function Included() {
   const cfg = LANDING.included;
   return (
-    <section className="relative isolate overflow-hidden border-y border-white/10">
-      <LiquidSignalBackground />
-      <Col className="py-16 sm:py-24">
+    <section className="relative isolate overflow-hidden">
+      <Col className="py-10 sm:py-14">
         <Reveal>
-          <SectionHeading>{cfg.heading}</SectionHeading>
+          <SectionHeading color="bright-red">{cfg.heading}</SectionHeading>
           <p className="mt-3 text-[15px] text-neutral-400">{cfg.sub}</p>
         </Reveal>
-        <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[128px]">
           {cfg.items.map((item, i) => (
             <IncludedTile key={item.title} item={item} index={i} />
           ))}
@@ -825,7 +1161,7 @@ function Explorer() {
 
         <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px]">
           <Reveal delay={100}>
-            <div className="flex flex-col gap-7 rounded-2xl border border-white/10 p-6 sm:p-8">
+            <div className={"flex flex-col gap-7 rounded-2xl p-6 sm:p-8 " + PANEL}>
               {cfg.questions.map((q) => (
                 <div key={q.id}>
                   <p className="mb-2.5 text-sm text-white">{q.question}</p>
@@ -840,7 +1176,7 @@ function Explorer() {
                           className={
                             "rounded-md px-4 py-2 text-sm transition-all active:scale-[0.97] " +
                             (selected
-                              ? "bg-[#E24B4A] font-medium text-white"
+                              ? "bg-[#C81E3A] font-medium text-white"
                               : "border border-white/15 text-neutral-400 hover:border-neutral-500 hover:text-white")
                           }
                         >
@@ -859,7 +1195,7 @@ function Explorer() {
               {isTeam && (
                 <div className="rounded-lg border-l-[3px] border-[#E24B4A] bg-[#E24B4A]/12 px-4 py-3">
                   <p className="text-sm leading-relaxed text-red-100/80">{cfg.teamNote}</p>
-                  <a href={LANDING.contactMailto} className="mt-2 inline-flex items-center rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#ff5a56]">
+                  <a href={LANDING.contactMailto} className="mt-2 inline-flex items-center rounded-md bg-[#C81E3A] px-4 py-2 text-sm font-medium text-white hover:bg-[#E0233F]">
                     {LANDING.enterprise.cta}
                   </a>
                 </div>
@@ -874,7 +1210,7 @@ function Explorer() {
               </p>
 
               {!anyAnswered && !showAll && (
-                <div className="rounded-xl border border-dashed border-white/15 px-5 py-8 text-center">
+                <div className="rounded-xl border border-dashed border-white/15 bg-white/[0.035] px-5 py-8 text-center backdrop-blur-xl">
                   <p className="text-sm text-neutral-500">{cfg.emptyHint}</p>
                 </div>
               )}
@@ -896,9 +1232,7 @@ function Explorer() {
                       <p className="text-sm font-medium text-red-100/80">{r.title}</p>
                       <p className="mt-0.5 text-xs text-red-100/70">{cfg.reasons[r.id] ?? r.desc}</p>
                     </div>
-                    <span className="mt-0.5 shrink-0 rounded-full bg-[#E24B4A] px-2 py-0.5 text-[10px] font-medium text-white">
-                      For you
-                    </span>
+                    <Badge tone="accent-solid" size="sm">For you</Badge>
                   </motion.a>
                 ))}
 
@@ -915,9 +1249,7 @@ function Explorer() {
                         <p className="text-sm text-white">{r.title}</p>
                         <p className="mt-0.5 text-xs text-neutral-500">{r.desc}</p>
                       </div>
-                      <span className="mt-0.5 shrink-0 rounded-full bg-white/[0.08] px-2 py-0.5 text-[10px] font-medium text-neutral-500">
-                        {r.tag}
-                      </span>
+                      <Badge tone="neutral" size="sm">{r.tag}</Badge>
                     </motion.a>
                   ))}
 
@@ -949,7 +1281,12 @@ function Explorer() {
 function Testimonials() {
   const cfg = LANDING.testimonials;
   return (
-    <section className="relative isolate overflow-hidden border-t border-white/10 bg-[#090405]">
+    <section className="relative isolate overflow-hidden border-t border-white/10 bg-[#070304]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-36"
+        style={{ background: "linear-gradient(to bottom, #050810, transparent)" }}
+      />
       <Col className="py-16 pb-8 sm:py-24 sm:pb-10">
         <Reveal>
           <SectionHeading>{cfg.heading}</SectionHeading>
@@ -957,7 +1294,7 @@ function Testimonials() {
         </Reveal>
       </Col>
       <Reveal>
-        <div className="pb-16 sm:pb-24">
+        <div className="pb-8 sm:pb-10">
           <DragMarquee arrows>
             {cfg.items.map((t, i) =>
               t.type === "video" ? (
@@ -978,9 +1315,9 @@ function Testimonials() {
                   </div>
                 </div>
               ) : (
-                <figure key={i} className="flex w-72 shrink-0 select-none flex-col justify-between rounded-xl border border-white/10 bg-white/[0.045] p-5">
-                  <blockquote className="text-sm leading-relaxed text-neutral-300">{"\u201c" + t.quote + "\u201d"}</blockquote>
-                  <figcaption className="mt-4">
+                <figure key={i} className="flex h-56 w-72 shrink-0 select-none flex-col justify-between rounded-xl border border-white/10 bg-white/[0.045] p-5">
+                  <blockquote className="line-clamp-5 text-sm leading-relaxed text-neutral-300">{"\u201c" + t.quote + "\u201d"}</blockquote>
+                  <figcaption className="mt-4 shrink-0">
                     <p className="text-sm font-medium text-white">{t.name}</p>
                     <p className="text-xs text-neutral-500">{t.role}</p>
                   </figcaption>
@@ -1013,10 +1350,11 @@ function Assessment() {
   }
 
   return (
-    <section id="assessment" className="relative isolate overflow-hidden">
+    <section id="assessment" className="relative isolate overflow-hidden bg-[#070304]">
+      <DotBackground />
       <Col className="py-16 sm:py-24">
         <Reveal>
-          <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-[#ff8a82]">{cfg.kicker}</p>
+          <p className="mb-2 text-xs font-medium uppercase tracking-[0.14em] text-[#FF3B3B]">{cfg.kicker}</p>
           <SectionHeading>{cfg.heading}</SectionHeading>
           <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-neutral-400">{cfg.sub}</p>
         </Reveal>
@@ -1056,7 +1394,7 @@ function Assessment() {
                   onClick={handleCopy}
                   className={
                     "inline-flex items-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium text-white transition-all active:scale-[0.98] " +
-                    (copied ? "bg-[#0F6E56]" : "bg-[#E24B4A] hover:bg-[#ff5a56]")
+                    (copied ? "bg-[#0F6E56]" : "bg-[#C81E3A] hover:bg-[#E0233F]")
                   }
                 >
                   <Copy size={15} />{copied ? "Copied \u2713" : "Copy prompt"}
@@ -1092,9 +1430,7 @@ function Assessment() {
                 className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full blur-3xl"
                 style={{ background: "radial-gradient(circle, rgba(226,75,74,0.16), transparent 70%)" }}
               />
-              <span className="inline-flex rounded-full bg-white/[0.08] px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-neutral-500">
-                {cfg.sample.caption}
-              </span>
+              <Badge tone="neutral" className="uppercase tracking-[0.08em]">{cfg.sample.caption}</Badge>
               <div className="mt-4 flex items-baseline gap-1.5">
                 <span style={display} className="text-[44px] leading-none text-[#E24B4A]">
                   <Ticker value={cfg.sample.score} />
@@ -1134,14 +1470,23 @@ function Bio() {
   const cfg = LANDING.bio;
   return (
     <section className="relative isolate overflow-hidden border-t border-white/10">
+      <DotBackground fade={false} dotOpacity={0.24} />
       <Col className="grid grid-cols-1 gap-10 py-16 sm:py-24 md:grid-cols-[260px_1fr]">
-        <Reveal>
-          <div className="flex aspect-[4/5] w-full max-w-[260px] items-center justify-center rounded-2xl bg-white/[0.08] text-sm text-neutral-500">
-            Photo of Bryan
+        <Reveal className="h-full">
+          <div className="relative flex h-full min-h-[320px] w-full max-w-[260px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900">
+            <img
+              src="/assets/bryan-bio-headshot.jpg"
+              alt="Bryan Cassady"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            <div className="relative bg-gradient-to-t from-black/70 to-transparent p-4 pt-12">
+              <p className="text-sm font-medium text-white">Bryan Cassady</p>
+              <p className="mt-0.5 text-xs text-white/70">Bestselling author, SPARKS</p>
+            </div>
           </div>
         </Reveal>
         <Reveal delay={100}>
-          <div>
+          <div className={"rounded-2xl p-6 sm:p-8 " + PANEL}>
             <SectionHeading>{cfg.heading}</SectionHeading>
             {cfg.paragraphs.map((p, i) => (
               <p key={i} className="mt-4 max-w-xl text-[15px] leading-relaxed text-neutral-400">{p}</p>
@@ -1158,94 +1503,120 @@ function Bio() {
 
 // ---------- pricing + faq ----------
 
+function fmtPrice(currency: string, amount: number) {
+  return currency + amount.toLocaleString("en-US");
+}
+
 function PricingFaq() {
   const p = LANDING.pricing;
+  const solo = p.selfPaced;
+  const cohort = p.liveCohort;
   const company = p.company;
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="pricing" className="relative isolate overflow-hidden border-t border-white/10 bg-[#090405]">
-      <Col className="py-16 sm:py-24">
+    <section id="pricing" className="relative isolate overflow-hidden border-t border-white/10 bg-[#050203]">
+      <PricingRaysBackground />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-48"
+        style={{ background: "linear-gradient(to bottom, #070304, transparent)" }}
+      />
+      <Col className="py-12 sm:py-16">
         <Reveal>
           <SectionHeading>{LANDING.pricingFaq.heading}</SectionHeading>
           <p className="mt-3 text-[15px] text-neutral-400">{LANDING.pricingFaq.sub}</p>
         </Reveal>
 
-        <div className="mt-9 grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
           <Reveal delay={100}>
-            <div className={"relative h-full overflow-hidden rounded-2xl " + PANEL}>
-              <div aria-hidden="true" className="h-1 w-full bg-gradient-to-r from-[#C73F3E] to-[#F09595]" />
-              <div className="p-7 sm:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <span className="text-xs font-medium uppercase tracking-[0.12em] text-neutral-500">{p.individualLabel}</span>
-                    <p style={display} className="mt-2 text-2xl text-white">{p.heading}</p>
-                  </div>
-                  {p.salePrice !== null && (
-                    <span className="shrink-0 rounded-full bg-[#E24B4A]/12 px-2.5 py-1 text-xs font-medium text-[#ff8a82]">{p.priceNote}</span>
-                  )}
+            <div className={"relative flex h-full flex-col overflow-hidden rounded-2xl " + PANEL}>
+              <div aria-hidden="true" className="h-1 w-full bg-gradient-to-r from-[#C81E3A] to-[#F09595]" />
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <span className="text-xs font-medium uppercase tracking-[0.12em] text-neutral-500">{solo.kicker}</span>
+                <p style={display} className="mt-1.5 text-xl text-white">{solo.heading}</p>
+                <div className="mt-4 flex items-baseline gap-2.5">
+                  <span style={{ ...display, textShadow: "0 0 24px rgba(255,59,59,0.35)" }} className="text-[32px] leading-none text-[#FF3B3B]">{fmtPrice(solo.currency, solo.salePrice)}</span>
+                  <span className="text-sm text-neutral-500">{solo.priceNote}</span>
                 </div>
-                <div className="mt-5 flex items-baseline gap-2.5">
-                  {p.salePrice !== null ? (
-                    <>
-                      <span style={display} className="text-[50px] leading-none text-white">{p.currency + String(p.salePrice)}</span>
-                      <span className="text-lg text-neutral-500 line-through">{p.currency + String(p.basePrice)}</span>
-                    </>
-                  ) : (
-                    <span style={display} className="text-[50px] leading-none text-white">{p.currency + String(p.basePrice)}</span>
-                  )}
-                </div>
-                <ul className="mt-6 flex flex-col gap-2.5">
-                  {p.includes.map((line, i) => (
+                <p className="mt-1 text-xs text-neutral-500">{solo.afterLaunchNote}</p>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-300">{solo.body}</p>
+                <ul className="mt-4 flex flex-1 flex-col gap-2">
+                  {solo.includes.map((line, i) => (
                     <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-neutral-300">
-                      <Check size={13} className="mt-1 shrink-0 text-[#E24B4A]" strokeWidth={3} />
+                      <Check size={13} className="mt-1 shrink-0 text-[#C81E3A]" strokeWidth={3} />
                       {line}
                     </li>
                   ))}
                 </ul>
-                <div className="mt-7 flex flex-col gap-2.5 sm:flex-row">
-                  <a href={LANDING.enrollHref} className="inline-flex flex-1 items-center justify-center rounded-md bg-[#E24B4A] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#ff5a56] active:scale-[0.99]">
-                    {p.cta}
-                  </a>
-                  <a href={LANDING.auditHref} className="inline-flex flex-1 items-center justify-center rounded-md border border-white/15 bg-white/[0.045] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white/[0.08] active:scale-[0.99]">
-                    {p.previewCta}
+                <p className="mt-4 text-xs uppercase tracking-[0.1em] text-neutral-500">Time: {solo.time}</p>
+                <div className="mt-4">
+                  <a href={LANDING.enrollHref} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
+                    {solo.cta}
                   </a>
                 </div>
-                <p className="mt-3 text-sm text-neutral-500">{p.reassurance}</p>
               </div>
             </div>
           </Reveal>
 
-          <Reveal delay={160}>
-            <div className={"relative h-full overflow-hidden rounded-2xl " + PANEL_STRONG}>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full blur-3xl"
-                style={{ background: "radial-gradient(circle, rgba(226,75,74,0.18), transparent 70%)" }}
-              />
-              <div className="relative p-7 sm:p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#ff8a82]">{company.label}</span>
-                    <p style={display} className="mt-2 text-2xl text-white">{company.heading}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full border border-[#E24B4A]/35 bg-white/[0.055] px-2.5 py-1 text-xs font-medium text-[#ff8a82]">{company.priceNote}</span>
+          <Reveal delay={140}>
+            <div className={"relative flex h-full flex-col overflow-hidden rounded-2xl " + PANEL_STRONG}>
+              <div aria-hidden="true" className="h-1 w-full bg-gradient-to-r from-[#C81E3A] to-[#F09595]" />
+              <div className="relative flex flex-1 flex-col p-5 sm:p-6">
+                <Badge tone="accent-solid" className="absolute right-5 top-5 sm:right-6 sm:top-6">{cohort.badge}</Badge>
+                <span className="text-xs font-medium uppercase tracking-[0.12em] text-[#ff8a82]">{cohort.kicker}</span>
+                <p style={display} className="mt-1.5 text-xl text-white">{cohort.heading}</p>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span style={display} className="text-[32px] leading-none text-white">{fmtPrice(cohort.currency, cohort.price)}</span>
+                  <span className="text-sm text-neutral-500">{cohort.priceUnit}</span>
                 </div>
-                <div className="mt-5 flex items-end gap-2">
-                  <span style={display} className="text-[50px] leading-none text-white">{company.price}</span>
-                  <span className="pb-1 text-sm text-neutral-500">{company.note}</span>
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-red-100/80">{company.body}</p>
-                <ul className="mt-6 flex flex-col gap-2.5">
-                  {company.includes.map((line, i) => (
-                    <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-red-100/80">
-                      <Check size={13} className="mt-1 shrink-0 text-[#E24B4A]" strokeWidth={3} />
+                <p className="mt-3 text-sm leading-relaxed text-neutral-300">{cohort.body}</p>
+                <ul className="mt-4 flex flex-1 flex-col gap-2">
+                  {cohort.includes.map((line, i) => (
+                    <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-neutral-300">
+                      <Check size={13} className="mt-1 shrink-0 text-[#C81E3A]" strokeWidth={3} />
                       {line}
                     </li>
                   ))}
                 </ul>
-                <div className="mt-7">
-                  <a href={LANDING.contactMailto} className="inline-flex w-full items-center justify-center rounded-md bg-[#E24B4A] px-6 py-3 text-sm font-medium text-white transition-all hover:bg-[#ff5a56] active:scale-[0.99]">
+                <p className="mt-4 text-xs uppercase tracking-[0.1em] text-neutral-500">Time: {cohort.time}</p>
+                <p className="mt-1 text-xs text-neutral-500">{cohort.cohortDate}</p>
+                <div className="mt-4">
+                  <a href={LANDING.liveCohortHref} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
+                    {cohort.cta}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal delay={180}>
+            <div className={"relative flex h-full flex-col overflow-hidden rounded-2xl " + PANEL}>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full blur-3xl"
+                style={{ background: "radial-gradient(circle, rgba(200,30,58,0.20), transparent 70%)" }}
+              />
+              <div className="relative flex flex-1 flex-col p-5 sm:p-6">
+                <span className="text-xs font-medium uppercase tracking-[0.12em] text-neutral-500">{company.kicker}</span>
+                <p className="mt-1.5 text-xs uppercase tracking-[0.1em] text-[#ff8a82]">{company.tagline}</p>
+                <p style={display} className="mt-1 text-xl text-white">{company.heading}</p>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <span className="text-sm text-neutral-500">{company.priceNote}</span>
+                  <span style={display} className="text-[32px] leading-none text-white">{fmtPrice(company.currency, company.priceFrom)}</span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-neutral-300">{company.body}</p>
+                <ul className="mt-4 flex flex-1 flex-col gap-2">
+                  {company.includes.map((line, i) => (
+                    <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-neutral-300">
+                      <Check size={13} className="mt-1 shrink-0 text-[#C81E3A]" strokeWidth={3} />
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-4 text-xs uppercase tracking-[0.1em] text-neutral-500">Time: {company.time}</p>
+                <div className="mt-4">
+                  <a href={LANDING.contactMailto} className="inline-flex w-full items-center justify-center rounded-md border border-white/15 bg-white/[0.045] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/[0.08] active:scale-[0.99]">
                     {company.cta}
                   </a>
                 </div>
@@ -1253,6 +1624,37 @@ function PricingFaq() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={200}>
+          <p className="mt-5 text-center text-sm text-neutral-500">
+            <a href={LANDING.auditHref} className="text-[#ff8a82] underline underline-offset-4 hover:text-white">{p.previewCta}</a>
+          </p>
+        </Reveal>
+
+        <Reveal delay={210}>
+          <div className="mt-8 overflow-x-auto rounded-2xl border border-white/10">
+            <table className="w-full min-w-[560px] border-collapse text-sm">
+              <thead>
+                <tr className="bg-white/[0.04]">
+                  <th className="p-3 text-left font-medium text-neutral-500"></th>
+                  {p.comparison.columns.map((col) => (
+                    <th key={col} className="p-3 text-left text-xs font-medium uppercase tracking-[0.1em] text-neutral-400">{col}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {p.comparison.rows.map((row, i) => (
+                  <tr key={row.label} className={i % 2 === 1 ? "bg-white/[0.02]" : undefined}>
+                    <td className="p-3 text-neutral-400">{row.label}</td>
+                    {row.values.map((val, j) => (
+                      <td key={j} className="p-3 text-neutral-200">{val}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Reveal>
 
         <Reveal delay={220}>
           <div className="mt-10 divide-y divide-white/10 border-y border-white/10">
@@ -1288,63 +1690,7 @@ function PricingFaq() {
   );
 }
 
-// ---------- enterprise ----------
-
-function Enterprise() {
-  const e = LANDING.enterprise;
-  return (
-    <section id="teams" className="relative isolate overflow-hidden border-t border-white/10">
-      <Col className="py-16 sm:py-20">
-        <Reveal>
-          <div className="relative overflow-hidden rounded-2xl border border-[#E24B4A]/28 bg-[#E24B4A]/12 p-7 backdrop-blur-sm sm:p-10">
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl"
-              style={{ background: "radial-gradient(circle, rgba(226,75,74,0.22), transparent 70%)" }}
-            />
-            <SectionHeading>{e.heading}</SectionHeading>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-red-100/80">{e.body}</p>
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <a href={LANDING.contactMailto} className="inline-flex items-center rounded-md bg-[#E24B4A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#ff5a56] active:scale-[0.98]">
-                {e.cta}
-              </a>
-              <span className="text-sm text-red-100/70">{e.note}</span>
-            </div>
-          </div>
-        </Reveal>
-      </Col>
-    </section>
-  );
-}
-
 // ---------- contact ----------
-
-function EmailChip({ label, address }: { label: string; address: string }) {
-  const [copied, setCopied] = useState(false);
-  function copy() {
-    navigator.clipboard.writeText(address).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1800);
-    });
-  }
-  return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.045] p-4">
-      <p className="flex items-center gap-1.5 text-xs text-neutral-500"><Mail size={12} />{label}</p>
-      <div className="mt-1.5 flex items-center justify-between gap-2">
-        <a href={"mailto:" + address} className="truncate text-sm font-medium text-white hover:text-[#E24B4A]">
-          {address}
-        </a>
-        <button
-          onClick={copy}
-          aria-label={"Copy " + address}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-white/10 px-2.5 py-1 text-xs text-neutral-500 transition-colors hover:border-white/25 hover:text-white"
-        >
-          <Copy size={13} />{copied ? "Copied \u2713" : "Copy"}
-        </button>
-      </div>
-    </div>
-  );
-}
 
 function Contact() {
   const cfg = LANDING.contact;
@@ -1380,12 +1726,13 @@ function Contact() {
 
   return (
     <section id="contact" className="relative isolate overflow-hidden border-t border-white/10 bg-[#090405]">
-      <Col className="py-16 sm:py-24">
+      <GridSpotlightBackground />
+      <Col className="py-10 sm:py-14">
         <Reveal>
           <SectionHeading>{cfg.heading}</SectionHeading>
           <p className="mt-3 text-[15px] leading-relaxed text-neutral-400">{cfg.sub}</p>
         </Reveal>
-        <div className="mt-8">
+        <div className="mt-6">
           <Reveal delay={100}>
             {submitted ? (
               <div className="rounded-2xl border border-white/10 bg-white/[0.045] p-6 sm:p-8">
@@ -1422,28 +1769,12 @@ function Contact() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="h-11 self-start bg-[#E24B4A] px-6 text-white hover:bg-[#ff5a56]"
+                  className="h-11 self-start bg-[#C81E3A] px-6 text-white hover:bg-[#E0233F]"
                 >
                   {loading ? "Sending\u2026" : cfg.submitLabel}
                 </Button>
               </form>
             )}
-          </Reveal>
-          <Reveal delay={180}>
-            <div className="flex flex-col gap-3">
-              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-neutral-500">{cfg.directHeading}</p>
-              {cfg.emails.map((e) => (
-                <EmailChip key={e.address} label={e.label} address={e.address} />
-              ))}
-              <a
-                href={cfg.siteHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 text-sm text-neutral-500 transition-colors hover:text-[#E24B4A]"
-              >
-                {cfg.siteLabel + " \u2197"}
-              </a>
-            </div>
           </Reveal>
         </div>
       </Col>
@@ -1473,7 +1804,7 @@ function FinalCta() {
         <Reveal delay={100}>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.045] px-3.5 py-1.5">
-              <span style={display} className="text-sm text-neutral-500">{chip.before}</span>
+              <span style={display} className="text-sm text-[#7C93B3]">{chip.before}</span>
               <ArrowRight size={14} className="text-[#E24B4A]" />
               <span style={display} className="text-sm font-medium text-[#E24B4A]">{chip.after}</span>
             </span>
@@ -1506,13 +1837,15 @@ export function LandingView() {
         <Proof />
         <Brands />
         <Curriculum />
-        <Included />
-        <Explorer />
+        <div className="relative isolate overflow-hidden border-y border-white/10 bg-[#050810]">
+          <GridSpotlightBackground />
+          <Included />
+          <Explorer />
+        </div>
         <Testimonials />
         <Assessment />
         <Bio />
         <PricingFaq />
-        <Enterprise />
         <Contact />
         <FinalCta />
       </main>

@@ -41,7 +41,7 @@ const courseJsonLd = {
   provider: { "@type": "Person", name: "Bryan Cassady" },
   offers: {
     "@type": "Offer",
-    price: String(LANDING.pricing.salePrice ?? LANDING.pricing.basePrice),
+    price: String(LANDING.pricing.selfPaced.salePrice ?? LANDING.pricing.selfPaced.basePrice),
     priceCurrency: "USD",
     availability: "https://schema.org/InStock",
   },

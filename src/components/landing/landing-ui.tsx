@@ -17,6 +17,7 @@
 // ============================================================
 
 import { Children, useEffect, useRef, useState, type ReactNode, type PointerEvent } from "react";
+import dynamic from "next/dynamic";
 import {
   motion,
   useInView,
@@ -24,7 +25,28 @@ import {
 } from "motion/react";
 import Grainient from "./grainient";
 import SoftAurora from "./soft-aurora";
-import Silk from "./silk";
+import SideRays from "./side-rays";
+
+// Silk is a WebGL/three.js canvas: nothing can render for it during SSR or
+// before the (heavy) three.js bundle loads and the shader compiles, which is
+// exactly the 1-3s gap that showed a flat, static reddish background instead
+// of the hero. Loading it as a client-only dynamic import with a CSS-only
+// fallback that already looks like a frozen frame of the shader means there
+// is no visible "pop" moment: the placeholder already reads as the hero, and
+// the real canvas just starts moving once it's ready.
+function SilkFallback() {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-0"
+      style={{
+        background: "linear-gradient(115deg, #ff2121 0%, #C81E3A 22%, #7A2320 50%, #C81E3A 78%, #ff2121 100%)",
+      }}
+    />
+  );
+}
+
+const Silk = dynamic(() => import("./silk"), { ssr: false, loading: SilkFallback });
 
 // ---------- hydration-safe reduced motion ----------
 
@@ -36,6 +58,43 @@ export function useSafeReducedMotion(): boolean {
     return () => cancelAnimationFrame(id);
   }, []);
   return mounted ? !!real : false;
+}
+
+// ---------- Badge (small pill label, 5 prior ad-hoc call sites consolidated) ----------
+
+const BADGE_TONE = {
+  neutral: "bg-white/[0.08] text-neutral-500",
+  "accent-solid": "bg-[#C73F3E] text-white",
+  "accent-tint": "bg-[#E24B4A]/12 text-[#ff8a82]",
+  "accent-outline": "border border-[#E24B4A]/35 bg-white/[0.055] text-[#ff8a82]",
+} as const;
+
+const BADGE_SIZE = {
+  sm: "px-2 py-0.5",
+  md: "px-2.5 py-1",
+} as const;
+
+export function Badge({
+  children,
+  tone = "neutral",
+  size = "md",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: keyof typeof BADGE_TONE;
+  size?: keyof typeof BADGE_SIZE;
+  className?: string;
+}) {
+  return (
+    <span
+      className={
+        "inline-flex shrink-0 items-center rounded-full text-[11px] font-medium " +
+        BADGE_SIZE[size] + " " + BADGE_TONE[tone] + " " + className
+      }
+    >
+      {children}
+    </span>
+  );
 }
 
 // ---------- Reveal ----------
@@ -228,11 +287,16 @@ export function DragMarquee({
       onMouseLeave={() => {
         paused.current = false;
       }}
+      onTouchStart={() => {
+        paused.current = true;
+      }}
+      onTouchEnd={() => {
+        paused.current = false;
+      }}
     >
       <style>{`
         .landing-drag-scroll {
           scrollbar-width: none;
-          scroll-behavior: smooth;
         }
         .landing-drag-scroll::-webkit-scrollbar {
           display: none;
@@ -259,7 +323,7 @@ export function DragMarquee({
             type="button"
             onClick={() => snap(-1)}
             aria-label="Previous testimonials"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-neutral-300 shadow-[0_0_28px_rgba(226,75,74,0.08)] transition-all hover:border-[#E24B4A]/60 hover:bg-[#E24B4A]/10 hover:text-white active:scale-95"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-neutral-300 transition-all hover:border-[#E24B4A]/60 hover:bg-[#E24B4A]/10 hover:text-white active:scale-95"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
@@ -267,7 +331,7 @@ export function DragMarquee({
             type="button"
             onClick={() => snap(1)}
             aria-label="Next testimonials"
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-neutral-300 shadow-[0_0_28px_rgba(226,75,74,0.08)] transition-all hover:border-[#E24B4A]/60 hover:bg-[#E24B4A]/10 hover:text-white active:scale-95"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] text-neutral-300 transition-all hover:border-[#E24B4A]/60 hover:bg-[#E24B4A]/10 hover:text-white active:scale-95"
           >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
@@ -319,13 +383,13 @@ export function Spotlight({ children, className = "" }: { children: ReactNode; c
 
 // ---------- Full-bleed backgrounds ----------
 
-export function DotBackground({ fade = true }: { fade?: boolean }) {
+export function DotBackground({ fade = true, dotOpacity = 0.11 }: { fade?: boolean; dotOpacity?: number }) {
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 -z-10"
       style={{
-        backgroundImage: "radial-gradient(rgba(255,255,255,0.11) 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(rgba(255,255,255," + dotOpacity + ") 1px, transparent 1px)",
         backgroundSize: "22px 22px",
         maskImage: fade ? "radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent)" : undefined,
         WebkitMaskImage: fade ? "radial-gradient(ellipse 80% 60% at 50% 40%, black, transparent)" : undefined,
@@ -334,7 +398,17 @@ export function DotBackground({ fade = true }: { fade?: boolean }) {
   );
 }
 
-export function GridSpotlightBackground() {
+export function GridSpotlightBackground({
+  gridColor = "255,255,255",
+  gridOpacity = 0.055,
+  spotlightColor = "226,75,74",
+  spotlightOpacity = 0.5,
+}: {
+  gridColor?: string;
+  gridOpacity?: number;
+  spotlightColor?: string;
+  spotlightOpacity?: number;
+} = {}) {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const reduce = useSafeReducedMotion();
@@ -358,8 +432,8 @@ export function GridSpotlightBackground() {
   }, [reduce]);
 
   const gridImg =
-    "linear-gradient(to right, rgba(255,255,255,0.055) 1px, transparent 1px)," +
-    "linear-gradient(to bottom, rgba(255,255,255,0.055) 1px, transparent 1px)";
+    "linear-gradient(to right, rgba(" + gridColor + "," + String(gridOpacity) + ") 1px, transparent 1px)," +
+    "linear-gradient(to bottom, rgba(" + gridColor + "," + String(gridOpacity) + ") 1px, transparent 1px)";
 
   return (
     <div ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -369,8 +443,8 @@ export function GridSpotlightBackground() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(to right, rgba(226,75,74,0.5) 1px, transparent 1px)," +
-              "linear-gradient(to bottom, rgba(226,75,74,0.5) 1px, transparent 1px)",
+              "linear-gradient(to right, rgba(" + spotlightColor + "," + String(spotlightOpacity) + ") 1px, transparent 1px)," +
+              "linear-gradient(to bottom, rgba(" + spotlightColor + "," + String(spotlightOpacity) + ") 1px, transparent 1px)",
             backgroundSize: "40px 40px",
             maskImage: "radial-gradient(200px circle at " + String(pos.x) + "px " + String(pos.y) + "px, black, transparent 70%)",
             WebkitMaskImage: "radial-gradient(200px circle at " + String(pos.x) + "px " + String(pos.y) + "px, black, transparent 70%)",
@@ -381,7 +455,19 @@ export function GridSpotlightBackground() {
   );
 }
 
-export function BlobBackground({ opacity = 1 }: { opacity?: number }) {
+const BLOB_RED: [string, string, string] = [
+  "rgba(226,75,74,0.24)",
+  "rgba(226,75,74,0.18)",
+  "rgba(255,70,70,0.14)",
+];
+
+export function BlobBackground({
+  opacity = 1,
+  colors = BLOB_RED,
+}: {
+  opacity?: number;
+  colors?: [string, string, string];
+}) {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" style={{ opacity }}>
       <style>{`
@@ -393,50 +479,58 @@ export function BlobBackground({ opacity = 1 }: { opacity?: number }) {
         .blob-c { animation: blob-c 26s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) { .blob-a,.blob-b,.blob-c { animation: none; } }
       `}</style>
-      <div className="blob-a absolute -left-20 top-10 h-72 w-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(226,75,74,0.24), transparent 70%)" }} />
-      <div className="blob-b absolute right-0 top-40 h-80 w-80 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(226,75,74,0.18), transparent 70%)" }} />
-      <div className="blob-c absolute bottom-0 left-1/3 h-64 w-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(255,70,70,0.14), transparent 70%)" }} />
+      <div className="blob-a absolute -left-20 top-10 h-72 w-72 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, " + colors[0] + ", transparent 70%)" }} />
+      <div className="blob-b absolute right-0 top-40 h-80 w-80 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, " + colors[1] + ", transparent 70%)" }} />
+      <div className="blob-c absolute bottom-0 left-1/3 h-64 w-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, " + colors[2] + ", transparent 70%)" }} />
     </div>
   );
 }
 
 export function HeroBackground() {
+  // GridSpotlightBackground tracks the mouse via its own parentElement, so it
+  // is rendered here as a Fragment child (not wrapped in another div) to land
+  // as a direct child of the <section>, matching how it's used lower on the
+  // page (Included/Explorer, Contact) so the hover spotlight actually tracks.
+  // Silk kept available (see silk.tsx), just not rendered here anymore: swapped
+  // for the same checkbox-grid + red spotlight used lower on the page.
+  // Base tint shifted to a dark blue (vs. the site's near-black/red base) and
+  // the grid lines brightened to red, both user-directed for hero contrast:
+  // a deliberate, scoped exception, same pattern as PricingRaysBackground's.
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[#050203]">
-      <div className="absolute inset-0">
-        <Silk color="#ff2121" />
-        {/* <Grainient
-          color1="#3A0F10"
-          color2="#E24B4A"
-          color3="#020001"
-          timeSpeed={0.15}
-          colorBalance={0.05}
-          warpStrength={0.9}
-          warpFrequency={2.8}
-          warpSpeed={1.0}
-          warpAmplitude={78}
-          blendAngle={-20}
-          blendSoftness={0.4}
-          rotationAmount={210}
-          noiseScale={1.2}
-          grainAmount={0.09}
-          grainScale={2.2}
-          grainAnimated={false}
-          contrast={1.18}
-          gamma={1.06}
-          saturation={0.94}
-          centerX={-0.04}
-          centerY={-0.02}
-          zoom={0.92}
-        /> */}
-      </div>
+    <>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[#070B1C]" />
+      <GridSpotlightBackground gridColor="226,75,74" gridOpacity={0.22} spotlightOpacity={0.75} />
       <div
-        className="absolute inset-0"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
         style={{
           background:
-            "radial-gradient(900px circle at 50% 24%, rgba(255,130,100,0.14), transparent 60%)," +
-            "linear-gradient(to bottom, rgba(5,2,3,0.55), rgba(5,2,3,0.28) 32%, rgba(5,2,3,0.55) 68%, rgba(5,2,3,0.94))",
+            "radial-gradient(900px circle at 50% 24%, rgba(255,110,90,0.18), transparent 60%)," +
+            "linear-gradient(to bottom, rgba(7,11,28,0.4), rgba(7,11,28,0.16) 32%, rgba(7,11,28,0.42) 68%, rgba(7,11,28,0.82))",
         }}
+      />
+    </>
+  );
+}
+
+// PricingFaq's background. Gold/blue rays are a confirmed, deliberate
+// exception to the red-only palette (user-directed): the component's own
+// defaults, reverted to exactly, not the system's reds.
+export function PricingRaysBackground() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-[#050203]">
+      <SideRays
+        speed={2.5}
+        rayColor1="#EAB308"
+        rayColor2="#96c8ff"
+        intensity={2}
+        spread={2}
+        origin="top-right"
+        tilt={0}
+        saturation={1.5}
+        blend={0.75}
+        falloff={1.6}
+        opacity={1.0}
       />
     </div>
   );

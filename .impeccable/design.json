@@ -1,17 +1,27 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-27T00:00:00.000Z",
+  "generatedAt": "2026-07-27T12:15:00.000Z",
   "title": "Design System: SPARKS Landing (Make AI Your Muse)",
   "extensions": {
     "colorMeta": {
       "primary": { "role": "primary", "displayName": "Signal Red", "canonical": "#E24B4A", "tonalRamp": ["#2a0d0c", "#4a1614", "#6d1f1c", "#912925", "#b8342f", "#e24b4a", "#f09595", "#ffd9d5"] },
       "primary-hover": { "role": "primary", "displayName": "Hot Red", "canonical": "#ff5a56" },
       "primary-deep": { "role": "primary", "displayName": "Ember Deep", "canonical": "#7A2320" },
+      "hero-shader-red": { "role": "primary", "displayName": "Hero Shader Red", "canonical": "#ff2121", "notes": "Silk shader's own color in HeroBackground; pre-existing, documented now. Also used in the shader's CSS-only loading fallback." },
       "accent-rose": { "role": "secondary", "displayName": "Soft Rose", "canonical": "#F09595" },
       "accent-coral": { "role": "secondary", "displayName": "Coral Text", "canonical": "#ff8a82" },
       "accent-coral-light": { "role": "secondary", "displayName": "Coral Text Light", "canonical": "#ff9a92" },
       "accent-highlight": { "role": "secondary", "displayName": "Ember Highlight", "canonical": "#FFD9C2" },
-      "gradient-start": { "role": "secondary", "displayName": "Ember Gradient Start", "canonical": "#C73F3E" },
+      "cta-fill": { "role": "secondary", "displayName": "Cardinal", "canonical": "#C81E3A" },
+      "cta-fill-hover": { "role": "secondary", "displayName": "Cardinal Bright", "canonical": "#E0233F" },
+      "before-signal": { "role": "secondary", "displayName": "Before Signal", "canonical": "#7C93B3", "tonalRamp": ["#232a33", "#374250", "#4b596d", "#5f708a", "#7089A8", "#7C93B3", "#A3B4C6", "#CBD6E0"] },
+      "curriculum-navy": { "role": "neutral", "displayName": "Curriculum Navy", "canonical": "#050810", "notes": "Shared background across Curriculum, Included, and Explorer (a confirmed 3-section run), not Curriculum-only." },
+      "signal-bright": { "role": "secondary", "displayName": "Signal Bright", "canonical": "#FF3B3B" },
+      "pricing-rays-gold": { "role": "secondary", "displayName": "Pricing Rays Gold", "canonical": "#EAB308", "notes": "Decorative only, PricingRaysBackground. The system's only non-red hue outside Before Signal; confined to that one decorative layer." },
+      "pricing-rays-blue": { "role": "secondary", "displayName": "Pricing Rays Blue", "canonical": "#96c8ff", "notes": "Decorative only, PricingRaysBackground, paired with pricing-rays-gold." },
+      "glow-tint-warm": { "role": "secondary", "displayName": "Glow Tint Warm", "canonical": "rgba(255,130,100,0.14)" },
+      "glow-tint-hot": { "role": "secondary", "displayName": "Glow Tint Hot", "canonical": "rgba(255,70,70,0.14)" },
+      "glow-tint-ember": { "role": "secondary", "displayName": "Glow Tint Ember", "canonical": "rgba(106,16,23,0.38)" },
       "success": { "role": "neutral", "displayName": "Confirm Green", "canonical": "#0F6E56" },
       "bg-void": { "role": "neutral", "displayName": "Void", "canonical": "#070304", "tonalRamp": ["#070304", "#0f0607", "#1a0a0b", "#2a1010", "#3d1717", "#571f1e", "#7a2726", "#a53230"] },
       "bg-panel-section": { "role": "neutral", "displayName": "Panel Black", "canonical": "#090405" },
@@ -23,14 +33,23 @@
       "neutral-600": { "role": "neutral", "displayName": "Neutral 600", "canonical": "#525252" }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display (Fraunces)", "purpose": "Hero headline, section headings, price figures, stat numbers. Declarative copy only." },
+      "display": { "displayName": "Display (Fraunces)", "purpose": "Hero headline only." },
+      "stat": { "displayName": "Stat (Fraunces)", "purpose": "Large numeric callouts: assessment score." },
+      "stat-compact": { "displayName": "Stat Compact (Fraunces)", "purpose": "Pricing card figures only, 36px — Stat's smaller sibling for the compacted pricing cards." },
+      "headline": { "displayName": "Headline (Fraunces)", "purpose": "Section headings, one step below Display. Responsive: 28px mobile, 34px sm and up." },
+      "headline-lg": { "displayName": "Headline Large (Fraunces)", "purpose": "Final CTA closing heading only. Responsive: 32px mobile, 42px sm and up." },
+      "title": { "displayName": "Title (Fraunces)", "purpose": "Card/panel titles, price card headings." },
+      "body-lg": { "displayName": "Body Large (Geist)", "purpose": "Hero subhead only." },
       "body": { "displayName": "Body (Geist)", "purpose": "Running copy, descriptions, sub-text." },
-      "label": { "displayName": "Label (Geist)", "purpose": "Eyebrows, kickers, overlines, tab labels. Uppercase, wide tracking." }
+      "body-sm": { "displayName": "Body Small (Geist)", "purpose": "Secondary/supporting copy in dense panels." },
+      "label": { "displayName": "Label (Geist)", "purpose": "Eyebrows, kickers, overlines, tab labels, badge/chip text. Uppercase, wide tracking." },
+      "caption": { "displayName": "Caption (Geist)", "purpose": "Micro annotations: word counts, axis ticks. Not uppercase/tracked." }
     },
     "shadows": [
       { "name": "ambient-panel", "value": "0 24px 90px rgba(0,0,0,0.34)", "purpose": "Default glass panel elevation." },
       { "name": "accent-glow", "value": "0 0 34px rgba(226,75,74,0.28)", "purpose": "Primary CTA button rest state; intensifies to 0 0 52px rgba(226,75,74,0.42) on hover." },
-      { "name": "panel-strong", "value": "0 30px 110px rgba(226,75,74,0.16)", "purpose": "Elevated/premium panel accent glow (company pricing card)." }
+      { "name": "panel-strong", "value": "0 30px 110px rgba(226,75,74,0.16)", "purpose": "Elevated/premium panel accent glow (company pricing card)." },
+      { "name": "node-mask-ring", "value": "0 0 0 4px <background-color>", "purpose": "Curriculum stepper nodes: a solid ring matching the section's exact background so the connecting progress line reads as running behind each node, not through it. Every node (including capstone) must carry it. Value is #0a0f18 on the Curriculum Navy background." }
     ],
     "motion": [
       { "name": "ease-standard", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default easing for reveals, header morph, chart draw-on." },
@@ -48,9 +67,9 @@
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Signal Red CTA with shine sweep and accent glow, used for Enroll and other primary actions.",
+      "description": "Cardinal-red CTA with shine sweep and accent glow, used for Enroll and other primary actions. Vivid blood red, not Signal Red directly, for WCAG AA contrast under white text.",
       "html": "<a class=\"ds-btn-primary\" href=\"#\">Enroll</a>",
-      "css": ".ds-btn-primary { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 10px; background: #E24B4A; color: #fff; font-weight: 500; font-size: 14px; padding: 12px 24px; box-shadow: 0 0 34px rgba(226,75,74,0.28); transition: background 0.2s, box-shadow 0.2s; } .ds-btn-primary:hover { background: #ff5a56; box-shadow: 0 0 52px rgba(226,75,74,0.42); } .ds-btn-primary:active { transform: scale(0.98); }"
+      "css": ".ds-btn-primary { position: relative; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 10px; background: #C81E3A; color: #fff; font-weight: 500; font-size: 14px; padding: 12px 24px; box-shadow: 0 0 34px rgba(226,75,74,0.28); transition: background 0.2s, box-shadow 0.2s; } .ds-btn-primary:hover { background: #E0233F; box-shadow: 0 0 52px rgba(226,75,74,0.42); } .ds-btn-primary:active { transform: scale(0.98); }"
     },
     {
       "name": "Ghost Button",
@@ -77,20 +96,12 @@
       "css": ".ds-input { height: 44px; width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #fff; padding: 0 14px; font-family: Geist, ui-sans-serif, system-ui; font-size: 14px; } .ds-input::placeholder { color: #525252; } .ds-input:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(226,75,74,0.45); }"
     },
     {
-      "name": "Match Chip",
+      "name": "Badge",
       "kind": "chip",
-      "refersTo": null,
-      "description": "Filled Signal Red pill marking a definitive recommendation match in the resource explorer.",
-      "html": "<span class=\"ds-chip-match\">For you</span>",
-      "css": ".ds-chip-match { display: inline-flex; align-items: center; border-radius: 9999px; background: #E24B4A; color: #fff; font-size: 10px; font-weight: 500; padding: 2px 8px; }"
-    },
-    {
-      "name": "Neutral Chip",
-      "kind": "chip",
-      "refersTo": null,
-      "description": "Translucent neutral pill for category tags outside the top matches.",
-      "html": "<span class=\"ds-chip-neutral\">Tools</span>",
-      "css": ".ds-chip-neutral { display: inline-flex; align-items: center; border-radius: 9999px; background: rgba(255,255,255,0.08); color: #737373; font-size: 10px; font-weight: 500; padding: 2px 8px; }"
+      "refersTo": "badge-neutral",
+      "description": "Shared pill/badge primitive (landing-ui.tsx) consolidating 5 prior ad-hoc chip implementations. Tones: neutral, accent-solid, accent-tint, accent-outline. Sizes: sm, md.",
+      "html": "<span class=\"ds-badge ds-badge--neutral\">Tools</span><span class=\"ds-badge ds-badge--accent-solid ds-badge--sm\">For you</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; flex-shrink: 0; border-radius: 9999px; font-size: 11px; font-weight: 500; padding: 4px 10px; } .ds-badge--sm { padding: 2px 8px; } .ds-badge--neutral { background: rgba(255,255,255,0.08); color: #737373; } .ds-badge--accent-solid { background: #C81E3A; color: #fff; } .ds-badge--accent-tint { background: rgba(226,75,74,0.12); color: #ff8a82; } .ds-badge--accent-outline { border: 1px solid rgba(226,75,74,0.35); background: rgba(255,255,255,0.055); color: #ff8a82; }"
     },
     {
       "name": "Header Nav (floating)",
@@ -105,30 +116,37 @@
     "northStar": "The Late-Night Signal",
     "overview": "A dark broadcast studio, glowing red in the dark, transmitting proof through noise. The page reads as a signal being received rather than a brochure being read: near-black surfaces, a single red accent doing all the emotional work, film grain over everything, and background elements (scan lines, drifting glows, liquid signal sheets) that behave like a transmission rather than decor. This is not a moody aesthetic pasted onto a normal SaaS layout; the dark cinematic identity is the point, chosen deliberately over an earlier white-background brief because it fits the proof, not hype positioning: something serious is being measured in the dark, and the numbers are the light source. Density is comfortable, not dense: generous vertical rhythm between sections, single-column content column capped narrow inside full-bleed section backgrounds. Motion is restrained and physics-real; glow and grain carry atmosphere so kinetic motion doesn't have to.",
     "keyCharacteristics": [
-      "Near-black backgrounds with a single warm-red accent, never a second hue competing for attention",
+      "Near-black backgrounds with a single warm-red accent doing almost all the work, plus one narrow-purpose steel blue reserved for the before/after proof motif alone",
       "Full-bleed backgrounds behind a constrained content column (see The Full-Bleed Rule)",
       "Frosted glass panels that float on the dark backdrop, lit by soft red glow blooms instead of hard drop shadows",
       "Persistent film grain overlay ties every section together as one continuous transmission",
       "Fraunces serif for anything that needs to feel spoken or declared; Geist sans for everything read at a glance"
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "Signal Red is the only chromatic color in the system. Every other color is either a neutral or a tonal variant of red itself. Never introduce a second hue family.", "section": "colors" },
+      { "name": "The Default-Two, Confirmed-Exception Rule", "body": "The default palette carries exactly two chromatic colors: Signal Red for emphasis/action/proof, Before Signal (steel blue) for the before-state only. A section, or a confirmed run of adjacent sections (Curriculum Navy spans three: Curriculum, Included, Explorer), may carry one additional confirmed, user-directed, named exception when the default reads flat there. Never invent a new exception, and never extend an existing exception's scope, without the user asking.", "section": "colors" },
       { "name": "The Full-Bleed Rule", "body": "Every section wraps a full-viewport-width background layer around a horizontally constrained content column. Backgrounds never get clipped to the content column; content never spans full-bleed.", "section": "colors" },
       { "name": "The Spoken vs. Measured Rule", "body": "If the copy is a claim, price, or headline, it's Fraunces. If it's a fact, a label, or something scanned rather than read, it's Geist.", "section": "typography" },
-      { "name": "The Glow-Not-Shadow Rule", "body": "Nothing in this system casts a directional drop shadow implying an offset light source. Depth comes from blur + translucency (glass) or radial red bloom (glow).", "section": "elevation" }
+      { "name": "The Glow-Not-Shadow Rule", "body": "Nothing in this system casts a directional drop shadow implying an offset light source. Depth comes from blur + translucency (glass) or radial red bloom (glow).", "section": "elevation" },
+      { "name": "The Nine-Step Rule", "body": "The full type scale is nine named steps (Display, Stat, Headline, Title, Body Large, Body, Body Small, Label, Caption). Every new text element must land on one of these; a font-size matching none of them is drift, not a tenth step to invent ad hoc.", "section": "typography" },
+      { "name": "The Accent-Not-Wash Rule", "body": "A confirmed accent color earns small deliberate doses (CTA fill, icon, border, badge), not a whole-section ambient background wash. Confirmed twice: Testimonials' and Assessment's full-section BlobBackground red glows both read as reddish/not-dark and were removed; their actual accent elements got brighter instead.", "section": "colors" }
     ],
     "dos": [
-      "Do keep Signal Red as the only saturated hue anywhere on the page.",
+      "Do keep Signal Red and Before Signal as the only two saturated hues anywhere on the page, each confined to its own job.",
       "Do use glass + blur + glow for elevation.",
       "Do keep the film grain overlay active on every page in this system.",
       "Do pair Fraunces for declarative copy with Geist for scanned copy.",
       "Do keep full-bleed backgrounds behind a constrained max-w-6xl content column."
     ],
     "donts": [
-      "Don't introduce a second saturated hue anywhere in this system.",
+      "Don't introduce a new color anywhere without it being a confirmed, user-directed, named, scoped exception.",
+      "Don't use Before Signal outside the before/after motif, Curriculum Navy outside the Curriculum/Included/Explorer run, or Signal Bright outside Included, without confirmation.",
+      "Don't use a translucent fill over an animated element (progress line, shader) unless the see-through is intentional; check first.",
       "Don't add hard, directional drop shadows.",
       "Don't run this dark cinematic system on a white background or light section as a variant.",
-      "Don't present placeholder cohort stats, testimonials, or brand logos as final/real."
+      "Don't present placeholder cohort stats, testimonials, or brand logos as final/real.",
+      "Don't wash a whole section in low-opacity red background glow by default; reserve full-section ambient glow for sections that earned it.",
+      "Don't give a control a permanent rest-state glow shadow if it also glows on hover; reserve the glow for the interactive state.",
+      "Don't pair CSS scroll-behavior:smooth with a rAF loop mutating scrollLeft every frame; each increment animates as its own transition and queues into a stutter. Reserve scroll-behavior:smooth for discrete jump scrolls only."
     ]
   }
 }
