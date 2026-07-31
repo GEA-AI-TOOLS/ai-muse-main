@@ -35,12 +35,9 @@ export async function proxy(req: NextRequest) {
   }
 
   if (pathname === "/") {
-    if (!req.cookies.get("auth")?.value) {
-      const url = req.nextUrl.clone();
-      url.pathname = "/home";
-      return NextResponse.redirect(url);
-    }
-    return NextResponse.next();
+    const url = req.nextUrl.clone();
+    url.pathname = "/progress";
+    return NextResponse.redirect(url);
   }
 
   const authToken = req.cookies.get("auth")?.value;
