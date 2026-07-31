@@ -454,3 +454,46 @@ export async function sendWelcomeEmail(
     htmlContent: html,
   });
 }
+
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? "bryan.h@bryancassady.com";
+
+export async function sendContactEmail(
+  name: string,
+  email: string,
+  message: string
+): Promise<void> {
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>New contact form message</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f4f4f4; font-family:Georgia, 'Times New Roman', serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4;">
+<tr>
+<td align="center" style="padding:30px 10px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:4px;">
+<tr>
+<td style="padding:30px 40px;">
+<p style="margin:0 0 16px 0; font-size:18px; color:#171514;">New message from the landing page contact form</p>
+<p style="margin:0 0 8px 0; font-size:14px; color:#171514;"><strong>Name:</strong> ${name}</p>
+<p style="margin:0 0 16px 0; font-size:14px; color:#171514;"><strong>Email:</strong> ${email}</p>
+<p style="margin:0; font-size:14px; color:#171514; white-space:pre-wrap; line-height:1.6;">${message}</p>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</body>
+</html>`;
+
+  await brevo().transactionalEmails.sendTransacEmail({
+    sender: { name: FROM_NAME, email: FROM_EMAIL },
+    to: [{ email: CONTACT_TO_EMAIL }],
+    replyTo: { email, name },
+    subject: "New contact form message from " + name,
+    textContent: ["Name: " + name, "Email: " + email, "", message].join("\n"),
+    htmlContent: html,
+  });
+}

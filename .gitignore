@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+silk.tsx
 
 test-whatsapp.js
+
+# local agent planning notes
+CLAUDE.md

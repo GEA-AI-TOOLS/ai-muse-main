@@ -1,12 +1,11 @@
-import Link from "next/link";
-
 interface Props {
   currentDay: number;
   daysComplete: number[];
   allDone: boolean;
+  basePath?: string;
 }
 
-export function TrackerBar({ currentDay, daysComplete, allDone }: Props) {
+export function TrackerBar({ currentDay, daysComplete, allDone, basePath = "/lesson"}: Props) {
   return (
     <div>
       <div className="flex items-end justify-between">
@@ -49,7 +48,7 @@ export function TrackerBar({ currentDay, daysComplete, allDone }: Props) {
 
           // All days are openable now — every dot links to its lesson
           return (
-            <a key={day} href={"/lesson/" + String(day)}>
+            <a key={day} href={basePath + "/" + String(day)}>
               {dot}
             </a>
           );

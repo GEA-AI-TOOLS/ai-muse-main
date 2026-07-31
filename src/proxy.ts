@@ -9,6 +9,7 @@ const PUBLIC_PATHS = [
   "/api/participant",
   "/api/webhooks",
   "/api/enroll",
+  "/api/contact",
   "/api/reminders",
   "/api/account",
   "/api/r",
@@ -16,6 +17,10 @@ const PUBLIC_PATHS = [
   "/verify",
   "/waiting",
   "/assets",
+  "/home",
+  "/audit",
+  "/mux-test",
+  "/under-construction",
 ];
 
 export async function proxy(req: NextRequest) {
@@ -27,6 +32,12 @@ export async function proxy(req: NextRequest) {
     pathname.startsWith("/favicon")
   ) {
     return NextResponse.next();
+  }
+
+  if (pathname === "/") {
+    const url = req.nextUrl.clone();
+    url.pathname = "/progress";
+    return NextResponse.redirect(url);
   }
 
   const authToken = req.cookies.get("auth")?.value;
