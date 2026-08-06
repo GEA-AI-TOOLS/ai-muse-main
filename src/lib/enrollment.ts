@@ -11,11 +11,15 @@ function getUpcomingMonday(fromDate: Date): Date {
   return date;
 }
 
+// This repo is the VIDEO (self-paced) deployment. Hardcoded on purpose.
+const COHORT_TYPE = "self_paced";
+const COHORT_SLUG = "video";
+
 function formatCohortId(monday: Date): string {
   const y = monday.getUTCFullYear();
   const m = String(monday.getUTCMonth() + 1).padStart(2, "0");
   const d = String(monday.getUTCDate()).padStart(2, "0");
-  return "cohort_" + y + "_" + m + "_" + d;
+  return "cohort_" + COHORT_SLUG + "_" + y + "_" + m + "_" + d;
 }
 
 export interface FulfillResult {
@@ -70,7 +74,12 @@ export async function fulfillEnrollment(
   await supabase
     .from("cohorts")
     .upsert(
-      { cohort_id: cohortId, start_date: startDate, status: "open" },
+      {
+        cohort_id: cohortId,
+        start_date: startDate,
+        status: "open",
+        cohort_type: COHORT_TYPE,
+      },
       { onConflict: "cohort_id", ignoreDuplicates: true }
     );
 
