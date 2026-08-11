@@ -58,7 +58,7 @@ export function DevicesView({ sessions: initial, currentToken }: Props) {
             <div className="flex h-6 w-6 items-center justify-center rounded bg-[#E24B4A] text-xs font-medium text-white">
               M
             </div>
-            <span className="text-sm font-medium">Make AI Your Muse</span>
+            <span className="text-sm font-medium">Disciplined AI</span>
           </a>
         </div>
       </header>

@@ -98,7 +98,7 @@ export function WelcomeView({ participant }: Props) {
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
             <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-            <span className="text-sm font-medium">Make AI Your Muse</span>
+            <span className="text-sm font-medium">Disciplined AI</span>
           </a>
           <div className="flex items-center gap-3">
             <button onClick={toggleDarkMode} className="text-muted-foreground hover:text-foreground" aria-label="Toggle dark mode">
@@ -159,7 +159,7 @@ export function WelcomeView({ participant }: Props) {
         <div className="py-8 border-b">
           <div className="aspect-video overflow-hidden rounded-md bg-black">
             <iframe
-            src="https://www.youtube.com/embed/dlY4Rh1LXXQ?si=lBtOQn_rRg1Wg8oz"
+            src="https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH"
             className="h-full w-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

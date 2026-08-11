@@ -51,7 +51,7 @@ export function buildCourseIcs(
   const lines: string[] = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//SPARKS//Make AI Your Muse//EN",
+    "PRODID:-//SPARKS//Disciplined AI//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
   ];

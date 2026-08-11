@@ -279,7 +279,7 @@ export function CertificatePDF({
   const sealData = loadImage(isMastery ? "seal-mastery.png" : "seal-completion.png");
 
   const bodyText =
-    "has completed all ten days of the Make AI Your Muse programme" +
+    "has completed all ten days of the Disciplined AI programme" +
     (isMastery ? " with distinction," : ",") +
     " a daily practice in thinking and working better with AI. Cohort of " +
     cohortDate + ".";
@@ -312,7 +312,7 @@ export function CertificatePDF({
             <View style={{ width: 48, height: 48, backgroundColor: BRAND.red }} />
           )}
 
-          <Text style={s.brandLabel}>Make AI Your Muse</Text>
+          <Text style={s.brandLabel}>Disciplined AI</Text>
 
           <View style={s.dividerRow}>
             <View style={s.dividerLine} />

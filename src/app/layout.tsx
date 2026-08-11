@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Make AI Your Muse",
+  title: "Disciplined AI",
   description: "A 10-day course to think and work better with AI.",
   icons: {
     icon: [
