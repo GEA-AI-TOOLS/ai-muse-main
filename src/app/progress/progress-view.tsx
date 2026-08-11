@@ -100,7 +100,11 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
   }
 
   function formatCohort(cohortId: string): string {
-    const parts = cohortId.replace("cohort_", "").split("_");
+    const parts = cohortId
+      .replace("cohort_", "")
+      .replace("video_", "")
+      .replace("live_", "")
+      .split("_");
     if (parts.length !== 3) return cohortId;
     const date = new Date(
       Number(parts[0]),
@@ -158,8 +162,8 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-            <span className="text-sm font-medium">Make AI Your Muse</span>
+            <img src="/assets/site-icon.png" alt="Disciplined AI" className="h-7 w-7 rounded object-contain" />
+            <span className="text-sm font-medium">Disciplined AI</span>
           </a>
           <div className="flex items-center gap-3">
             <button

@@ -12,7 +12,12 @@ export default async function WaitingPage() {
   }
 
   function formatStartDate(id: string): string {
-    const parts = id.replace("cohort_", "").split("_");
+    // Handles cohort_2026_08_24 (legacy) and cohort_video_2026_08_24 / cohort_live_2026_08_24 (current)
+    const parts = id
+      .replace("cohort_", "")
+      .replace("video_", "")
+      .replace("live_", "")
+      .split("_");
     if (parts.length !== 3) return "soon";
     const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
     return date.toLocaleDateString("en-US", {
@@ -29,8 +34,8 @@ export default async function WaitingPage() {
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-8 py-3">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-            <span className="text-sm font-medium">Make AI Your Muse</span>
+            <img src="/assets/site-icon.png" alt="Disciplined AI" className="h-7 w-7 rounded object-contain" />
+            <span className="text-sm font-medium">Disciplined AI</span>
           </a>
         </div>
       </header>
