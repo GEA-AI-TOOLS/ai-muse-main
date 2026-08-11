@@ -220,8 +220,8 @@ export default function LoginPage() {
       <div className="w-full max-w-sm">
 
         <div className="mb-8 flex items-center gap-2">
-          <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-          <span className="text-sm font-medium">Make AI Your Muse</span>
+          <img src="/assets/site-icon.png" alt="Disciplined AI" className="h-7 w-7 rounded object-contain" />
+          <span className="text-sm font-medium">Disciplined AI</span>
         </div>
 
         {step === "email" && (

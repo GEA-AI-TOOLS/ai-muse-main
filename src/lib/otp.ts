@@ -77,11 +77,11 @@ export async function sendOtpEmail(
 
   await brevo.transactionalEmails.sendTransacEmail({
     sender: {
-      name: process.env.SMTP_FROM_NAME ?? "Make AI Your Muse",
+      name: process.env.SMTP_FROM_NAME ?? "Disciplined AI",
       email: process.env.SMTP_FROM!,
     },
     to: [{ email: toEmail, name: toName }],
-    subject: "Your login code for Make AI Your Muse",
+    subject: "Your login code for Disciplined AI",
     textContent: [
       "Hi " + toName + ",",
       "",
@@ -93,7 +93,7 @@ export async function sendOtpEmail(
     ].join("\n"),
     htmlContent: [
       "<div style='font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;'>",
-      "<p style='margin:0 0 8px;font-size:14px;color:#666;'>Make AI Your Muse</p>",
+      "<p style='margin:0 0 8px;font-size:14px;color:#666;'>Disciplined AI</p>",
       "<h1 style='margin:0 0 24px;font-size:22px;font-weight:600;color:#111;'>Your login code</h1>",
       "<p style='margin:0 0 16px;font-size:15px;color:#333;'>Hi " + toName + ",</p>",
       "<p style='margin:0 0 24px;font-size:15px;color:#333;'>Use the code below to log in. It expires in 10 minutes.</p>",

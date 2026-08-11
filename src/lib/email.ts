@@ -3,7 +3,7 @@ import { supabase } from "@/lib/supabase";
 import { buildCourseIcs } from "@/lib/ics";
 
 const FROM_EMAIL = process.env.SMTP_FROM!;
-const FROM_NAME = process.env.SMTP_FROM_NAME ?? "Make AI Your Muse";
+const FROM_NAME = process.env.SMTP_FROM_NAME ?? "Disciplined AI";
 
 function brevo() {
   return new BrevoClient({ apiKey: process.env.BREVO_API_KEY! });

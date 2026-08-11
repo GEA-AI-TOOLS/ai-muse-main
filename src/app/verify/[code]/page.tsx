@@ -30,7 +30,11 @@ async function getCertificate(code: string) {
 }
 
 function formatCohortDate(cohortId: string): string {
-  const parts = cohortId.replace("cohort_", "").split("_");
+  const parts = cohortId
+    .replace("cohort_", "")
+    .replace("video_", "")
+    .replace("live_", "")
+    .split("_");
   if (parts.length !== 3) return cohortId;
   const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
   return date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
@@ -87,8 +91,8 @@ export default async function VerifyPage({ params }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-            <span className="text-base font-medium">Make AI Your Muse</span>
+            <img src="/assets/site-icon.png" alt="Disciplined AI" className="h-7 w-7 rounded object-contain" />
+            <span className="text-base font-medium">Disciplined AI</span>
           </div>
           <span className="text-xs text-muted-foreground">Certificate verification</span>
         </div>
@@ -137,7 +141,7 @@ export default async function VerifyPage({ params }: Props) {
 
             {/* Course name */}
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">
-              Make AI Your Muse in 10 Days
+              Disciplined AI: The SPARKS Method
             </p>
 
             {/* Cert type */}
