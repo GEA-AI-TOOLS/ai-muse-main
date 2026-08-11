@@ -119,7 +119,11 @@ export function LessonView({ participant, lesson, section }: Props) {
   const firstName = participant.name.split(" ")[0];
 
   function formatCohort(cohortId: string): string {
-    const parts = cohortId.replace("cohort_", "").split("_");
+    const parts = cohortId
+      .replace("cohort_", "")
+      .replace("video_", "")
+      .replace("live_", "")
+      .split("_");
     if (parts.length !== 3) return cohortId;
     const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
     return "Cohort · " + date.toLocaleDateString("en-US", {
@@ -161,8 +165,8 @@ export function LessonView({ participant, lesson, section }: Props) {
       <header className="border-b">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4">
           <a href="/progress" className="flex items-center gap-2 hover:opacity-80">
-            <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-            <span className="text-base font-medium">Make AI Your Muse</span>
+            <img src="/assets/site-icon.png" alt="Disciplined AI" className="h-7 w-7 rounded object-contain" />
+            <span className="text-base font-medium">Disciplined AI</span>
           </a>
           <div className="flex items-center gap-4">
             <button

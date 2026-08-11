@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, BarChart3, Award, CalendarDays } from "lucide-react";
@@ -107,13 +107,30 @@ export function EnrollForm() {
   const [emailReminders, setEmailReminders] = useState(true);
   const [dialCode, setDialCode] = useState("+1");
   const [dialCodeOpen, setDialCodeOpen] = useState(false);
+  const [timezoneOpen, setTimezoneOpen] = useState(false);
   const [customDialCode, setCustomDialCode] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [timezone, setTimezone] = useState(detectTimezone());
+  const [timezone, setTimezone] = useState("Europe/London");
 
   const [emailOtp, setEmailOtp] = useState("");
   const [whatsappOtp, setWhatsappOtp] = useState("");
   const [hasPhone, setHasPhone] = useState(false);
+
+  useEffect(() => {
+    let detected = detectTimezone();
+
+    if (detected === "Asia/Calcutta") {
+      detected = "Asia/Kolkata";
+    }
+
+    const supportedTimezone = TIMEZONES.some(
+      (tz) => tz.value === detected
+    );
+
+    if (supportedTimezone) {
+      setTimezone(detected);
+    }
+  }, []);
 
   async function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -346,16 +363,68 @@ export function EnrollForm() {
 
               <div>
                 <label className={labelCls}>Your timezone</label>
-                <select
-                  value={timezone}
-                  onChange={(e) => setTimezone(e.target.value)}
-                  className={selectCls}
-                  required
-                >
-                  {TIMEZONES.map((tz) => (
-                    <option key={tz.value} value={tz.value}>{tz.label}</option>
-                  ))}
-                </select>
+
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setTimezoneOpen((v) => !v)}
+                    className={
+                      selectCls +
+                      " flex w-full items-center justify-between gap-3 text-left"
+                    }
+                  >
+                    <span className="truncate">
+                      {TIMEZONES.find((tz) => tz.value === timezone)?.label ?? timezone}
+                    </span>
+
+                    <svg
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className={
+                        "shrink-0 text-[#C4BFBD] transition-transform " +
+                        (timezoneOpen ? "rotate-180" : "")
+                      }
+                    >
+                      <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                  </button>
+
+                  {timezoneOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setTimezoneOpen(false)}
+                      />
+
+                      <div className="absolute bottom-[calc(100%+6px)] left-0 z-20 max-h-52 w-full overflow-y-auto rounded-lg border border-white/15 bg-[#1B1B21] py-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+                        {TIMEZONES.map((tz) => (
+                          <button
+                            key={tz.value}
+                            type="button"
+                            onClick={() => {
+                              setTimezone(tz.value);
+                              setTimezoneOpen(false);
+                            }}
+                            className={
+                              "flex w-full items-center px-3.5 py-1.5 text-left text-sm transition-colors " +
+                              (tz.value === timezone
+                                ? "bg-[#FF3B3B]/15 text-white"
+                                : "text-[#D6D3D1] hover:bg-white/[0.06] hover:text-white")
+                            }
+                          >
+                            {tz.label}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-2 pt-0.5">
