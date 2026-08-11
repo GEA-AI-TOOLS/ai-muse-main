@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { getParticipant, N8nError } from "@/lib/n8n";
 import { getLesson } from "@/lib/course-content";
 import { LessonView } from "./lesson-view";
+import { getCohortAccess } from "@/lib/cohort-access";
 
 interface PageProps {
   params: Promise<{ day: string }>;
@@ -30,6 +31,13 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
   }
 
   const { participant } = participantRes;
+
+  // Pre-launch cohorts: lessons stay locked until access_opens_at.
+  // Normal cohorts have access_opens_at = NULL and skip straight through.
+  const access = await getCohortAccess(participant.cohortId);
+  if (access.locked) {
+    redirect("/waiting");
+  }
 
   // Video version (self_paced): all 10 days unlocked. The day gate only applies
   // to the live version, where content must be delivered in sequence.

@@ -41,7 +41,7 @@ export function AuditHeader() {
       <div className="mx-auto flex max-w-4xl items-center justify-between px-8 py-4">
         <a href="/audit" className="flex items-center gap-2 hover:opacity-80">
           <img src="/assets/site-icon.png" alt="AI Muse" className="h-7 w-7 rounded object-contain" />
-          <span className="text-base font-medium">Make AI Your Muse</span>
+          <span className="text-base font-medium">Disciplined AI</span>
         </a>
         <span className="text-sm text-muted-foreground">{AUDIT_COPY.headerName}</span>
       </div>

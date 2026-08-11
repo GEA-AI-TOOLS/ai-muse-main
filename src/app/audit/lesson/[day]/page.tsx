@@ -16,7 +16,7 @@ export async function generateMetadata(
 
   const hook = lesson.essential.summary[0]?.body ?? "";
   return {
-    title: "Day " + String(lesson.day) + ": " + lesson.title + " — Make AI Your Muse",
+    title: "Day " + String(lesson.day) + ": " + lesson.title + " — Disciplined AI",
     description: hook.slice(0, 155),
     alternates: { canonical: "/audit/lesson/" + String(lesson.day) },
     openGraph: {

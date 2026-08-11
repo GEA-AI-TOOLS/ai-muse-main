@@ -84,20 +84,29 @@ export async function sendWelcomeEmail(
   toName: string,
   cohortId: string,
   timezone: string,
-  participantId: string
+  participantId: string,
+  accessOpensAt?: string | null
 ): Promise<void> {
   const startDate = formatCohortDate(cohortId);
   const base = (process.env.NEXT_PUBLIC_APP_URL ?? "https://sparks-v.bryancassady.com").replace(/\/$/, "");
   const loginUrl = base + "/login";
   const firstName = toName.split(" ")[0];
 
-  const tpl = await fetchTemplate(120); // self paced Welcome (video)
-  if (!tpl) throw new Error("Welcome email template (day 120) not found.");
+  // Pre-launch buyers get the delayed-access welcome (day 121).
+  const isPrelaunch = !!accessOpensAt && new Date(accessOpensAt).getTime() > Date.now();
+  const templateDay = isPrelaunch ? 121 : 120;
 
-  const html = fillPlaceholders(tpl.html, {
+  const tpl = await fetchTemplate(templateDay);
+  if (!tpl) throw new Error("Welcome email template (day " + String(templateDay) + ") not found.");
+
+  const vars = {
     name: firstName,
     loginUrl: loginUrl,
-  });
+    startDate: startDate,
+  };
+
+  const html = fillPlaceholders(tpl.html, vars);
+  const subject = fillPlaceholders(tpl.subject, vars);
 
   const ics = buildCourseIcs(cohortId, timezone, loginUrl, participantId);
   const icsBase64 = Buffer.from(ics, "utf-8").toString("base64");
@@ -111,12 +120,11 @@ export async function sendWelcomeEmail(
         content: icsBase64,
       },
     ],
-    subject: tpl.subject,
+    subject: subject,
     htmlContent: html,
   });
 }
-
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? "bryan.h@bryancassady.com";
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL ?? "contact@bryancassady.com";
 
 export async function sendContactEmail(
   name: string,

@@ -45,10 +45,10 @@ export const LANDING = {
   liveCohortHref: "/enroll",
   auditHref: "/audit",
   loginHref: "/login",
-  contactMailto: "mailto:bryan@bryancassady.com?subject=SPARKS%20for%20teams",
+  contactMailto: "mailto:courses@bryancassady.com?subject=Disciplined%20AI%20for%20teams",
 
   header: {
-    brand: "Make AI Your Muse",
+    brand: "Disciplined AI",
     nav: [
       { label: "Proof", href: "#proof" },
       { label: "Curriculum", href: "#curriculum" },
@@ -145,11 +145,11 @@ export const LANDING = {
     },
 
     video: {
-      title: "See it in 30 seconds",
+      title: "See it in 1 min",
       caption: "A short explanation of why the course is assessed before and after.",
-      duration: "0:30",
+      duration: "1:30",
       // Public, unsigned Mux playback ID. Empty = placeholder.
-      muxPlaybackId: "P01Se8wzGI8cK6dalce8dHUt1gRjJZKW3gJceGZknpDo",
+      muxPlaybackId: "5oCgHGmNEFU0257S1fSUw6mbpz02sCwGLf9UxcTkSjGUI",
       // Frame (in seconds) pulled from Mux for the custom thumbnail.
       thumbnailTime: 2,
     },
@@ -361,6 +361,7 @@ items: [
       "SPARKS exists because I kept watching smart people get average results from AI. The tools were never the problem. The thinking before the tool was.",
     ],
     audio: {
+      enabled: false, // flip to true once Bryan's real hello audio is ready
       label: "A hello from Bryan",
       duration: "Sample audio",
       // PLACEHOLDER: royalty-free sample track (SoundHelix demo music).
@@ -383,9 +384,10 @@ items: [
       heading: "The 10-Day Course",
       basePrice: 195,
       salePrice: 147, // set to null to show basePrice plain
-      currency: "$",
-      priceNote: "launch price",
-      afterLaunchNote: "After launch $195",
+      currency: "€",
+      priceNote: "pre-launch price",
+      afterLaunchNote: "Regular price €195 after launch",
+      saleNote: "This is a pre-launch enrollment. Lessons unlock on the course start date, not the day you enroll.",
       body: "Build the six SPARKS behaviors at your own pace.",
       includes: [
         "10 practical lessons",
@@ -396,14 +398,14 @@ items: [
         "Lifetime access",
       ],
       time: "10 minutes a day",
-      cta: "Enroll in the course",
+      cta: "Reserve your spot",
     },
     liveCohort: {
       badge: "Best results",
       kicker: "Live cohort",
       heading: "The Live Cohort",
       price: 1095,
-      currency: "$",
+      currency: "€",
       priceUnit: "per person",
       body: "Everything in the self-paced course, plus live practice, feedback, and accountability with Bryan.",
       includes: [
@@ -414,15 +416,16 @@ items: [
         "Certificates and lifetime access",
       ],
       time: "30 minutes a day for 10 days",
-      cohortDate: "Next cohort: Sept 7 to 18", // placeholder, confirm real date/seats before launch
-      cta: "Join the next cohort",
+      cohortDate: "Next cohort date to be announced",
+      cta: "Notify me",
+      enrollmentOpen: false,
     },
     company: {
       kicker: "Company program",
       tagline: "Disciplined AI for teams",
       heading: "Company Cohort",
       priceFrom: 12500, // placeholder, confirm starting price before launch
-      currency: "$",
+      currency: "€",
       priceNote: "Programs from",
       body: "A measured program built around your team's real work.",
       includes: [

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AuditWelcomeView } from "./audit-welcome-view";
 
 export const metadata: Metadata = {
-  title: "Course overview, Make AI Your Muse",
+  title: "Course overview, Disciplined AI",
   description: "What the 10 day course covers and how it works, before you enroll.",
   alternates: { canonical: "/audit/welcome" },
 };

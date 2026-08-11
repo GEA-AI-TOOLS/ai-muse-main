@@ -20,7 +20,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Make AI Your Muse in 10 Days | SPARKS by Bryan Cassady",
+  title: "Disciplined AI: The SPARKS Method by Bryan Cassady",
   description:
     "The only AI course that scores you before and after. Ten minutes a day for ten days, built on the SPARKS framework by Bryan Cassady. Preview Day 1 free, no signup.",
   alternates: { canonical: "/home" },
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
 const courseJsonLd = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "Make AI Your Muse in 10 Days",
+  name: "Disciplined AI: The SPARKS Method",
   description:
-    "A 10-day self-paced AI course built on the SPARKS framework: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, Stop and think. Every participant is assessed before and after the course.",
+    "Disciplined AI is a 10-day self-paced course built on the SPARKS framework: Speak it out, Pivot roles, Ask for more, Reframe, Keep going, Stop and think. Every participant is assessed before and after the course.",
   provider: { "@type": "Person", name: "Bryan Cassady" },
   offers: {
     "@type": "Offer",

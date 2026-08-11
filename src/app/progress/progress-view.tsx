@@ -8,6 +8,8 @@ import { SiteBannerCarousel } from "@/components/site-banner-carousel";
 
 interface Props {
   participant: Participant;
+  accessLocked?: boolean;
+  accessOpensAt?: string | null;
 }
 
 const DAY_TITLES: Record<number, string> = {
@@ -36,7 +38,7 @@ const PHASE_LABEL: Record<number, string> = {
   10: "sparks",
 };
 
-export function ProgressView({ participant }: Props) {
+export function ProgressView({ participant, accessLocked = false, accessOpensAt = null }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [completionCert, setCompletionCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
   const [masteryCert, setMasteryCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
@@ -90,6 +92,7 @@ export function ProgressView({ participant }: Props) {
   }, [dropdownOpen]);
 
   function getDayStatus(day: number): "complete" | "today" | "missed" | "locked" {
+    if (accessLocked) return "locked";
     if (daysComplete.includes(day)) return "complete";
     if (day === currentDay) return "today";
     if (day < currentDay) return "missed";
@@ -227,6 +230,24 @@ export function ProgressView({ participant }: Props) {
 
         <SiteBannerCarousel cohortId={participant.cohortId} />
 
+        {accessLocked && accessOpensAt && (
+          <div className="mt-6 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-5 py-4 dark:bg-[#3a1010]">
+            <p className="text-xs font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
+              Your cohort has not started yet
+            </p>
+            <p className="mt-1.5 text-sm leading-relaxed text-[#501313] dark:text-[#f5c1c1]">
+              {"Your place is reserved. The lessons unlock on " +
+                new Date(accessOpensAt).toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                }) +
+                ", and you will get an email each morning from then on."}
+            </p>
+          </div>
+        )}
+
         <div className="py-8">
           <h1 className="text-2xl font-medium">Your 10-day journey</h1>
           <p className="mt-1 text-sm text-muted-foreground">
@@ -315,13 +336,13 @@ export function ProgressView({ participant }: Props) {
           {!allDone && (
             <>
               <p className="mb-3 mt-6 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                Upcoming — open anytime
+                {accessLocked ? "The 10 days" : "Upcoming — open anytime"}
               </p>
               <div className="divide-y">
                 {Array.from({ length: 10 }, (_, i) => i + 1)
                   .filter((day) => getDayStatus(day) === "locked")
                   .map((day) => (
-                    <DayRow key={day} day={day} status="locked" />
+                    <DayRow key={day} day={day} status="locked" hardLocked={accessLocked} />
                   ))}
               </div>
             </>
@@ -593,9 +614,11 @@ function CapstoneCard() {
 function DayRow({
   day,
   status,
+  hardLocked = false,
 }: {
   day: number;
   status: "complete" | "missed" | "locked";
+  hardLocked?: boolean;
 }) {
   const title = DAY_TITLES[day] ?? "Lesson " + String(day);
   const phase = PHASE_LABEL[day];
@@ -629,6 +652,19 @@ function DayRow({
         </div>
         <span className="text-xs text-[#E24B4A]">Catch up</span>
       </a>
+    );
+  }
+
+  // Pre-launch: not openable at all, render as inert row.
+  if (hardLocked) {
+    return (
+      <div className="flex items-center justify-between py-3 opacity-55">
+        <div>
+          <p className="text-sm">{label}</p>
+          <p className="text-xs text-muted-foreground">{sublabel}</p>
+        </div>
+        <span className="text-xs text-muted-foreground">Locked</span>
+      </div>
     );
   }
 
