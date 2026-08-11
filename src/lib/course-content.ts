@@ -35,7 +35,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
 
     essential: {
-      videoUrl: "https://www.youtube.com/embed/SW7-qabC61o?si=vD2Eu7gdJ9IQYZ4V",
+      videoUrl: "https://www.youtube.com/embed/vBm_pDOA4Qs?si=vfxqJIAqlBcb7-rr",
       durationSeconds: 600,
       summary: [
         {
