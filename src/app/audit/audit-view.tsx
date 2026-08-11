@@ -45,16 +45,73 @@ export function AuditView() {
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Course preview
           </p>
+
           <h1 className="mb-4 text-4xl font-medium leading-tight">
-            Make AI Your Muse in 10 Days
+            Disciplined AI: The SPARKS Method
           </h1>
+
           <p className="max-w-xl text-base text-muted-foreground">
             This page mirrors the real course. Same structure, same summaries, same
             daily rhythm. Day 1 is fully open below, so you can see exactly what
             enrolling gets you.
           </p>
-          <div className="mt-6">
+
+          {/* Course benefits */}
+          <div className="mt-7 grid grid-cols-1 overflow-hidden rounded-md border bg-muted/20 sm:grid-cols-3">
+            <div className="px-5 py-4 sm:border-r">
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-3xl font-medium leading-none text-[#E24B4A]">
+                  10
+                </span>
+                <span className="text-lg font-medium">min</span>
+              </div>
+
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                A day. Short enough to finish before your first meeting.
+              </p>
+            </div>
+
+            <div className="border-t px-5 py-4 sm:border-r sm:border-t-0">
+              <div className="flex items-center gap-2">
+                <span className="text-3xl font-medium leading-none">
+                  57
+                </span>
+
+                <span className="text-2xl text-[#E24B4A]">
+                  →
+                </span>
+
+                <span className="text-3xl font-medium leading-none text-[#E24B4A]">
+                  81
+                </span>
+              </div>
+
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                Average learner score from Day 1 to Day 10.
+              </p>
+            </div>
+
+            <div className="border-t px-5 py-4 sm:border-t-0">
+              <div className="text-3xl font-medium leading-none text-[#E24B4A]">
+                Yours.
+              </div>
+
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                Keep every prompt and template after the course ends.
+              </p>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <EnrollCta />
+
+            <a
+              href="/audit/lesson/1"
+              className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/50"
+            >
+              Try Day 1 free →
+            </a>
           </div>
         </div>
 

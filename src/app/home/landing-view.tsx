@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const RED = "#E24B4A";
+const RED = "#FF3B3B";
 // The system's one deliberate second hue (see DESIGN.md "The Two-Signal
 // Rule"): a cool steel blue used exclusively for the "before" state in the
 // before/after proof motif, so the transformation reads as an actual color
@@ -1204,7 +1204,7 @@ function Explorer() {
           </Reveal>
 
           <Reveal delay={180}>
-            <div className="lg:sticky lg:top-24">
+            <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-hidden">
               <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.12em] text-neutral-500">
                 {anyAnswered ? "Your matches" : "Your matches will appear here"}
               </p>
@@ -1219,7 +1219,12 @@ function Explorer() {
                   with layout reordering caused overlapping mid-flight
                   cards. Pure layout transitions with a short tween are
                   glitch-free. */}
-              <div className="relative flex flex-col gap-2">
+              <div
+                className={
+                  "relative flex flex-col gap-2" +
+                  (showAll ? " max-h-[calc(100vh-16rem)] overflow-y-auto pr-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : "")
+                }
+              >
                 {matches.map((r) => (
                   <motion.a
                     key={r.id}
@@ -1253,21 +1258,31 @@ function Explorer() {
                     </motion.a>
                   ))}
 
-                <motion.button
-                  layout
-                  transition={{ duration: 0.25, ease: "easeOut" }}
-                  onClick={() => setShowAll(!showAll)}
-                  className="mt-1 inline-flex items-center gap-1.5 self-start text-sm text-neutral-500 transition-colors hover:text-white"
-                >
-                  {showAll ? cfg.hideAllLabel : cfg.showAllLabel + " (" + String(cfg.resources.length) + ")"}
-                  <svg
-                    className={"transition-transform duration-200 " + (showAll ? "rotate-180" : "")}
-                    width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  >
-                    <polyline points="6 9 12 15 18 9" />
+                </div>
+
+              {showAll && (
+                <p className="mt-2 flex items-center gap-1.5 text-[11px] text-neutral-600">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 5v14M19 12l-7 7-7-7" />
                   </svg>
-                </motion.button>
-              </div>
+                  Scroll within this list for more
+                </p>
+              )}
+
+              <motion.button
+                layout
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                onClick={() => setShowAll(!showAll)}
+                className="mt-3 inline-flex items-center gap-1.5 self-start text-sm text-neutral-500 transition-colors hover:text-white"
+              >
+                {showAll ? cfg.hideAllLabel : cfg.showAllLabel + " (" + String(cfg.resources.length) + ")"}
+                <svg
+                  className={"transition-transform duration-200 " + (showAll ? "rotate-180" : "")}
+                  width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </motion.button>
             </div>
           </Reveal>
         </div>
@@ -1468,6 +1483,7 @@ function Assessment() {
 
 function Bio() {
   const cfg = LANDING.bio;
+  const showAudio = LANDING.bio.audio.enabled;
   return (
     <section className="relative isolate overflow-hidden border-t border-white/10">
       <DotBackground fade={false} dotOpacity={0.24} />
@@ -1481,7 +1497,7 @@ function Bio() {
             />
             <div className="relative bg-gradient-to-t from-black/70 to-transparent p-4 pt-12">
               <p className="text-sm font-medium text-white">Bryan Cassady</p>
-              <p className="mt-0.5 text-xs text-white/70">Bestselling author, SPARKS</p>
+              <p className="mt-0.5 text-xs text-white/70">Bestselling author, Disciplined AI</p>
             </div>
           </div>
         </Reveal>
@@ -1491,9 +1507,11 @@ function Bio() {
             {cfg.paragraphs.map((p, i) => (
               <p key={i} className="mt-4 max-w-xl text-[15px] leading-relaxed text-neutral-400">{p}</p>
             ))}
-            <div className="mt-6 max-w-md">
-              <Waveform src={cfg.audio.src} label={cfg.audio.label} duration={cfg.audio.duration} />
-            </div>
+            {showAudio && (
+              <div className="mt-6 max-w-md">
+                <Waveform src={cfg.audio.src} label={cfg.audio.label} duration={cfg.audio.duration} />
+              </div>
+            )}
           </div>
         </Reveal>
       </Col>
@@ -1540,6 +1558,11 @@ function PricingFaq() {
                   <span className="text-sm text-neutral-500">{solo.priceNote}</span>
                 </div>
                 <p className="mt-1 text-xs text-neutral-500">{solo.afterLaunchNote}</p>
+                {solo.saleNote && (
+                  <div className="mt-3 rounded-md border-l-[3px] border-[#E24B4A] bg-[#E24B4A]/10 px-3 py-2">
+                    <p className="text-xs leading-relaxed text-red-100/80">{solo.saleNote}</p>
+                  </div>
+                )}
                 <p className="mt-3 text-sm leading-relaxed text-neutral-300">{solo.body}</p>
                 <ul className="mt-4 flex flex-1 flex-col gap-2">
                   {solo.includes.map((line, i) => (
@@ -1582,9 +1605,15 @@ function PricingFaq() {
                 <p className="mt-4 text-xs uppercase tracking-[0.1em] text-neutral-500">Time: {cohort.time}</p>
                 <p className="mt-1 text-xs text-neutral-500">{cohort.cohortDate}</p>
                 <div className="mt-4">
-                  <a href={LANDING.liveCohortHref} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
-                    {cohort.cta}
-                  </a>
+                  {cohort.enrollmentOpen ? (
+                    <a href={LANDING.liveCohortHref} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
+                      {cohort.cta}
+                    </a>
+                  ) : (
+                    <a href={LANDING.contactMailto} className="inline-flex w-full items-center justify-center rounded-md border border-white/15 bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/[0.08] active:scale-[0.99]">
+                      {cohort.cta}
+                    </a>
+                  )}
                 </div>
               </div>
             </div>

@@ -36,7 +36,7 @@ export async function proxy(req: NextRequest) {
 
   if (pathname === "/") {
     const url = req.nextUrl.clone();
-    url.pathname = "/progress";
+    url.pathname = "/home";
     return NextResponse.redirect(url);
   }
 

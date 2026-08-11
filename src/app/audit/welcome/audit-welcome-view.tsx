@@ -63,7 +63,7 @@ export function AuditWelcomeView() {
         <div className="border-b py-8">
           <div className="aspect-video overflow-hidden rounded-md bg-black">
             <iframe
-              src="https://www.youtube.com/embed/dlY4Rh1LXXQ?si=lBtOQn_rRg1Wg8oz"
+              src="https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH"
               className="h-full w-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

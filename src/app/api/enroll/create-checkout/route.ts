@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabase } from "@/lib/supabase";
+import { ACTIVE_PRICE_ID } from "@/lib/launch-config";
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return NextResponse.json({ ok: false, error: "Stripe not configured." }, { status: 500 });
   }
-  if (!process.env.STRIPE_PRICE_ID) {
+  if (!ACTIVE_PRICE_ID) {
     return NextResponse.json({ ok: false, error: "Price ID not configured." }, { status: 500 });
   }
 
@@ -49,10 +50,11 @@ export async function POST(req: NextRequest) {
     mode: "payment",
     line_items: [
       {
-        price: process.env.STRIPE_PRICE_ID!,
+        price: ACTIVE_PRICE_ID,
         quantity: 1,
       },
     ],
+    allow_promotion_codes: true,
     customer_email: cleanEmail,
     metadata: {
       pending_enrollment_id: enrollment.id,

@@ -1,6 +1,7 @@
 // src/lib/enrollment.ts
 import { supabase } from "@/lib/supabase";
 import { sendWelcomeEmail } from "@/lib/email";
+import { SALE_MODE, SALE_COHORT_START } from "@/lib/launch-config";
 
 function getUpcomingMonday(fromDate: Date): Date {
   const date = new Date(fromDate);
@@ -11,11 +12,15 @@ function getUpcomingMonday(fromDate: Date): Date {
   return date;
 }
 
+// This repo is the VIDEO (self-paced) deployment. Hardcoded on purpose.
+const COHORT_TYPE = "self_paced";
+const COHORT_SLUG = "video";
+
 function formatCohortId(monday: Date): string {
   const y = monday.getUTCFullYear();
   const m = String(monday.getUTCMonth() + 1).padStart(2, "0");
   const d = String(monday.getUTCDate()).padStart(2, "0");
-  return "cohort_" + y + "_" + m + "_" + d;
+  return "cohort_" + COHORT_SLUG + "_" + y + "_" + m + "_" + d;
 }
 
 export interface FulfillResult {
@@ -62,15 +67,26 @@ export async function fulfillEnrollment(
   }
 
   // --- Cohort ---
+  // In SALE_MODE every buyer joins one fixed pre-launch cohort whose lessons
+  // stay locked until its start date. Otherwise: next upcoming Monday, open now.
   const paymentDate = new Date(paymentCreatedAt * 1000);
-  const monday = getUpcomingMonday(paymentDate);
+  const monday = SALE_MODE
+    ? new Date(SALE_COHORT_START + "T00:00:00.000Z")
+    : getUpcomingMonday(paymentDate);
   const cohortId = formatCohortId(monday);
   const startDate = monday.toISOString().split("T")[0];
+  const accessOpensAt = SALE_MODE ? monday.toISOString() : null;
 
   await supabase
     .from("cohorts")
     .upsert(
-      { cohort_id: cohortId, start_date: startDate, status: "open" },
+      {
+        cohort_id: cohortId,
+        start_date: startDate,
+        status: "open",
+        cohort_type: COHORT_TYPE,
+        access_opens_at: accessOpensAt,
+      },
       { onConflict: "cohort_id", ignoreDuplicates: true }
     );
 
@@ -135,7 +151,8 @@ export async function fulfillEnrollment(
       enrollment.name,
       cohortId,
       enrollment.timezone,
-      participant.id
+      participant.id,
+      accessOpensAt
     );
   } catch (err) {
     console.error("fulfillEnrollment: welcome email failed:", err);
