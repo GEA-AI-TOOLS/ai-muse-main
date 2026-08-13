@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import { Separator } from "@/components/ui/separator";
 import { SummaryBlock } from "@/components/summary-block";
 import { TrackerBar } from "@/components/tracker-bar";
@@ -10,7 +13,6 @@ import {
   LockedCard,
   EnrollCta,
 } from "@/components/audit/audit-lock";
-import { useEffect } from "react";
 import { AUDIT_PERSONA, AUDIT_COPY, isLocked } from "@/lib/audit-config";
 import type { Lesson } from "@/lib/types";
 import { track } from "@vercel/analytics";
