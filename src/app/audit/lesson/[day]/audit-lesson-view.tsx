@@ -10,8 +10,10 @@ import {
   LockedCard,
   EnrollCta,
 } from "@/components/audit/audit-lock";
+import { useEffect } from "react";
 import { AUDIT_PERSONA, AUDIT_COPY, isLocked } from "@/lib/audit-config";
 import type { Lesson } from "@/lib/types";
+import { track } from "@vercel/analytics";
 
 function encodePromptUrl(base: string, prompt: string): string {
   return base + encodeURIComponent(prompt);
@@ -62,6 +64,10 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
   const phaseLabel = lesson.phase === "foundation" ? "Foundation" : "SPARKS";
   const hasDemo = !!lesson.essential.exercise.demo?.videoUrl?.trim();
 
+  useEffect(() => {
+    track("audit_lesson_opened", { day: lesson.day, phase: lesson.phase });
+  }, [lesson.day, lesson.phase]);
+
   const essentialUrls = getLlmUrls(lesson.essential.exercise.prompt);
   const advancedUrls = getLlmUrls(lesson.advanced?.exercise.prompt ?? null);
 
@@ -83,6 +89,7 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
             <a
               key={section.id}
               href={"#" + section.id}
+              onClick={() => track("audit_section_viewed", { day: lesson.day, section: section.id })}
               className="rounded px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
             >
               {section.label}
@@ -168,7 +175,10 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
             />
           )}
 
-          <div className="mt-8 rounded-md border border-[#F09595] bg-[#FCEBEB] px-5 py-4 dark:border-[#791F1F] dark:bg-[#3a1010]">
+          <div
+            className="mt-8 rounded-md border border-[#F09595] bg-[#FCEBEB] px-5 py-4 dark:border-[#791F1F] dark:bg-[#3a1010]"
+            onClick={() => track("enroll_cta_clicked", { placement: "audit_paywall", day: lesson.day })}
+          >
             <p className="mb-3 text-sm text-[#501313] dark:text-[#f5c1c1]">
               Enroll to unlock the video, the exercise, and the prompt for all 10 days.
             </p>

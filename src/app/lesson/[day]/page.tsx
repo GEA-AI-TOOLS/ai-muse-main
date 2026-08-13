@@ -39,10 +39,12 @@ export default async function LessonPage({ params, searchParams }: PageProps) {
     redirect("/waiting");
   }
 
-  // Video version (self_paced): all 10 days unlocked. The day gate only applies
-  // to the live version, where content must be delivered in sequence.
-  // current_day still drives emails — it just no longer gates lesson access here.
-  // (When live version lands, re-add the gate keyed on participant.cohort_type === "live".)
+  // Sale-batch cohorts unlock day by day, following current_day, same as the
+  // live cohort type — once a day unlocks it stays unlocked. Every normal
+  // self_paced cohort (isSaleBatch = false) keeps all 10 days open, unchanged.
+  if (access.isSaleBatch && day > participant.currentDay) {
+    redirect("/progress");
+  }
 
   const { s } = await searchParams;
   return <LessonView participant={participant} lesson={lesson} section={s} />;}

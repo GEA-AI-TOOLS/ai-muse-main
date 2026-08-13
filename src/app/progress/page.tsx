@@ -13,6 +13,7 @@ export default async function ProgressPage() {
       participant={participant}
       accessLocked={access.locked}
       accessOpensAt={access.opensAt}
+      isSaleBatch={access.isSaleBatch}
     />
   );
 }

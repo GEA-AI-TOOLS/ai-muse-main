@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { fulfillEnrollment } from "@/lib/enrollment";
+import { track } from "@vercel/analytics/server";
 import {
   generateSessionToken,
   parseDeviceLabel,
@@ -97,6 +98,7 @@ export default async function EnrollSuccessPage({ searchParams }: Props) {
         if (pendingId) {
           // Same idempotent helper the webhook uses — race-proof
           const result = await fulfillEnrollment(session.id, pendingId, session.created);
+          await track("enroll_completed");
           if (result) {
             loggedIn = await autoLogin(result.participantId);
           }

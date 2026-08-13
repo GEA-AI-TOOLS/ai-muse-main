@@ -10,6 +10,7 @@ interface Props {
   participant: Participant;
   accessLocked?: boolean;
   accessOpensAt?: string | null;
+  isSaleBatch?: boolean;
 }
 
 const DAY_TITLES: Record<number, string> = {
@@ -38,7 +39,7 @@ const PHASE_LABEL: Record<number, string> = {
   10: "sparks",
 };
 
-export function ProgressView({ participant, accessLocked = false, accessOpensAt = null }: Props) {
+export function ProgressView({ participant, accessLocked = false, accessOpensAt = null, isSaleBatch = false }: Props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [completionCert, setCompletionCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
   const [masteryCert, setMasteryCert] = useState<{ id: string; verification_code: string; issued_at: string } | null>(null);
@@ -91,11 +92,15 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
     return () => document.removeEventListener("click", handler);
   }, [dropdownOpen]);
 
-  function getDayStatus(day: number): "complete" | "today" | "missed" | "locked" {
+  function getDayStatus(day: number): "complete" | "today" | "missed" | "locked" | "notyet" {
     if (accessLocked) return "locked";
     if (daysComplete.includes(day)) return "complete";
     if (day === currentDay) return "today";
     if (day < currentDay) return "missed";
+    // Sale-batch cohorts unlock one day at a time, following current_day.
+    // Every normal self_paced cohort (isSaleBatch = false) treats future days
+    // as freely openable ("locked" here just means "not yet visited").
+    if (isSaleBatch && day > currentDay) return "notyet";
     return "locked";
   }
 
@@ -211,10 +216,10 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                   </div>
                   <div className="border-t" />
                   <a
-                    href="/account/devices"
+                    href="/account/preferences"
                     className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
                   >
-                    Manage devices
+                    Preferences
                   </a>
                   <div className="border-t" />
                   <button
@@ -349,6 +354,16 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                     <DayRow key={day} day={day} status="locked" hardLocked={accessLocked} />
                   ))}
               </div>
+
+              {isSaleBatch && (
+                <div className="divide-y">
+                  {Array.from({ length: 10 }, (_, i) => i + 1)
+                    .filter((day) => getDayStatus(day) === "notyet")
+                    .map((day) => (
+                      <DayRow key={day} day={day} status="locked" hardLocked notYetOpen />
+                    ))}
+                </div>
+              )}
             </>
           )}
 
@@ -619,10 +634,12 @@ function DayRow({
   day,
   status,
   hardLocked = false,
+  notYetOpen = false,
 }: {
   day: number;
   status: "complete" | "missed" | "locked";
   hardLocked?: boolean;
+  notYetOpen?: boolean;
 }) {
   const title = DAY_TITLES[day] ?? "Lesson " + String(day);
   const phase = PHASE_LABEL[day];
@@ -667,7 +684,9 @@ function DayRow({
           <p className="text-sm">{label}</p>
           <p className="text-xs text-muted-foreground">{sublabel}</p>
         </div>
-        <span className="text-xs text-muted-foreground">Locked</span>
+        <span className="text-xs text-muted-foreground">
+          {notYetOpen ? "Unlocks soon" : "Locked"}
+        </span>
       </div>
     );
   }

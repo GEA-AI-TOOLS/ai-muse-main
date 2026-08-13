@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 
 const PUBLIC_PATHS = [
   "/login",
@@ -13,7 +12,6 @@ const PUBLIC_PATHS = [
   "/api/reminders",
   "/api/account",
   "/api/r",
-  "/api/reminders",
   "/verify",
   "/waiting",
   "/assets",
@@ -49,26 +47,17 @@ export async function proxy(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  );
-
-  const { data, error } = await supabase
-    .from("sessions")
-    .select("participant_id, expires_at")
-    .eq("session_token", authToken)
-    .single();
-
-  if (error || !data || new Date(data.expires_at) < new Date()) {
-    const url = req.nextUrl.clone();
-    url.pathname = "/login";
-    url.searchParams.set("reason", "new-device");
-    return NextResponse.redirect(url);
-  }
-
+  // Cookie-presence check only. Real session validation (expiry, existence,
+  // revoked status) happens deeper — /api/participant calls validateSessionToken
+  // in the Node runtime, and every page that reads it (today, progress, lesson)
+  // already redirects to /login on failure. The Edge runtime's Supabase client
+  // was silently failing to bypass RLS on `sessions`, causing genuine logins
+  // to bounce here even with a valid cookie and a valid DB row. Removing the
+  // DB call from middleware removes that failure mode entirely — the real
+  // gate downstream is unaffected and was doing the actual work all along.
   return NextResponse.next();
+}
 
-}export const config = {
+export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

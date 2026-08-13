@@ -29,6 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { track } from "@vercel/analytics";
 
 const RED = "#FF3B3B";
 // The system's one deliberate second hue (see DESIGN.md "The Two-Signal
@@ -55,10 +56,11 @@ const display = { fontFamily: "var(--font-display), Georgia, serif" };
 
 // ---------- shared bits ----------
 
-function EnrollButton({ small = false }: { small?: boolean }) {
+function EnrollButton({ small = false, placement = "unknown" }: { small?: boolean; placement?: string }) {
   return (
     <a
       href={LANDING.enrollHref}
+      onClick={() => track("enroll_cta_clicked", { placement })}
       className={
         "group relative inline-flex items-center justify-center overflow-hidden rounded-md bg-[#C81E3A] font-medium text-white shadow-[0_0_34px_rgba(226,75,74,0.28)] transition-all before:absolute before:inset-y-0 before:-left-10 before:w-8 before:rotate-12 before:bg-white/30 before:blur-sm before:transition-transform before:duration-700 hover:bg-[#E0233F] hover:shadow-[0_0_52px_rgba(226,75,74,0.42)] hover:before:translate-x-44 active:scale-[0.98] " +
         (small ? "px-4 py-2 text-sm" : "px-6 py-3 text-sm")
@@ -95,10 +97,12 @@ function HeroEnrollButton() {
     </a>
   );
 }
-function PreviewButton({ small = false }: { small?: boolean }) {
+
+function PreviewButton({ small = false, placement = "unknown" }: { small?: boolean; placement?: string }) {
   return (
     <a
       href={LANDING.auditHref}
+      onClick={() => track("audit_cta_clicked", { placement })}
       className={
         "inline-flex items-center justify-center gap-1.5 rounded-md border border-white/12 bg-white/[0.04] font-medium leading-none text-neutral-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl transition-all hover:border-[#E24B4A]/50 hover:bg-[#E24B4A]/10 hover:text-white active:scale-[0.98] " +
         (small ? "px-4 py-2 text-sm" : "px-[22px] py-[10px] text-[0.85rem]")
@@ -177,7 +181,7 @@ function Header() {
             >
               Log in
             </a>
-            <EnrollButton small />
+            <EnrollButton small placement="header" />
           </div>
         </div>
       </motion.div>
@@ -242,7 +246,7 @@ function Hero() {
         <Reveal delay={240}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <HeroEnrollButton />
-            <PreviewButton />
+            <PreviewButton placement="hero" />
           </div>
           <div className="mt-7 flex max-w-2xl flex-wrap items-center justify-center gap-3">
             <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 shadow-[0_20px_60px_rgba(0,0,0,0.25)] backdrop-blur-xl transition-colors hover:border-[#E24B4A]/40">
@@ -996,7 +1000,7 @@ function Curriculum() {
 
         <Reveal delay={80}>
           <div className="mt-8">
-            <PreviewButton />
+            <PreviewButton placement="curriculum" />
           </div>
         </Reveal>
       </Col>
@@ -1574,7 +1578,7 @@ function PricingFaq() {
                 </ul>
                 <p className="mt-4 text-xs uppercase tracking-[0.1em] text-neutral-500">Time: {solo.time}</p>
                 <div className="mt-4">
-                  <a href={LANDING.enrollHref} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
+                  <a href={LANDING.enrollHref} onClick={() => track("enroll_cta_clicked", { placement: "pricing_selfpaced" })} className="inline-flex w-full items-center justify-center rounded-md bg-[#C81E3A] px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#E0233F] active:scale-[0.99]">
                     {solo.cta}
                   </a>
                 </div>
@@ -1656,7 +1660,7 @@ function PricingFaq() {
 
         <Reveal delay={200}>
           <p className="mt-5 text-center text-sm text-neutral-500">
-            <a href={LANDING.auditHref} className="text-[#ff8a82] underline underline-offset-4 hover:text-white">{p.previewCta}</a>
+            <a href={LANDING.auditHref} onClick={() => track("audit_cta_clicked", { placement: "pricing_footer" })} className="text-[#ff8a82] underline underline-offset-4 hover:text-white">{p.previewCta}</a>
           </p>
         </Reveal>
 
@@ -1844,8 +1848,8 @@ function FinalCta() {
         </Reveal>
         <Reveal delay={180}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <EnrollButton />
-            <PreviewButton />
+            <EnrollButton placement="final_cta" />
+            <PreviewButton placement="final_cta" />
           </div>
           <p className="mt-6 max-w-md text-sm text-neutral-500">{LANDING.finalCta.ps}</p>
         </Reveal>
