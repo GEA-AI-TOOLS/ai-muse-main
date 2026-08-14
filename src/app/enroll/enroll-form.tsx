@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, BarChart3, Award, CalendarDays } from "lucide-react";
 import { SALE_MODE, SALE_COHORT_START } from "@/lib/launch-config";
+import { track } from "@vercel/analytics";
 
 type Step = "form" | "verify";
 
@@ -160,6 +161,7 @@ export function EnrollForm() {
       if (!data.ok) {
         setError(data.error ?? "Something went wrong. Try again.");
       } else {
+        track("enroll_started");
         setHasPhone(data.hasPhone);
         setStep("verify");
       }
@@ -170,7 +172,7 @@ export function EnrollForm() {
     }
   }
 
-  async function handleVerifySubmit(e: React.FormEvent) {
+  async function handleVerifySubmit(e: React.FormEvent, skipPhone = false) {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -181,13 +183,14 @@ export function EnrollForm() {
         body: JSON.stringify({
           email,
           emailOtp,
-          whatsappOtp: hasPhone ? whatsappOtp : undefined,
+          whatsappOtp: hasPhone && !skipPhone ? whatsappOtp : undefined,
         }),
       });
       const data = await res.json();
       if (!data.ok) {
         setError(data.error ?? "Incorrect or expired code.");
       } else {
+        track("enroll_verified");
         const checkoutRes = await fetch("/api/enroll/create-checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -197,6 +200,7 @@ export function EnrollForm() {
         if (!checkoutData.url) {
           setError("Failed to start checkout. Try again.");
         } else {
+          track("checkout_started");
           window.location.href = checkoutData.url;
         }
       }
@@ -668,6 +672,17 @@ export function EnrollForm() {
                   </div>
                 )}
               </div>
+
+              {hasPhone && (
+                <button
+                  type="button"
+                  onClick={(e) => handleVerifySubmit(e as unknown as React.FormEvent, true)}
+                  disabled={loading}
+                  className="text-[11.5px] text-[#A8A29E] hover:text-white hover:underline disabled:opacity-50"
+                >
+                  Issues with the SMS code? Skip for now — you can verify it later.
+                </button>
+              )}
 
               {error && <p className="text-[12px] text-[#ff8a82]">{error}</p>}
 

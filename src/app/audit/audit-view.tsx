@@ -1,8 +1,11 @@
+"use client";
+
 import { Separator } from "@/components/ui/separator";
 import { TrackerBar } from "@/components/tracker-bar";
 import { AuditBar, AuditHeader } from "@/components/audit/audit-bar";
 import { LockedCard, EnrollCta } from "@/components/audit/audit-lock";
 import { AUDIT_PERSONA, AUDIT_COPY } from "@/lib/audit-config";
+import { track } from "@vercel/analytics";
 
 const DAY_TITLES: Record<number, string> = {
   1: "What is AI",
@@ -108,6 +111,7 @@ export function AuditView() {
 
             <a
               href="/audit/lesson/1"
+              onClick={() => track("audit_day_clicked", { day: 1, placement: "hero" })}
               className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/50"
             >
               Try Day 1 free →
@@ -158,6 +162,7 @@ export function AuditView() {
         <div className="py-8">
           <a
             href="/audit/lesson/1"
+            onClick={() => track("audit_day_clicked", { day: 1, placement: "highlight_card" })}
             className="block rounded-lg border-2 border-[#E24B4A] bg-[#FCEBEB] px-5 py-5 transition-opacity hover:opacity-90 dark:bg-[#3a1010]"
           >
             <div className="flex items-center justify-between gap-4">
@@ -207,6 +212,7 @@ export function AuditView() {
                 <a
                   key={day}
                   href={"/audit/lesson/" + String(day)}
+                  onClick={() => track("audit_day_clicked", { day, placement: "day_list" })}
                   className="flex items-center justify-between py-3 hover:opacity-70"
                 >
                   <div>

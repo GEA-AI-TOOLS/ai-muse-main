@@ -6,6 +6,7 @@ import { SummaryBlock } from "@/components/summary-block";
 import { ExerciseBlock } from "@/components/exercise-block";
 import type { Lesson, Participant } from "@/lib/types";
 import { TrackerBar } from "@/components/tracker-bar";
+import { track } from "@vercel/analytics";
 
 type SectionId = "essential" | "advanced" | "learnmore";
 
@@ -45,6 +46,10 @@ export function LessonView({ participant, lesson, section }: Props) {
   }, []);
 
   useEffect(() => {
+    track("lesson_opened", { day: lesson.day, phase: lesson.phase });
+  }, [lesson.day, lesson.phase]);
+
+  useEffect(() => {
     if (!section) return;
     const el = document.getElementById(section);
     if (!el) return;
@@ -70,7 +75,9 @@ export function LessonView({ participant, lesson, section }: Props) {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id as SectionId);
+            const id = entry.target.id as SectionId;
+            setActiveSection(id);
+            track("lesson_section_viewed", { day: lesson.day, section: id });
           }
         }
       },
@@ -81,7 +88,7 @@ export function LessonView({ participant, lesson, section }: Props) {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [lesson.day]);
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -102,6 +109,7 @@ export function LessonView({ participant, lesson, section }: Props) {
       const data = await res.json();
       if (data.ok) {
         setIsDone(true);
+        track("lesson_completed", { day: lesson.day });
         setToastMsg("Day " + String(lesson.day) + " marked as complete!");
         setTimeout(() => setToastMsg(null), 3000);
       } else {

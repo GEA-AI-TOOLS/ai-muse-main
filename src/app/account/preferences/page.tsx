@@ -2,11 +2,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { validateSessionToken } from "@/lib/cookies";
-import { DevicesView } from "./devices-view";
+import { PreferencesView } from "./preferences-view";
 
 export const dynamic = "force-dynamic";
 
-export default async function DevicesPage() {
+export default async function PreferencesPage() {
   const cookieStore = await cookies();
   const authToken = cookieStore.get("auth")?.value;
 
@@ -14,6 +14,14 @@ export default async function DevicesPage() {
 
   const participantId = await validateSessionToken(authToken);
   if (!participantId) redirect("/login?reason=new-device");
+
+  const { data: participant } = await supabase
+    .from("participants")
+    .select("id, name, email, phone, email_reminders, whatsapp_reminders")
+    .eq("id", participantId)
+    .single();
+
+  if (!participant) redirect("/login?reason=new-device");
 
   const { data: sessions } = await supabase
     .from("sessions")
@@ -23,7 +31,14 @@ export default async function DevicesPage() {
     .order("last_seen_at", { ascending: false });
 
   return (
-    <DevicesView
+    <PreferencesView
+      participant={{
+        name: participant.name,
+        email: participant.email,
+        phone: participant.phone ?? "",
+        emailReminders: participant.email_reminders ?? true,
+        whatsappReminders: participant.whatsapp_reminders ?? false,
+      }}
       sessions={sessions ?? []}
       currentToken={authToken}
     />
