@@ -80,7 +80,7 @@ export const LANDING = {
   // cohort the distribution percentages describe before this goes live.
   proof: {
     kicker: "Measured, not promised",
-    heading: "The change, measured.",
+    heading: "The change, measured",
     sub: "The same assessment is completed before and after the course. Explore the results and see how individual participants changed.",
 
     summary: {
@@ -106,7 +106,7 @@ export const LANDING = {
 
     journeys: {
       title: "Every participant's journey",
-      caption: "19 of 24 participants improved their assessment score.",
+      caption: "19 of 24 participants improved their assessment score. Tap or hover any line to see that person's before and after.",
       // A move of 3 points or less either way is treated as no meaningful
       // change, which is why 3 small declines are not counted as declines.
       // This threshold is stated on the page so the count is inspectable.

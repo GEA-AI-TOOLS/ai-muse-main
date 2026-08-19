@@ -144,7 +144,7 @@ export function AuditView() {
         <div className="py-4">
           <a
             href="/audit/welcome"
-            className="flex items-center justify-between rounded-md border bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50"
+            className="flex flex-col gap-2 rounded-md border bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           >
             <div>
               <p className="mb-0.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
@@ -165,7 +165,7 @@ export function AuditView() {
             onClick={() => track("audit_day_clicked", { day: 1, placement: "highlight_card" })}
             className="block rounded-lg border-2 border-[#E24B4A] bg-[#FCEBEB] px-5 py-5 transition-opacity hover:opacity-90 dark:bg-[#3a1010]"
           >
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-xs font-medium uppercase tracking-wide text-[#A32D2D] dark:text-[#f5c1c1]">
                   {AUDIT_COPY.day1HighlightTitle}
@@ -177,7 +177,7 @@ export function AuditView() {
                   {AUDIT_COPY.day1HighlightBody}
                 </p>
               </div>
-              <span className="shrink-0 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white">
+              <span className="shrink-0 rounded-md bg-[#E24B4A] px-4 py-2 text-center text-sm font-medium text-white sm:inline-block">
                 {AUDIT_COPY.day1Cta}
               </span>
             </div>

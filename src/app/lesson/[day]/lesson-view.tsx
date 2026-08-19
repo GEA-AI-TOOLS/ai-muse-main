@@ -207,10 +207,10 @@ export function LessonView({ participant, lesson, section }: Props) {
                   </div>
                   <div className="border-t" />
                   <a
-                    href="/account/devices"
+                    href="/account/preferences"
                     className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
                   >
-                    Manage devices
+                    Preferences
                   </a>
                   <div className="border-t" />
                   <button
@@ -299,9 +299,9 @@ export function LessonView({ participant, lesson, section }: Props) {
             <div className="mb-4" />
           )}
 
-          {/* First summary block — hook above the video */}
+          {/* Desktop: hook card above the video, unchanged */}
           {lesson.essential.summary[0]?.body?.trim() && (
-            <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+            <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
               <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                 {lesson.essential.summary[0].heading}
               </p>
@@ -311,7 +311,19 @@ export function LessonView({ participant, lesson, section }: Props) {
             </div>
           )}
 
-          <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+          {/* Mobile: video first, hook becomes a short caption underneath */}
+          <div className="sm:hidden">
+            <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+            {lesson.essential.summary[0]?.body?.trim() && (
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {lesson.essential.summary[0].body}
+              </p>
+            )}
+          </div>
+
+          <div className="hidden sm:block">
+            <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+          </div>
 
           {/* Summary heading */}
           <div className="mt-8 mb-1">
@@ -377,7 +389,7 @@ export function LessonView({ participant, lesson, section }: Props) {
           {advancedOpen && (
             <div className="mt-6">
               {lesson.advanced.summary[0]?.body?.trim() && (
-                <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+                <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
                   <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                     {lesson.advanced.summary[0].heading}
                   </p>
@@ -386,7 +398,19 @@ export function LessonView({ participant, lesson, section }: Props) {
                   </p>
                 </div>
               )}
-              <VideoPlayer videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+
+              <div className="sm:hidden">
+                <VideoPlayer videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+                {lesson.advanced.summary[0]?.body?.trim() && (
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                    {lesson.advanced.summary[0].body}
+                  </p>
+                )}
+              </div>
+
+              <div className="hidden sm:block">
+                <VideoPlayer videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+              </div>
               <div className="mt-8 mb-1">
                 <h3 className="text-base font-semibold">Summary</h3>
               </div>

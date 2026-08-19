@@ -181,7 +181,8 @@ function PromptBox({
       <p className="mb-4 text-[10px] text-muted-foreground">
         Fill in the highlighted brackets before sending.
       </p>
-      <div className="flex flex-wrap items-center gap-2">
+      {/* Desktop: unchanged wrapped row */}
+      <div className="hidden flex-wrap items-center gap-2 sm:flex">
         <button
           onClick={handleCopy}
           className="flex items-center gap-1.5 rounded border px-3 py-1.5 text-xs hover:bg-accent"
@@ -206,6 +207,40 @@ function PromptBox({
           <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded border px-3 py-1.5 text-xs hover:bg-accent" title="Prompt copied — just paste when Gemini opens">
             Gemini ↗
           </a>
+        )}
+      </div>
+
+      {/* Mobile: full-width copy button, compact 3-col grid for model links */}
+      <div className="sm:hidden">
+        <button
+          onClick={handleCopy}
+          className="flex w-full items-center justify-center gap-1.5 rounded-md bg-[#E24B4A] px-3 py-2.5 text-sm font-medium text-white hover:bg-[#c73f3e]"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+          {copied ? "Copied!" : "Copy prompt"}
+        </button>
+
+        {(chatGptUrl || claudeUrl || geminiUrl) && (
+          <div className="mt-2 grid grid-cols-3 gap-1.5">
+            {chatGptUrl && (
+              <a href={chatGptUrl} target="_blank" rel="noreferrer" className="rounded-md border bg-background px-2 py-2 text-center text-[11px] hover:bg-accent">
+                ChatGPT
+              </a>
+            )}
+            {claudeUrl && (
+              <a href={claudeUrl} target="_blank" rel="noreferrer" className="rounded-md border bg-background px-2 py-2 text-center text-[11px] hover:bg-accent">
+                Claude
+              </a>
+            )}
+            {geminiUrl && (
+              <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded-md border bg-background px-2 py-2 text-center text-[11px] hover:bg-accent" title="Prompt copied — just paste when Gemini opens">
+                Gemini
+              </a>
+            )}
+          </div>
         )}
       </div>
       {geminiUrl && (

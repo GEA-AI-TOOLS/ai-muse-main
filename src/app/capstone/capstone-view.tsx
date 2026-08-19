@@ -345,10 +345,10 @@ export function CapstoneView({ participant }: Props) {
                   </div>
                   <div className="border-t" />
                   <a
-                    href="/account/devices"
+                    href="/account/preferences"
                     className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
                   >
-                    Manage devices
+                    Preferences
                   </a>
                   <div className="border-t" />
                   <button
@@ -433,13 +433,15 @@ export function CapstoneView({ participant }: Props) {
             href={HANDOUT_URL}
             target="_blank"
             rel="noreferrer"
-            className="mb-6 flex items-center justify-between gap-4 rounded-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-5 py-4 hover:opacity-90 dark:bg-[#3a1010]"
+            className="mb-6 flex flex-col gap-3 rounded-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-5 py-4 hover:opacity-90 dark:bg-[#3a1010] sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           >
             <div className="flex items-start gap-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-              </svg>
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]/15">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+              </span>
               <div>
                 <p className="text-sm font-semibold text-[#501313] dark:text-[#f5c1c1]">Your step-by-step guide</p>
                 <p className="mt-0.5 text-xs text-[#791F1F] dark:text-[#f5c1c1]">
@@ -447,7 +449,9 @@ export function CapstoneView({ participant }: Props) {
                 </p>
               </div>
             </div>
-            <span className="shrink-0 text-sm font-medium text-[#A32D2D]">Open guide →</span>
+            <span className="inline-flex shrink-0 items-center justify-center rounded-md bg-white/60 px-3 py-2 text-sm font-medium text-[#A32D2D] dark:bg-white/10 sm:bg-transparent sm:px-0 sm:py-0">
+              Open guide →
+            </span>
           </a>
 
           {/* How it works - two phases */}
@@ -819,7 +823,7 @@ export function CapstoneView({ participant }: Props) {
 
             {/* Completion cert */}
             {completionCert && certsEnabled ? (
-              <div className="rounded-md border p-5 flex items-center justify-between gap-6">
+              <div className="flex flex-col gap-4 rounded-md border p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -845,7 +849,7 @@ export function CapstoneView({ participant }: Props) {
                   </div>
                 </div>
                 <button
-                  className="shrink-0 flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent"
+                  className="flex shrink-0 items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent sm:w-auto w-full"
                   onClick={() => window.open("/api/certificates/download?id=" + completionCert.id, "_blank")}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -874,7 +878,7 @@ export function CapstoneView({ participant }: Props) {
                 </div>
               </div>
             ) : (
-              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+              <div className="flex flex-col gap-3 rounded-md border border-dashed p-5 opacity-55 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -894,7 +898,7 @@ export function CapstoneView({ participant }: Props) {
 
             {/* Mastery cert */}
             {masteryCert && certsEnabled ? (
-              <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
+              <div className="flex flex-col gap-4 rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
@@ -920,7 +924,7 @@ export function CapstoneView({ participant }: Props) {
                   </div>
                 </div>
                 <button
-                  className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  className="flex shrink-0 items-center justify-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e] sm:w-auto w-full"
                   onClick={() => window.open("/api/certificates/download?id=" + masteryCert.id, "_blank")}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -949,7 +953,7 @@ export function CapstoneView({ participant }: Props) {
                 </div>
               </div>
             ) : (
-              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+              <div className="flex flex-col gap-3 rounded-md border border-dashed p-5 opacity-55 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

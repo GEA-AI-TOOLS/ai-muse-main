@@ -369,12 +369,10 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
 
           {allDone && (
             <div className="mt-6 rounded-md border border-dashed p-4 text-center">
-              <p className="text-sm text-muted-foreground">
-                All 10 lessons complete.{" "}
-                <a href="/capstone" className="text-[#E24B4A] underline">
-                  Start your capstone project →
-                </a>
-              </p>
+              <p className="text-sm text-muted-foreground">All 10 lessons complete.</p>
+              <a href="/capstone" className="mt-1 inline-block text-sm text-[#E24B4A] underline">
+                Start your capstone project →
+              </a>
             </div>
           )}
 
@@ -390,7 +388,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
           <div className="flex flex-col gap-4">
 
             {completionCert && certsEnabled ? (
-              <div className="rounded-md border p-5 flex items-center justify-between gap-6">
+              <div className="flex flex-col gap-4 rounded-md border p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -416,7 +414,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                   </div>
                 </div>
                 <button
-                  className="shrink-0 flex items-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent"
+                  className="flex shrink-0 items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm hover:bg-accent sm:w-auto w-full"
                   onClick={() => window.open("/api/certificates/download?id=" + completionCert.id, "_blank")}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -487,7 +485,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
             )}
 
             {masteryCert && certsEnabled ? (
-              <div className="rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 flex items-center justify-between gap-6">
+              <div className="flex flex-col gap-4 rounded-md border border-[#F09595] bg-[#FCEBEB] p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E24B4A]">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
@@ -513,7 +511,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                   </div>
                 </div>
                 <button
-                  className="shrink-0 flex items-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e]"
+                  className="flex shrink-0 items-center justify-center gap-2 rounded-md bg-[#E24B4A] px-4 py-2 text-sm font-medium text-white hover:bg-[#c73f3e] sm:w-auto w-full"
                   onClick={() => window.open("/api/certificates/download?id=" + masteryCert.id, "_blank")}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -542,7 +540,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                 </div>
               </div>
             ) : (
-              <div className="rounded-md border border-dashed p-5 flex items-center justify-between gap-6 opacity-55">
+              <div className="flex flex-col gap-3 rounded-md border border-dashed p-5 opacity-55 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -559,7 +557,7 @@ export function ProgressView({ participant, accessLocked = false, accessOpensAt 
                     Go to capstone →
                   </a>
                 ) : (
-                  <div className="shrink-0 text-right">
+                  <div className="shrink-0 sm:text-right">
                     <span className="text-sm text-muted-foreground opacity-50 cursor-not-allowed">
                       Go to capstone →
                     </span>

@@ -132,9 +132,10 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
             <div className="mb-4" />
           )}
 
+          {/* Desktop: hook card above the video, unchanged */}
           {!isLocked("essentialSummary", lesson.day) &&
             lesson.essential.summary[0]?.body?.trim() && (
-              <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+              <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
                 <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                   {lesson.essential.summary[0].heading}
                 </p>
@@ -144,11 +145,28 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
               </div>
             )}
 
-          {isLocked("essentialVideo", lesson.day) ? (
-            <LockedVideo />
-          ) : (
-            <UnlockedVideo videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
-          )}
+          {/* Mobile: video (or lock card) first, hook becomes a caption underneath */}
+          <div className="sm:hidden">
+            {isLocked("essentialVideo", lesson.day) ? (
+              <LockedVideo />
+            ) : (
+              <UnlockedVideo videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+            )}
+            {!isLocked("essentialSummary", lesson.day) &&
+              lesson.essential.summary[0]?.body?.trim() && (
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                  {lesson.essential.summary[0].body}
+                </p>
+              )}
+          </div>
+
+          <div className="hidden sm:block">
+            {isLocked("essentialVideo", lesson.day) ? (
+              <LockedVideo />
+            ) : (
+              <UnlockedVideo videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+            )}
+          </div>
 
           {!isLocked("essentialSummary", lesson.day) && (
             <>
