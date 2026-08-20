@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 
 // swap to test different assets
 const VIDEOS = {
-  'd01-demo':   { playbackId: 'mAF0145Q9nUhAyBGDORBowuDIGlcYNq33QTO5IWZzgic', title: 'Day 1 — Demo', posterTime: 3 },
+  'd01-demo':   { playbackId: 'oW00dodPzx89OoB4l4eUocundvL3jVYC02Us3wDiN202ow', title: 'Day 1 — Demo', posterTime: 3 },
 };
 
 export default async function Page() {

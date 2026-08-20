@@ -24,9 +24,13 @@ interface Props {
   participant: Participant;
   lesson: Lesson;
   section?: string;
+  essentialVideo: React.ReactNode;
+  advancedVideo?: React.ReactNode;
+  essentialDemoVideo?: React.ReactNode;
+  advancedDemoVideo?: React.ReactNode;
 }
 
-export function LessonView({ participant, lesson, section }: Props) {
+export function LessonView({ participant, lesson, section, essentialVideo, advancedVideo, essentialDemoVideo, advancedDemoVideo }: Props) {
   const [activeSection, setActiveSection] = useState<SectionId>("essential");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -207,10 +211,10 @@ export function LessonView({ participant, lesson, section }: Props) {
                   </div>
                   <div className="border-t" />
                   <a
-                    href="/account/devices"
+                    href="/account/preferences"
                     className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent"
                   >
-                    Manage devices
+                    Preferences
                   </a>
                   <div className="border-t" />
                   <button
@@ -299,9 +303,9 @@ export function LessonView({ participant, lesson, section }: Props) {
             <div className="mb-4" />
           )}
 
-          {/* First summary block — hook above the video */}
+          {/* Desktop: hook card above the video, unchanged */}
           {lesson.essential.summary[0]?.body?.trim() && (
-            <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+            <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
               <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                 {lesson.essential.summary[0].heading}
               </p>
@@ -311,7 +315,19 @@ export function LessonView({ participant, lesson, section }: Props) {
             </div>
           )}
 
-          <VideoPlayer videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+          {/* Mobile: video first, hook becomes a short caption underneath */}
+          <div className="sm:hidden">
+            {essentialVideo}
+            {lesson.essential.summary[0]?.body?.trim() && (
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                {lesson.essential.summary[0].body}
+              </p>
+            )}
+          </div>
+
+          <div className="hidden sm:block">
+            {essentialVideo}
+          </div>
 
           {/* Summary heading */}
           <div className="mt-8 mb-1">
@@ -326,6 +342,7 @@ export function LessonView({ participant, lesson, section }: Props) {
             promptChatGptUrl={essentialUrls.chatGpt}
             promptClaudeUrl={essentialUrls.claude}
             promptGeminiUrl={essentialUrls.gemini}
+            demoVideo={essentialDemoVideo}
           />
           <div className="mt-8">
             {isDone ? (
@@ -377,7 +394,7 @@ export function LessonView({ participant, lesson, section }: Props) {
           {advancedOpen && (
             <div className="mt-6">
               {lesson.advanced.summary[0]?.body?.trim() && (
-                <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+                <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
                   <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                     {lesson.advanced.summary[0].heading}
                   </p>
@@ -386,7 +403,19 @@ export function LessonView({ participant, lesson, section }: Props) {
                   </p>
                 </div>
               )}
-              <VideoPlayer videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+
+              <div className="sm:hidden">
+                {advancedVideo}
+                {lesson.advanced.summary[0]?.body?.trim() && (
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                    {lesson.advanced.summary[0].body}
+                  </p>
+                )}
+              </div>
+
+              <div className="hidden sm:block">
+                {advancedVideo}
+              </div>
               <div className="mt-8 mb-1">
                 <h3 className="text-base font-semibold">Summary</h3>
               </div>
@@ -399,6 +428,7 @@ export function LessonView({ participant, lesson, section }: Props) {
                 promptChatGptUrl={advancedUrls.chatGpt}
                 promptClaudeUrl={advancedUrls.claude}
                 promptGeminiUrl={advancedUrls.gemini}
+                demoVideo={advancedDemoVideo}
               />
             </div>
           )}
@@ -459,44 +489,6 @@ export function LessonView({ participant, lesson, section }: Props) {
         </div>
       </footer>
 
-    </div>
-  );
-}
-
-function VideoPlayer({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: string }) {
-  const hasVideo = videoUrl?.trim().length > 0;
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="aspect-video overflow-hidden rounded-md bg-black">
-        {hasVideo ? (
-          <iframe
-            src={videoUrl}
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-muted">
-            <p className="text-sm text-muted-foreground">Video coming soon</p>
-          </div>
-        )}
-      </div>
-      {slideUrl && (
-        <a
-          href={slideUrl}
-          target="_blank"
-          rel="noreferrer"
-          download
-          className="inline-flex items-center gap-2 self-start rounded-md border px-4 py-2 text-sm hover:bg-accent"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          Download slides
-        </a>
-      )}
     </div>
   );
 }

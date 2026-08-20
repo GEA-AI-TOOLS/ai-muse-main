@@ -177,7 +177,7 @@ function Header() {
           <div className="flex items-center gap-3">
             <a
               href={LANDING.loginHref}
-              className="hidden items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-4 py-1.5 text-sm text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/[0.08] hover:text-white sm:inline-flex"
+              className="inline-flex items-center justify-center rounded-full border border-white/14 bg-white/[0.03] px-3.5 py-1.5 text-sm text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/[0.08] hover:text-white sm:px-4"
             >
               Log in
             </a>
@@ -195,7 +195,7 @@ function Hero() {
   const chip = LANDING.hero.chip;
   const nps = LANDING.hero.nps;
   return (
-    <section id="top" className="relative isolate min-h-[100svh] overflow-hidden">
+    <section id="top" className="relative isolate overflow-hidden sm:min-h-[100svh]">
       <HeroBackground />
 
       <Reveal delay={200} className="absolute right-5 top-20 z-10 sm:right-8 sm:top-24">
@@ -207,7 +207,7 @@ function Hero() {
         </div>
       </Reveal>
 
-      <Col className="flex flex-col items-center pb-10 pt-16 text-center sm:pb-16 sm:pt-24 lg:pt-28">
+      <Col className="flex flex-col items-center pb-12 pt-28 text-center sm:pb-16 sm:pt-24 lg:pt-28">
         <Reveal>
           <p className="mb-4 text-xs font-medium uppercase tracking-[0.14em]">
             <ShinyText
@@ -708,6 +708,7 @@ function Proof() {
           <div style={display} className="text-[28px] leading-tight text-white sm:text-[34px]">
             <TrueFocus
               sentence={cfg.heading}
+              separator=", "
               blurAmount={4}
               animationDuration={0.5}
               pauseBetweenAnimations={2.2}
@@ -1104,6 +1105,10 @@ function IncludedTile({ item, index }: { item: { title: string; desc: string }; 
 
 function Included() {
   const cfg = LANDING.included;
+  const [showAll, setShowAll] = useState(false);
+  const visibleOnMobile = showAll ? cfg.items : cfg.items.slice(0, 6);
+  const hiddenCount = cfg.items.length - 6;
+
   return (
     <section className="relative isolate overflow-hidden">
       <Col className="py-10 sm:py-14">
@@ -1111,7 +1116,40 @@ function Included() {
           <SectionHeading color="bright-red">{cfg.heading}</SectionHeading>
           <p className="mt-3 text-[15px] text-neutral-400">{cfg.sub}</p>
         </Reveal>
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[128px]">
+
+        {/* Mobile: compact 2-col grid, titles only, first 6 with a toggle */}
+        <div className="mt-6 sm:hidden">
+          <div className="grid grid-cols-2 gap-2">
+            {visibleOnMobile.map((item) => (
+              <div key={item.title} className="rounded-lg border border-white/10 bg-white/[0.045] p-3">
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[#FF3B3B]/16">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFA8A2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {INCLUDED_ICONS[item.title] ?? <polyline points="20 6 9 17 4 12" />}
+                  </svg>
+                </span>
+                <p className="mt-2 text-[12.5px] font-medium leading-snug text-white">{item.title}</p>
+              </div>
+            ))}
+          </div>
+          {hiddenCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowAll((v) => !v)}
+              className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/15 py-2.5 text-xs text-neutral-400 transition-colors hover:text-white"
+            >
+              {showAll ? "Show less" : "Show " + String(hiddenCount) + " more"}
+              <svg
+                width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                className={"transition-transform " + (showAll ? "rotate-180" : "")}
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Desktop: unchanged bento grid */}
+        <div className="mt-6 hidden gap-3 sm:grid sm:grid-cols-2 lg:grid-cols-3 lg:auto-rows-[128px]">
           {cfg.items.map((item, i) => (
             <IncludedTile key={item.title} item={item} index={i} />
           ))}
@@ -1127,6 +1165,7 @@ function Explorer() {
   const cfg = LANDING.explorer;
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [showAll, setShowAll] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const isTeam = cfg.questions.some((q) =>
     q.options.some((o) => o.id === answers[q.id] && o.route === "team")
@@ -1163,7 +1202,34 @@ function Explorer() {
           <p className="mt-3 text-[15px] text-neutral-400">{cfg.sub}</p>
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px]">
+        {/* Mobile: collapsed card until opened */}
+        {!mobileOpen && (
+          <div className="mt-6 sm:hidden">
+            <div className={"rounded-2xl p-5 " + PANEL}>
+              <div className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FF3B3B]/16">
+                  <Sparkles size={17} className="text-[#FFA8A2]" />
+                </span>
+                <div>
+                  <p style={display} className="text-[15px] text-white">Not sure where to start?</p>
+                  <p className="mt-1 text-xs leading-relaxed text-neutral-400">{cfg.sub}</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileOpen(true)}
+                className="mt-3 w-full rounded-lg bg-[#C81E3A] py-2.5 text-[13px] font-medium text-white hover:bg-[#E0233F]"
+              >
+                Find my starting point
+              </button>
+            </div>
+          </div>
+        )}
+
+        <div className={
+          "mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px] " +
+          (mobileOpen ? "" : "hidden sm:grid")
+        }>
           <Reveal delay={100}>
             <div className={"flex flex-col gap-7 rounded-2xl p-6 sm:p-8 " + PANEL}>
               {cfg.questions.map((q) => (
@@ -1408,11 +1474,11 @@ function Assessment() {
                 {"\u2248 " + active.text.trim().split(/\s+/).length.toLocaleString("en-US") + " words \u00b7 the full prompt copies in one click"}
               </p>
 
-              <div className="mt-5 flex flex-wrap gap-2.5">
+              <div className="mt-5 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
                 <button
                   onClick={handleCopy}
                   className={
-                    "inline-flex items-center gap-2 rounded-md px-5 py-2.5 text-sm font-medium text-white transition-all active:scale-[0.98] " +
+                    "inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-medium text-white transition-all active:scale-[0.98] sm:py-2.5 " +
                     (copied ? "bg-[#0F6E56]" : "bg-[#C81E3A] hover:bg-[#E0233F]")
                   }
                 >
@@ -1422,7 +1488,7 @@ function Assessment() {
                   href={active.openUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-md border border-white/15 px-5 py-2.5 text-sm text-white transition-all hover:bg-white/[0.08] active:scale-[0.98]"
+                  className="inline-flex items-center justify-center rounded-md border border-white/15 px-5 py-3 text-sm text-white transition-all hover:bg-white/[0.08] active:scale-[0.98] sm:py-2.5"
                 >
                   {active.openLabel}<ExternalLink size={14} className="ml-1.5" />
                 </a>
@@ -1493,7 +1559,7 @@ function Bio() {
       <DotBackground fade={false} dotOpacity={0.24} />
       <Col className="grid grid-cols-1 gap-10 py-16 sm:py-24 md:grid-cols-[260px_1fr]">
         <Reveal className="h-full">
-          <div className="relative flex h-full min-h-[320px] w-full max-w-[260px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900">
+          <div className="relative mx-auto flex h-full min-h-[320px] w-full max-w-[260px] flex-col justify-end overflow-hidden rounded-2xl border border-white/10 bg-neutral-900 md:mx-0">
             <img
               src="/assets/bryan-bio-headshot.jpg"
               alt="Bryan Cassady"

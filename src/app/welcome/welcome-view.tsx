@@ -5,6 +5,7 @@ import type { Participant } from "@/lib/types";
 
 interface Props {
   participant: Participant;
+  video: React.ReactNode;
 }
 
 const SECTIONS = [
@@ -45,7 +46,7 @@ const SECTIONS = [
   },
 ];
 
-export function WelcomeView({ participant }: Props) {
+export function WelcomeView({ participant, video }: Props) {
   const [darkMode, setDarkMode] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const firstName = participant.name.split(" ")[0];
@@ -126,8 +127,8 @@ export function WelcomeView({ participant }: Props) {
                     <p className="mt-0.5 text-xs text-muted-foreground">{participant.email}</p>
                   </div>
                   <div className="border-t" />
-                  <a href="/account/devices" className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent">
-                    Manage devices
+                  <a href="/account/preferences" className="block w-full px-3 py-2.5 text-left text-xs hover:bg-accent">
+                    Preferences
                   </a>
                   <div className="border-t" />
                   <button onClick={handleLogout} className="w-full px-3 py-2.5 text-left text-xs hover:bg-accent">
@@ -157,14 +158,7 @@ export function WelcomeView({ participant }: Props) {
 
         {/* Video */}
         <div className="py-8 border-b">
-          <div className="aspect-video overflow-hidden rounded-md bg-black">
-            <iframe
-            src="https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH"
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-          </div>
+          {video}
         </div>
 
         {/* AI assessment prompt */}

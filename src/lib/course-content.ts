@@ -36,6 +36,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/vBm_pDOA4Qs?si=vfxqJIAqlBcb7-rr",
+      muxPlaybackId: "m19H5500bwWoxLWkyDV02XcpjSA02vDh7qdzNBlE8Bfh1Y",
       durationSeconds: 600,
       summary: [
         {
@@ -92,6 +93,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on [describe your initiative or decision].\n\nThe bottleneck is: [one sentence. Not the symptom. The root cause.]\n\nGiven only this bottleneck, what are the highest-leverage actions I can take.\n\nDo not suggest tools or platforms. Do not solve the symptom. Stay focused on the bottleneck I defined.\n\n-----------\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to help me fill it in. Start with the initiative. Then the bottleneck. Do not move to the next question until I have answered the current one. When I answer, reflect back what I said and ask if it captures the real bottleneck or just the symptom. Make this a thinking exercise, not a form to complete.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/avH9md3C-5c?si=0_l2rxyTe4Z3ujT4",
+          muxPlaybackId: "",
           title: "Day 1 : Essential Demo",
         },
       },
@@ -99,6 +101,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/wbw2UkaMUBU?si=CupkPVs5k-Y8yYYN",
+      muxPlaybackId: "e8h8ixflCRfVNOtGkTHipq00gSrH2GbbSyUbJD8qs6Ak",
       durationSeconds: 840,
       summary: [
         {
@@ -155,6 +158,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I have a problem I need to solve at work.\n\nThe situation is: [describe what is going wrong. One to three sentences.]\n\nThe obvious solution everyone is pushing for is: [what is the default fix people are jumping to.]\n\nBefore I go there, help me do this properly.\n\nStep one. Ask me one question to help me write the real objective in one sentence. Not the symptom. Not the direction. The precise outcome I need.\n\nStep two. Once I have the objective, give me three solutions. One slow. One fast. One I have not thought of.\n\nStep three. Evaluate all three against my objective. Not against cost. Not against effort. Against the objective only. Recommend the one that fits best.\n\n------------\n\nIf any bracket is empty, ask me one question at a time before proceeding. Start with the situation. Then the obvious solution. Do not move to step two until my objective is written in one clear sentence. Push back if it sounds like a direction rather than a precise outcome.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/vs1BedZV-6s?si=aqbqsFL1ulVRsrUJ",
+          muxPlaybackId: "",
           title: "Day 1 : Advanced Demo",
         },
       },
@@ -180,6 +184,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/VcX4OK66TXI?si=-E277i8yKoBnTZse",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -237,6 +242,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on: [ describe your task or challenge in one sentence + attach relevant files. ]\n\nMy current thinking is: [ paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says. ]\n\nI am uncertain about: [ specific gaps. What you don't know. What would take you long to verify. ]\n\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n\n---------\n\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/8bOKvuWzF-0?si=n02m_DRRMoIssGbE",
+          muxPlaybackId: "",
           title: "Day 2 : Essential Demo",
         },
       },
@@ -244,6 +250,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/sfRvb9zDXhA?si=vZxbmlUCXGAfNIpf",
+      muxPlaybackId: "",
       durationSeconds: 840,
       summary: [
         {
@@ -308,6 +315,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
+          muxPlaybackId: "",
           title: "Day 2 : Advanced Demo",
         },
       },
@@ -335,6 +343,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/x5f1e1_9xI4?si=NP5Nv6DhXefRUXwW",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -394,6 +403,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/Mc52QH4cKDU?si=cgzXQYcMSr24z4bQ",
+          muxPlaybackId: "",
           title: "Day 3 : Essential Demo",
         },
       },
@@ -401,6 +411,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/EeBV8CBphmI?si=ki1osc8w1ZAzVK8s",
+      muxPlaybackId: "",
       durationSeconds: 840,
       summary: [
         {
@@ -463,6 +474,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "My brief: [what you are working on, your audience, what they want, and what stops them.]\n\nThe Wall: Here are 3 obvious solutions [list solutions] ban all three completely.\nDo not use them anywhere in the response.\n\nThe Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.\n\nTo deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]\n\nEnd with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].\n\nScan every bracket. For each unfilled bracket teach and ask one question at a time in this exact way.\n\nFor the brief ask: Great friction starts with a clear brief. What are you working on, who is it for, and what stops them from engaging?\n\nFor the unrelated world say first: Now we build the wall. The more unrelated the world you pick, the more original your output will be. Then suggest three options based on the brief and ask: Here are three worlds we could inject into your brief: [suggest three]. Which feels most interesting? Or pick your own.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/h7c7Q9PQ4Y0?si=50cV235WZzl6wWsH",
+          muxPlaybackId: "",
           title: "Day 3 : Advanced Demo",
         },
       },
@@ -489,6 +501,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/RV75EMovRBA?si=yglVEgbSxzfZNZBH",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -556,6 +569,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/7ML8RYOsl2w?si=DoTvrCUGgDso-Whr",
+          muxPlaybackId: "",
           title: "Day 4 : Essential Demo",
         },
       },
@@ -563,6 +577,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/7ZQ5EM-wEWU?si=XNmH9NIYQ7LWf4Fx",
+      muxPlaybackId: "",
       durationSeconds: 840,
       summary: [
         {
@@ -629,6 +644,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "You are a Verification Analyst helping me fact-check AI-generated content.\n\nExtract each factual claim. Rate confidence HIGH/MEDIUM/LOW. Flag anything you cannot verify.\n\nDo not assume accuracy. Treat every name, date, and number as unverified until sourced.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/NEe-vgVIois?si=SgjYYeRbk27TKE5j",
+          muxPlaybackId: "",
           title: "Day 4 : Advanced Demo",
         },
       },
@@ -653,6 +669,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/tYnO5DlfDA0?si=nDJD9dgQY90g1SMQ",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -710,6 +727,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "You are a thinking partner helping me extract the argument from raw spoken thought.\n\nI will give you an unedited voice transcript. It might be messy, unstructured, and conversational.\n\nRespond with:\n\nOne core message – what is the big idea here\n\nTwo supporting points — the evidence or reasoning already in the transcript.\n\nOne opening sentence — the sharpest way to start if I were to write this up.\n\nDo not rewrite or polish. Do not add ideas I did not say. Only find the argument already in it.\n\n[Speak it out using voice feature or paste your raw transcript here]",
         demo: {
           videoUrl: "https://www.youtube.com/embed/DZJtkQqXN7g?si=xmTM-eLAQFu1E5T8",
+          muxPlaybackId: "",
           title: "Day 5 : Essential Demo",
         },
       },
@@ -717,6 +735,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/h3M4PxPz6jo?si=EjH5y8mrDDM81sh2",
+      muxPlaybackId: "",
       durationSeconds: 840,
       summary: [
         {
@@ -774,6 +793,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "The AI solution\nI would like help writing a TRUE NORTH\n\nGive me a first draft\n\nThen ask me questions about each section one at a time, so I can accept or improve\n\nGoal = A clear, very clear objective for me, AI and my team\n[first ideas]\nIf applicable, attach documents",
         demo: {
           videoUrl: "https://www.youtube.com/embed/LL910WqkulM?si=t3dbxreryEvhs9ZG",
+          muxPlaybackId: "",
           title: "Day 5 : Advanced Demo",
         },
       },
@@ -802,6 +822,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/i_HaEWl97lQ?si=16Umk2zGHynWpxg6",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "You wrote the prompt carefully. AI answered instantly. It looked right. You moved on. Later you realized you had been working on the wrong challenge. The problem was never the AI answer. It was the question you never got asked. Stop giving AI instructions to answer. Give it permission to interrogate you first." },
@@ -843,12 +864,14 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I'm [add some context about yourself + Attach some relevant files]\n\nI'd like your help figuring out how I can best use AI to solve some of my important business challenges.\n\nAsk me questions, one at a time, about our targets, current initiatives, and constraints until you have enough context to give me a few obvious and a few non-obvious AI recommendations.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
+          muxPlaybackId: "",
           title: "Day 6 : Essential Demo",
         },
       },
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/LktSYyznOf8?si=vpo1rvDeTua_O13h",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "Your senior expert is leaving in six months. They run knowledge transfer sessions. The result is a document of process steps. The judgment, the workarounds, the unwritten rules, the mindset: those leave with the person. Tacit knowledge cannot be extracted by instruction alone. It can only be surfaced through interrogation. AI-led questioning is the only scalable tool that can capture it before it disappears." },
@@ -890,6 +913,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I would like to better understand the work a colleague does.\n\nAsk me questions about his/her job one at a time to clearly understand his/her key tasks and roles. His/her primary job is [insert data].\n\nAsk me questions one at a time to better understand the content of work being done and the questions I would need to ask if he/she left the company.\n\nOutput: an exit interview questionnaire",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
+          muxPlaybackId: "",
           title: "Day 6 : Advanced Demo",
         },
       },
@@ -933,6 +957,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/AyIIA2ysYuM?si=7DBxPoSpEckoZ6va",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -990,12 +1015,14 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/QG_Hw9ErZbA?si=CjtDP4VfRMRnlOzC",
+          muxPlaybackId: "",
           title: "Day 7 : Essential Demo",
         },
       },
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/aNfyBHl66zA?si=s_3ewxsqd4l8x2HW",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1061,6 +1088,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I have been working on [describe your challenge]\nI have this idea [Insert Idea]\nPlease create a series of personas to represent [people in my management team]\n[CFO | HR Director | CEO | Sales Director] [note: you could include PDFs of their profiles by downloading their LinkedIn profiles or answer questions about each]\nPlease provide feedback on my presentation using these personas\nBased on this, summarize the key feedback, give 3 suggestions on how to improve this project",
         demo: {
           videoUrl: "https://www.youtube.com/embed/S09dXQer_Ic?si=oQqnbIWZ1fFE-RbN",
+          muxPlaybackId: "",
           title: "Day 7 : Advanced Demo",
         },
       },
@@ -1109,6 +1137,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/nUV7CGCTeCs?si=WLCaO_Toov7q6jS5",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1166,12 +1195,14 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on this challenge: [#1 insert challenge].\nHow might we see this challenge from another perspective?\nGive me 5 different How Might We reframes.\nFor each reframe, show the new solution space it opens.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/1GZ7MvglvXM?si=gsyIHxkIAH3572xd",
+          muxPlaybackId: "",
           title: "Day 8 : Essential Demo",
         },
       },
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/BSa_mY7o2OU?si=7CZ-RPRtjQOf90Nl",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1228,6 +1259,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/gSvjE5zA4f4?si=Er2FSkZ7B5sWMq4t",
+          muxPlaybackId: "",
           title: "Day 8 : Advanced Demo",
         },
       },
@@ -1276,6 +1308,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/znfkC-CaQtE?si=vH2o5eabZ7eMvXq3",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1332,12 +1365,14 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "Below are my 2 AI usage assessments, first is my assessment results before the class, the second is my assessment results now.\nMake a comparison chart. Do you see changes in the way I use AI?\nProvide recommendations to continue improving.\n\nMy before Assessment:\n[Paste your older assessment here]\n\nMy Latest Assessment:\n[Paste your newer assessment here]",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=AEo7noZx0lnisPyx",
+          muxPlaybackId: "",
           title: "Day 9 : Essential Demo",
         },
       },
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/RMme-mY5A6I?si=vSkSPJpLqwknockf",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1394,6 +1429,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "Based on the work I just did, please help me create a change log and a new and better prompt for next time\n\nKey outputs\nResults of my work\nFeedback I gave\nA new and better process and prompt\nHow to improve the process\nA prompt to run next time",
         demo: {
           videoUrl: "https://www.youtube.com/embed/GwGiFf_cYQ4?si=zIaOZQ8q31dS-Wiq",
+          muxPlaybackId: "",
           title: "Day 9 : Advanced Demo",
         },
       },
@@ -1436,6 +1472,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/PzG3Q1yU0EI?si=rJf_tk-tNCY-fET6",
+      muxPlaybackId: "",
       durationSeconds: 600,
       summary: [
         {
@@ -1506,6 +1543,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/yjjL8x8EG84?si=b84mVznSmLlQn2I7",
+          muxPlaybackId: "",
           title: "Day 10 : Essential Demo",
         },
       },

@@ -30,31 +30,7 @@ function getLlmUrls(prompt: string | null) {
   };
 }
 
-function UnlockedVideo({ videoUrl, slideUrl }: { videoUrl: string; slideUrl?: string }) {
-  return (
-    <div className="flex flex-col gap-3">
-      <div className="aspect-video overflow-hidden rounded-md bg-black">
-        <iframe
-          src={videoUrl}
-          className="h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      </div>
-      {slideUrl && (
-        <a
-          href={slideUrl}
-          target="_blank"
-          rel="noreferrer"
-          download
-          className="inline-flex items-center gap-2 self-start rounded-md border px-4 py-2 text-sm hover:bg-accent"
-        >
-          Download slides
-        </a>
-      )}
-    </div>
-  );
-}
+
 
 const SECTIONS: { id: string; label: string }[] = [
   { id: "essential", label: "Essential" },
@@ -62,7 +38,19 @@ const SECTIONS: { id: string; label: string }[] = [
   { id: "learnmore", label: "Learn More" },
 ];
 
-export function AuditLessonView({ lesson }: { lesson: Lesson }) {
+export function AuditLessonView({
+  lesson,
+  essentialVideo,
+  advancedVideo,
+  essentialDemoVideo,
+  advancedDemoVideo,
+}: {
+  lesson: Lesson;
+  essentialVideo: React.ReactNode;
+  advancedVideo?: React.ReactNode;
+  essentialDemoVideo?: React.ReactNode;
+  advancedDemoVideo?: React.ReactNode;
+}) {
   const phaseLabel = lesson.phase === "foundation" ? "Foundation" : "SPARKS";
   const hasDemo = !!lesson.essential.exercise.demo?.videoUrl?.trim();
 
@@ -132,9 +120,10 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
             <div className="mb-4" />
           )}
 
+          {/* Desktop: hook card above the video, unchanged */}
           {!isLocked("essentialSummary", lesson.day) &&
             lesson.essential.summary[0]?.body?.trim() && (
-              <div className="mb-5 rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010]">
+              <div className="mb-5 hidden rounded-r-md border-l-[3px] border-l-[#E24B4A] bg-[#FCEBEB] px-4 py-3 dark:bg-[#3a1010] sm:block">
                 <p className="mb-1 text-[10px] font-medium uppercase tracking-[0.4px] text-[#A32D2D]">
                   {lesson.essential.summary[0].heading}
                 </p>
@@ -144,11 +133,28 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
               </div>
             )}
 
+          {/* Mobile: video (or lock card) first, hook becomes a caption underneath */}
+          <div className="sm:hidden">
           {isLocked("essentialVideo", lesson.day) ? (
             <LockedVideo />
           ) : (
-            <UnlockedVideo videoUrl={lesson.essential.videoUrl} slideUrl={lesson.essential.slideUrl} />
+            essentialVideo
           )}
+            {!isLocked("essentialSummary", lesson.day) &&
+              lesson.essential.summary[0]?.body?.trim() && (
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                  {lesson.essential.summary[0].body}
+                </p>
+              )}
+          </div>
+
+          <div className="hidden sm:block">
+            {isLocked("essentialVideo", lesson.day) ? (
+              <LockedVideo />
+            ) : (
+              essentialVideo
+            )}
+          </div>
 
           {!isLocked("essentialSummary", lesson.day) && (
             <>
@@ -174,6 +180,7 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
               promptChatGptUrl={essentialUrls.chatGpt}
               promptClaudeUrl={essentialUrls.claude}
               promptGeminiUrl={essentialUrls.gemini}
+              demoVideo={essentialDemoVideo}
             />
           )}
 
@@ -208,7 +215,7 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
               />
             ) : (
               <div className="mt-6">
-                <UnlockedVideo videoUrl={lesson.advanced.videoUrl} slideUrl={lesson.advanced.slideUrl} />
+                {advancedVideo}
                 <div className="mt-8 mb-1">
                   <h3 className="text-base font-semibold">Summary</h3>
                 </div>
@@ -221,6 +228,7 @@ export function AuditLessonView({ lesson }: { lesson: Lesson }) {
                   promptChatGptUrl={advancedUrls.chatGpt}
                   promptClaudeUrl={advancedUrls.claude}
                   promptGeminiUrl={advancedUrls.gemini}
+                  demoVideo={advancedDemoVideo}
                 />
               </div>
             )}
