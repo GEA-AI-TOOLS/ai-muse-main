@@ -8,27 +8,25 @@ const mux = new Mux({
 
 export interface MuxTokens {
   playback: string;
-  thumbnail: string;
   storyboard: string;
 }
 
-const THUMBNAIL_TIME_SECONDS = 3;
-
 /**
- * Signs the three tokens MuxPlayer needs for a signed playback ID.
+ * Signs the tokens MuxPlayer needs for a signed playback ID.
  * Server-only — never import this from a client component. The private
  * key must never reach the browser.
+ *
+ * Thumbnail signing deliberately dropped: this SDK version's TypeScript
+ * types don't cleanly support it (time as number is rejected, and the
+ * multi-type overload sometimes returns an object where a string is
+ * expected). MuxPlayer still shows a poster automatically once playback
+ * is authorized — this only loses control over which frame is used.
  */
 export async function signMuxTokens(playbackId: string): Promise<MuxTokens> {
-  const [playback, thumbnail, storyboard] = await Promise.all([
+  const [playback, storyboard] = await Promise.all([
     mux.jwt.signPlaybackId(playbackId, {
       expiration: "2h",
       type: "video",
-    }),
-    mux.jwt.signPlaybackId(playbackId, {
-      expiration: "2h",
-      type: "thumbnail",
-      params: { time: THUMBNAIL_TIME_SECONDS },
     }),
     mux.jwt.signPlaybackId(playbackId, {
       expiration: "2h",
@@ -36,5 +34,5 @@ export async function signMuxTokens(playbackId: string): Promise<MuxTokens> {
     }),
   ]);
 
-  return { playback, thumbnail, storyboard };
+  return { playback, storyboard };
 }

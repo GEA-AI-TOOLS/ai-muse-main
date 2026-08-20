@@ -31,7 +31,6 @@ export async function VideoPlayer({ videoUrl, muxPlaybackId, slideUrl, title, vi
             playbackId={muxPlaybackId}
             tokens={{
               playback: tokens.playback,
-              thumbnail: tokens.thumbnail,
               storyboard: tokens.storyboard,
             }}
             streamType="on-demand"
