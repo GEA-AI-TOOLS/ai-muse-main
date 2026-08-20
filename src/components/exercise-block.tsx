@@ -8,6 +8,7 @@ interface Props {
   promptChatGptUrl?: string;
   promptClaudeUrl?: string;
   promptGeminiUrl?: string;
+  demoVideo?: React.ReactNode;
 }
 
 function HighlightedPrompt({ text }: { text: string }) {
@@ -35,6 +36,7 @@ export function ExerciseBlock({
   promptChatGptUrl,
   promptClaudeUrl,
   promptGeminiUrl,
+  demoVideo,
 }: Props) {
   const hasDemo = !!exercise.demo?.videoUrl?.trim();
   const [tab, setTab] = useState<"exercise" | "demo">("exercise");
@@ -75,14 +77,16 @@ export function ExerciseBlock({
       {/* Demo tab */}
       {hasDemo && tab === "demo" && (
         <div className="mb-2">
-          <div className="aspect-video overflow-hidden rounded-md bg-black">
-            <iframe
-              src={exercise.demo!.videoUrl}
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
+          {demoVideo ?? (
+            <div className="aspect-video overflow-hidden rounded-md bg-black">
+              <iframe
+                src={exercise.demo!.videoUrl}
+                className="h-full w-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
           <p className="mt-3 text-sm text-muted-foreground">
             {exercise.demo!.title}
           </p>

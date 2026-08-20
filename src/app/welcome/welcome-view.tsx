@@ -5,6 +5,7 @@ import type { Participant } from "@/lib/types";
 
 interface Props {
   participant: Participant;
+  video: React.ReactNode;
 }
 
 const SECTIONS = [
@@ -45,7 +46,7 @@ const SECTIONS = [
   },
 ];
 
-export function WelcomeView({ participant }: Props) {
+export function WelcomeView({ participant, video }: Props) {
   const [darkMode, setDarkMode] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const firstName = participant.name.split(" ")[0];
@@ -157,14 +158,7 @@ export function WelcomeView({ participant }: Props) {
 
         {/* Video */}
         <div className="py-8 border-b">
-          <div className="aspect-video overflow-hidden rounded-md bg-black">
-            <iframe
-            src="https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH"
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-          </div>
+          {video}
         </div>
 
         {/* AI assessment prompt */}

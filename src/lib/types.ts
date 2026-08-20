@@ -25,12 +25,14 @@ export interface Exercise {
   prompt: string | null;
   demo?: {
     videoUrl: string;
+    muxPlaybackId?: string; // preferred over videoUrl when set
     title: string;
   };
 }
 
 export interface LessonVideo {
   videoUrl: string;
+  muxPlaybackId?: string; // preferred over videoUrl when set
   slideUrl?: string;
   durationSeconds: number;
   summary: SummarySection;
