@@ -1,23 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
-import { generateOtp, hashOtp, sendOtpEmail } from "@/lib/otp";
-import { sendPhoneOtp } from "@/lib/phone";
-const OTP_EXPIRY_MINUTES = 10;
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
+const DEFAULT_TIMEZONE = "Europe/London";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { name, lastName, email, phone, timezone, emailReminders } = body;
+  const { name, lastName, email } = body;
 
-  if (!name || !email || !timezone) {
+  if (!name || !email) {
     return NextResponse.json(
-      { ok: false, error: "Name, email and timezone are required." },
+      { ok: false, error: "Name and email are required." },
       { status: 400 }
     );
   }
 
   const cleanEmail = email.toLowerCase().trim();
-  const cleanPhone = phone?.trim() ?? "";
-  const hasPhone = cleanPhone.length > 0;
+
+  if (!EMAIL_RE.test(cleanEmail)) {
+    return NextResponse.json(
+      { ok: false, error: "Enter a valid email address." },
+      { status: 400 }
+    );
+  }
 
   // Block already-enrolled active participants
   const { data: existing } = await supabase
@@ -40,29 +45,22 @@ export async function POST(req: NextRequest) {
     .eq("email", cleanEmail)
     .in("status", ["pending", "verified"]);
 
-  // Generate email OTP
-  const emailOtp = generateOtp();
-  const emailHash = hashOtp(emailOtp);
-  const expiresAt = new Date(
-    Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000
-  ).toISOString();
-
-  
-
-  // Insert pending enrollment
+  // Insert pending enrollment. No OTP is sent here any more — email ownership
+  // is proven after payment, on the complete-profile step. Timezone gets a
+  // placeholder and is set for real once they complete their profile.
   const { error: insertError } = await supabase
     .from("pending_enrollments")
     .insert({
       name: name.trim(),
       last_name: lastName?.trim() ?? null,
       email: cleanEmail,
-      phone: cleanPhone,
-      timezone,
-      otp_hash: emailHash,
+      phone: "",
+      timezone: DEFAULT_TIMEZONE,
+      otp_hash: null,
       otp_attempts: 0,
-      otp_expires_at: expiresAt,
+      otp_expires_at: null,
       phone_verified: false,
-      email_reminders: emailReminders ?? true,
+      email_reminders: true,
       status: "pending",
     });
 
@@ -74,24 +72,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Send email OTP (ours) + phone OTP (Twilio Verify) in parallel
-  const sends: Promise<void>[] = [
-    sendOtpEmail(cleanEmail, name.trim(), emailOtp),
-  ];
-
-  if (hasPhone) {
-    sends.push(sendPhoneOtp(cleanPhone));
-  }
-
-  try {
-    await Promise.all(sends);
-  } catch (err) {
-    console.error("OTP send failed:", err);
-    return NextResponse.json(
-      { ok: false, error: "Failed to send verification codes. Try again." },
-      { status: 500 }
-    );
-  }
-
-  return NextResponse.json({ ok: true, hasPhone });
+  return NextResponse.json({ ok: true });
 }

@@ -17,7 +17,7 @@ export default async function PreferencesPage() {
 
   const { data: participant } = await supabase
     .from("participants")
-    .select("id, name, email, phone, email_reminders, whatsapp_reminders")
+    .select("id, name, email, phone, phone_verified, email_reminders, whatsapp_reminders")
     .eq("id", participantId)
     .single();
 
@@ -36,6 +36,7 @@ export default async function PreferencesPage() {
         name: participant.name,
         email: participant.email,
         phone: participant.phone ?? "",
+        phoneVerified: participant.phone_verified ?? false,
         emailReminders: participant.email_reminders ?? true,
         whatsappReminders: participant.whatsapp_reminders ?? false,
       }}

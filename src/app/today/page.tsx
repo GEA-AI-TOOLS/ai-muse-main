@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
 import { getParticipant, N8nError } from "@/lib/n8n";
 import { supabase } from "@/lib/supabase";
+import { redirect } from "next/navigation";
+import { needsProfileSetup } from "@/lib/profile-gate";
 
 export default async function TodayPage({
   searchParams,
@@ -19,6 +20,10 @@ export default async function TodayPage({
   }
 
   const { participant } = participantRes;
+
+    if (await needsProfileSetup(participant.id)) {
+    redirect("/enroll/complete");
+  }
 
   if ((participant.daysComplete ?? []).length === 10) {
     // Check if mastery cert already issued — if so go to progress

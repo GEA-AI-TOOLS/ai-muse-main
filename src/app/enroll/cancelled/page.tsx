@@ -4,7 +4,8 @@ export default function EnrollCancelledPage() {
       <div className="w-full max-w-sm text-center">
         <h1 className="mb-2 text-xl font-medium">Payment cancelled</h1>
         <p className="mb-6 text-sm text-muted-foreground">
-          No charge was made. You can try again whenever you're ready.
+          No charge was made and nothing was lost. You can pick up where you left
+          off whenever you're ready.
         </p>
         <a
           href="/enroll"

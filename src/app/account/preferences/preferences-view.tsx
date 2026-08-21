@@ -14,6 +14,7 @@ interface ParticipantPrefs {
   name: string;
   email: string;
   phone: string;
+  phoneVerified: boolean;
   emailReminders: boolean;
   whatsappReminders: boolean;
 }
@@ -58,14 +59,24 @@ export function PreferencesView({ participant, sessions: initialSessions, curren
   const [savingPrefs, setSavingPrefs] = useState(false);
   const [prefsMsg, setPrefsMsg] = useState("");
 
-  const hasPhone = participant.phone.trim().length > 0;
-  const [phoneVerified, setPhoneVerified] = useState(hasPhone);
+  const [phoneVerified, setPhoneVerified] = useState(participant.phoneVerified);
   const [phoneOnFile, setPhoneOnFile] = useState(participant.phone);
+
+  const hasUnverifiedPhone = !participant.phoneVerified && participant.phone.trim().length > 0;
 
   const [showPhoneForm, setShowPhoneForm] = useState(false);
   const [phoneStep, setPhoneStep] = useState<"enter" | "verify">("enter");
-  const [dialCode, setDialCode] = useState("+1");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [dialCode, setDialCode] = useState(
+    COUNTRY_CODES.find((c) => participant.phone.startsWith(c.code))?.code ?? "+1"
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    hasUnverifiedPhone
+      ? participant.phone.replace(
+          COUNTRY_CODES.find((c) => participant.phone.startsWith(c.code))?.code ?? "",
+          ""
+        )
+      : ""
+  );
   const [phoneOtp, setPhoneOtp] = useState("");
   const [phoneLoading, setPhoneLoading] = useState(false);
   const [phoneError, setPhoneError] = useState("");
@@ -282,7 +293,7 @@ export function PreferencesView({ participant, sessions: initialSessions, curren
           {prefsMsg && <p className="mt-2 text-xs text-muted-foreground">{prefsMsg}</p>}
         </section>
 
-        {/* Add WhatsApp number — only shown if none on file yet */}
+        {/* Add or verify WhatsApp number */}
         {!phoneVerified && (
           <section className="mb-10">
             <h2 className="mb-1 text-sm font-medium uppercase tracking-wide text-muted-foreground">
@@ -292,13 +303,15 @@ export function PreferencesView({ participant, sessions: initialSessions, curren
             {!showPhoneForm && (
               <div className="rounded-md border bg-muted/30 px-5 py-4">
                 <p className="mb-3 text-sm text-muted-foreground">
-                  Add a number to get WhatsApp reminders alongside email.
+                  {hasUnverifiedPhone
+                    ? "We have " + participant.phone + " on file but it isn't verified yet."
+                    : "Add a number to get WhatsApp reminders alongside email."}
                 </p>
                 <button
                   onClick={() => setShowPhoneForm(true)}
                   className="rounded-md bg-[#E24B4A] px-4 py-2 text-xs font-medium text-white hover:bg-[#c73f3e]"
                 >
-                  Add WhatsApp number
+                  {hasUnverifiedPhone ? "Verify this number" : "Add WhatsApp number"}
                 </button>
               </div>
             )}

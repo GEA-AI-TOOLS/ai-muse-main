@@ -28,12 +28,22 @@ export async function POST(req: NextRequest) {
 
   const cleanEmail = email.toLowerCase().trim();
 
-  // Find the verified pending enrollment
+  // Light server-side sanity check. Stripe Checkout validates format again on
+  // their own page, so this is just a cheap guard against obvious garbage.
+  if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(cleanEmail)) {
+    return NextResponse.json(
+      { ok: false, error: "Enter a valid email address." },
+      { status: 400 }
+    );
+  }
+
+  // Find the pending enrollment. Verification no longer gates checkout —
+  // email ownership is proven after payment on the complete-profile step.
   const { data: enrollment, error } = await supabase
     .from("pending_enrollments")
     .select("id, name, email")
     .eq("email", cleanEmail)
-    .eq("status", "verified")
+    .eq("status", "pending")
     .order("created_at", { ascending: false })
     .limit(1)
     .single();
@@ -61,7 +71,7 @@ export async function POST(req: NextRequest) {
       participant_name: enrollment.name,
       participant_email: enrollment.email,
     },
-    success_url: APP_URL + "/enroll/success?session_id={CHECKOUT_SESSION_ID}",
+    success_url: APP_URL + "/api/enroll/success?session_id={CHECKOUT_SESSION_ID}",
     cancel_url: APP_URL + "/enroll/cancelled",
   });
 

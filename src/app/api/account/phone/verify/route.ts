@@ -53,6 +53,7 @@ export async function POST(req: NextRequest) {
       .from("participants")
       .update({
         phone,
+        phone_verified: true,
         whatsapp_reminders: true,
         updated_at: new Date().toISOString(),
       })

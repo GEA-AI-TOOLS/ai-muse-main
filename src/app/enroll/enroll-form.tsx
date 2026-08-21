@@ -1,49 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Clock, BookOpen, BarChart3, Award, CalendarDays } from "lucide-react";
 import { SALE_MODE, SALE_COHORT_START } from "@/lib/launch-config";
 import { track } from "@vercel/analytics";
-
-type Step = "form" | "verify";
-
-const TIMEZONES = [
-  { value: "Europe/London", label: "London (GMT)" },
-  { value: "Europe/Brussels", label: "Brussels (GMT+1)" },
-  { value: "Europe/Paris", label: "Paris (GMT+1)" },
-  { value: "Europe/Berlin", label: "Berlin (GMT+1)" },
-  { value: "America/New_York", label: "New York (GMT-5)" },
-  { value: "America/Chicago", label: "Chicago (GMT-6)" },
-  { value: "America/Denver", label: "Denver (GMT-7)" },
-  { value: "America/Los_Angeles", label: "Los Angeles (GMT-8)" },
-  { value: "Asia/Dubai", label: "Dubai (GMT+4)" },
-  { value: "Asia/Kolkata", label: "India (GMT+5:30)" },
-  { value: "Asia/Singapore", label: "Singapore (GMT+8)" },
-  { value: "Asia/Tokyo", label: "Tokyo (GMT+9)" },
-  { value: "Australia/Sydney", label: "Sydney (GMT+10)" },
-];
-
-const COUNTRY_CODES = [
-  { code: "+1", label: "🇺🇸 +1" },
-  { code: "+44", label: "🇬🇧 +44" },
-  { code: "+32", label: "🇧🇪 +32" },
-  { code: "+33", label: "🇫🇷 +33" },
-  { code: "+49", label: "🇩🇪 +49" },
-  { code: "+31", label: "🇳🇱 +31" },
-  { code: "+34", label: "🇪🇸 +34" },
-  { code: "+39", label: "🇮🇹 +39" },
-  { code: "+41", label: "🇨🇭 +41" },
-  { code: "+971", label: "🇦🇪 +971" },
-  { code: "+91", label: "🇮🇳 +91" },
-  { code: "+65", label: "🇸🇬 +65" },
-  { code: "+81", label: "🇯🇵 +81" },
-  { code: "+61", label: "🇦🇺 +61" },
-  { code: "+27", label: "🇿🇦 +27" },
-  { code: "+55", label: "🇧🇷 +55" },
-  { code: "+52", label: "🇲🇽 +52" },
-];
 
 const BENEFITS = [
   { Icon: Clock, title: "Ten minutes a day", desc: "Short enough to do before your first meeting." },
@@ -54,12 +16,38 @@ const BENEFITS = [
 
 const SALE_END_LABEL = "Aug 24";
 
-function detectTimezone(): string {
-  try {
-    return Intl.DateTimeFormat().resolvedOptions().timeZone;
-  } catch {
-    return "Europe/London";
-  }
+// Domains people mistype most often, mapped to what they meant.
+const DOMAIN_FIXES: Record<string, string> = {
+  "gmial.com": "gmail.com",
+  "gmai.com": "gmail.com",
+  "gmail.co": "gmail.com",
+  "gmail.con": "gmail.com",
+  "gmaill.com": "gmail.com",
+  "gmail.cm": "gmail.com",
+  "gnail.com": "gmail.com",
+  "hotmial.com": "hotmail.com",
+  "hotmail.co": "hotmail.com",
+  "hotmail.con": "hotmail.com",
+  "outlok.com": "outlook.com",
+  "outlook.co": "outlook.com",
+  "yahooo.com": "yahoo.com",
+  "yaho.com": "yahoo.com",
+  "yahoo.co": "yahoo.com",
+  "iclod.com": "icloud.com",
+  "icloud.co": "icloud.com",
+  "protonmai.com": "protonmail.com",
+};
+
+function suggestEmail(value: string): string | null {
+  const at = value.lastIndexOf("@");
+  if (at === -1) return null;
+
+  const local = value.slice(0, at);
+  const domain = value.slice(at + 1).toLowerCase().trim();
+  if (!local || !domain) return null;
+
+  const fix = DOMAIN_FIXES[domain];
+  return fix ? local + "@" + fix : null;
 }
 
 function getUpcomingMonday(): Date {
@@ -83,138 +71,64 @@ function cohortStartLabel(): string {
   });
 }
 
-function validatePhoneNumber(dialCode: string, number: string): string | null {
-  const digits = number.replace(/\D/g, "");
-  if (digits.length < 7 || digits.length > 15) {
-    return "Enter a valid mobile number. Use 7–15 digits, without the country code.";
-  }
-  return null;
-}
-
-function buildE164(dialCode: string, number: string): string {
-  const digits = number.replace(/\D/g, "");
-  return dialCode + digits;
-}
-
 export function EnrollForm() {
-  const [step, setStep] = useState<Step>("form");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [lastName, setLastName] = useState("");
 
   const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [wantsWhatsapp, setWantsWhatsapp] = useState(false);
-  const [emailReminders, setEmailReminders] = useState(true);
-  const [dialCode, setDialCode] = useState("+1");
-  const [dialCodeOpen, setDialCodeOpen] = useState(false);
-  const [timezoneOpen, setTimezoneOpen] = useState(false);
-  const [customDialCode, setCustomDialCode] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [timezone, setTimezone] = useState("Europe/London");
+  const [suggestion, setSuggestion] = useState<string | null>(null);
 
-  const [emailOtp, setEmailOtp] = useState("");
-  const [whatsappOtp, setWhatsappOtp] = useState("");
-  const [hasPhone, setHasPhone] = useState(false);
+  function handleEmailChange(value: string) {
+    setEmail(value);
+    setSuggestion(suggestEmail(value));
+  }
 
-  useEffect(() => {
-    let detected = detectTimezone();
-
-    if (detected === "Asia/Calcutta") {
-      detected = "Asia/Kolkata";
-    }
-
-    const supportedTimezone = TIMEZONES.some(
-      (tz) => tz.value === detected
-    );
-
-    if (supportedTimezone) {
-      setTimezone(detected);
-    }
-  }, []);
-
-  async function handleFormSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-
-    let phone = "";
-    if (wantsWhatsapp) {
-      const phoneError =
-  !/^\+\d{1,4}$/.test(dialCode)
-    ? "Enter a valid country code."
-    : validatePhoneNumber(dialCode, phoneNumber);
-      if (phoneError) {
-        setError(phoneError);
-        return;
-      }
-      phone = buildE164(dialCode, phoneNumber);
-    }
-
     setLoading(true);
+
     try {
       const res = await fetch("/api/enroll/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, lastName, email, phone, timezone, emailReminders }),
+        body: JSON.stringify({ name, lastName, email }),
       });
       const data = await res.json();
+
       if (!data.ok) {
         setError(data.error ?? "Something went wrong. Try again.");
-      } else {
-        track("enroll_started");
-        setHasPhone(data.hasPhone);
-        setStep("verify");
+        setLoading(false);
+        return;
       }
-    } catch {
-      setError("Network error. Try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
 
-  async function handleVerifySubmit(e: React.FormEvent, skipPhone = false) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const res = await fetch("/api/enroll/verify-otp", {
+      track("enroll_started");
+
+      const checkoutRes = await fetch("/api/enroll/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          emailOtp,
-          whatsappOtp: hasPhone && !skipPhone ? whatsappOtp : undefined,
-        }),
+        body: JSON.stringify({ email }),
       });
-      const data = await res.json();
-      if (!data.ok) {
-        setError(data.error ?? "Incorrect or expired code.");
-      } else {
-        track("enroll_verified");
-        const checkoutRes = await fetch("/api/enroll/create-checkout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        });
-        const checkoutData = await checkoutRes.json();
-        if (!checkoutData.url) {
-          setError("Failed to start checkout. Try again.");
-        } else {
-          track("checkout_started");
-          window.location.href = checkoutData.url;
-        }
+      const checkoutData = await checkoutRes.json();
+
+      if (!checkoutData.url) {
+        setError("Failed to start checkout. Try again.");
+        setLoading(false);
+        return;
       }
+
+      track("checkout_started");
+      window.location.href = checkoutData.url;
     } catch {
       setError("Network error. Try again.");
-    } finally {
       setLoading(false);
     }
   }
 
   const inputCls =
     "h-10 border-white/30 bg-white/[0.08] text-white placeholder:text-neutral-400 focus-visible:ring-[#FF3B3B]/60";
-  const selectCls =
-    "h-10 w-full rounded-md border border-white/30 bg-white/[0.08] px-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#FF3B3B]";
   const labelCls = "mb-1.5 block text-[12px] font-medium text-[#C4BFBD]";
   const display = { fontFamily: "var(--font-display), Georgia, serif" };
 
@@ -286,7 +200,7 @@ export function EnrollForm() {
         {/* Right: form */}
         <div className="flex min-h-0 flex-col justify-center border-t border-white/12 bg-[#1B1B21] px-7 py-7 sm:px-9 lg:border-l lg:border-t-0 lg:px-8 lg:py-5">
 
-          <div className="mb-4 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-2.5">
+          <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-2.5">
             {SALE_MODE && (
               <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FFA8A2]">
                 {"Pre-launch · ends " + SALE_END_LABEL}
@@ -303,411 +217,96 @@ export function EnrollForm() {
             </p>
           </div>
 
-          <div className="mb-4 flex items-center gap-2">
+          <div className="mb-5 flex items-center gap-2">
             <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#FF3B3B] text-[10px] font-bold text-white">
-              {step === "verify" ? "✓" : "1"}
+              1
             </span>
             <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-white">Details</span>
             <span className="h-px flex-1 bg-white/20" />
-            <span className={
-              "flex h-[18px] w-[18px] items-center justify-center rounded-full text-[10px] font-bold " +
-              (step === "verify" ? "bg-[#FF3B3B] text-white" : "border border-white/35 text-[#C4BFBD]")
-            }>
+            <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-white/35 text-[10px] font-bold text-[#C4BFBD]">
               2
             </span>
-            <span className={"text-[11px] font-semibold uppercase tracking-[0.08em] " + (step === "verify" ? "text-white" : "text-[#C4BFBD]")}>
-              Verify
-            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#C4BFBD]">Pay</span>
             <span className="h-px flex-1 bg-white/20" />
             <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full border border-white/35 text-[10px] font-bold text-[#C4BFBD]">
               3
             </span>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#C4BFBD]">Pay</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#C4BFBD]">Set up</span>
           </div>
 
-          {step === "form" && (
-            <form onSubmit={handleFormSubmit} className="space-y-2.5">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className={labelCls}>First name</label>
-                  <Input
-                    type="text"
-                    placeholder="Sarah"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                    autoFocus
-                    className={inputCls}
-                  />
-                </div>
-                <div>
-                  <label className={labelCls}>Last name</label>
-                  <Input
-                    type="text"
-                    placeholder="Chen"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    required
-                    className={inputCls}
-                  />
-                </div>
-              </div>
-
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className={labelCls}>Email</label>
+                <label className={labelCls}>First name</label>
                 <Input
-                  type="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  type="text"
+                  placeholder="Sarah"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  autoFocus
+                  className={inputCls}
+                />
+              </div>
+              <div>
+                <label className={labelCls}>Last name</label>
+                <Input
+                  type="text"
+                  placeholder="Chen"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   required
                   className={inputCls}
                 />
               </div>
+            </div>
 
-              <div>
-                <label className={labelCls}>Your timezone</label>
+            <div>
+              <label className={labelCls}>Email</label>
+              <Input
+                type="email"
+                placeholder="you@company.com"
+                value={email}
+                onChange={(e) => handleEmailChange(e.target.value)}
+                required
+                className={inputCls}
+              />
 
-                <div className="relative">
+              {suggestion && (
+                <p className="mt-1.5 text-[12px] text-[#FFA8A2]">
+                  Did you mean{" "}
                   <button
                     type="button"
-                    onClick={() => setTimezoneOpen((v) => !v)}
-                    className={
-                      selectCls +
-                      " flex w-full items-center justify-between gap-3 text-left"
-                    }
-                  >
-                    <span className="truncate">
-                      {TIMEZONES.find((tz) => tz.value === timezone)?.label ?? timezone}
-                    </span>
-
-                    <svg
-                      width="11"
-                      height="11"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={
-                        "shrink-0 text-[#C4BFBD] transition-transform " +
-                        (timezoneOpen ? "rotate-180" : "")
-                      }
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </button>
-
-                  {timezoneOpen && (
-                    <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setTimezoneOpen(false)}
-                      />
-
-                      <div className="absolute bottom-[calc(100%+6px)] left-0 z-20 max-h-52 w-full overflow-y-auto rounded-lg border border-white/15 bg-[#1B1B21] py-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-                        {TIMEZONES.map((tz) => (
-                          <button
-                            key={tz.value}
-                            type="button"
-                            onClick={() => {
-                              setTimezone(tz.value);
-                              setTimezoneOpen(false);
-                            }}
-                            className={
-                              "flex w-full items-center px-3.5 py-1.5 text-left text-sm transition-colors " +
-                              (tz.value === timezone
-                                ? "bg-[#FF3B3B]/15 text-white"
-                                : "text-[#D6D3D1] hover:bg-white/[0.06] hover:text-white")
-                            }
-                          >
-                            {tz.label}
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-2 pt-0.5">
-                <label className="flex cursor-pointer items-start gap-2.5">
-                  <input
-                    type="checkbox"
-                    checked={wantsWhatsapp}
-                    onChange={(e) => {
-                      setWantsWhatsapp(e.target.checked);
-                      if (!e.target.checked) setPhoneNumber("");
+                    onClick={() => {
+                      setEmail(suggestion);
+                      setSuggestion(null);
                     }}
-                    className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[#FF3B3B]"
-                  />
-                  <span className="text-[12.5px] leading-snug text-[#D6D3D1]">
-                    Also send lesson reminders on WhatsApp
-                  </span>
-                </label>
-
-                <label className="flex cursor-pointer items-start gap-2.5">
-                  <input
-                    type="checkbox"
-                    checked={emailReminders}
-                    onChange={(e) => setEmailReminders(e.target.checked)}
-                    className="mt-0.5 h-4 w-4 shrink-0 rounded accent-[#FF3B3B]"
-                  />
-                  <span className="text-[12.5px] leading-snug text-[#D6D3D1]">
-                    Email me in the evening if the lesson is unopened
-                  </span>
-                </label>
-              </div>
-
-              {wantsWhatsapp && (
-                <div>
-                  <label className={labelCls}>WhatsApp number</label>
-
-                  <p className="mb-1.5 text-[11px] leading-relaxed text-[#8F8A87]">
-                    We’ll verify this number by SMS. Lesson reminders will be sent on WhatsApp.
-                  </p>
-
-                  <div className="flex gap-2">
-                    <div className="relative shrink-0">
-                      {customDialCode ? (
-                        <div className="flex h-10 w-[108px] overflow-hidden rounded-md border border-white/30 bg-white/[0.08]">
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            value={dialCode}
-                            placeholder="+00"
-                            onChange={(e) => {
-                              const digits = e.target.value
-                                .replace(/\D/g, "")
-                                .slice(0, 4);
-
-                              setDialCode("+" + digits);
-                            }}
-                            className="min-w-0 flex-1 bg-transparent px-3 text-sm text-white outline-none placeholder:text-[#8F8A87]"
-                            autoFocus
-                          />
-
-                          <button
-                            type="button"
-                            onClick={() => setDialCodeOpen((v) => !v)}
-                            className="flex w-8 shrink-0 items-center justify-center border-l border-white/15 text-[#C4BFBD] transition-colors hover:bg-white/[0.06]"
-                            aria-label="Choose country code"
-                          >
-                            <svg
-                              width="11"
-                              height="11"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <polyline points="6 9 12 15 18 9" />
-                            </svg>
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => setDialCodeOpen((v) => !v)}
-                          className={
-                            selectCls +
-                            " flex w-[92px] items-center justify-between gap-1 text-left"
-                          }
-                        >
-                          <span>
-                            {COUNTRY_CODES.find((c) => c.code === dialCode)?.label ??
-                              dialCode}
-                          </span>
-
-                          <svg
-                            width="11"
-                            height="11"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="shrink-0 text-[#C4BFBD]"
-                          >
-                            <polyline points="6 9 12 15 18 9" />
-                          </svg>
-                        </button>
-                      )}
-
-                      {dialCodeOpen && (
-                        <>
-                          <div
-                            className="fixed inset-0 z-10"
-                            onClick={() => setDialCodeOpen(false)}
-                          />
-
-                          <div className="absolute bottom-[calc(100%+6px)] left-0 z-20 max-h-52 w-48 overflow-y-auto rounded-lg border border-white/15 bg-[#1B1B21] py-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
-                            {COUNTRY_CODES.map((c) => (
-                              <button
-                                key={c.code}
-                                type="button"
-                                onClick={() => {
-                                  setDialCode(c.code);
-                                  setCustomDialCode(false);
-                                  setDialCodeOpen(false);
-                                }}
-                                className={
-                                  "flex w-full items-center gap-2 px-3.5 py-1.5 text-left text-sm transition-colors " +
-                                  (c.code === dialCode && !customDialCode
-                                    ? "bg-[#FF3B3B]/15 text-white"
-                                    : "text-[#D6D3D1] hover:bg-white/[0.06] hover:text-white")
-                                }
-                              >
-                                {c.label}
-                              </button>
-                            ))}
-
-                            <div className="my-1 border-t border-white/10" />
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setCustomDialCode(true);
-                                setDialCode("+");
-                                setDialCodeOpen(false);
-                              }}
-                              className={
-                                "flex w-full items-center gap-2 px-3.5 py-1.5 text-left text-sm transition-colors " +
-                                (customDialCode
-                                  ? "bg-[#FF3B3B]/15 text-white"
-                                  : "text-[#D6D3D1] hover:bg-white/[0.06] hover:text-white")
-                              }
-                            >
-                              <span className="flex h-5 w-5 items-center justify-center rounded border border-white/20 text-xs">
-                                +
-                              </span>
-
-                              Other country code
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    <Input
-                      type="tel"
-                      inputMode="tel"
-                      autoComplete="tel-national"
-                      placeholder="612 345 678"
-                      value={phoneNumber}
-                      onChange={(e) =>
-                        setPhoneNumber(e.target.value.replace(/[^\d\s\-]/g, ""))
-                      }
-                      required={wantsWhatsapp}
-                      className={inputCls + " flex-1"}
-                    />
-                  </div>
-
-                  <p className="mt-1.5 text-[11px] leading-relaxed text-[#8F8A87]">
-                    Enter your mobile number without the country code. We’ll verify it by SMS.
-                  </p>
-                </div>
+                    className="font-semibold underline underline-offset-2"
+                  >
+                    {suggestion}
+                  </button>
+                  ?
+                </p>
               )}
+            </div>
 
-              {error && <p className="text-[12px] text-[#ff8a82]">{error}</p>}
+            {error && <p className="text-[12px] text-[#ff8a82]">{error}</p>}
 
-              <Button
-                type="submit"
-                className="h-12 w-full bg-[#E0233F] text-[15px] font-semibold hover:bg-[#FF3B3B]"
-                disabled={loading}
-              >
-                {loading ? "Sending codes..." : "Get access now"}
-              </Button>
+            <Button
+              type="submit"
+              className="h-12 w-full bg-[#E0233F] text-[15px] font-semibold hover:bg-[#FF3B3B]"
+              disabled={loading}
+            >
+              {loading ? "Opening secure checkout..." : "Continue to payment"}
+            </Button>
 
-              <p className="text-center text-[12px] leading-relaxed text-[#A8A29E]">
-                Card payment via Stripe. 14 day refund.
-                <br />
-                Already enrolled?{" "}
-                <a href="/login" className="text-[#FFA8A2] underline">Log in</a>
-              </p>
-            </form>
-          )}
-
-          {step === "verify" && (
-            <form onSubmit={handleVerifySubmit} className="space-y-2.5">
-              <p className="text-[12.5px] leading-relaxed text-[#D6D3D1]">
-                {hasPhone
-                  ? "We sent an email code to " + email + " and an SMS verification code to your phone."
-                  : "We sent a code to " + email + "."}
-              </p>
-
-              <div className={hasPhone ? "grid grid-cols-2 gap-3" : ""}>
-                <div>
-                  <label className={labelCls}>Email code</label>
-                  <Input
-                    type="text"
-                    inputMode="numeric"
-                    placeholder="123456"
-                    maxLength={6}
-                    value={emailOtp}
-                    onChange={(e) => setEmailOtp(e.target.value.replace(/\D/g, ""))}
-                    required
-                    autoFocus
-                    className={inputCls}
-                  />
-                </div>
-
-                {hasPhone && (
-                  <div>
-                    <label className={labelCls}>SMS code</label>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="123456"
-                      maxLength={6}
-                      value={whatsappOtp}
-                      onChange={(e) => setWhatsappOtp(e.target.value.replace(/\D/g, ""))}
-                      required
-                      className={inputCls}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {hasPhone && (
-                <button
-                  type="button"
-                  onClick={(e) => handleVerifySubmit(e as unknown as React.FormEvent, true)}
-                  disabled={loading}
-                  className="text-[11.5px] text-[#A8A29E] hover:text-white hover:underline disabled:opacity-50"
-                >
-                  Issues with the SMS code? Skip for now — you can verify it later.
-                </button>
-              )}
-
-              {error && <p className="text-[12px] text-[#ff8a82]">{error}</p>}
-
-              <Button
-                type="submit"
-                className="h-12 w-full bg-[#E0233F] text-[15px] font-semibold hover:bg-[#FF3B3B]"
-                disabled={loading}
-              >
-                {loading ? "Verifying..." : "Continue to payment"}
-              </Button>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setStep("form");
-                  setEmailOtp("");
-                  setWhatsappOtp("");
-                  setError("");
-                }}
-                className="w-full text-center text-[12px] text-[#A8A29E] hover:text-white hover:underline"
-              >
-                Go back and edit details
-              </button>
-            </form>
-          )}
+            <p className="text-center text-[12px] leading-relaxed text-[#A8A29E]">
+              Card payment via Stripe. 14 day refund.
+              <br />
+              Already enrolled?{" "}
+              <a href="/login" className="text-[#FFA8A2] underline">Log in</a>
+            </p>
+          </form>
 
         </div>
       </div>
