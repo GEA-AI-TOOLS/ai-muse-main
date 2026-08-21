@@ -1,10 +1,16 @@
 import { getParticipant } from "@/lib/n8n";
+import { redirect } from "next/navigation";
+import { needsProfileSetup } from "@/lib/profile-gate";
 
 export default async function WaitingPage() {
   let cohortId = "";
   let participantName = "";
   try {
     const { participant } = await getParticipant();
+
+    if (await needsProfileSetup(participant.id)) {
+      redirect("/enroll/complete");
+    }
     cohortId = participant.cohortId;
     participantName = participant.name.split(" ")[0];
   } catch {

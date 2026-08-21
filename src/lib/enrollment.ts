@@ -2,6 +2,7 @@
 import { supabase } from "@/lib/supabase";
 import { sendWelcomeEmail } from "@/lib/email";
 import { SALE_MODE, SALE_COHORT_START } from "@/lib/launch-config";
+import { getCohortAccess } from "@/lib/cohort-access";
 
 function getUpcomingMonday(fromDate: Date): Date {
   const date = new Date(fromDate);
@@ -109,6 +110,10 @@ export async function fulfillEnrollment(
         stripe_payment_id: stripeSessionId,
         email_reminders: enrollment.email_reminders ?? true,
         whatsapp_reminders: enrollment.whatsapp_reminders ?? false,
+        email_verified: false,
+        phone_verified: false,
+        profile_completed_at: null,
+        welcome_sent_at: null,
       },
       { onConflict: "stripe_payment_id" }
     )
@@ -143,20 +148,51 @@ export async function fulfillEnrollment(
     .update({ status: "fulfilled", fulfilled_participant_id: participant.id })
     .eq("id", pendingId);
 
-  // --- Welcome email (best-effort, once) ---
-  // Guard against double-send in the race: only send if we just created it.
-  try {
-    await sendWelcomeEmail(
-      enrollment.email,
-      enrollment.name,
-      cohortId,
-      enrollment.timezone,
-      participant.id,
-      accessOpensAt
-    );
-  } catch (err) {
-    console.error("fulfillEnrollment: welcome email failed:", err);
-  }
+  // --- Welcome email is NOT sent here any more ---
+  // It carries the ICS file, which needs a real timezone and a confirmed
+  // inbox. Both only exist once the participant completes their profile,
+  // so the send moved to sendEnrollmentWelcome() below, called from
+  // /api/enroll/complete on successful email verification.
 
   return { participantId: participant.id, cohortId, alreadyExisted: false };
+}
+
+/**
+ * Send the welcome email + ICS for an already-fulfilled participant.
+ * Called once, from the complete-profile step, after the email OTP passes.
+ * Safe to call twice — it no-ops if the welcome was already sent.
+ */
+export async function sendEnrollmentWelcome(participantId: string): Promise<void> {
+  const { data: participant } = await supabase
+    .from("participants")
+    .select("id, name, email, timezone, cohort_id, welcome_sent_at")
+    .eq("id", participantId)
+    .single();
+
+  if (!participant) {
+    console.error("sendEnrollmentWelcome: participant not found:", participantId);
+    return;
+  }
+
+  if (participant.welcome_sent_at) return;
+
+  const access = await getCohortAccess(participant.cohort_id);
+
+  try {
+    await sendWelcomeEmail(
+      participant.email,
+      participant.name,
+      participant.cohort_id,
+      participant.timezone,
+      participant.id,
+      access.opensAt
+    );
+
+    await supabase
+      .from("participants")
+      .update({ welcome_sent_at: new Date().toISOString() })
+      .eq("id", participant.id);
+  } catch (err) {
+    console.error("sendEnrollmentWelcome: welcome email failed:", err);
+  }
 }

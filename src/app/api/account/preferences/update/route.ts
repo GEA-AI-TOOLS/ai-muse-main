@@ -25,11 +25,11 @@ export async function POST(req: NextRequest) {
   if (whatsappReminders) {
     const { data: participant } = await supabase
       .from("participants")
-      .select("phone")
+      .select("phone, phone_verified")
       .eq("id", participantId)
       .single();
 
-    if (!participant?.phone || participant.phone.trim().length === 0) {
+    if (!participant?.phone_verified) {
       return NextResponse.json(
         { ok: false, error: "Verify a WhatsApp number first." },
         { status: 400 }
