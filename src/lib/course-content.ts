@@ -36,7 +36,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/vBm_pDOA4Qs?si=vfxqJIAqlBcb7-rr",
-      muxPlaybackId: "m19H5500bwWoxLWkyDV02XcpjSA02vDh7qdzNBlE8Bfh1Y",
+      muxPlaybackId: "gpEtWMUfIPi8kdWE02YZcjFHGtAdt2tNti89ABu1YGc8",
       durationSeconds: 600,
       summary: [
         {
@@ -93,7 +93,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on [describe your initiative or decision].\n\nThe bottleneck is: [one sentence. Not the symptom. The root cause.]\n\nGiven only this bottleneck, what are the highest-leverage actions I can take.\n\nDo not suggest tools or platforms. Do not solve the symptom. Stay focused on the bottleneck I defined.\n\n-----------\n\nIf any bracket above is not filled in, do not proceed. Ask me one question at a time to help me fill it in. Start with the initiative. Then the bottleneck. Do not move to the next question until I have answered the current one. When I answer, reflect back what I said and ask if it captures the real bottleneck or just the symptom. Make this a thinking exercise, not a form to complete.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/avH9md3C-5c?si=0_l2rxyTe4Z3ujT4",
-          muxPlaybackId: "",
+          muxPlaybackId: "IpVkeQ2PrkjmW4eVOIABJfRLwV00BM701vPGAUcQo2MUQ",
           title: "Day 1 : Essential Demo",
         },
       },
@@ -184,7 +184,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     essential: {
       videoUrl: "https://www.youtube.com/embed/VcX4OK66TXI?si=-E277i8yKoBnTZse",
-      muxPlaybackId: "",
+      muxPlaybackId: "OI7nvONYdmekSPQEA02KYOFmssGNd8Jqj01xihhijr7X4",
       durationSeconds: 600,
       summary: [
         {
@@ -242,7 +242,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on: [ describe your task or challenge in one sentence + attach relevant files. ]\n\nMy current thinking is: [ paste your own take. Three to five sentences. What you know. What you have seen. What your instinct says. ]\n\nI am uncertain about: [ specific gaps. What you don't know. What would take you long to verify. ]\n\nRespond only to my gaps. Use my thinking as context. Do not rewrite what I already know. Do not give generic advice. Make your response specific to what I told you.\n\n---------\n\nIf any bracket is not filled, do not proceed. Ask me one question at a time. Start with the task. Then my thinking. Then my gaps. Do not move to the next question until I have answered. If my answers sound vague or generic, push back and ask me to be more specific.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/8bOKvuWzF-0?si=n02m_DRRMoIssGbE",
-          muxPlaybackId: "",
+          muxPlaybackId: "BgiO680100Tzt4ONDTsuzYWWTDH02Ehj6exDaUTMGps934",
           title: "Day 2 : Essential Demo",
         },
       },
@@ -250,7 +250,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/sfRvb9zDXhA?si=vZxbmlUCXGAfNIpf",
-      muxPlaybackId: "",
+      muxPlaybackId: "K45UBf9FS02pWto91KSZkrwHgy7TALFnx5yIEjXi002ug",
       durationSeconds: 840,
       summary: [
         {
@@ -411,7 +411,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/EeBV8CBphmI?si=ki1osc8w1ZAzVK8s",
-      muxPlaybackId: "",
+      muxPlaybackId: "PL001B015N4KcqedBlZFJGdW9v82LD6HVm02TJuZeFDMys",
       durationSeconds: 840,
       summary: [
         {
@@ -569,7 +569,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/7ML8RYOsl2w?si=DoTvrCUGgDso-Whr",
-          muxPlaybackId: "",
+          muxPlaybackId: "WRmBuQvmU8ZTwjUAR1WrXCfbGfBbG1oFjqA001Nu1MwM",
           title: "Day 4 : Essential Demo",
         },
       },
@@ -577,7 +577,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/7ZQ5EM-wEWU?si=XNmH9NIYQ7LWf4Fx",
-      muxPlaybackId: "",
+      muxPlaybackId: "w4yLB8MMXvhY02eO6m301Yn7IpmCaZadZhWodHkNK7DZw",
       durationSeconds: 840,
       summary: [
         {
@@ -727,7 +727,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "You are a thinking partner helping me extract the argument from raw spoken thought.\n\nI will give you an unedited voice transcript. It might be messy, unstructured, and conversational.\n\nRespond with:\n\nOne core message – what is the big idea here\n\nTwo supporting points — the evidence or reasoning already in the transcript.\n\nOne opening sentence — the sharpest way to start if I were to write this up.\n\nDo not rewrite or polish. Do not add ideas I did not say. Only find the argument already in it.\n\n[Speak it out using voice feature or paste your raw transcript here]",
         demo: {
           videoUrl: "https://www.youtube.com/embed/DZJtkQqXN7g?si=xmTM-eLAQFu1E5T8",
-          muxPlaybackId: "",
+          muxPlaybackId: "goGpw5TxKLzncgQdpI5kmZc02iwW98TuAThHUoEXJPgE",
           title: "Day 5 : Essential Demo",
         },
       },
