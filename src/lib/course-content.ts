@@ -735,7 +735,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/h3M4PxPz6jo?si=EjH5y8mrDDM81sh2",
-      muxPlaybackId: "",
+      muxPlaybackId: "Uwu6NT6AZa2YzZG01oL5rBXWe02cPg8d00Pxpvh6P1ikTc",
       durationSeconds: 840,
       summary: [
         {
