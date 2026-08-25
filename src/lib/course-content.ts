@@ -158,7 +158,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I have a problem I need to solve at work.\n\nThe situation is: [describe what is going wrong. One to three sentences.]\n\nThe obvious solution everyone is pushing for is: [what is the default fix people are jumping to.]\n\nBefore I go there, help me do this properly.\n\nStep one. Ask me one question to help me write the real objective in one sentence. Not the symptom. Not the direction. The precise outcome I need.\n\nStep two. Once I have the objective, give me three solutions. One slow. One fast. One I have not thought of.\n\nStep three. Evaluate all three against my objective. Not against cost. Not against effort. Against the objective only. Recommend the one that fits best.\n\n------------\n\nIf any bracket is empty, ask me one question at a time before proceeding. Start with the situation. Then the obvious solution. Do not move to step two until my objective is written in one clear sentence. Push back if it sounds like a direction rather than a precise outcome.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/vs1BedZV-6s?si=aqbqsFL1ulVRsrUJ",
-          muxPlaybackId: "",
+          muxPlaybackId: "4OxZ2os5WXQc29Q7My9EKeYbhUBD2eVEhwgnVXK006pw",
           title: "Day 1 : Advanced Demo",
         },
       },
@@ -315,7 +315,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
-          muxPlaybackId: "",
+          muxPlaybackId: "8BZcrmjxO01j4lIboeBFaW2oOU800GRHQ2mEiAyiMcktc",
           title: "Day 2 : Advanced Demo",
         },
       },
@@ -474,7 +474,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "My brief: [what you are working on, your audience, what they want, and what stops them.]\n\nThe Wall: Here are 3 obvious solutions [list solutions] ban all three completely.\nDo not use them anywhere in the response.\n\nThe Bridge: Inject the logic of [one unrelated world: a sport, a courtroom, a recipe, a natural phenomenon, anything]. Use only that world's logic, language, and structure to solve the brief. Nothing from the original vocabulary of the brief.\n\nTo deliver [Give me three options built entirely from that collision. Nothing safe. Nothing expected. If any option could have been produced without the constraint replace it. Rank all three. Kill the weakest. Recommend the strongest and explain why in one sentence.]\n\nEnd with one line: what did the constraint force you to find that you never would have found without it? Present as [social media post, email, landing page, ad, or something else].\n\nScan every bracket. For each unfilled bracket teach and ask one question at a time in this exact way.\n\nFor the brief ask: Great friction starts with a clear brief. What are you working on, who is it for, and what stops them from engaging?\n\nFor the unrelated world say first: Now we build the wall. The more unrelated the world you pick, the more original your output will be. Then suggest three options based on the brief and ask: Here are three worlds we could inject into your brief: [suggest three]. Which feels most interesting? Or pick your own.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/h7c7Q9PQ4Y0?si=50cV235WZzl6wWsH",
-          muxPlaybackId: "",
+          muxPlaybackId: "xDkO009qSV3QSZIcNswXcL3NP7nZhckZtZf2HHtYTI02Y",
           title: "Day 3 : Advanced Demo",
         },
       },
@@ -644,7 +644,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "You are a Verification Analyst helping me fact-check AI-generated content.\n\nExtract each factual claim. Rate confidence HIGH/MEDIUM/LOW. Flag anything you cannot verify.\n\nDo not assume accuracy. Treat every name, date, and number as unverified until sourced.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/NEe-vgVIois?si=SgjYYeRbk27TKE5j",
-          muxPlaybackId: "",
+          muxPlaybackId: "hNseSqJqXR5H21017WE00kkv90002RzJsggc49F2hXD501NQ",
           title: "Day 4 : Advanced Demo",
         },
       },
@@ -793,7 +793,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "The AI solution\nI would like help writing a TRUE NORTH\n\nGive me a first draft\n\nThen ask me questions about each section one at a time, so I can accept or improve\n\nGoal = A clear, very clear objective for me, AI and my team\n[first ideas]\nIf applicable, attach documents",
         demo: {
           videoUrl: "https://www.youtube.com/embed/LL910WqkulM?si=t3dbxreryEvhs9ZG",
-          muxPlaybackId: "",
+          muxPlaybackId: "e9b9AG3gLxfrX7rKJHRZS02RfG9mCG5DQgIIv017Ya01zc",
           title: "Day 5 : Advanced Demo",
         },
       },
