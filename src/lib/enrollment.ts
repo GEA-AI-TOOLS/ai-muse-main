@@ -148,6 +148,29 @@ export async function fulfillEnrollment(
     .update({ status: "fulfilled", fulfilled_participant_id: participant.id })
     .eq("id", pendingId);
 
+  // --- Reconcile coupon redemption, if this checkout used one ---
+  const { data: usedCoupon } = await supabase
+    .from("coupons")
+    .select("id")
+    .eq("stripe_checkout_session_id", stripeSessionId)
+    .maybeSingle();
+
+  if (usedCoupon) {
+    await supabase
+      .from("coupons")
+      .update({
+        status: "redeemed",
+        redeemed_at: new Date().toISOString(),
+        redeemed_by_participant_id: participant.id,
+      })
+      .eq("id", usedCoupon.id);
+
+    await supabase
+      .from("participants")
+      .update({ coupon_id: usedCoupon.id })
+      .eq("id", participant.id);
+  }
+
   // --- Welcome email is NOT sent here any more ---
   // It carries the ICS file, which needs a real timezone and a confirmed
   // inbox. Both only exist once the participant completes their profile,

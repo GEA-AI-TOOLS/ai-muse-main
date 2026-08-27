@@ -71,7 +71,15 @@ function cohortStartLabel(): string {
   });
 }
 
-export function EnrollForm() {
+type CouponIssue = "not_found" | "redeemed" | "revoked" | "expired" | null;
+
+interface EnrollFormProps {
+  couponToken?: string;
+  percentOff?: number;
+  couponIssue?: CouponIssue;
+}
+
+export function EnrollForm({ couponToken, percentOff, couponIssue = null }: EnrollFormProps = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -109,7 +117,7 @@ export function EnrollForm() {
       const checkoutRes = await fetch("/api/enroll/create-checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, couponToken }),
       });
       const checkoutData = await checkoutRes.json();
 
@@ -200,6 +208,21 @@ export function EnrollForm() {
         {/* Right: form */}
         <div className="flex min-h-0 flex-col justify-center border-t border-white/12 bg-[#1B1B21] px-7 py-7 sm:px-9 lg:border-l lg:border-t-0 lg:px-8 lg:py-5">
 
+          {couponIssue && (
+            <div className="mb-4 rounded-lg border border-white/15 bg-white/[0.06] px-4 py-3">
+              <p className="text-[13px] leading-relaxed text-[#D6D3D1]">
+                {couponIssue === "not_found" &&
+                  "This invite link doesn't match a coupon we recognize. You can still enroll below at the regular price."}
+                {couponIssue === "redeemed" &&
+                  "This invite link has already been used. If you think that's a mistake, contact whoever sent you this link. You can still enroll below at the regular price."}
+                {couponIssue === "revoked" &&
+                  "This invite link is no longer active. Contact whoever sent you this link if you have questions. You can still enroll below at the regular price."}
+                {couponIssue === "expired" &&
+                  "This invite link has expired. Contact whoever sent you this link if you have questions. You can still enroll below at the regular price."}
+              </p>
+            </div>
+          )}
+
           <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-2.5">
             {SALE_MODE && (
               <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FFA8A2]">
@@ -210,6 +233,11 @@ export function EnrollForm() {
               <span style={display} className="text-[30px] leading-none text-white">€147</span>
               {SALE_MODE && (
                 <span className="text-[15px] text-[#A8A29E] line-through">€195</span>
+              )}
+              {percentOff && (
+                <span className="rounded bg-white/10 px-2 py-0.5 text-[12px] font-semibold text-[#FFA8A2]">
+                  {percentOff}% off applied
+                </span>
               )}
             </div>
             <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#E7E5E4]">
