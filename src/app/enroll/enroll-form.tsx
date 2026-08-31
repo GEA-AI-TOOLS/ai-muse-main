@@ -14,7 +14,7 @@ const BENEFITS = [
   { Icon: Award, title: "Two certificates, yours for life", desc: "Publicly verifiable. Every prompt and template stays with you." },
 ];
 
-const SALE_END_LABEL = "Aug 31";
+const SALE_END_LABEL = "Sep 7";
 
 // Domains people mistype most often, mapped to what they meant.
 const DOMAIN_FIXES: Record<string, string> = {

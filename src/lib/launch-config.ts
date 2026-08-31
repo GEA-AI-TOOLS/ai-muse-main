@@ -5,7 +5,7 @@
 export const SALE_MODE = true;
 
 // Monday the pre-launch cohort starts. Lessons unlock 00:00 UTC this day.
-export const SALE_COHORT_START = "2026-08-31";
+export const SALE_COHORT_START = "2026-09-7";
 
 // Stripe price used while SALE_MODE is on.
 export const ACTIVE_PRICE_ID = SALE_MODE
