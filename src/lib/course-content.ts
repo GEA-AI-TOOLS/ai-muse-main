@@ -957,7 +957,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/AyIIA2ysYuM?si=7DBxPoSpEckoZ6va",
-      muxPlaybackId: "",
+      muxPlaybackId: "SSkdzhWPVeGf00fpze00N1cXsGCaE6u48a00MopeF77iXk",
       durationSeconds: 600,
       summary: [
         {
@@ -1022,7 +1022,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/aNfyBHl66zA?si=s_3ewxsqd4l8x2HW",
-      muxPlaybackId: "",
+      muxPlaybackId: "csHpHt9Xf0102oogDadp7kLNdnjnIgDf1SlOaR56Acvnk",
       durationSeconds: 600,
       summary: [
         {
@@ -1137,7 +1137,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/nUV7CGCTeCs?si=WLCaO_Toov7q6jS5",
-      muxPlaybackId: "",
+      muxPlaybackId: "9FMTSxhl44E2fnuTxvzA5qjryEm3kFaml02JTruPI1x8",
       durationSeconds: 600,
       summary: [
         {
@@ -1202,7 +1202,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/BSa_mY7o2OU?si=7CZ-RPRtjQOf90Nl",
-      muxPlaybackId: "",
+      muxPlaybackId: "CqxICaheSmNTnBBwW01Ln3zKZMel3uOGjge026yEmSIwo",
       durationSeconds: 600,
       summary: [
         {
@@ -1308,7 +1308,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/znfkC-CaQtE?si=vH2o5eabZ7eMvXq3",
-      muxPlaybackId: "",
+      muxPlaybackId: "J01n4wtzG2ObEqpLVKtfM9qM4HH9Mn3Uy01yorJYngOPE",
       durationSeconds: 600,
       summary: [
         {
@@ -1372,7 +1372,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/RMme-mY5A6I?si=vSkSPJpLqwknockf",
-      muxPlaybackId: "",
+      muxPlaybackId: "rDdEY6UG77ju2ek2ESr7ChCoTrDNhRKsrS59yl02FwzY",
       durationSeconds: 600,
       summary: [
         {
