@@ -735,7 +735,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     advanced: {
       videoUrl: "https://www.youtube.com/embed/h3M4PxPz6jo?si=EjH5y8mrDDM81sh2",
-      muxPlaybackId: "Uwu6NT6AZa2YzZG01oL5rBXWe02cPg8d00Pxpvh6P1ikTc",
+      muxPlaybackId: "zzumHIzwWuK3yHV02H814Vc9RW1oGOd7tKE2QEwISp6w",
       durationSeconds: 840,
       summary: [
         {
@@ -822,7 +822,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/i_HaEWl97lQ?si=16Umk2zGHynWpxg6",
-      muxPlaybackId: "",
+      muxPlaybackId: "5401L9htVorq01N01COmmi01uylD26w02wdzSUYuIuuCqBWg",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "You wrote the prompt carefully. AI answered instantly. It looked right. You moved on. Later you realized you had been working on the wrong challenge. The problem was never the AI answer. It was the question you never got asked. Stop giving AI instructions to answer. Give it permission to interrogate you first." },
@@ -871,7 +871,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     advanced: {
       videoUrl: "https://www.youtube.com/embed/LktSYyznOf8?si=vpo1rvDeTua_O13h",
-      muxPlaybackId: "",
+      muxPlaybackId: "ZaMsx024bGff0151FMVw6uAs3wZNELQtRHXrHscLQZpC4",
       durationSeconds: 600,
       summary: [
         { heading: "Core Idea", body: "Your senior expert is leaving in six months. They run knowledge transfer sessions. The result is a document of process steps. The judgment, the workarounds, the unwritten rules, the mindset: those leave with the person. Tacit knowledge cannot be extracted by instruction alone. It can only be surfaced through interrogation. AI-led questioning is the only scalable tool that can capture it before it disappears." },
@@ -1015,7 +1015,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/QG_Hw9ErZbA?si=CjtDP4VfRMRnlOzC",
-          muxPlaybackId: "",
+          muxPlaybackId: "XWXpm2F6w01TwX028bQuv8uYldQuYZgLrD4iXJQfqIB2w",
           title: "Day 7 : Essential Demo",
         },
       },
@@ -1195,7 +1195,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I am working on this challenge: [#1 insert challenge].\nHow might we see this challenge from another perspective?\nGive me 5 different How Might We reframes.\nFor each reframe, show the new solution space it opens.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/1GZ7MvglvXM?si=gsyIHxkIAH3572xd",
-          muxPlaybackId: "",
+          muxPlaybackId: "44r8GsnHDz982AFdadalaXBu3Evs0100qofe5ICjVsYn4",
           title: "Day 8 : Essential Demo",
         },
       },
@@ -1543,7 +1543,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/yjjL8x8EG84?si=b84mVznSmLlQn2I7",
-          muxPlaybackId: "",
+          muxPlaybackId: "maRTJfedQLFDjkftfdgTEz2xDqON1SElP2WwiEYPul4",
           title: "Day 10 : Essential Demo",
         },
       },
