@@ -864,7 +864,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I'm [add some context about yourself + Attach some relevant files]\n\nI'd like your help figuring out how I can best use AI to solve some of my important business challenges.\n\nAsk me questions, one at a time, about our targets, current initiatives, and constraints until you have enough context to give me a few obvious and a few non-obvious AI recommendations.",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
-          muxPlaybackId: "",
+          muxPlaybackId: "8BZcrmjxO01j4lIboeBFaW2oOU800GRHQ2mEiAyiMcktc",
           title: "Day 6 : Essential Demo",
         },
       },
@@ -913,7 +913,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I would like to better understand the work a colleague does.\n\nAsk me questions about his/her job one at a time to clearly understand his/her key tasks and roles. His/her primary job is [insert data].\n\nAsk me questions one at a time to better understand the content of work being done and the questions I would need to ask if he/she left the company.\n\nOutput: an exit interview questionnaire",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=bdY0KmwDhraTh15E",
-          muxPlaybackId: "",
+          muxPlaybackId: "8BZcrmjxO01j4lIboeBFaW2oOU800GRHQ2mEiAyiMcktc",
           title: "Day 6 : Advanced Demo",
         },
       },
@@ -1088,7 +1088,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "I have been working on [describe your challenge]\nI have this idea [Insert Idea]\nPlease create a series of personas to represent [people in my management team]\n[CFO | HR Director | CEO | Sales Director] [note: you could include PDFs of their profiles by downloading their LinkedIn profiles or answer questions about each]\nPlease provide feedback on my presentation using these personas\nBased on this, summarize the key feedback, give 3 suggestions on how to improve this project",
         demo: {
           videoUrl: "https://www.youtube.com/embed/S09dXQer_Ic?si=oQqnbIWZ1fFE-RbN",
-          muxPlaybackId: "",
+          muxPlaybackId: "p5fym2SPLtWsKydXtmaa4dLFJLMAZh2JpK6XQ1JTADE",
           title: "Day 7 : Advanced Demo",
         },
       },
@@ -1259,7 +1259,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: null,
         demo: {
           videoUrl: "https://www.youtube.com/embed/gSvjE5zA4f4?si=Er2FSkZ7B5sWMq4t",
-          muxPlaybackId: "",
+          muxPlaybackId: "bCgWVWr70201OnjJ4QvAfvoRTLMJJNcHSleNUTTudQmTw",
           title: "Day 8 : Advanced Demo",
         },
       },
@@ -1365,7 +1365,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "Below are my 2 AI usage assessments, first is my assessment results before the class, the second is my assessment results now.\nMake a comparison chart. Do you see changes in the way I use AI?\nProvide recommendations to continue improving.\n\nMy before Assessment:\n[Paste your older assessment here]\n\nMy Latest Assessment:\n[Paste your newer assessment here]",
         demo: {
           videoUrl: "https://www.youtube.com/embed/-N3GmOyzXYc?si=AEo7noZx0lnisPyx",
-          muxPlaybackId: "",
+          muxPlaybackId: "8BZcrmjxO01j4lIboeBFaW2oOU800GRHQ2mEiAyiMcktc",
           title: "Day 9 : Essential Demo",
         },
       },
@@ -1429,7 +1429,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
         prompt: "Based on the work I just did, please help me create a change log and a new and better prompt for next time\n\nKey outputs\nResults of my work\nFeedback I gave\nA new and better process and prompt\nHow to improve the process\nA prompt to run next time",
         demo: {
           videoUrl: "https://www.youtube.com/embed/GwGiFf_cYQ4?si=zIaOZQ8q31dS-Wiq",
-          muxPlaybackId: "",
+          muxPlaybackId: "Za0202BG1sBRJzJssjgHIFu8YzfDKZmtyddhg7qHxdZa4",
           title: "Day 9 : Advanced Demo",
         },
       },
@@ -1472,7 +1472,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
     },
     essential: {
       videoUrl: "https://www.youtube.com/embed/PzG3Q1yU0EI?si=rJf_tk-tNCY-fET6",
-      muxPlaybackId: "",
+      muxPlaybackId: "bAcMfuSEbFH9Kr9w3JOpA9ZpjWMxN00tMJ3z5o9MzXn8",
       durationSeconds: 600,
       summary: [
         {
