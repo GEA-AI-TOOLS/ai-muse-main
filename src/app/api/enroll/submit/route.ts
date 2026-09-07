@@ -24,21 +24,61 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Block already-enrolled active participants
+  // Block anyone who already has a participant account for this email,
+  // regardless of status — active, completed, inactive, or needs_attention
+  // all mean a real paid enrollment already exists, and letting them
+  // through to a second checkout would double-charge them.
   const { data: existing } = await supabase
     .from("participants")
-    .select("id, status")
+    .select("id, status, revoked")
     .eq("email", cleanEmail)
-    .single();
+    .maybeSingle();
 
-  if (existing && existing.status === "active") {
+  if (existing) {
     return NextResponse.json(
-      { ok: false, error: "You are already enrolled. Log in instead." },
+      {
+        ok: false,
+        field: "email",
+        error: "This email is already enrolled. Log in instead, or use a different email.",
+      },
       { status: 409 }
     );
   }
 
-  // Expire any previous pending enrollments for this email
+  // Check for a checkout genuinely in progress before expiring anything.
+  // A row with a stripe_session_id and a recent updated_at means someone
+  // is (or very recently was) mid-payment for this email — silently
+  // expiring it out from under them orphans their Stripe session and
+  // any coupon tied to it. Only treat it as stale after a grace window.
+  const CHECKOUT_GRACE_MINUTES = 30;
+
+  const { data: inFlight } = await supabase
+    .from("pending_enrollments")
+    .select("id, updated_at, stripe_session_id")
+    .eq("email", cleanEmail)
+    .in("status", ["pending", "verified"])
+    .not("stripe_session_id", "is", null)
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (inFlight) {
+    const ageMinutes = (Date.now() - new Date(inFlight.updated_at).getTime()) / 60000;
+    if (ageMinutes < CHECKOUT_GRACE_MINUTES) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            "You already have a checkout in progress for this email. " +
+            "Check your email for the payment link, or wait a few minutes and try again.",
+        },
+        { status: 409 }
+      );
+    }
+  }
+
+  // Expire any previous pending enrollments for this email — safe now,
+  // since a genuinely in-flight checkout would have been caught above.
   await supabase
     .from("pending_enrollments")
     .update({ status: "expired" })
