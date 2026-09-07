@@ -1624,10 +1624,10 @@ function PricingFaq() {
                 <span className="text-xs font-medium uppercase tracking-[0.12em] text-neutral-500">{solo.kicker}</span>
                 <p style={display} className="mt-1.5 text-xl text-white">{solo.heading}</p>
                 <div className="mt-4 flex items-baseline gap-2.5">
-                  <span style={{ ...display, textShadow: "0 0 24px rgba(255,59,59,0.35)" }} className="text-[32px] leading-none text-[#FF3B3B]">{fmtPrice(solo.currency, solo.salePrice)}</span>
-                  <span className="text-sm text-neutral-500">{solo.priceNote}</span>
+                  <span style={{ ...display, textShadow: "0 0 24px rgba(255,59,59,0.35)" }} className="text-[32px] leading-none text-[#FF3B3B]">{fmtPrice(solo.currency, solo.basePrice)}</span>
+                  {solo.priceNote && <span className="text-sm text-neutral-500">{solo.priceNote}</span>}
                 </div>
-                <p className="mt-1 text-xs text-neutral-500">{solo.afterLaunchNote}</p>
+                {solo.afterLaunchNote && <p className="mt-1 text-xs text-neutral-500">{solo.afterLaunchNote}</p>}
                 {solo.saleNote && (
                   <div className="mt-3 rounded-md border-l-[3px] border-[#E24B4A] bg-[#E24B4A]/10 px-3 py-2">
                     <p className="text-xs leading-relaxed text-red-100/80">{solo.saleNote}</p>

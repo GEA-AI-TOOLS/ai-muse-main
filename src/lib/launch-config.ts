@@ -2,7 +2,7 @@
 // Flip SALE_MODE to false to return to completely normal behaviour.
 // Nothing else needs changing when you do.
 
-export const SALE_MODE = true;
+export const SALE_MODE = false;
 
 // Monday the pre-launch cohort starts. Lessons unlock 00:00 UTC this day.
 export const SALE_COHORT_START = "2026-09-7";

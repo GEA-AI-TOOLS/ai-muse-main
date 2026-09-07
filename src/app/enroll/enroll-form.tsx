@@ -14,7 +14,6 @@ const BENEFITS = [
   { Icon: Award, title: "Two certificates, yours for life", desc: "Publicly verifiable. Every prompt and template stays with you." },
 ];
 
-const SALE_END_LABEL = "Sep 7";
 
 // Domains people mistype most often, mapped to what they meant.
 const DOMAIN_FIXES: Record<string, string> = {
@@ -82,6 +81,7 @@ interface EnrollFormProps {
 export function EnrollForm({ couponToken, percentOff, couponIssue = null }: EnrollFormProps = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
 
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -91,6 +91,8 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
   function handleEmailChange(value: string) {
     setEmail(value);
     setSuggestion(suggestEmail(value));
+    setAlreadyEnrolled(false);
+    setError("");
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -108,6 +110,7 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
 
       if (!data.ok) {
         setError(data.error ?? "Something went wrong. Try again.");
+        setAlreadyEnrolled(data.field === "email");
         setLoading(false);
         return;
       }
@@ -223,22 +226,9 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
             </div>
           )}
 
-          <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-2.5">
-            {SALE_MODE && (
-              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#FFA8A2]">
-                {"Pre-launch · ends " + SALE_END_LABEL}
-              </p>
-            )}
+          <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-3">
             <div className="flex items-baseline gap-2.5">
-              <span style={display} className="text-[30px] leading-none text-white">€147</span>
-              {SALE_MODE && (
-                <span className="text-[15px] text-[#A8A29E] line-through">€195</span>
-              )}
-              {percentOff && (
-                <span className="rounded bg-white/10 px-2 py-0.5 text-[12px] font-semibold text-[#FFA8A2]">
-                  {percentOff}% off applied
-                </span>
-              )}
+              <span style={display} className="text-[30px] leading-none text-white">€195</span>
             </div>
             <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#E7E5E4]">
               Full course. Both certificates. Lifetime access.
@@ -318,7 +308,19 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
               )}
             </div>
 
-            {error && <p className="text-[12px] text-[#ff8a82]">{error}</p>}
+            {error && (
+              <p className="text-[12px] text-[#ff8a82]">
+                {error}
+                {alreadyEnrolled && (
+                  <>
+                    {" "}
+                    <a href="/login" className="font-semibold underline">
+                      Log in
+                    </a>
+                  </>
+                )}
+              </p>
+            )}
 
             <Button
               type="submit"

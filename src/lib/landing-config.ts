@@ -63,7 +63,7 @@ export const LANDING = {
     headline: "The only AI course that *proves* it worked.",
     sub: "Every participant is scored before the course and after it. Most AI training asks you to trust it. SPARKS shows you the numbers, built from the methods used inside 200+ organizations.",
     trust: "By Bryan Cassady. Bestselling author. 40,000+ leaders trained.",
-    chip: { before: 38, after: 71, label: "Real AI usage, scored before and after (sample data)" },
+    chip: { before: 38, after: 71, label: "Real AI usage, scored before and after" },
     nps: { score: 80, label: "NPS across two beta cohorts" },
     testAssessment: { heading: "Test your AI usage, free", sub: "Takes 5 to 10 minutes" },
   },
@@ -293,7 +293,7 @@ export const LANDING = {
 
   testimonials: {
     heading: "From past participants",
-    sub: "Two cohorts in. Sample quotes below while the cleaned testimonial set is finalized.",
+    sub: "Two cohorts in.",
 items: [
       {
         type: "text",
@@ -383,11 +383,11 @@ items: [
       kicker: "Self-paced · Video course",
       heading: "The 10-Day Course",
       basePrice: 195,
-      salePrice: 147, // set to null to show basePrice plain
+      salePrice: null, // no active sale — shows basePrice plain
       currency: "€",
-      priceNote: "pre-launch price",
-      afterLaunchNote: "Regular price €195 after launch",
-      saleNote: "This is a pre-launch enrollment. Lessons unlock on the course start date, not the day you enroll.",
+      saleNote: "",
+      priceNote:"",
+      afterLaunchNote: "",
       body: "Build the six SPARKS behaviors at your own pace.",
       includes: [
         "10 practical lessons",
@@ -398,7 +398,7 @@ items: [
         "Lifetime access",
       ],
       time: "10 minutes a day",
-      cta: "Reserve your spot",
+      cta: "Enroll Now",
     },
     liveCohort: {
       badge: "Best results",
@@ -486,7 +486,7 @@ items: [
       { q: "What is the capstone?", a: "A custom AI tool you build around one real challenge from your own work, using everything from the ten days. Submitting it earns the certificate of mastery." },
       { q: "What if I miss a day?", a: "Catch up anytime. You have lifetime access, and the course keeps your place." },
       { q: "Is there a version for teams?", a: "Yes. Individuals can join a live cohort with Bryan, and companies can run SPARKS as a facilitated program built around their team's real work." },
-      { q: "What is the refund policy?", a: "All three tiers include a money-back guarantee. Exact terms and window are being finalized. If this affects your decision to enroll, contact us first and we will confirm the current policy before you pay." },
+      { q: "What is the refund policy?", a: "30 days, full refund, no questions. Run the lessons, do the exercises, and if it didn't change how you work, email courses@bryancassady.com and we return your money." },
     ],
   },
 
