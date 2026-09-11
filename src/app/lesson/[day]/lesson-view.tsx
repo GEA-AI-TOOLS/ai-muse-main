@@ -7,6 +7,7 @@ import { ExerciseBlock } from "@/components/exercise-block";
 import type { Lesson, Participant } from "@/lib/types";
 import { TrackerBar } from "@/components/tracker-bar";
 import { track } from "@vercel/analytics";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 type SectionId = "essential" | "advanced" | "learnmore";
 
@@ -31,6 +32,7 @@ interface Props {
 }
 
 export function LessonView({ participant, lesson, section, essentialVideo, advancedVideo, essentialDemoVideo, advancedDemoVideo }: Props) {
+  const isMobile = useIsMobile();
   const [activeSection, setActiveSection] = useState<SectionId>("essential");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -315,19 +317,20 @@ export function LessonView({ participant, lesson, section, essentialVideo, advan
             </div>
           )}
 
-          {/* Mobile: video first, hook becomes a short caption underneath */}
-          <div className="sm:hidden">
-            {essentialVideo}
-            {lesson.essential.summary[0]?.body?.trim() && (
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                {lesson.essential.summary[0].body}
-              </p>
-            )}
-          </div>
-
-          <div className="hidden sm:block">
-            {essentialVideo}
-          </div>
+          {isMobile ? (
+            <div>
+              {essentialVideo}
+              {lesson.essential.summary[0]?.body?.trim() && (
+                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                  {lesson.essential.summary[0].body}
+                </p>
+              )}
+            </div>
+          ) : (
+            <div>
+              {essentialVideo}
+            </div>
+          )}
 
           {/* Summary heading */}
           <div className="mt-8 mb-1">
@@ -404,18 +407,20 @@ export function LessonView({ participant, lesson, section, essentialVideo, advan
                 </div>
               )}
 
-              <div className="sm:hidden">
-                {advancedVideo}
-                {lesson.advanced.summary[0]?.body?.trim() && (
-                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                    {lesson.advanced.summary[0].body}
-                  </p>
-                )}
-              </div>
-
-              <div className="hidden sm:block">
-                {advancedVideo}
-              </div>
+              {isMobile ? (
+                <div>
+                  {advancedVideo}
+                  {lesson.advanced.summary[0]?.body?.trim() && (
+                    <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                      {lesson.advanced.summary[0].body}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  {advancedVideo}
+                </div>
+              )}
               <div className="mt-8 mb-1">
                 <h3 className="text-base font-semibold">Summary</h3>
               </div>

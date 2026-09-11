@@ -16,6 +16,7 @@ import {
 import { AUDIT_PERSONA, AUDIT_COPY, isLocked } from "@/lib/audit-config";
 import type { Lesson } from "@/lib/types";
 import { track } from "@vercel/analytics";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 function encodePromptUrl(base: string, prompt: string): string {
   return base + encodeURIComponent(prompt);
@@ -51,6 +52,7 @@ export function AuditLessonView({
   essentialDemoVideo?: React.ReactNode;
   advancedDemoVideo?: React.ReactNode;
 }) {
+  const isMobile = useIsMobile();
   const phaseLabel = lesson.phase === "foundation" ? "Foundation" : "SPARKS";
   const hasDemo = !!lesson.essential.exercise.demo?.videoUrl?.trim();
 
@@ -133,28 +135,29 @@ export function AuditLessonView({
               </div>
             )}
 
-          {/* Mobile: video (or lock card) first, hook becomes a caption underneath */}
-          <div className="sm:hidden">
-          {isLocked("essentialVideo", lesson.day) ? (
-            <LockedVideo />
-          ) : (
-            essentialVideo
-          )}
-            {!isLocked("essentialSummary", lesson.day) &&
-              lesson.essential.summary[0]?.body?.trim() && (
-                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                  {lesson.essential.summary[0].body}
-                </p>
+          {isMobile ? (
+            <div>
+              {isLocked("essentialVideo", lesson.day) ? (
+                <LockedVideo />
+              ) : (
+                essentialVideo
               )}
-          </div>
-
-          <div className="hidden sm:block">
-            {isLocked("essentialVideo", lesson.day) ? (
-              <LockedVideo />
-            ) : (
-              essentialVideo
-            )}
-          </div>
+              {!isLocked("essentialSummary", lesson.day) &&
+                lesson.essential.summary[0]?.body?.trim() && (
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                    {lesson.essential.summary[0].body}
+                  </p>
+                )}
+            </div>
+          ) : (
+            <div>
+              {isLocked("essentialVideo", lesson.day) ? (
+                <LockedVideo />
+              ) : (
+                essentialVideo
+              )}
+            </div>
+          )}
 
           {!isLocked("essentialSummary", lesson.day) && (
             <>
