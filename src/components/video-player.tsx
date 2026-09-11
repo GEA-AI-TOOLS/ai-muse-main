@@ -1,5 +1,7 @@
 import MuxPlayer from "@mux/mux-player-react";
 import { signMuxTokens } from "@/lib/mux";
+import { MobileRotateHint } from "@/components/mobile-rotate-hint";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 interface Props {
   videoUrl: string;
@@ -57,6 +59,7 @@ export async function VideoPlayer({ videoUrl, muxPlaybackId, slideUrl, title, vi
           </div>
         )}
       </div>
+      <MobileRotateHint />
       {slideUrl && (
         <a
           href={slideUrl}

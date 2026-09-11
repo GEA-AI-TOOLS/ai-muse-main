@@ -232,6 +232,33 @@ export function LessonView({ participant, lesson, section, essentialVideo, advan
         </div>
       </header>
 
+      {/* Mobile-only: quick jump back to progress + day dropdown, avoids scrolling to the footer */}
+      {isMobile && (
+        <div className="flex items-center justify-between gap-3 border-b bg-muted/20 px-4 py-2">
+          <a
+            href="/progress"
+            className="flex shrink-0 items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Progress
+          </a>
+          <select
+            value={lesson.day}
+            onChange={(e) => { window.location.href = "/lesson/" + e.target.value; }}
+            className="rounded-md border bg-background px-2 py-1 text-xs"
+            aria-label="Jump to day"
+          >
+            {Array.from({ length: 10 }, (_, i) => i + 1).map((day) => (
+              <option key={day} value={day}>
+                {"Day " + String(day)}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
+
       {/* Sticky nav */}
       <nav className="sticky top-0 z-10 border-b bg-background">
         <div className="mx-auto flex max-w-4xl gap-1 px-8 py-2">

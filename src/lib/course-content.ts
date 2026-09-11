@@ -166,7 +166,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
 
     learnMore: [
       { title: "Read more on problem definition Chapters 11 in CYCLES and 10 in the Generative Organization", url: "https://www.books.genorg.ai", type: "article" },
-      { title: "Draft Video - What is the one thing to teach if you teach 1 thing Ted X Salford- Bryan Cassady", url: "https://youtu.be/aFnS3SVXFpY", type: "video" },
+      { title: "What is the one thing to teach if you teach 1 thing Ted X Salford- Bryan Cassady", url: "https://youtu.be/LjOl5GpVWe0?si=Oeeo7EnNDUfKp0DT", type: "video" },
       { title: "Notebook LM: Using Al - Objectives or Tools first", url: "https://notebooklm.google.com/notebook/9479de63-ed47-4bd9-8269-685fb6580d5a?authuser=2", type: "tool" },
       //{ title: "Bonus: My collection for HR managers ... Literature reviews: Effective usage of Al, and Training methods", url: "https://shares.showellapp.com/3KY2GPTzxunwQdJ740hBysNn", type: "other" },
     ],
@@ -806,7 +806,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
       // { title: "Effective versus merely efficient Al use by knowledge workers (36 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQChxePCfsvzSLcijgplmhT8AVOvWqXKY0MWceLS50C1mvU?e=IMPu9c", type: "article" },
       { title: "Effective Use of ChatGPT and Claude by Knowledge Workers (12 studies)", url: "https://1drv.ms/w/c/c37128d8066b9290/IQBAhtccl4j8RIv0AsDHpa5DAWGFiNhQmFjLinX726uopAM?e=wG8wus", type: "article" },
       { title: "Notebook LM: Effective versus Efficient usage of Al - Facts and research (220 articles and studies)", url: "https://notebooklm.google.com/notebook/f3168f59-185a-44e5-ae29-d591ac121cbe", type: "tool" },
-      { title: "Get Any Team Aligned in 30 Minutes Cassady & Gueorguiev - ResearchGate, 2023", url: "https://www.researchgate.net/publication/371867884_Get_any_team_aligned_in_less_than_30_minutes", type: "article" },
+      { title: "Get Any Team Aligned in 30 Minutes Cassady & Gueorguiev - ResearchGate, 2023", url: "https://true-north-researcharticle.tiiny.site/", type: "article" },
       { title: "TRUE NORTH - 6 Lessons 7 minutes", url: "https://www.youtube.com/playlist?list=PL9E8oJF93SyFV_TsJQU1K0QMgdEUNBzou", type: "video" },
       { title: "CYCLES (chapter 9) and the Generative Organization (chapter 9)", url: "https://www.books.genorg.ai", type: "article" },
     ],

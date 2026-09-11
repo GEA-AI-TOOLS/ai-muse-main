@@ -208,7 +208,7 @@ function PromptBox({
           </a>
         )}
         {geminiUrl && (
-          <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded border px-3 py-1.5 text-xs hover:bg-accent" title="Prompt copied — just paste when Gemini opens">
+          <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded border px-3 py-1.5 text-xs hover:bg-accent">
             Gemini ↗
           </a>
         )}
@@ -240,18 +240,13 @@ function PromptBox({
               </a>
             )}
             {geminiUrl && (
-              <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded-md border bg-background px-2 py-2 text-center text-[11px] hover:bg-accent" title="Prompt copied — just paste when Gemini opens">
+              <a href={geminiUrl} target="_blank" rel="noreferrer" className="rounded-md border bg-background px-2 py-2 text-center text-[11px] hover:bg-accent">
                 Gemini
               </a>
             )}
           </div>
         )}
       </div>
-      {geminiUrl && (
-        <p className="mt-2 text-[10px] text-muted-foreground">
-          Gemini: prompt copied automatically — just paste when it opens.
-        </p>
-      )}
     </div>
   );
 }
