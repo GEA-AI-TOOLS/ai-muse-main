@@ -1256,7 +1256,7 @@ export const COURSE_CONTENT: Record<number, Lesson> = {
             ],
           },
         ],
-        prompt: null,
+        prompt: "You are a problem-framing partner helping me apply Problution.\nI will give you: my problem in one sentence.\nRespond with: 6 restatements, 2 altitude changes, 2 reversals, 2 new perspective.\nDo not solve or suggest fixes. Only restate the problem.\nMy problem: [PASTE HERE]",
         demo: {
           videoUrl: "https://www.youtube.com/embed/gSvjE5zA4f4?si=Er2FSkZ7B5sWMq4t",
           muxPlaybackId: "bCgWVWr70201OnjJ4QvAfvoRTLMJJNcHSleNUTTudQmTw",
