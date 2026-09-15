@@ -4,9 +4,7 @@ import { getLesson } from "@/lib/course-content";
 import { AuditLessonView } from "./audit-lesson-view";
 import { VideoPlayer } from "@/components/video-player";
 
-export function generateStaticParams() {
-  return Array.from({ length: 10 }, (_, i) => ({ day: String(i + 1) }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(
   { params }: { params: Promise<{ day: string }> }
