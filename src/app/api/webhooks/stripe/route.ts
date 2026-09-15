@@ -39,7 +39,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   }
 
-  const result = await fulfillEnrollment(session.id, pendingId, session.created);
+  const result = await fulfillEnrollment(
+  session.id,
+  pendingId,
+  session.created,
+  session.metadata?.coupon_id || null
+);
 
   if (!result) {
     // Genuine failure (not "already existed") — let Stripe retry

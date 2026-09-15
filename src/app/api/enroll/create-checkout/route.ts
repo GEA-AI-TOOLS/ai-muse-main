@@ -55,12 +55,12 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let couponRow: { id: string; stripe_promotion_code_id: string } | null = null;
+  let couponRow: { id: string; stripe_promotion_code_id: string; isUnlimited: boolean } | null = null;
 
   if (couponToken) {
     const { data } = await supabase
       .from("coupons")
-      .select("id, stripe_promotion_code_id, status, expires_at")
+      .select("id, stripe_promotion_code_id, status, expires_at, is_unlimited")
       .eq("token", couponToken)
       .maybeSingle();
 
@@ -68,14 +68,22 @@ export async function POST(req: NextRequest) {
 
     // Re-validate fresh, right now — the page that sent this token may have
     // loaded minutes or hours ago. Someone else could have redeemed it or
-    // an admin could have revoked it since. Only "unused" or
-    // "checkout_started" (an earlier abandoned attempt) are acceptable
-    // states to attach to a new Checkout Session.
+    // an admin could have revoked it since. Unlimited coupons are always
+    // redeemable regardless of status — they never move past "unused".
+    // Single-use coupons only accept "unused" or "checkout_started" (an
+    // earlier abandoned attempt).
     const stillRedeemable =
-      !!data && !expired && (data.status === "unused" || data.status === "checkout_started");
+      !!data &&
+      !expired &&
+      data.status !== "revoked" &&
+      (data.is_unlimited || data.status === "unused" || data.status === "checkout_started");
 
     if (stillRedeemable && data) {
-      couponRow = { id: data.id, stripe_promotion_code_id: data.stripe_promotion_code_id };
+      couponRow = {
+        id: data.id,
+        stripe_promotion_code_id: data.stripe_promotion_code_id,
+        isUnlimited: data.is_unlimited,
+      };
     }
     // If the coupon has since become invalid, fall through silently to a
     // normal, non-discounted checkout rather than failing the request.
@@ -119,7 +127,10 @@ export async function POST(req: NextRequest) {
     .update({ stripe_session_id: session.id })
     .eq("id", enrollment.id);
 
-  if (couponRow) {
+  if (couponRow && !couponRow.isUnlimited) {
+    // Only single-use coupons track a live checkout session against their
+    // own row. An unlimited coupon's row stays "unused" forever — it isn't
+    // tied to any one person's checkout attempt.
     await supabase
       .from("coupons")
       .update({ status: "checkout_started", stripe_checkout_session_id: session.id })
