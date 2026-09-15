@@ -36,7 +36,12 @@ export async function GET(req: NextRequest) {
       return fallback;
     }
 
-    const result = await fulfillEnrollment(session.id, pendingId, session.created);
+    const result = await fulfillEnrollment(
+  session.id,
+  pendingId,
+  session.created,
+  session.metadata?.coupon_id || null
+);
     await track("enroll_completed");
 
     if (!result) {

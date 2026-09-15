@@ -42,7 +42,8 @@ export interface FulfillResult {
 export async function fulfillEnrollment(
   stripeSessionId: string,
   pendingId: string,
-  paymentCreatedAt: number
+  paymentCreatedAt: number,
+  couponIdFromMetadata?: string | null
 ): Promise<FulfillResult | null> {
   // --- Idempotency: already created? ---
   const { data: existing } = await supabase
@@ -149,13 +150,18 @@ export async function fulfillEnrollment(
     .eq("id", pendingId);
 
   // --- Reconcile coupon redemption, if this checkout used one ---
+  // Single-use coupons are matched by their own stripe_checkout_session_id,
+  // since that column is set uniquely per attempt. Unlimited coupons never
+  // set that column (see create-checkout), so they can't be found this way
+  // — instead, look up which coupon was actually attached to this Stripe
+  // session via its metadata, which is always present regardless of type.
   const { data: usedCoupon } = await supabase
     .from("coupons")
-    .select("id")
+    .select("id, is_unlimited")
     .eq("stripe_checkout_session_id", stripeSessionId)
     .maybeSingle();
 
-  if (usedCoupon) {
+  if (usedCoupon && !usedCoupon.is_unlimited) {
     await supabase
       .from("coupons")
       .update({
@@ -168,6 +174,14 @@ export async function fulfillEnrollment(
     await supabase
       .from("participants")
       .update({ coupon_id: usedCoupon.id })
+      .eq("id", participant.id);
+  } else if (couponIdFromMetadata) {
+    // Unlimited coupon path — never flip status, but still record which
+    // coupon this participant used, so /participants/:id and reporting can
+    // trace it even though the coupon row itself stays reusable.
+    await supabase
+      .from("participants")
+      .update({ coupon_id: couponIdFromMetadata })
       .eq("id", participant.id);
   }
 

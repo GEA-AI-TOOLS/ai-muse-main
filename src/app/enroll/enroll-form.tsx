@@ -75,10 +75,11 @@ type CouponIssue = "not_found" | "redeemed" | "revoked" | "expired" | null;
 interface EnrollFormProps {
   couponToken?: string;
   percentOff?: number;
+  amountOffCents?: number;
   couponIssue?: CouponIssue;
 }
 
-export function EnrollForm({ couponToken, percentOff, couponIssue = null }: EnrollFormProps = {}) {
+export function EnrollForm({ couponToken, percentOff, amountOffCents, couponIssue = null }: EnrollFormProps = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [alreadyEnrolled, setAlreadyEnrolled] = useState(false);
@@ -211,7 +212,7 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
         {/* Right: form */}
         <div className="flex min-h-0 flex-col justify-center border-t border-white/12 bg-[#1B1B21] px-7 py-7 sm:px-9 lg:border-l lg:border-t-0 lg:px-8 lg:py-5">
 
-          {couponIssue && (
+           {couponIssue ? (
             <div className="mb-4 rounded-lg border border-white/15 bg-white/[0.06] px-4 py-3">
               <p className="text-[13px] leading-relaxed text-[#D6D3D1]">
                 {couponIssue === "not_found" &&
@@ -224,7 +225,15 @@ export function EnrollForm({ couponToken, percentOff, couponIssue = null }: Enro
                   "This invite link has expired. Contact whoever sent you this link if you have questions. You can still enroll below at the regular price."}
               </p>
             </div>
-          )}
+          ) : (percentOff || amountOffCents) ? (
+            <div className="mb-4 rounded-lg border border-[#3BA35A]/40 bg-[#3BA35A]/[0.10] px-4 py-2.5">
+              <p className="text-[13px] font-semibold text-[#8FE0A8]">
+                {percentOff
+                  ? percentOff + "% off applied"
+                  : "€" + (amountOffCents! / 100).toFixed(0) + " off applied"}
+              </p>
+            </div>
+          ) : null}
 
           <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-3">
             <div className="flex items-baseline gap-2.5">
