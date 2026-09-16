@@ -212,7 +212,7 @@ export function EnrollForm({ couponToken, percentOff, amountOffCents, couponIssu
         {/* Right: form */}
         <div className="flex min-h-0 flex-col justify-center border-t border-white/12 bg-[#1B1B21] px-7 py-7 sm:px-9 lg:border-l lg:border-t-0 lg:px-8 lg:py-5">
 
-           {couponIssue ? (
+           {couponIssue && (
             <div className="mb-4 rounded-lg border border-white/15 bg-white/[0.06] px-4 py-3">
               <p className="text-[13px] leading-relaxed text-[#D6D3D1]">
                 {couponIssue === "not_found" &&
@@ -225,24 +225,59 @@ export function EnrollForm({ couponToken, percentOff, amountOffCents, couponIssu
                   "This invite link has expired. Contact whoever sent you this link if you have questions. You can still enroll below at the regular price."}
               </p>
             </div>
-          ) : (percentOff || amountOffCents) ? (
-            <div className="mb-4 rounded-lg border border-[#3BA35A]/40 bg-[#3BA35A]/[0.10] px-4 py-2.5">
-              <p className="text-[13px] font-semibold text-[#8FE0A8]">
-                {percentOff
-                  ? percentOff + "% off applied"
-                  : "€" + (amountOffCents! / 100).toFixed(0) + " off applied"}
-              </p>
-            </div>
-          ) : null}
+          )}
 
-          <div className="mb-5 rounded-lg border border-[#FF3B3B]/40 bg-[#FF3B3B]/[0.09] px-4 py-3">
-            <div className="flex items-baseline gap-2.5">
-              <span style={display} className="text-[30px] leading-none text-white">€195</span>
-            </div>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#E7E5E4]">
-              Full course. Both certificates. Lifetime access.
-            </p>
-          </div>
+          {(() => {
+            const basePrice = 195;
+            const hasDiscount = !couponIssue && (percentOff || amountOffCents);
+            const finalPrice = percentOff
+              ? Math.max(0, Math.round(basePrice * (1 - percentOff / 100)))
+              : amountOffCents
+                ? Math.max(0, basePrice - Math.round(amountOffCents / 100))
+                : basePrice;
+            const offLabel = percentOff
+              ? "−" + percentOff + "%"
+              : amountOffCents
+                ? "−€" + Math.round(amountOffCents / 100)
+                : null;
+
+            return (
+              <div className="mb-5 overflow-hidden rounded-lg border border-[#E0233F] bg-[#FF3B3B]/[0.09]">
+                <div className="flex items-center gap-1.5 bg-[#E0233F] px-3.5 py-1.5">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white">
+                    <path d="M20.59 13.41 11 3.83A2 2 0 0 0 9.59 3.24H4a1 1 0 0 0-1 1v5.59a2 2 0 0 0 .59 1.41l9.58 9.59a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82Z" />
+                    <circle cx="7.5" cy="7.5" r="1.5" fill="currentColor" stroke="none" />
+                  </svg>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-white">
+                    {hasDiscount ? "Your invite · " + offLabel + " off" : "Enrollment"}
+                  </span>
+                </div>
+                <div className="px-4 py-3">
+                  {hasDiscount ? (
+                    <>
+                      <div className="mb-1.5 flex justify-between text-[13px] text-[#C4BFBD]">
+                        <span>Course</span>
+                        <span className="line-through">€{basePrice}</span>
+                      </div>
+                      <div className="flex justify-between border-b border-white/[0.12] pb-2.5 text-[13px] font-semibold text-[#FFA8A2]">
+                        <span>Discount</span>
+                        <span>{offLabel}</span>
+                      </div>
+                      <div className="mt-2.5 flex items-baseline justify-between">
+                        <span className="text-[12px] text-[#C4BFBD]">You pay</span>
+                        <span style={display} className="text-[30px] leading-none text-white">€{finalPrice}</span>
+                      </div>
+                    </>
+                  ) : (
+                    <span style={display} className="text-[30px] leading-none text-white">€{basePrice}</span>
+                  )}
+                  <p className="mt-1.5 text-[12.5px] leading-relaxed text-[#E7E5E4]">
+                    Full course. Both certificates. Lifetime access.
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
 
           <div className="mb-5 flex items-center gap-2">
             <span className="flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#FF3B3B] text-[10px] font-bold text-white">
