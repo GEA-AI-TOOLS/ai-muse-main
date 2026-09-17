@@ -398,9 +398,9 @@ export function LessonView({ participant, lesson, section, essentialVideo, advan
         <section id="advanced" className="scroll-mt-20 py-8">
           <button
             onClick={() => setAdvancedOpen(!advancedOpen)}
-            className="flex w-full items-center justify-between"
+            className="flex w-full items-center justify-between gap-4 rounded-xl border px-6 py-5 text-left transition-colors hover:bg-muted/40"
           >
-            <div className="text-left">
+            <div>
               <h2 className="text-xl font-semibold text-[#E24B4A]">Advanced</h2>
               {lesson.sectionTitles?.advanced ? (
                 <p className="mt-0.5 text-base font-medium text-foreground">
@@ -411,12 +411,13 @@ export function LessonView({ participant, lesson, section, essentialVideo, advan
                 Optional. Go deeper when you have time.
               </p>
             </div>
-            <div className={
-              "flex h-8 w-8 items-center justify-center rounded-full border text-muted-foreground transition-transform " +
-              (advancedOpen ? "rotate-180" : "")
-            }>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="6 9 12 15 18 9"/>
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#FCEBEB] dark:bg-[#3a1010]">
+              <svg
+                width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E24B4A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
+                className={"transition-transform " + (advancedOpen ? "rotate-45" : "")}
+              >
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </div>
           </button>
