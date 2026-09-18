@@ -4,7 +4,10 @@ import { Separator } from "@/components/ui/separator";
 import { TrackerBar } from "@/components/tracker-bar";
 import { AuditBar, AuditHeader } from "@/components/audit/audit-bar";
 import { LockedCard, EnrollCta } from "@/components/audit/audit-lock";
-import { AUDIT_PERSONA, AUDIT_COPY } from "@/lib/audit-config";
+import { AuditTour } from "@/components/audit/audit-tour";
+import { AUDIT_COPY } from "@/lib/audit-config";
+import { PROGRESS_TOUR } from "@/lib/audit-tour";
+import { useAuditProgress } from "@/hooks/use-audit-progress";
 import { track } from "@vercel/analytics";
 
 const DAY_TITLES: Record<number, string> = {
@@ -25,21 +28,15 @@ const PHASE_LABEL: Record<number, string> = {
   5: "sparks", 6: "sparks", 7: "sparks", 8: "sparks", 9: "sparks", 10: "sparks",
 };
 
-function getDayStatus(day: number): "complete" | "today" | "missed" | "upcoming" {
-  if (AUDIT_PERSONA.daysComplete.includes(day)) return "complete";
-  if (day === AUDIT_PERSONA.currentDay) return "today";
-  if (day < AUDIT_PERSONA.currentDay) return "missed";
-  return "upcoming";
-}
-
 export function AuditView() {
-  const totalComplete = AUDIT_PERSONA.daysComplete.length;
+  const { day1Done, currentDay, daysComplete } = useAuditProgress();
 
   return (
     <div className="min-h-screen bg-background sm:border-x-2 sm:border-b-2 sm:border-[#E24B4A]">
 
-      <AuditBar />
+      <AuditBar showTour />
       <AuditHeader />
+      <AuditTour id="progress" steps={PROGRESS_TOUR.steps} finish={PROGRESS_TOUR.finish} />
 
       <main className="mx-auto max-w-3xl px-8">
 
@@ -68,7 +65,6 @@ export function AuditView() {
                 </span>
                 <span className="text-lg font-medium">min</span>
               </div>
-
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 A day. Short enough to finish before your first meeting.
               </p>
@@ -76,19 +72,10 @@ export function AuditView() {
 
             <div className="border-t px-5 py-4 sm:border-r sm:border-t-0">
               <div className="flex items-center gap-2">
-                <span className="text-3xl font-medium leading-none">
-                  57
-                </span>
-
-                <span className="text-2xl text-[#E24B4A]">
-                  →
-                </span>
-
-                <span className="text-3xl font-medium leading-none text-[#E24B4A]">
-                  81
-                </span>
+                <span className="text-3xl font-medium leading-none">57</span>
+                <span className="text-2xl text-[#E24B4A]">→</span>
+                <span className="text-3xl font-medium leading-none text-[#E24B4A]">81</span>
               </div>
-
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 Average learner score from Day 1 to Day 10.
               </p>
@@ -98,7 +85,6 @@ export function AuditView() {
               <div className="text-3xl font-medium leading-none text-[#E24B4A]">
                 Yours.
               </div>
-
               <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                 Keep every prompt and template after the course ends.
               </p>
@@ -108,34 +94,43 @@ export function AuditView() {
           {/* Actions */}
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <EnrollCta />
-
-            <a
+           <a 
               href="/audit/lesson/1"
               onClick={() => track("audit_day_clicked", { day: 1, placement: "hero" })}
               className="inline-flex items-center justify-center rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-muted/50"
             >
-              Try Day 1 free →
+              {day1Done ? "Revisit Day 1 →" : "Try Day 1 free →"}
             </a>
           </div>
         </div>
 
-        {/* Simulated progress */}
+        {/* Progress, the visitor is their own Day 1 learner */}
         <div className="border-b py-8">
-          <h2 className="mb-1 text-xl font-medium">A sample learner's week</h2>
+          <h2 className="mb-1 text-xl font-medium">{AUDIT_COPY.progressTitle}</h2>
           <p className="mb-6 text-sm text-muted-foreground">
-            {AUDIT_COPY.personaNote}
+            {day1Done ? AUDIT_COPY.progressNoteDone : AUDIT_COPY.progressNote}
           </p>
-          <div className="rounded-md border bg-muted/30 px-5 py-4">
+          <div data-tour="tracker" className="rounded-md border bg-muted/30 px-5 py-4">
             <TrackerBar
-              currentDay={AUDIT_PERSONA.currentDay}
-              daysComplete={AUDIT_PERSONA.daysComplete}
+              currentDay={currentDay}
+              daysComplete={daysComplete}
               allDone={false}
               basePath="/audit/lesson"
             />
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            {totalComplete} of 10 days complete. Today is Day {AUDIT_PERSONA.currentDay}.
-          </p>
+          {day1Done && (
+            <div className="mt-4 flex flex-col gap-3 rounded-md border border-[#F09595] bg-[#FCEBEB] px-5 py-4 dark:border-[#791F1F] dark:bg-[#3a1010] sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm text-[#501313] dark:text-[#f5c1c1]">
+                {AUDIT_COPY.progressDoneCta}
+              </p>
+              <div
+                className="shrink-0"
+                onClick={() => track("enroll_cta_clicked", { placement: "audit_progress_done" })}
+              >
+                <EnrollCta />
+              </div>
+            </div>
+          )}
         </div>
 
         <Separator />
@@ -144,6 +139,8 @@ export function AuditView() {
         <div className="py-4">
           <a
             href="/audit/welcome"
+            data-tour="welcome"
+            onClick={() => track("audit_welcome_clicked", { placement: "progress" })}
             className="flex flex-col gap-2 rounded-md border bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
           >
             <div>
@@ -152,7 +149,7 @@ export function AuditView() {
               </p>
               <p className="text-sm font-medium">{AUDIT_COPY.courseOverviewSubtitle}</p>
             </div>
-            <span className="shrink-0 text-xs text-muted-foreground">Read →</span>
+            <span className="shrink-0 text-xs text-muted-foreground">Open →</span>
           </a>
         </div>
 
@@ -162,6 +159,7 @@ export function AuditView() {
         <div className="py-8">
           <a
             href="/audit/lesson/1"
+            data-tour="day1"
             onClick={() => track("audit_day_clicked", { day: 1, placement: "highlight_card" })}
             className="block rounded-lg border-2 border-[#E24B4A] bg-[#FCEBEB] px-5 py-5 transition-opacity hover:opacity-90 dark:bg-[#3a1010]"
           >
@@ -178,7 +176,7 @@ export function AuditView() {
                 </p>
               </div>
               <span className="shrink-0 rounded-md bg-[#E24B4A] px-4 py-2 text-center text-sm font-medium text-white sm:inline-block">
-                {AUDIT_COPY.day1Cta}
+                {day1Done ? AUDIT_COPY.day1CtaDone : AUDIT_COPY.day1Cta}
               </span>
             </div>
           </a>
@@ -192,21 +190,17 @@ export function AuditView() {
           </p>
           <div className="divide-y">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((day) => {
-              const status = getDayStatus(day);
               const title = DAY_TITLES[day] ?? "Lesson " + String(day);
               const phase = PHASE_LABEL[day] === "foundation" ? "Foundation" : "SPARKS";
-              const isDayOne = day === 1;
-              const label = isDayOne
-                ? "Unlocked"
-                : status === "complete" ? "Revisit"
-                : status === "missed" ? "Catch up"
-                : status === "today" ? "Today"
-                : "Preview →";
-              const labelStyle = isDayOne
-                ? "text-[#0F6E56] font-medium"
-                : status === "missed" || status === "today"
-                ? "text-[#E24B4A]"
-                : "text-muted-foreground";
+              let label = "Preview →";
+              let labelStyle = "text-muted-foreground";
+              if (day === 1) {
+                label = day1Done ? "Done ✓" : "Open";
+                labelStyle = "text-[#0F6E56] font-medium";
+              } else if (day === 2 && day1Done) {
+                label = "Up next";
+                labelStyle = "text-[#E24B4A]";
+              }
 
               return (
                 <a
@@ -228,20 +222,22 @@ export function AuditView() {
 
         {/* What's ahead */}
         <div className="border-b py-8">
-          <h2 className="mb-4 text-xl font-medium">What's ahead</h2>
-          <div className="flex flex-col gap-3">
-            <LockedCard
-              title="Capstone. Build your own AI tool"
-              subtitle="Unlocks after all 10 days. Apply everything to something real."
-            />
-            <LockedCard
-              title="Certificate of completion"
-              subtitle="Verifiable, issued when all 10 days are done."
-            />
-            <LockedCard
-              title="Certificate of mastery"
-              subtitle="Verifiable, issued when your capstone is reviewed."
-            />
+          <div data-tour="ahead">
+            <h2 className="mb-4 text-xl font-medium">What&apos;s ahead</h2>
+            <div className="flex flex-col gap-3">
+              <LockedCard
+                title="Capstone. Build your own AI tool"
+                subtitle="Unlocks after all 10 days. Apply everything to something real."
+              />
+              <LockedCard
+                title="Certificate of completion"
+                subtitle="Verifiable, issued when all 10 days are done."
+              />
+              <LockedCard
+                title="Certificate of mastery"
+                subtitle="Verifiable, issued when your capstone is reviewed."
+              />
+            </div>
           </div>
         </div>
 

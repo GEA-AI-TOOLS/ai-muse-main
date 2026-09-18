@@ -5,7 +5,7 @@ import { VideoPlayer } from "@/components/video-player";
 export const dynamic = "force-dynamic";
 
 const WELCOME_VIDEO_URL = "https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH";
-const WELCOME_MUX_PLAYBACK_ID = "oW00dodPzx89OoB4l4eUocundvL3jVYC02Us3wDiN202ow";
+const WELCOME_MUX_PLAYBACK_ID = "tYMSjFbnjPtaeUpnCdKJtMwqnek21FHEAMZy8a00Yd00o";
 
 export default async function WelcomePage() {
   const { participant } = await getParticipant();
