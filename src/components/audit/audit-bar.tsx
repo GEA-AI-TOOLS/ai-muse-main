@@ -1,4 +1,5 @@
 import { AUDIT_COPY, AUDIT_ENROLL_HREF } from "@/lib/audit-config";
+import { AuditTourButton } from "@/components/audit/audit-tour-button";
 
 function EyeIcon() {
   return (
@@ -13,22 +14,29 @@ function EyeIcon() {
  * Always the first element on any audit page. Sticky from top:0 with a
  * fixed height, so lesson pages can offset their own sticky nav by that
  * exact height and stack cleanly underneath.
+ * data-audit-sticky lets the tour keep its spotlight clear of this bar.
  */
-export function AuditBar() {
+export function AuditBar({ showTour = false }: { showTour?: boolean }) {
   return (
-    <div className="sticky top-0 z-40 flex h-10 items-center border-b border-[#BFDBFE] bg-[#EFF6FF] dark:border-[#1D4ED8] dark:bg-[#132a4d]">
+    <div
+      data-audit-sticky
+      className="sticky top-0 z-40 flex h-10 items-center border-b border-[#BFDBFE] bg-[#EFF6FF] dark:border-[#1D4ED8] dark:bg-[#132a4d]"
+    >
       <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-2 px-8">
-        <p className="flex items-center gap-1.5 text-xs text-[#1D4ED8] dark:text-[#BFDBFE]">
+        <p className="flex min-w-0 items-center gap-1.5 text-xs text-[#1D4ED8] dark:text-[#BFDBFE]">
           <EyeIcon />
           <span className="font-medium">{AUDIT_COPY.barLabel}</span>
-          <span className="hidden sm:inline">{" " + AUDIT_COPY.barText}</span>
+          <span className="hidden truncate sm:inline">{" " + AUDIT_COPY.barText}</span>
         </p>
-        <a
-          href={AUDIT_ENROLL_HREF}
-          className="shrink-0 rounded bg-[#E24B4A] px-3 py-1 text-xs font-medium text-white hover:bg-[#c73f3e]"
-        >
-          {AUDIT_COPY.barCta}
-        </a>
+        <div className="flex shrink-0 items-center gap-1.5">
+          {showTour && <AuditTourButton />}
+          <a
+            href={AUDIT_ENROLL_HREF}
+            className="shrink-0 rounded bg-[#E24B4A] px-3 py-1 text-xs font-medium text-white hover:bg-[#c73f3e]"
+          >
+            {AUDIT_COPY.barCta}
+          </a>
+        </div>
       </div>
     </div>
   );

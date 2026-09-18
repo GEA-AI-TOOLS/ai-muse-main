@@ -1,5 +1,8 @@
 import { AuditBar, AuditHeader } from "@/components/audit/audit-bar";
-import { LockedCard, EnrollCta } from "@/components/audit/audit-lock";
+import { EnrollCta } from "@/components/audit/audit-lock";
+import { AssessmentPrompt } from "@/components/assessment-prompt";
+import { VideoPlayer } from "@/components/video-player";
+import { AUDIT_WELCOME_VIDEO } from "@/lib/audit-config";
 
 const SECTIONS = [
   {
@@ -61,22 +64,24 @@ export function AuditWelcomeView() {
         </div>
 
         <div className="border-b py-8">
-          <div className="aspect-video overflow-hidden rounded-md bg-black">
-            <iframe
-              src="https://www.youtube.com/embed/q-brEiUYX24?si=VUtBcaSGpmsQXbpH"
-              className="h-full w-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          </div>
-        </div>
-
-        <div className="border-b py-8">
-          <LockedCard
-            title="Know where you start"
-            subtitle="A short AI self-assessment prompt, unlocked when you enroll."
+          <VideoPlayer
+            videoUrl={AUDIT_WELCOME_VIDEO.videoUrl}
+            muxPlaybackId={AUDIT_WELCOME_VIDEO.muxPlaybackId || undefined}
+            title={AUDIT_WELCOME_VIDEO.title}
           />
         </div>
+
+        <section id="assessment" className="scroll-mt-14 border-b py-8">
+          <p className="mb-2 text-xs font-medium uppercase tracking-wide text-[#E24B4A]">
+            Free · No signup
+          </p>
+          <h2 className="mb-2 text-xl font-medium">Know where you start</h2>
+          <p className="mb-5 max-w-xl text-base text-muted-foreground">
+            Get your AI baseline score before Day 1. Participants average 57 on Day 1
+            and 81 by Day 10. See where you land.
+          </p>
+          <AssessmentPrompt source="audit_welcome" />
+        </section>
 
         <div className="flex flex-col py-8">
           {SECTIONS.map((section, i) => (

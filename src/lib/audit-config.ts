@@ -35,32 +35,55 @@ export function isLocked(section: AuditSection, day?: number): boolean {
   return DEFAULT_LOCKS[section];
 }
 
-// Simulated participant. Day 4 falls out as "missed" from the
-// existing status logic (day < currentDay && not complete).
+// Fresh visitor state. The visitor is treated as their own Day 1 learner.
+// useAuditProgress() moves this to Day 1 complete once they have done it.
 export const AUDIT_PERSONA = {
-  currentDay: 5,
-  daysComplete: [1, 2, 3],
+  currentDay: 1,
+  daysComplete: [] as number[],
 };
 
 export const AUDIT_ENROLL_HREF = "/enroll";
+
+// Welcome page video. Leave muxPlaybackId empty to keep the YouTube fallback.
+export const AUDIT_WELCOME_VIDEO = {
+  videoUrl: "https://www.youtube.com/embed/q-brEiUYX24",
+  muxPlaybackId: "tYMSjFbnjPtaeUpnCdKJtMwqnek21FHEAMZy8a00Yd00o",
+  title: "Welcome to Disciplined AI",
+};
 
 export const AUDIT_COPY = {
   barLabel: "Audit mode",
   barText: "This is a preview of the paid course. Locked sections open when you enroll.",
   barCta: "Enroll",
+  barTour: "Tour",
   headerName: "Audit mode preview",
   videoLock: "Available to enrolled participants",
   videoLockTitle: "Lesson video",
   promptLock: "Prompt unlocks on enrollment",
   exerciseLock: "Exercise unlocks on enrollment",
   genericLock: "Unlocks on enrollment",
-  personaNote: "This shows a sample learner's progress. Your own progress starts when you enroll.",
+  progressTitle: "Your 10 days",
+  progressNote: "Day 1 is open now. Days 2 to 10 unlock when you enroll.",
+  progressNoteDone: "You have tried Day 1. Nine days to go.",
+  progressDoneCta: "Keep going with Day 2 and the rest of the course.",
+  lessonNoteDay1: "Day 1 is fully open. Days 2 to 10 unlock when you enroll.",
+  lessonNotePreview: "You are previewing this day. Video, exercise, and prompt unlock when you enroll.",
   day1HighlightTitle: "Day 1 is fully unlocked",
   day1HighlightBody: "Everything below is exactly what you get in the paid course. Video, exercise, prompt, and links, all open.",
   day1Cta: "Open Day 1",
+  day1CtaDone: "Revisit Day 1",
   otherDaysNote: "You can audit every other day too. Structure and summaries are open. Video, exercises, and prompts unlock when you enroll.",
-  courseOverviewTitle: "Course overview",
-  courseOverviewSubtitle: "What the 10 days cover, before you begin",
+  courseOverviewTitle: "Start here",
+  courseOverviewSubtitle: "Watch the intro video and get your free AI baseline score",
+  paywallDay1: "You just tried Day 1. Enroll to unlock Days 2 to 10, the capstone, and your certificates.",
+  paywallOther: "Enroll to unlock the video, the exercise, and the prompt for all 10 days.",
+  assessmentEyebrow: "Free, no signup",
+  assessmentTitle: "See where you stand",
+  assessmentBody: "Get your AI baseline score. Participants average 57 on Day 1 and 81 by Day 10.",
+  tourInviteTitle: "New here?",
+  tourInviteBody: "Take a 30-second tour of how the course works.",
+  tourInviteStart: "Start tour",
+  tourInviteLater: "Not now",
 };
 
 // Fake filler for locked exercise steps. Never the real prompt.
